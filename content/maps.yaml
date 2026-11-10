@@ -1,0 +1,164 @@
+maps:
+  - id: frontend
+    name: Frontend
+    description: Browser platform, UI frameworks, state management, styling, build tools, and client-side architecture.
+    order: 1
+    categories:
+      - id: languages
+        name: Languages & Platform
+        description: Core web languages and browser runtime APIs.
+        color: "#3b82f6"
+        order: 1
+      - id: frameworks
+        name: Frameworks & Meta-frameworks
+        description: Component frameworks, SSR meta-frameworks, and mobile cross-platform runtimes.
+        color: "#10b981"
+        order: 2
+      - id: state-routing
+        name: State, Routing & Forms
+        description: Client state stores, routers, server-state caches, i18n, and form validation.
+        color: "#8b5cf6"
+        order: 3
+      - id: data-network
+        name: Data & Network
+        description: HTTP clients, error handling layers, push notifications, AI APIs, and headless CMS.
+        color: "#06b6d4"
+        order: 4
+      - id: build-performance
+        name: Build & Performance
+        description: Bundlers, code splitting, lazy loading, virtual scrolling, PWAs, and Web Vitals.
+        color: "#f59e0b"
+        order: 5
+      - id: ui-styling
+        name: Styling & UI Kits
+        description: CSS methodologies, utility-first frameworks, and component libraries.
+        color: "#ec4899"
+        order: 6
+      - id: ui-widgets
+        name: Maps, Charts & Widgets
+        description: Interactive maps, data visualization charts, and dashboard grid layouts.
+        color: "#14b8a6"
+        order: 7
+      - id: testing
+        name: Frontend Testing
+        description: Unit, component, and end-to-end browser testing tools.
+        color: "#84cc16"
+        order: 8
+      - id: quality
+        name: Code Quality & Monitoring
+        description: Linters, formatters, dead-code detectors, and error tracking.
+        color: "#f97316"
+        order: 9
+
+  - id: backend
+    name: Backend
+    description: Node.js runtime, web frameworks, APIs, databases, authentication, realtime, and typed effects.
+    order: 2
+    categories:
+      - id: runtime
+        name: Node.js Core
+        description: JavaScript server runtimes, event loop, streams, file system, and module systems.
+        color: "#22c55e"
+        order: 1
+      - id: frameworks
+        name: Frameworks & Architecture
+        description: HTTP server frameworks, middleware pipelines, MVC, and error handling patterns.
+        color: "#3b82f6"
+        order: 2
+      - id: api
+        name: APIs
+        description: REST, GraphQL, validation, pagination, file uploads, and document generation.
+        color: "#06b6d4"
+        order: 3
+      - id: templating
+        name: Templating Engines (SSR)
+        description: Server-side HTML rendering engines for dynamic views.
+        color: "#a855f7"
+        order: 4
+      - id: database
+        name: Databases & ORM
+        description: Relational (SQL) and document (NoSQL) databases, ORMs, and ODMs.
+        color: "#f59e0b"
+        order: 5
+      - id: auth-security
+        name: Auth & Security
+        description: Cookies, sessions, JWT, password hashing, CSRF, security headers, and access control.
+        color: "#ef4444"
+        order: 6
+      - id: email
+        name: Email
+        description: Transactional email transports and delivery services.
+        color: "#ec4899"
+        order: 7
+      - id: payments
+        name: Payments
+        description: Checkout, billing, and webhook-driven payment processing.
+        color: "#6366f1"
+        order: 8
+      - id: realtime
+        name: Realtime
+        description: Persistent bidirectional communication via WebSockets and Socket.IO.
+        color: "#14b8a6"
+        order: 9
+      - id: observability
+        name: Logging & Monitoring
+        description: Request logging, structured JSON logs, and log levels.
+        color: "#f97316"
+        order: 10
+      - id: testing
+        name: Backend Testing
+        description: Test runners, assertion libraries, spies/stubs, and HTTP integration testing.
+        color: "#84cc16"
+        order: 11
+      - id: architecture
+        name: Architecture & Typed Effects
+        description: Type-safe error handling, schema validation, and functional effect systems.
+        color: "#8b5cf6"
+        order: 12
+
+  - id: fundamentals
+    name: Web Fundamentals
+    description: Core protocols, HTTP semantics, security primitives, rendering architectures, and API debugging tools.
+    order: 3
+    categories:
+      - id: http
+        name: HTTP & Web Platform
+        description: HTTP protocol, methods, status codes, CORS, TLS, client/server split, and rendering strategies.
+        color: "#38bdf8"
+        order: 1
+      - id: api-tools
+        name: API Clients
+        description: GUI and file-based HTTP/OpenAPI clients for inspecting and testing APIs.
+        color: "#fb923c"
+        order: 2
+
+  - id: devops
+    name: DevOps
+    description: Version control, containerization, CI/CD pipelines, cloud hosting, and Infrastructure as Code.
+    order: 4
+    categories:
+      - id: vcs
+        name: Version Control
+        description: Source code history, branching, and collaboration with Git.
+        color: "#f97316"
+        order: 1
+      - id: containers
+        name: Containers
+        description: Application packaging and local multi-service orchestration with Docker.
+        color: "#0ea5e9"
+        order: 2
+      - id: ci-cd
+        name: CI/CD
+        description: Automated testing, builds, and deployment pipelines.
+        color: "#a855f7"
+        order: 3
+      - id: hosting
+        name: Hosting & Platforms
+        description: PaaS, serverless edge platforms, and cloud infrastructure providers.
+        color: "#10b981"
+        order: 4
+      - id: iac
+        name: Infrastructure as Code
+        description: Declarative and programmatic provisioning of cloud resources.
+        color: "#eab308"
+        order: 5

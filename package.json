@@ -1,0 +1,40 @@
+{
+  "name": "tech-graph",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "oxlint src scripts",
+    "format": "node -e \"import('node:module').then(m => { globalThis.require = m.createRequire(import.meta.url); process.argv.splice(1, 0, 'oxfmt'); import('./node_modules/oxfmt/bin/oxfmt'); })\" src scripts",
+    "validate": "tsx scripts/validate.ts"
+  },
+  "dependencies": {
+    "@xyflow/react": "^12.6.0",
+    "effect": "^3.15.0",
+    "elkjs": "^0.10.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-markdown": "^10.1.0",
+    "rehype-highlight": "^7.0.2",
+    "remark-gfm": "^4.0.1",
+    "yaml": "^2.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^4.4.1",
+    "oxfmt": "^0.3.0",
+    "oxlint": "^1.0.0",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "vitest": "^3.1.3"
+  }
+}
