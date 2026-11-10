@@ -24,28 +24,41 @@ export interface TechNodeData extends NodeFrontmatter {
 
 export interface ContentDiagnostic {
   readonly severity: "error" | "warning";
-  readonly code: "INVALID_PATH" | "MISSING_FRONTMATTER" | "YAML_SYNTAX_ERROR" | "SCHEMA_ERROR" | "ID_FILENAME_MISMATCH" | "DUPLICATE_ID" | "UNKNOWN_CATEGORY" | "BROKEN_RELATION" | "SELF_RELATION" | "REDUNDANT_ALSO_IN" | "ORPHAN_NODE";
+  readonly code:
+    | "INVALID_PATH"
+    | "MISSING_FRONTMATTER"
+    | "YAML_SYNTAX_ERROR"
+    | "SCHEMA_ERROR"
+    | "ID_FILENAME_MISMATCH"
+    | "DUPLICATE_ID"
+    | "UNKNOWN_CATEGORY"
+    | "BROKEN_RELATION"
+    | "SELF_RELATION"
+    | "REDUNDANT_ALSO_IN"
+    | "ORPHAN_NODE";
   readonly filePath: string;
   readonly nodeId?: string;
   readonly message: string;
 }
 
-export type ParseNodeResult = {
-  readonly ok: true;
-  readonly node: TechNodeData;
-} | { readonly ok: false; readonly error: ContentDiagnostic };
+export type ParseNodeResult =
+  | {
+      readonly ok: true;
+      readonly node: TechNodeData;
+    }
+  | { readonly ok: false; readonly error: ContentDiagnostic };
 
-export type ParseMapsResult = {
-  readonly ok: true;
-  readonly mapsFile: MapsFile;
-} | { readonly ok: false; readonly error: ContentDiagnostic };
+export type ParseMapsResult =
+  | {
+      readonly ok: true;
+      readonly mapsFile: MapsFile;
+    }
+  | { readonly ok: false; readonly error: ContentDiagnostic };
 
 const CONTENT_PATH_REGEX = /(?:^|\/)content\/([^/]+)\/([^/]+)\/([^/]+)\.md$/;
 const FRONTMATTER_REGEX = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n([\s\S]*))?$/;
 
-export function parseNodeFilePath(
-  filePath: string,
-): ValidationOrDiagnostic<ParsedPathInfo> {
+export function parseNodeFilePath(filePath: string): ValidationOrDiagnostic<ParsedPathInfo> {
   const normalizedPath = filePath.replace(/\\/g, "/");
   const match = CONTENT_PATH_REGEX.exec(normalizedPath);
   if (!match) {
@@ -96,10 +109,12 @@ export function parseNodeFilePath(
   };
 }
 
-type ValidationOrDiagnostic<T,> = { readonly ok: true; readonly value: T } | {
-  readonly ok: false;
-  readonly error: ContentDiagnostic;
-};
+type ValidationOrDiagnostic<T> =
+  | { readonly ok: true; readonly value: T }
+  | {
+      readonly ok: false;
+      readonly error: ContentDiagnostic;
+    };
 
 function isMapId(value: string): value is MapId {
   return (MAP_IDS as readonly string[]).includes(value);
@@ -121,8 +136,7 @@ export function splitFrontmatter(
         severity: "error",
         code: "MISSING_FRONTMATTER",
         filePath,
-        message:
-          "Markdown file must start with a YAML frontmatter block delimited by '---'",
+        message: "Markdown file must start with a YAML frontmatter block delimited by '---'",
       },
     };
   }
@@ -136,10 +150,7 @@ export function splitFrontmatter(
   };
 }
 
-export function parseNodeMarkdown(
-  filePath: string,
-  rawContent: string,
-): ParseNodeResult {
+export function parseNodeMarkdown(filePath: string, rawContent: string): ParseNodeResult {
   const pathResult = parseNodeFilePath(filePath);
   if (!pathResult.ok) {
     return pathResult;
@@ -209,10 +220,7 @@ export function parseNodeMarkdown(
   };
 }
 
-export function parseMapsYaml(
-  filePath: string,
-  rawYaml: string,
-): ParseMapsResult {
+export function parseMapsYaml(filePath: string, rawYaml: string): ParseMapsResult {
   const normalizedPath = filePath.replace(/\\/g, "/");
   let parsed: unknown;
   try {

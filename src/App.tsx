@@ -9,8 +9,8 @@ export function App() {
       <header style={{ marginBottom: "24px" }}>
         <h1>Tech Graph</h1>
         <p style={{ color: "var(--text-secondary)", marginTop: "6px" }}>
-          Interactive Knowledge Map · {graph.maps.length} maps ·{" "}
-          {graph.nodes.length} nodes · {graph.edges.length} relations
+          Interactive Knowledge Map · {graph.maps.length} maps · {graph.nodes.length} nodes ·{" "}
+          {graph.edges.length} relations
         </p>
       </header>
 
@@ -61,9 +61,7 @@ export function App() {
               }}
             >
               <strong>{node.name}</strong>
-              <span
-                style={{ fontSize: "12px", color: "var(--text-secondary)" }}
-              >
+              <span style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
                 {node.map}/{node.category}
               </span>
             </div>

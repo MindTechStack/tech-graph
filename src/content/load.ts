@@ -48,9 +48,7 @@ export function normalizeContentRelativePath(filePath: string): string {
   return normalized.replace(/^\/+/, "");
 }
 
-export function loadGraphFromRawSources(
-  sources: RawContentSources,
-): KnowledgeGraph {
+export function loadGraphFromRawSources(sources: RawContentSources): KnowledgeGraph {
   const diagnostics: ContentDiagnostic[] = [];
   const mapsPath = normalizeContentRelativePath(sources.mapsYamlPath);
 
@@ -65,9 +63,7 @@ export function loadGraphFromRawSources(
 
   const parsedNodes: TechNodeData[] = [];
   const sortedEntries = Object.entries(sources.markdownFiles).sort(([a], [b]) =>
-    normalizeContentRelativePath(a).localeCompare(
-      normalizeContentRelativePath(b),
-    ),
+    normalizeContentRelativePath(a).localeCompare(normalizeContentRelativePath(b)),
   );
 
   for (const [rawPath, rawMarkdown] of sortedEntries) {

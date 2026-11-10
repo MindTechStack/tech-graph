@@ -67,9 +67,7 @@ export function buildKnowledgeGraph(
   }
 
   const nodesById = new Map<string, TechNodeData>();
-  const sortedRaw = [...rawNodes].sort((a, b) =>
-    a.filePath.localeCompare(b.filePath),
-  );
+  const sortedRaw = [...rawNodes].sort((a, b) => a.filePath.localeCompare(b.filePath));
 
   for (const node of sortedRaw) {
     const existing = nodesById.get(node.id);
@@ -108,9 +106,7 @@ export function buildKnowledgeGraph(
     nodesById.set(node.id, node);
   }
 
-  const nodes = [...nodesById.values()].sort((a, b) =>
-    a.name.localeCompare(b.name),
-  );
+  const nodes = [...nodesById.values()].sort((a, b) => a.name.localeCompare(b.name));
   const edges: GraphEdge[] = [];
   const outgoingByNodeId = new Map<string, ResolvedRelation[]>();
   const incomingByNodeId = new Map<string, BacklinkRelation[]>();
@@ -211,20 +207,14 @@ export function buildKnowledgeGraph(
   };
 }
 
-export function isNodeDirectlyInMap(
-  node: TechNodeData,
-  mapId: MapId | "all",
-): boolean {
+export function isNodeDirectlyInMap(node: TechNodeData, mapId: MapId | "all"): boolean {
   if (mapId === "all") {
     return true;
   }
   return node.map === mapId || node.alsoIn.includes(mapId);
 }
 
-export function getMapGraphSlice(
-  graph: KnowledgeGraph,
-  mapId: MapId | "all",
-): MapGraphSlice {
+export function getMapGraphSlice(graph: KnowledgeGraph, mapId: MapId | "all"): MapGraphSlice {
   if (mapId === "all") {
     const sliceNodes: MapSliceNode[] = graph.nodes.map((node) => ({
       node,

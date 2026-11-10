@@ -14,8 +14,7 @@ describe("Effect Schema validation (schema.ts)", () => {
       status: "learned",
       what: "Middleware wrapper around validator.js for Express.",
       why: "Validates and sanitizes incoming request fields declaratively.",
-      problem:
-        "Manual if/else validation in controllers is repetitive and error-prone.",
+      problem: "Manual if/else validation in controllers is repetitive and error-prone.",
     });
 
     expect(result.ok).toBe(true);
@@ -85,9 +84,7 @@ describe("Effect Schema validation (schema.ts)", () => {
 
 describe("Markdown and path parser (parse.ts)", () => {
   it("extracts map, category, and fileId from path", () => {
-    const res = parseNodeFilePath(
-      "C:\\repo\\content\\backend\\database\\sequelize.md",
-    );
+    const res = parseNodeFilePath("C:\\repo\\content\\backend\\database\\sequelize.md");
     expect(res.ok).toBe(true);
     if (res.ok) {
       expect(res.value.map).toBe("backend");
@@ -219,11 +216,7 @@ problem: p
       throw new Error("Unexpected parse failure in test setup");
     }
 
-    const graph = buildKnowledgeGraph(sampleMaps, [
-      nodeA1.node,
-      nodeA2.node,
-      nodeUnknownCat.node,
-    ]);
+    const graph = buildKnowledgeGraph(sampleMaps, [nodeA1.node, nodeA2.node, nodeUnknownCat.node]);
 
     const codes = graph.errors.map((e) => e.code);
     expect(codes).toContain("DUPLICATE_ID");
@@ -282,9 +275,7 @@ problem: I/O
     });
 
     expect(raw.errors).toEqual([]);
-    expect(raw.incomingByNodeId.get("nodejs")?.map((b) => b.from)).toEqual([
-      "vite",
-    ]);
+    expect(raw.incomingByNodeId.get("nodejs")?.map((b) => b.from)).toEqual(["vite"]);
 
     const frontendSlice = getMapGraphSlice(raw, "frontend");
     const viteInFe = frontendSlice.nodes.find((n) => n.node.id === "vite");
@@ -301,9 +292,7 @@ describe("Environment parity: Vite glob vs Node fs (load.ts)", () => {
 
     expect(fromFs.errors).toEqual([]);
     expect(fromGlob.errors).toEqual([]);
-    expect(fromGlob.nodes.map((n) => n.id)).toEqual(
-      fromFs.nodes.map((n) => n.id),
-    );
+    expect(fromGlob.nodes.map((n) => n.id)).toEqual(fromFs.nodes.map((n) => n.id));
     expect(fromGlob.edges).toEqual(fromFs.edges);
     expect(fromFs.nodes.length).toBeGreaterThanOrEqual(9);
   });

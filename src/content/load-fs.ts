@@ -3,9 +3,7 @@ import path from "node:path";
 import type { KnowledgeGraph } from "./graph";
 import { isIgnoredContentFile, loadGraphFromRawSources } from "./load";
 
-export async function loadGraphFromFs(
-  rootDir: string = process.cwd(),
-): Promise<KnowledgeGraph> {
+export async function loadGraphFromFs(rootDir: string = process.cwd()): Promise<KnowledgeGraph> {
   const contentDir = path.resolve(rootDir, "content");
   const mapsYamlFullPath = path.join(contentDir, "maps.yaml");
   const mapsYamlContent = await fs.readFile(mapsYamlFullPath, "utf8");
