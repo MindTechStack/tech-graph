@@ -4,13 +4,16 @@ name: React
 kind: framework
 status: practiced
 tags: [ui, components, jsx, hooks, virtual-dom]
-what: Declarative JavaScript library for building user interfaces from composable, state-driven components.
-why: Keeps the DOM in sync with application state automatically (`UI = f(state)`) and scales through unidirectional data flow and reusable hooks.
-problem: Imperative DOM manipulation (`document.querySelector`, manual class/attribute toggling) quickly becomes brittle and out of sync as UI state grows.
+what: "Declarative JavaScript library for building user interfaces from composable, state-driven components."
+why: "Keeps the DOM in sync with application state automatically (`UI = f(state)`) and scales through unidirectional data flow and reusable hooks."
+problem: "Imperative DOM manipulation (`document.querySelector`, manual class/attribute toggling) quickly becomes brittle and out of sync as UI state grows."
 relations:
-  - { to: vite, label: "uses" }
+  - { to: react-hooks, label: "manages state via" }
+  - { to: typescript, label: "typed with" }
+  - { to: vite, label: "built with" }
+  - { to: nextjs, label: "powers" }
 links:
-  - { title: React Docs (react.dev), url: https://react.dev/ }
+  - { title: "React Docs (react.dev)", url: https://react.dev/ }
 alsoIn: []
 source: personal
 ---
@@ -54,4 +57,3 @@ export function NodeFilter({ items }: NodeFilterProps) {
 - **Pure rendering**: components should be pure functions of `props` and `state`; side effects (timers, subscriptions, DOM mutations) belong in `useEffect` or event handlers.
 - **Derived state over duplicated state**: compute filtered lists or counts during render (or with `useMemo`) instead of syncing a second `useState` inside `useEffect`.
 - **Stable keys**: always use stable domain IDs (`key={node.id}`) in lists—never array indices when items can reorder, insert, or delete.
-

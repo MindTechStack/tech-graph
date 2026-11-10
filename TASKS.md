@@ -94,7 +94,7 @@ flowchart LR
 
 | ID | Пакет | Узлов | Зависит от |
 |---|---|---|---|
-| T6.1 | Frontend: languages, frameworks | 18 | T3.2 |
+| T6.1 ✅ | Frontend: languages, frameworks | 18 | T3.2 |
 | T6.2 | Frontend: state-routing, data-network | 17 | T3.2 |
 | T6.3 | Frontend: build-performance, ui-styling, ui-widgets, testing, quality | 26 | T3.2 |
 | T6.4 | Backend: runtime, frameworks, api, templating (вкл. ✚ course: `node-fs`, `async-await`, `node-debugging`, `node-typescript`, `oak`) | 31 | T3.2 |
