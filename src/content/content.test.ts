@@ -282,6 +282,17 @@ problem: I/O
     const nodeInFe = frontendSlice.nodes.find((n) => n.node.id === "nodejs");
     expect(viteInFe?.isGhost).toBe(false);
     expect(nodeInFe?.isGhost).toBe(true);
+
+    // Filter out ghost nodes
+    const noGhostsSlice = getMapGraphSlice(raw, "frontend", { includeGhosts: false });
+    expect(noGhostsSlice.nodes.map((n) => n.node.id)).toEqual(["vite"]);
+    expect(noGhostsSlice.edges).toEqual([]);
+
+    // Filter by status that excludes vite
+    const plannedOnlySlice = getMapGraphSlice(raw, "frontend", {
+      statuses: new Set(["planned"]),
+    });
+    expect(plannedOnlySlice.nodes).toEqual([]);
   });
 });
 

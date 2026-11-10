@@ -13,9 +13,14 @@ export function Toolbar({ graph }: ToolbarProps) {
     activeMap,
     layoutMode,
     showAllEdgeLabels,
+    hasActiveFilters,
+    isSidebarOpen,
     setActiveMap,
     setLayoutMode,
     toggleShowAllEdgeLabels,
+    setIsSearchOpen,
+    toggleSidebar,
+    setIsErrorPanelOpen,
   } = useAppState();
 
   const mapTabs = useMemo(() => {
@@ -38,17 +43,34 @@ export function Toolbar({ graph }: ToolbarProps) {
     return items;
   }, [graph]);
 
+  const errorCount = graph.errors.length;
+  const warningCount = graph.warnings.length;
+
   return (
     <header className="toolbar">
-      <div className="toolbar__brand">
-        <span className="toolbar__logo" aria-hidden="true">
-          🕸️
-        </span>
-        <div>
-          <h1 className="toolbar__title">Tech Graph</h1>
-          <p className="toolbar__subtitle">
-            {graph.nodes.length} nodes · {graph.edges.length} relations
-          </p>
+      <div className="toolbar__left">
+        <button
+          type="button"
+          className={`toolbar__icon-btn ${isSidebarOpen ? "toolbar__icon-btn--active" : ""}`}
+          onClick={toggleSidebar}
+          title={isSidebarOpen ? "Hide filters sidebar" : "Show filters sidebar"}
+          aria-label="Toggle filters sidebar"
+        >
+          <span>☰</span>
+          <span className="toolbar__btn-label">Filters</span>
+          {hasActiveFilters ? <span className="toolbar__filter-dot" /> : null}
+        </button>
+
+        <div className="toolbar__brand">
+          <span className="toolbar__logo" aria-hidden="true">
+            🕸️
+          </span>
+          <div>
+            <h1 className="toolbar__title">Tech Graph</h1>
+            <p className="toolbar__subtitle">
+              {graph.nodes.length} nodes · {graph.edges.length} relations
+            </p>
+          </div>
         </div>
       </div>
 
@@ -70,6 +92,16 @@ export function Toolbar({ graph }: ToolbarProps) {
       </nav>
 
       <div className="toolbar__controls">
+        <button
+          type="button"
+          className="toolbar__search-btn"
+          onClick={() => setIsSearchOpen(true)}
+          title="Search nodes (Ctrl+K)"
+        >
+          <span>🔍 Search…</span>
+          <kbd className="toolbar__kbd">Ctrl K</kbd>
+        </button>
+
         <div className="toolbar__segmented" role="group" aria-label="Layout mode">
           <button
             type="button"
@@ -96,6 +128,25 @@ export function Toolbar({ graph }: ToolbarProps) {
           Labels: {showAllEdgeLabels ? "Always" : "Hover"}
         </button>
 
+        <button
+          type="button"
+          className={`toolbar__diag-btn ${
+            errorCount > 0
+              ? "toolbar__diag-btn--error"
+              : warningCount > 0
+                ? "toolbar__diag-btn--warning"
+                : "toolbar__diag-btn--ok"
+          }`}
+          onClick={() => setIsErrorPanelOpen(true)}
+          title="Open content validation diagnostics"
+        >
+          {errorCount > 0
+            ? `⚠️ ${errorCount} err`
+            : warningCount > 0
+              ? `⚡ ${warningCount} warn`
+              : "✓ Valid"}
+        </button>
+
         <div className="toolbar__legend" aria-label="Status legend">
           {NODE_STATUSES.map((status) => {
             const meta = STATUS_META[status];
@@ -118,4 +169,3 @@ export function Toolbar({ graph }: ToolbarProps) {
     </header>
   );
 }
-

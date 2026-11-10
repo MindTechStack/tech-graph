@@ -13,8 +13,8 @@ import {
   useReactFlow,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { getMapGraphSlice, type KnowledgeGraph } from "../content/graph";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { buildFilterSignature, getMapGraphSlice, type KnowledgeGraph } from "../content/graph";
 import {
   type AppFlowEdge,
   type AppFlowNode,
@@ -41,31 +41,55 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
     selectedNodeId,
     hoveredNodeId,
     showAllEdgeLabels,
+    filters,
+    hasActiveFilters,
+    focusRequest,
     setSelectedNodeId,
     setHoveredNodeId,
     handleNodeClick,
+    resetFilters,
   } = useAppState();
 
   const { fitView } = useReactFlow();
   const [positioned, setPositioned] = useState<PositionedGraph | null>(null);
   const [isLayoutPending, setIsLayoutPending] = useState<boolean>(true);
   const [hoveredEdgeId, setHoveredEdgeId] = useState<string | null>(null);
+  const lastHandledFocusSeqRef = useRef<number>(0);
 
-  const slice = useMemo(() => getMapGraphSlice(graph, activeMap), [graph, activeMap]);
+  const filterSignature = useMemo(() => buildFilterSignature(filters), [filters]);
+  const slice = useMemo(
+    () => getMapGraphSlice(graph, activeMap, filters),
+    [graph, activeMap, filters],
+  );
 
   useEffect(() => {
     let cancelled = false;
     setIsLayoutPending(true);
 
-    computeGraphLayout(graph, slice, layoutMode)
+    computeGraphLayout(graph, slice, layoutMode, filterSignature)
       .then((result) => {
         if (cancelled) {
           return;
         }
         setPositioned(result);
         setIsLayoutPending(false);
+
         requestAnimationFrame(() => {
-          fitView({ padding: 0.16, duration: 260 });
+          if (
+            focusRequest &&
+            focusRequest.seq !== lastHandledFocusSeqRef.current &&
+            result.nodes.some((n) => n.id === focusRequest.nodeId)
+          ) {
+            lastHandledFocusSeqRef.current = focusRequest.seq;
+            fitView({
+              nodes: [{ id: focusRequest.nodeId }],
+              duration: 340,
+              maxZoom: 1.15,
+              padding: 0.6,
+            });
+          } else {
+            fitView({ padding: 0.16, duration: 260 });
+          }
         });
       })
       .catch((err: unknown) => {
@@ -78,7 +102,34 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
     return () => {
       cancelled = true;
     };
-  }, [graph, slice, layoutMode, fitView]);
+  }, [graph, slice, layoutMode, filterSignature, fitView, focusRequest]);
+
+  // Also handle focus requests when layout hasn't changed (e.g. clicking a relation or search result within the same map)
+  useEffect(() => {
+    if (
+      !positioned ||
+      isLayoutPending ||
+      !focusRequest ||
+      focusRequest.seq === lastHandledFocusSeqRef.current
+    ) {
+      return;
+    }
+
+    const existsInCanvas = positioned.nodes.some((n) => n.id === focusRequest.nodeId);
+    if (!existsInCanvas) {
+      return;
+    }
+
+    lastHandledFocusSeqRef.current = focusRequest.seq;
+    requestAnimationFrame(() => {
+      fitView({
+        nodes: [{ id: focusRequest.nodeId }],
+        duration: 340,
+        maxZoom: 1.15,
+        padding: 0.6,
+      });
+    });
+  }, [focusRequest, positioned, isLayoutPending, fitView]);
 
   const activeFocusNodeId = hoveredNodeId ?? selectedNodeId;
 
@@ -208,12 +259,8 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
     setSelectedNodeId(null);
   }, [setSelectedNodeId]);
 
-  const selectedNode = useMemo(
-    () => (selectedNodeId ? (graph.nodesById.get(selectedNodeId) ?? null) : null),
-    [graph.nodesById, selectedNodeId],
-  );
-
   const ghostCount = useMemo(() => slice.nodes.filter((n) => n.isGhost).length, [slice.nodes]);
+  const primaryCount = slice.nodes.length - ghostCount;
 
   return (
     <div className="graph-canvas">
@@ -253,37 +300,36 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
 
         <Panel position="top-left" className="graph-canvas__info-pill">
           <span>
-            Showing <strong>{slice.nodes.length - ghostCount}</strong> primary
+            Showing <strong>{primaryCount}</strong> primary
             {ghostCount > 0 ? (
               <>
                 {" "}
-                + <strong>{ghostCount}</strong> ghost (click to jump map)
+                + <strong>{ghostCount}</strong> ghost
               </>
             ) : null}{" "}
             · <strong>{slice.edges.length}</strong> edges
           </span>
+          {hasActiveFilters ? (
+            <button
+              type="button"
+              className="graph-canvas__pill-btn"
+              onClick={resetFilters}
+              title="Reset active filters"
+            >
+              Clear filters ✕
+            </button>
+          ) : null}
           {isLayoutPending ? <span className="graph-canvas__layout-badge">Layouting…</span> : null}
         </Panel>
 
-        {selectedNode ? (
-          <Panel position="top-right" className="graph-canvas__quick-card">
-            <div className="graph-canvas__quick-header">
-              <div>
-                <span className="graph-canvas__quick-map">
-                  {selectedNode.map} / {selectedNode.category}
-                </span>
-                <h2 className="graph-canvas__quick-title">{selectedNode.name}</h2>
-              </div>
-              <button
-                type="button"
-                className="graph-canvas__quick-close"
-                onClick={() => setSelectedNodeId(null)}
-                aria-label="Close selection"
-              >
-                ✕
+        {!isLayoutPending && slice.nodes.length === 0 ? (
+          <Panel position="top-center" className="graph-canvas__empty">
+            <p>No nodes match the current filters on this map.</p>
+            {hasActiveFilters ? (
+              <button type="button" className="graph-canvas__empty-btn" onClick={resetFilters}>
+                Reset Filters
               </button>
-            </div>
-            <p className="graph-canvas__quick-what">{selectedNode.what}</p>
+            ) : null}
           </Panel>
         ) : null}
       </ReactFlow>

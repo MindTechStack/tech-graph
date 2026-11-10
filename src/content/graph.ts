@@ -1,5 +1,12 @@
 import type { ContentDiagnostic, TechNodeData } from "./parse";
-import type { CategoryConfig, MapConfig, MapId, MapsFile } from "./schema";
+import type { CategoryConfig, MapConfig, MapId, MapsFile, NodeKind, NodeStatus } from "./schema";
+
+export interface GraphFilterCriteria {
+  readonly categories?: ReadonlySet<string>;
+  readonly statuses?: ReadonlySet<NodeStatus>;
+  readonly kinds?: ReadonlySet<NodeKind>;
+  readonly includeGhosts?: boolean;
+}
 
 export interface GraphEdge {
   readonly id: string;
@@ -214,23 +221,81 @@ export function isNodeDirectlyInMap(node: TechNodeData, mapId: MapId | "all"): b
   return node.map === mapId || node.alsoIn.includes(mapId);
 }
 
-export function getMapGraphSlice(graph: KnowledgeGraph, mapId: MapId | "all"): MapGraphSlice {
+export function getNodeCategoryKey(node: TechNodeData, activeMap: MapId | "all"): string {
+  return activeMap === "all" ? `${node.map}:${node.category}` : node.category;
+}
+
+export function matchesNodeFilters(
+  node: TechNodeData,
+  activeMap: MapId | "all",
+  filters?: GraphFilterCriteria,
+  ignoreCategory: boolean = false,
+): boolean {
+  if (!filters) {
+    return true;
+  }
+  if (!ignoreCategory && filters.categories && filters.categories.size > 0) {
+    const catKey = getNodeCategoryKey(node, activeMap);
+    if (!filters.categories.has(catKey) && !filters.categories.has(node.category)) {
+      return false;
+    }
+  }
+  if (filters.statuses && filters.statuses.size > 0 && !filters.statuses.has(node.status)) {
+    return false;
+  }
+  if (filters.kinds && filters.kinds.size > 0 && !filters.kinds.has(node.kind)) {
+    return false;
+  }
+  return true;
+}
+
+export function buildFilterSignature(filters?: GraphFilterCriteria): string {
+  if (!filters) {
+    return "all";
+  }
+  const cats = filters.categories ? [...filters.categories].sort().join(",") : "";
+  const statuses = filters.statuses ? [...filters.statuses].sort().join(",") : "";
+  const kinds = filters.kinds ? [...filters.kinds].sort().join(",") : "";
+  const ghosts = filters.includeGhosts !== false ? "g1" : "g0";
+  return `c:[${cats}]|s:[${statuses}]|k:[${kinds}]|${ghosts}`;
+}
+
+export function getMapGraphSlice(
+  graph: KnowledgeGraph,
+  mapId: MapId | "all",
+  filters?: GraphFilterCriteria,
+): MapGraphSlice {
+  const includeGhosts = filters?.includeGhosts !== false;
+
   if (mapId === "all") {
-    const sliceNodes: MapSliceNode[] = graph.nodes.map((node) => ({
-      node,
-      isGhost: false,
-      categoryConfig: graph.categoriesByMap.get(node.map)?.get(node.category),
-    }));
+    const keptIds = new Set<string>();
+    const sliceNodes: MapSliceNode[] = [];
+
+    for (const node of graph.nodes) {
+      if (matchesNodeFilters(node, "all", filters)) {
+        keptIds.add(node.id);
+        sliceNodes.push({
+          node,
+          isGhost: false,
+          categoryConfig: graph.categoriesByMap.get(node.map)?.get(node.category),
+        });
+      }
+    }
+
+    const sliceEdges = graph.edges.filter(
+      (edge) => keptIds.has(edge.source) && keptIds.has(edge.target),
+    );
+
     return {
       mapId,
       nodes: sliceNodes,
-      edges: graph.edges,
+      edges: sliceEdges,
     };
   }
 
   const primaryNodeIds = new Set<string>();
   for (const node of graph.nodes) {
-    if (isNodeDirectlyInMap(node, mapId)) {
+    if (isNodeDirectlyInMap(node, mapId) && matchesNodeFilters(node, mapId, filters)) {
       primaryNodeIds.add(node.id);
     }
   }
@@ -242,13 +307,15 @@ export function getMapGraphSlice(graph: KnowledgeGraph, mapId: MapId | "all"): M
     const sourceInMap = primaryNodeIds.has(edge.source);
     const targetInMap = primaryNodeIds.has(edge.target);
 
-    if (sourceInMap || targetInMap) {
+    if (sourceInMap && targetInMap) {
       sliceEdges.push(edge);
-      if (!sourceInMap) {
-        ghostNodeIds.add(edge.source);
-      }
-      if (!targetInMap) {
-        ghostNodeIds.add(edge.target);
+    } else if (includeGhosts && (sourceInMap || targetInMap)) {
+      const externalId = sourceInMap ? edge.target : edge.source;
+      const externalNode = graph.nodesById.get(externalId);
+      // External ghost node respects status/kind filters if set, but ignores current map's category filter
+      if (externalNode && matchesNodeFilters(externalNode, mapId, filters, true)) {
+        sliceEdges.push(edge);
+        ghostNodeIds.add(externalId);
       }
     }
   }
