@@ -53,24 +53,24 @@ flowchart LR
 
 ---
 
-## E3 · Пилотный контент ⏳
+## E3 · Пилотный контент ✅
 | ID | Задача | Зависит от | DoD |
 |---|---|---|---|
 | T3.1 ✅ | 4–10 узлов-образцов из разных карт: `nodejs`, `express`, `middleware`, `sequelize`, `mysql`, `react`, `vite`, `http-status-codes`, `docker` | T2.1 | `validate` проходит |
-| T3.2 | Ревью образцов вместе: глубина текста, стиль, примеры кода | T3.1 | Шаблон карточки утверждён → `content/_TEMPLATE.md` |
+| T3.2 ✅ | Ревью образцов вместе: глубина текста, стиль, примеры кода | T3.1 | Шаблон карточки утверждён → `content/_TEMPLATE.md` |
 
 ---
 
-## E4 · Граф
+## E4 · Граф ✅
 | ID | Задача | Зависит от | DoD |
 |---|---|---|---|
-| T4.1 | `GraphCanvas` на React Flow: zoom, pan, MiniMap, Controls, Background 🎓 *components, props* | T2.5 | Узлы пилота отображаются |
-| T4.2 | `TechNode`: имя, иконка kind, цвет категории, стиль статуса; ghost-вариант 🎓 *custom components, `memo`* | T4.1 | Визуально различимы 5 статусов |
-| T4.3 | `GroupNode` для категорий (режим Layers) | T4.1 | Узлы внутри своих групп |
-| T4.4 | `layout/elk.ts`: `layered` с compound-группами и `stress` без групп; кэш раскладки по ключу (map + mode + filters) 🎓 *`useEffect`, async, `useMemo`* | T4.3 | Обе раскладки без наложений |
-| T4.5 | Вкладки карт + переключатель Layers/Network 🎓 *state lifting, context* | T4.4 | Переключение плавное, fitView |
-| T4.6 | Ghost-узлы других карт + переход по клику | T4.5 | Из Backend видны и кликаются `typescript`, `vite`… |
-| T4.7 | Подписи рёбер: при hover/выборе или всегда (toggle) | T4.1 | Граф не перегружен текстом |
+| T4.1 ✅ | `GraphCanvas` на React Flow: zoom, pan, MiniMap, Controls, Background 🎓 *components, props* | T2.5 | Узлы пилота отображаются |
+| T4.2 ✅ | `TechNode`: имя, иконка kind, цвет категории, стиль статуса; ghost-вариант 🎓 *custom components, `memo`* | T4.1 | Визуально различимы 5 статусов |
+| T4.3 ✅ | `GroupNode` для категорий (режим Layers) | T4.1 | Узлы внутри своих групп |
+| T4.4 ✅ | `layout/elk.ts`: `layered` с compound-группами и `stress` без групп; кэш раскладки по ключу (map + mode + filters) 🎓 *`useEffect`, async, `useMemo`* | T4.3 | Обе раскладки без наложений |
+| T4.5 ✅ | Вкладки карт + переключатель Layers/Network 🎓 *state lifting, context* | T4.4 | Переключение плавное, fitView |
+| T4.6 ✅ | Ghost-узлы других карт + переход по клику | T4.5 | Из Backend видны и кликаются `typescript`, `vite`… |
+| T4.7 ✅ | Подписи рёбер: при hover/выборе или всегда (toggle) | T4.1 | Граф не перегружен текстом |
 
 ---
 
