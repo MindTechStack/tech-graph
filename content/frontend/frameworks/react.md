@@ -54,3 +54,4 @@ export function NodeFilter({ items }: NodeFilterProps) {
 - **Pure rendering**: components should be pure functions of `props` and `state`; side effects (timers, subscriptions, DOM mutations) belong in `useEffect` or event handlers.
 - **Derived state over duplicated state**: compute filtered lists or counts during render (or with `useMemo`) instead of syncing a second `useState` inside `useEffect`.
 - **Stable keys**: always use stable domain IDs (`key={node.id}`) in lists—never array indices when items can reorder, insert, or delete.
+

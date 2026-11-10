@@ -52,3 +52,4 @@ app.listen(3000);
 - **Modular routers**: split feature routes into `express.Router()` modules and mount them with `app.use('/admin', adminRoutes)`.
 - **Response termination**: always `return res.status(...).json(...)` on early branches to avoid `ERR_HTTP_HEADERS_SENT`.
 - **Today**: Express 5 forwards rejected Promises from `async` route handlers to `next(err)` automatically; in Express 4, you had to wrap async handlers or call `next(err)` manually.
+

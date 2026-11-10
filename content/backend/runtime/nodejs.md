@@ -41,3 +41,4 @@ server.listen(3000, () => {
 - **Never block the Event Loop**: heavy synchronous computation (`JSON.parse` on huge payloads, sync `fs.*Sync`, complex regex) stalls all concurrent requests.
 - **Built-in modules (`node:*`)**: prefer `node:fs/promises`, `node:path`, `node:http`, `node:crypto`, and `node:stream` with explicit `node:` prefixes.
 - **Today**: Modern Node (v20–24+) includes native `fetch`, `--watch`, `--env-file`, built-in test runner (`node:test`), and experimental/native TypeScript stripping.
+

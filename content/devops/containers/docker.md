@@ -44,3 +44,4 @@ CMD ["node", "dist/server.js"]
 - **Multi-stage builds**: compile TypeScript/frontend assets in a build stage and copy only the compiled artifacts and production dependencies into a slim runtime image.
 - **Run as non-root**: switch to `USER node` in production containers to limit the blast radius of container escapes.
 - **Always add `.dockerignore`**: exclude `node_modules`, `.git`, `.env`, and `dist` from the build context.
+

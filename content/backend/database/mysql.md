@@ -40,3 +40,4 @@ const [rows] = await pool.execute(
 - **Connection Pooling**: use `mysql.createPool()` rather than single connections so concurrent HTTP requests reuse open TCP connections.
 - **Prepared Statements (`?` placeholders)**: `pool.execute('SELECT * FROM users WHERE email = ?', [email])` separates SQL structure from data, preventing SQL Injection.
 - **Indexes & Foreign Keys**: index columns used in `WHERE`, `JOIN`, and `ORDER BY` clauses; use foreign keys (`ON DELETE CASCADE` / `RESTRICT`) to keep references valid.
+

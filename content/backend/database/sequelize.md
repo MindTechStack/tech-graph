@@ -47,3 +47,4 @@ await sequelize.sync();
 - **Eager vs Lazy Loading**: pass `{ include: [Product] }` in `findAll()` to fetch relations in a single `JOIN` instead of triggering the N+1 query problem.
 - **`sequelize.sync()` vs Migrations**: `sync({ alter: true })` is fine in courses and prototypes, but production databases should always use explicit CLI migrations (`umzug` / `sequelize-cli`).
 - **Today**: For new TypeScript projects, **Drizzle ORM** or **Prisma** are usually preferred over Sequelize v6 because of first-class static type inference.
+

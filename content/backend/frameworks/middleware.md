@@ -46,3 +46,4 @@ export function errorHandler(err, _req, res, _next) {
 - **Two choices per middleware**: either end the request-response cycle (`res.json(...)`, `res.redirect(...)`) OR call `next()` to pass control downstream. Doing neither hangs the request; doing both causes `Cannot set headers after they are sent`.
 - **Error shortcut**: calling `next(error)` skips all remaining regular middleware/routes and jumps directly to the first 4-argument `(err, req, res, next)` error handler.
 - **Scoping**: mount globally via `app.use(fn)`, per router via `router.use(fn)`, or per route as `app.post('/orders', requireAuth, validateOrder, createOrder)`.
+

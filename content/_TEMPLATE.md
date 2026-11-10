@@ -24,3 +24,4 @@ source: course
 - **Core mental model**: the single most important concept to remember.
 - **Common pitfall**: what breaks in real projects and how to avoid it.
 - **Today** *(optional, for legacy course tools)*: modern replacement and why the ecosystem moved on.
+

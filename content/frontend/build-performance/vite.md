@@ -43,3 +43,4 @@ export default defineConfig({
 - **Two-phase architecture**: in development, Vite pre-bundles `node_modules` with esbuild and serves source code as native ESM; in production, it bundles and tree-shakes via Rollup.
 - **Static asset & glob imports**: `import.meta.glob('./content/**/*.md', { query: '?raw', eager: true })` lets you load entire directories of files at build time with zero runtime FS dependencies.
 - **Environment variables**: only variables prefixed with `VITE_` (`import.meta.env.VITE_API_URL`) are exposed to client code to prevent leaking server secrets.
+
