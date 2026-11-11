@@ -13,7 +13,7 @@ export function App() {
 
   return (
     <AppStateProvider
-      initialMap="backend"
+      initialMap="frontend"
       initialMode="layers"
       hasInitialErrors={graph.errors.length > 0}
     >

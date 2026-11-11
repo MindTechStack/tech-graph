@@ -62,7 +62,7 @@ function buildGroupBuckets(graph: KnowledgeGraph, slice: MapGraphSlice): readonl
       if (!bucket) {
         bucket = {
           groupId,
-          label: `External · ${homeMapConfig?.name ?? node.map}`,
+          label: `↗ ${homeMapConfig?.name ?? node.map}`,
           color: "#64748b",
           order: 1000 + (homeMapConfig?.order ?? 99),
           isGhostGroup: true,
@@ -179,6 +179,11 @@ export async function computeGraphLayout(
   if (mode === "layers") {
     const buckets = buildGroupBuckets(graph, slice);
     const sliceNodeById = new Map<string, MapSliceNode>(slice.nodes.map((sn) => [sn.node.id, sn]));
+    const groupIdByNodeId = new Map<string, string>(
+      buckets.flatMap((bucket) =>
+        bucket.items.map((item) => [item.node.id, bucket.groupId] as const),
+      ),
+    );
 
     const elkGroupChildren: ElkNode[] = buckets.map((bucket) => ({
       id: bucket.groupId,
@@ -194,22 +199,22 @@ export async function computeGraphLayout(
         width: TECH_NODE_WIDTH,
         height: TECH_NODE_HEIGHT,
       })),
+      edges: elkEdges.filter(
+        (edge) =>
+          groupIdByNodeId.get(edge.sources[0]!) === bucket.groupId &&
+          groupIdByNodeId.get(edge.targets[0]!) === bucket.groupId,
+      ),
     }));
 
     const rootElkGraph: ElkNode = {
       id: "root",
       layoutOptions: {
-        "elk.algorithm": "layered",
-        "elk.direction": "RIGHT",
-        "elk.hierarchyHandling": "INCLUDE_CHILDREN",
-        "elk.layered.spacing.nodeNodeBetweenLayers": "72",
-        "elk.spacing.nodeNode": "44",
-        "elk.spacing.componentComponent": "48",
-        "elk.layered.crossingMinimization.strategy": "LAYER_SWEEP",
+        "elk.algorithm": "rectpacking",
+        "elk.aspectRatio": "1.5",
+        "elk.spacing.nodeNode": "48",
         "elk.padding": "[top=24,left=24,bottom=24,right=24]",
       },
       children: elkGroupChildren,
-      edges: elkEdges,
     };
 
     const laidOut = await elk.layout(rootElkGraph);

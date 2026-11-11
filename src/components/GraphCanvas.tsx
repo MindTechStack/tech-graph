@@ -11,6 +11,7 @@ import {
   ReactFlow,
   ReactFlowProvider,
   useReactFlow,
+  useStore,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -18,6 +19,7 @@ import { buildFilterSignature, getMapGraphSlice, type KnowledgeGraph } from "../
 import {
   type AppFlowEdge,
   type AppFlowNode,
+  buildLayoutCacheKey,
   computeGraphLayout,
   type PositionedGraph,
 } from "../layout/elk";
@@ -29,6 +31,9 @@ const NODE_TYPES: NodeTypes = {
   tech: TechNode,
   categoryGroup: GroupNode,
 };
+
+const OVERVIEW_MIN_ZOOM = 0.4;
+const FAR_VIEW_ZOOM = 0.75;
 
 export interface GraphCanvasProps {
   readonly graph: KnowledgeGraph;
@@ -51,85 +56,66 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
   } = useAppState();
 
   const { fitView } = useReactFlow();
+  const isFarView = useStore((state) => state.transform[2] < FAR_VIEW_ZOOM);
   const [positioned, setPositioned] = useState<PositionedGraph | null>(null);
-  const [isLayoutPending, setIsLayoutPending] = useState<boolean>(true);
   const [hoveredEdgeId, setHoveredEdgeId] = useState<string | null>(null);
-  const lastHandledFocusSeqRef = useRef<number>(0);
+  const handledFocusSeqRef = useRef<number>(0);
+  const fittedLayoutRef = useRef<PositionedGraph | null>(null);
 
   const filterSignature = useMemo(() => buildFilterSignature(filters), [filters]);
   const slice = useMemo(
     () => getMapGraphSlice(graph, activeMap, filters),
     [graph, activeMap, filters],
   );
+  const layoutKey = useMemo(
+    () => buildLayoutCacheKey(slice, layoutMode, filterSignature),
+    [slice, layoutMode, filterSignature],
+  );
+  const isLayoutPending = positioned?.cacheKey !== layoutKey;
 
   useEffect(() => {
     let cancelled = false;
-    setIsLayoutPending(true);
 
     computeGraphLayout(graph, slice, layoutMode, filterSignature)
       .then((result) => {
-        if (cancelled) {
-          return;
+        if (!cancelled) {
+          setPositioned(result);
         }
-        setPositioned(result);
-        setIsLayoutPending(false);
-
-        requestAnimationFrame(() => {
-          if (
-            focusRequest &&
-            focusRequest.seq !== lastHandledFocusSeqRef.current &&
-            result.nodes.some((n) => n.id === focusRequest.nodeId)
-          ) {
-            lastHandledFocusSeqRef.current = focusRequest.seq;
-            fitView({
-              nodes: [{ id: focusRequest.nodeId }],
-              duration: 340,
-              maxZoom: 1.15,
-              padding: 0.6,
-            });
-          } else {
-            fitView({ padding: 0.16, duration: 260 });
-          }
-        });
       })
       .catch((err: unknown) => {
         console.error("[GraphCanvas] ELK layout failed:", err);
-        if (!cancelled) {
-          setIsLayoutPending(false);
-        }
       });
 
     return () => {
       cancelled = true;
     };
-  }, [graph, slice, layoutMode, filterSignature, fitView, focusRequest]);
+  }, [graph, slice, layoutMode, filterSignature]);
 
-  // Also handle focus requests when layout hasn't changed (e.g. clicking a relation or search result within the same map)
   useEffect(() => {
-    if (
-      !positioned ||
-      isLayoutPending ||
-      !focusRequest ||
-      focusRequest.seq === lastHandledFocusSeqRef.current
-    ) {
+    if (!positioned || isLayoutPending) {
       return;
     }
 
-    const existsInCanvas = positioned.nodes.some((n) => n.id === focusRequest.nodeId);
-    if (!existsInCanvas) {
-      return;
-    }
+    const pendingFocus =
+      focusRequest &&
+      focusRequest.seq !== handledFocusSeqRef.current &&
+      positioned.nodes.some((n) => n.id === focusRequest.nodeId)
+        ? focusRequest
+        : null;
 
-    lastHandledFocusSeqRef.current = focusRequest.seq;
-    requestAnimationFrame(() => {
-      fitView({
-        nodes: [{ id: focusRequest.nodeId }],
+    if (pendingFocus) {
+      handledFocusSeqRef.current = pendingFocus.seq;
+      void fitView({
+        nodes: [{ id: pendingFocus.nodeId }],
         duration: 340,
         maxZoom: 1.15,
         padding: 0.6,
       });
-    });
-  }, [focusRequest, positioned, isLayoutPending, fitView]);
+    } else if (fittedLayoutRef.current !== positioned) {
+      void fitView({ padding: 0.16, duration: 260, minZoom: OVERVIEW_MIN_ZOOM });
+    }
+    fittedLayoutRef.current = positioned;
+  }, [positioned, isLayoutPending, focusRequest, fitView]);
 
   const activeFocusNodeId = hoveredNodeId ?? selectedNodeId;
 
@@ -197,6 +183,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
       return {
         ...edge,
         label: showLabel ? edge.data?.rawLabel : undefined,
+        className: isHighlighted ? "is-highlighted" : undefined,
         animated: isHighlighted,
         zIndex: isHighlighted ? 10 : 0,
         style: {
@@ -263,7 +250,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
   const primaryCount = slice.nodes.length - ghostCount;
 
   return (
-    <div className="graph-canvas">
+    <div className={isFarView ? "graph-canvas graph-canvas--far" : "graph-canvas"}>
       <ReactFlow
         nodes={displayNodes}
         edges={displayEdges}
@@ -274,7 +261,6 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
         onEdgeMouseEnter={onEdgeMouseEnter}
         onEdgeMouseLeave={onEdgeMouseLeave}
         onPaneClick={onPaneClick}
-        fitView
         minZoom={0.15}
         maxZoom={2}
         colorMode="dark"
@@ -284,6 +270,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
         <Controls position="bottom-right" showInteractive={false} />
         <MiniMap<AppFlowNode>
           position="bottom-left"
+          style={{ width: 168, height: 112 }}
           pannable
           zoomable
           nodeColor={(node) => {

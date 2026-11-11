@@ -267,7 +267,9 @@ Validation results use red, amber and green on 10–20% tints of themselves, wit
 
 A full-viewport, three-pane workspace with no page scroll: a toolbar on top (8px × 16px padding) holding the brand, map tabs, search, the Layers/Network segmented switch and the status legend. Below it sit the **sidebar** on the left (268px; filters, progress, legend), the **canvas** in the centre (flexible), and the **detail panel** on the right (430px, at most 45vw), which appears when a node is selected. Each pane scrolls independently.
 
-The canvas uses a dot grid (22px gap, 1.2px dots, a navy just above the ground) under fixed-size 220 × 68px nodes. In Layers mode, nodes sit inside category group frames laid out left to right by ELK. In Network mode they float free. Overlays on the canvas (info pill, empty state) are centred, translucent and blurred.
+The canvas uses a dot grid (22px gap, 1.2px dots, a navy just above the ground) under fixed-size 220 × 68px nodes. In Layers mode the category frames are packed into a compact **atlas** in `maps.yaml` category order (ELK rectpacking, aspect ratio 1.5), ghost groups last; inside each frame nodes flow left to right (ELK layered). In Network mode they float free. Overlays on the canvas (info pill, empty state) are centred, translucent and blurred.
+
+**Landing and far view.** The root URL opens the Frontend map. Fitting a whole map never zooms out below 40%; a map that doesn't fit is centred at 40% instead of shrinking to unreadable type. Below 75% zoom the canvas switches to a **far view**: node text drops to the name alone at 26px canvas units (about 10–20px on screen), nodes take a 24% tint of their status colour (18% for planned), group titles grow to 26px with no count, edge labels hide, and unhighlighted edges fade to 40%. Navigating to a node (search, relation, ghost, deep link) always re-centres on it at up to 115%.
 
 Spacing is a dense 4px rhythm: 4–8px between related items, 10–12px inside cards and rows, 16–18px between sections, 12–16px pane padding. Half-steps (6px, 10px, 14px) are common inside controls.
 
@@ -331,7 +333,8 @@ Lines are 1px everywhere except where they carry meaning: node borders are 1.8px
 
 ### Cards / Containers
 - **Trio card (what / why / problem):** Card Navy, 9px radius, 1px Border Navy, with a 3px left stripe (blue for what, green for why, amber for problem). An uppercase Ink Muted label sits over 13px / 1.5 Ink Primary text. This is the heart of the reading experience.
-- **Relation row:** Card Navy, 8px radius, a full-width button showing a status dot, kind emoji, a 600-weight name, an optional uppercase map chip and an italic Ink Secondary verb on the right. Hover turns the border Annotation Blue over a 10% wash.
+- **Card order:** trio, then the Markdown body (Example, Key points), then connections, links, and tags last. The substance comes before the index.
+- **Relation row:** Card Navy, 8px radius, a full-width button showing a status dot, kind emoji, a 600-weight name, an optional map chip (the map's name, not its id, never uppercase) and an italic Ink Secondary verb on the right. Hover turns the border Annotation Blue over a 10% wash. Each direction (outgoing, backlinks) shows its first six rows; the rest sit behind a native `<details>` disclosure ("N more", 12px Ink Secondary, 4% white wash on hover).
 - **Link row:** the same shape with Annotation Blue Light text.
 - **Code block:** Code Well fill, 1px border, 8px radius, 12px padding, horizontal scroll. The syntax palette is violet keywords (`#c084fc`), blue functions and titles (`#60a5fa`), green strings (`#86efac`), amber numbers and attributes (`#fbbf24`), and muted italic comments (`#64748b`).
 
@@ -350,10 +353,11 @@ The pin on the map: 220 × 68px, Node Surface fill, 10px radius, a 1.8px border 
 - **Selected:** Ink Heading border, status-coloured 2px ring, deeper shadow.
 - **Ghost** (home is another map): dashed border, 68% opacity on a translucent fill, an "↗ map" badge in place of the category name, and 95% opacity on hover.
 - **Dimmed** (not a neighbour of the selection): 25% opacity over 180ms.
+- **Far** (zoom below 75%): name only, 26px, up to two balanced lines; the fill takes the status tint so status still reads when the border is sub-pixel.
 Connection handles are 6px slate dots at 40% opacity.
 
 ### Category Group (signature, Layers mode)
-A 14px-radius frame whose 1.5px border, header band and fill are the category hue at roughly 33%, 9% and 5% alpha. A bullet dot, an uppercase 12px Ink Label title and a pill count sit in the header. Ghost groups use a dashed frame.
+A 14px-radius frame whose 1.5px border, header band and fill are the category hue at roughly 33%, 9% and 5% alpha. A bullet dot, an uppercase 12px Ink Label title and a pill count sit in the header. Ghost groups use a dashed frame and are titled "↗ <map name>", matching the ghost-node badge. In the far view the title grows to 26px and truncates with an ellipsis, the dot to 18px, and the count hides.
 
 ### Edges
 Smooth slate lines (`rgba(148, 163, 184, 0.55)`), fading to 22% when dimmed. Relations of the selected node turn Annotation Blue Bright. Labels sit on a dark rounded plate and appear on hover or selection, or always when the edge-label toggle is on.

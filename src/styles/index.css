@@ -734,6 +734,7 @@ body,
   background: var(--bg-primary);
   color: var(--text-secondary);
   font-size: 11px;
+  white-space: nowrap;
   cursor: pointer;
 }
 
@@ -967,7 +968,7 @@ body,
   border-radius: 4px;
   background: rgba(148, 163, 184, 0.16);
   color: #cbd5e1;
-  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .detail-panel__relation-dot {
@@ -975,6 +976,27 @@ body,
   height: 7px;
   border-radius: 50%;
   flex-shrink: 0;
+}
+
+.detail-panel__relation-more > summary {
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    color 0.14s ease,
+    background-color 0.14s ease;
+}
+
+.detail-panel__relation-more > summary:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.detail-panel__relation-more[open] > summary {
+  margin-bottom: 5px;
 }
 
 /* External Links */
@@ -1628,6 +1650,77 @@ body,
   background: rgba(15, 23, 42, 0.6);
   padding: 1px 7px;
   border-radius: 999px;
+}
+
+.graph-canvas--far .tech-node--status-work {
+  background: color-mix(in srgb, #3b82f6 24%, #141925);
+}
+
+.graph-canvas--far .tech-node--status-practiced {
+  background: color-mix(in srgb, #a855f7 24%, #141925);
+}
+
+.graph-canvas--far .tech-node--status-learned {
+  background: color-mix(in srgb, #22c55e 24%, #141925);
+}
+
+.graph-canvas--far .tech-node--status-learning {
+  background: color-mix(in srgb, #f59e0b 24%, #141925);
+}
+
+.graph-canvas--far .tech-node--status-planned {
+  background: color-mix(in srgb, #64748b 18%, #141925);
+}
+
+.graph-canvas--far .tech-node__body {
+  justify-content: center;
+  padding: 5px 12px;
+}
+
+.graph-canvas--far .tech-node__icon,
+.graph-canvas--far .tech-node__meta {
+  display: none;
+}
+
+.graph-canvas--far .tech-node__title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: 26px;
+  line-height: 1.1;
+  white-space: normal;
+  text-wrap: balance;
+}
+
+.graph-canvas--far .group-node__header {
+  gap: 12px;
+  padding: 10px 16px;
+}
+
+.graph-canvas--far .group-node__dot {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.graph-canvas--far .group-node__title {
+  min-width: 0;
+  font-size: 26px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.graph-canvas--far .group-node__count {
+  display: none;
+}
+
+.graph-canvas--far .react-flow__edge:not(.is-highlighted) .react-flow__edge-path {
+  stroke-opacity: 0.4;
+}
+
+.graph-canvas--far .react-flow__edge-textwrapper {
+  display: none;
 }
 
 /* Laptop & Compact Viewport Responsiveness */

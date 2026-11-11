@@ -3,11 +3,88 @@ import Markdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 import type { KnowledgeGraph } from "../content/graph";
+import type { TechNodeData } from "../content/parse";
 import { useAppState } from "../state/useAppState";
 import { KIND_ICONS, STATUS_META } from "./TechNode";
 
 export interface DetailPanelProps {
   readonly graph: KnowledgeGraph;
+}
+
+const VISIBLE_RELATIONS = 6;
+
+interface RelationRowData {
+  readonly key: string;
+  readonly verb: string;
+  readonly direction: "outgoing" | "incoming";
+  readonly node: TechNodeData;
+}
+
+interface RelationListProps {
+  readonly title: string;
+  readonly rows: readonly RelationRowData[];
+  readonly homeMap: string;
+  readonly graph: KnowledgeGraph;
+}
+
+function RelationList({ title, rows, homeMap, graph }: RelationListProps) {
+  const { navigateToNode, setHoveredNodeId } = useAppState();
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  const renderRow = (row: RelationRowData) => {
+    const status = STATUS_META[row.node.status];
+    const verbLabel = row.direction === "outgoing" ? `${row.verb} →` : `→ ${row.verb}`;
+    const verb = <span className="detail-panel__relation-verb">{verbLabel}</span>;
+    return (
+      <button
+        key={row.key}
+        type="button"
+        className="detail-panel__relation-item"
+        onClick={() => navigateToNode(row.node)}
+        onMouseEnter={() => setHoveredNodeId(row.node.id)}
+        onMouseLeave={() => setHoveredNodeId(null)}
+      >
+        {row.direction === "outgoing" ? verb : null}
+        <span className="detail-panel__relation-target">
+          <span aria-hidden="true">{KIND_ICONS[row.node.kind]}</span>
+          <span className="detail-panel__relation-name">{row.node.name}</span>
+          {row.node.map !== homeMap ? (
+            <span className="detail-panel__relation-map">
+              {graph.mapsById.get(row.node.map)?.name ?? row.node.map}
+            </span>
+          ) : null}
+          <span
+            className="detail-panel__relation-dot"
+            style={{ backgroundColor: status.color }}
+            title={status.label}
+          />
+        </span>
+        {row.direction === "incoming" ? verb : null}
+      </button>
+    );
+  };
+
+  return (
+    <div className="detail-panel__relation-group">
+      <h4 className="detail-panel__relation-subtitle">
+        {title} ({rows.length})
+      </h4>
+      <div className="detail-panel__relation-list">
+        {rows.slice(0, VISIBLE_RELATIONS).map(renderRow)}
+      </div>
+      {rows.length > VISIBLE_RELATIONS ? (
+        <details className="detail-panel__relation-more">
+          <summary>{rows.length - VISIBLE_RELATIONS} more</summary>
+          <div className="detail-panel__relation-list">
+            {rows.slice(VISIBLE_RELATIONS).map(renderRow)}
+          </div>
+        </details>
+      ) : null}
+    </div>
+  );
 }
 
 const SOURCE_LABELS: Readonly<Record<string, string>> = {
@@ -18,14 +95,7 @@ const SOURCE_LABELS: Readonly<Record<string, string>> = {
 };
 
 export function DetailPanel({ graph }: DetailPanelProps) {
-  const {
-    selectedNodeId,
-    setSelectedNodeId,
-    setHoveredNodeId,
-    navigateToNode,
-    requestCenterNode,
-    setActiveMap,
-  } = useAppState();
+  const { selectedNodeId, setSelectedNodeId, requestCenterNode, setActiveMap } = useAppState();
 
   const node = useMemo(
     () => (selectedNodeId ? (graph.nodesById.get(selectedNodeId) ?? null) : null),
@@ -42,8 +112,22 @@ export function DetailPanel({ graph }: DetailPanelProps) {
   const statusMeta = STATUS_META[node.status];
   const kindIcon = KIND_ICONS[node.kind];
 
-  const outgoing = graph.outgoingByNodeId.get(node.id) ?? [];
-  const incoming = graph.incomingByNodeId.get(node.id) ?? [];
+  const outgoing: readonly RelationRowData[] = (graph.outgoingByNodeId.get(node.id) ?? []).map(
+    (rel) => ({
+      key: `${rel.label}--${rel.to}`,
+      verb: rel.label,
+      direction: "outgoing",
+      node: rel.targetNode,
+    }),
+  );
+  const incoming: readonly RelationRowData[] = (graph.incomingByNodeId.get(node.id) ?? []).map(
+    (rel) => ({
+      key: `${rel.from}--${rel.label}`,
+      verb: rel.label,
+      direction: "incoming",
+      node: rel.sourceNode,
+    }),
+  );
 
   return (
     <aside className="detail-panel" aria-label={`Details for ${node.name}`}>
@@ -145,6 +229,56 @@ export function DetailPanel({ graph }: DetailPanelProps) {
           </div>
         </section>
 
+        {/* Markdown Body */}
+        {node.body ? (
+          <section className="detail-panel__section">
+            <div className="detail-panel__markdown">
+              <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
+                {node.body}
+              </Markdown>
+            </div>
+          </section>
+        ) : null}
+
+        {/* Outgoing & Incoming Relations */}
+        {outgoing.length > 0 || incoming.length > 0 ? (
+          <section className="detail-panel__section">
+            <h3 className="detail-panel__section-title">
+              Connections ({outgoing.length + incoming.length})
+            </h3>
+            <RelationList title="Outgoing" rows={outgoing} homeMap={node.map} graph={graph} />
+            <RelationList
+              title="Referenced by / Backlinks"
+              rows={incoming}
+              homeMap={node.map}
+              graph={graph}
+            />
+          </section>
+        ) : null}
+
+        {/* External Links */}
+        {node.links.length > 0 ? (
+          <section className="detail-panel__section">
+            <h3 className="detail-panel__section-title">Resources & Links</h3>
+            <div className="detail-panel__links">
+              {node.links.map((link) => (
+                <a
+                  key={link.url}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="detail-panel__link"
+                >
+                  <span>🔗 {link.title}</span>
+                  <span className="detail-panel__link-arrow" aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
+              ))}
+            </div>
+          </section>
+        ) : null}
+
         {/* Tags & AlsoIn */}
         {node.tags.length > 0 || node.alsoIn.length > 0 ? (
           <section className="detail-panel__section">
@@ -173,123 +307,6 @@ export function DetailPanel({ graph }: DetailPanelProps) {
                 ))}
               </div>
             ) : null}
-          </section>
-        ) : null}
-
-        {/* Outgoing & Incoming Relations */}
-        {outgoing.length > 0 || incoming.length > 0 ? (
-          <section className="detail-panel__section">
-            <h3 className="detail-panel__section-title">
-              Connections ({outgoing.length + incoming.length})
-            </h3>
-
-            {outgoing.length > 0 ? (
-              <div className="detail-panel__relation-group">
-                <h4 className="detail-panel__relation-subtitle">Outgoing ({outgoing.length})</h4>
-                <div className="detail-panel__relation-list">
-                  {outgoing.map((rel) => {
-                    const targetStatus = STATUS_META[rel.targetNode.status];
-                    const isExternalMap = rel.targetNode.map !== node.map;
-                    return (
-                      <button
-                        key={`${rel.label}--${rel.to}`}
-                        type="button"
-                        className="detail-panel__relation-item"
-                        onClick={() => navigateToNode(rel.targetNode)}
-                        onMouseEnter={() => setHoveredNodeId(rel.targetNode.id)}
-                        onMouseLeave={() => setHoveredNodeId(null)}
-                      >
-                        <span className="detail-panel__relation-verb">{rel.label} →</span>
-                        <span className="detail-panel__relation-target">
-                          <span>{KIND_ICONS[rel.targetNode.kind]}</span>
-                          <span className="detail-panel__relation-name">{rel.targetNode.name}</span>
-                          {isExternalMap ? (
-                            <span className="detail-panel__relation-map">{rel.targetNode.map}</span>
-                          ) : null}
-                          <span
-                            className="detail-panel__relation-dot"
-                            style={{ backgroundColor: targetStatus.color }}
-                            title={targetStatus.label}
-                          />
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            ) : null}
-
-            {incoming.length > 0 ? (
-              <div className="detail-panel__relation-group">
-                <h4 className="detail-panel__relation-subtitle">
-                  Referenced by / Backlinks ({incoming.length})
-                </h4>
-                <div className="detail-panel__relation-list">
-                  {incoming.map((rel) => {
-                    const sourceStatus = STATUS_META[rel.sourceNode.status];
-                    const isExternalMap = rel.sourceNode.map !== node.map;
-                    return (
-                      <button
-                        key={`${rel.from}--${rel.label}`}
-                        type="button"
-                        className="detail-panel__relation-item"
-                        onClick={() => navigateToNode(rel.sourceNode)}
-                        onMouseEnter={() => setHoveredNodeId(rel.sourceNode.id)}
-                        onMouseLeave={() => setHoveredNodeId(null)}
-                      >
-                        <span className="detail-panel__relation-target">
-                          <span>{KIND_ICONS[rel.sourceNode.kind]}</span>
-                          <span className="detail-panel__relation-name">{rel.sourceNode.name}</span>
-                          {isExternalMap ? (
-                            <span className="detail-panel__relation-map">{rel.sourceNode.map}</span>
-                          ) : null}
-                          <span
-                            className="detail-panel__relation-dot"
-                            style={{ backgroundColor: sourceStatus.color }}
-                            title={sourceStatus.label}
-                          />
-                        </span>
-                        <span className="detail-panel__relation-verb">→ {rel.label}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            ) : null}
-          </section>
-        ) : null}
-
-        {/* External Links */}
-        {node.links.length > 0 ? (
-          <section className="detail-panel__section">
-            <h3 className="detail-panel__section-title">Resources & Links</h3>
-            <div className="detail-panel__links">
-              {node.links.map((link) => (
-                <a
-                  key={link.url}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="detail-panel__link"
-                >
-                  <span>🔗 {link.title}</span>
-                  <span className="detail-panel__link-arrow" aria-hidden="true">
-                    ↗
-                  </span>
-                </a>
-              ))}
-            </div>
-          </section>
-        ) : null}
-
-        {/* Markdown Body */}
-        {node.body ? (
-          <section className="detail-panel__section">
-            <div className="detail-panel__markdown">
-              <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
-                {node.body}
-              </Markdown>
-            </div>
           </section>
         ) : null}
       </div>
