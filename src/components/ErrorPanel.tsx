@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import type { KnowledgeGraph } from "../content/graph";
 import { useAppState } from "../state/useAppState";
 
@@ -5,11 +6,29 @@ export interface ErrorPanelProps {
   readonly graph: KnowledgeGraph;
 }
 
+function countOf(count: number, noun: string): string {
+  return `${count} ${count === 1 ? noun : `${noun}s`}`;
+}
+
 export function ErrorPanel({ graph }: ErrorPanelProps) {
   const { isErrorPanelOpen, setIsErrorPanelOpen, navigateToNode } = useAppState();
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const errorCount = graph.errors.length;
   const warningCount = graph.warnings.length;
   const totalCount = graph.diagnostics.length;
+
+  useEffect(() => {
+    if (!isErrorPanelOpen) {
+      return;
+    }
+    const previouslyFocused = document.activeElement;
+    closeButtonRef.current?.focus();
+    return () => {
+      if (previouslyFocused instanceof HTMLElement) {
+        previouslyFocused.focus();
+      }
+    };
+  }, [isErrorPanelOpen]);
 
   if (!isErrorPanelOpen) {
     if (errorCount === 0) {
@@ -21,7 +40,7 @@ export function ErrorPanel({ graph }: ErrorPanelProps) {
         <span>
           ⚠️ Content validation detected <strong>{errorCount}</strong>{" "}
           {errorCount === 1 ? "error" : "errors"}
-          {warningCount > 0 ? ` and ${warningCount} warning(s)` : ""}.
+          {warningCount > 0 ? ` and ${countOf(warningCount, "warning")}` : ""}.
         </span>
         <button
           type="button"
@@ -51,11 +70,12 @@ export function ErrorPanel({ graph }: ErrorPanelProps) {
           <div>
             <h2 className="error-panel__title">Content Validation Diagnostics</h2>
             <p className="error-panel__subtitle">
-              {errorCount} errors · {warningCount} warnings · {graph.nodes.length} valid nodes
-              loaded
+              {countOf(errorCount, "error")} · {countOf(warningCount, "warning")} ·{" "}
+              {countOf(graph.nodes.length, "valid node")} loaded
             </p>
           </div>
           <button
+            ref={closeButtonRef}
             type="button"
             className="detail-panel__close-btn"
             onClick={() => setIsErrorPanelOpen(false)}

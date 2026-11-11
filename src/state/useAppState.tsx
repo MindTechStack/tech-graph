@@ -57,6 +57,7 @@ export interface AppStateProviderProps {
   readonly initialMap?: ActiveMapTab;
   readonly initialMode?: LayoutMode;
   readonly hasInitialErrors?: boolean;
+  readonly resolveUrlState?: (parsed: ParsedUrlState) => ParsedUrlState;
 }
 
 function toggleSetItem<T>(set: ReadonlySet<T>, item: T): ReadonlySet<T> {
@@ -74,7 +75,19 @@ export function AppStateProvider({
   initialMap = "backend",
   initialMode = "layers",
   hasInitialErrors = false,
+  resolveUrlState,
 }: AppStateProviderProps) {
+  const parseHash = useCallback(
+    (rawHash: string) => {
+      const parsed = parseUrlHash(rawHash, {
+        defaultMap: initialMap,
+        defaultMode: initialMode,
+      });
+      return resolveUrlState ? resolveUrlState(parsed) : parsed;
+    },
+    [initialMap, initialMode, resolveUrlState],
+  );
+
   const initialFromUrl = useMemo<ParsedUrlState>(() => {
     if (typeof window === "undefined") {
       return {
@@ -83,11 +96,8 @@ export function AppStateProvider({
         layoutMode: initialMode,
       };
     }
-    return parseUrlHash(window.location.hash, {
-      defaultMap: initialMap,
-      defaultMode: initialMode,
-    });
-  }, [initialMap, initialMode]);
+    return parseHash(window.location.hash);
+  }, [initialMap, initialMode, parseHash]);
 
   const [activeMap, setActiveMapState] = useState<ActiveMapTab>(initialFromUrl.activeMap);
   const [layoutMode, setLayoutMode] = useState<LayoutMode>(initialFromUrl.layoutMode);
@@ -140,6 +150,7 @@ export function AppStateProvider({
     activeMap,
     selectedNodeId,
     layoutMode,
+    parseHash,
     onUrlStateChange: handleUrlStateChange,
   });
 
@@ -150,6 +161,9 @@ export function AppStateProvider({
     }
 
     const onKeyDown = (event: KeyboardEvent) => {
+      if (event.isComposing) {
+        return;
+      }
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
         setIsSearchOpen((prev) => !prev);

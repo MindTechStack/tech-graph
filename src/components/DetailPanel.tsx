@@ -5,6 +5,7 @@ import remarkGfm from "remark-gfm";
 import type { KnowledgeGraph } from "../content/graph";
 import type { TechNodeData } from "../content/parse";
 import { useAppState } from "../state/useAppState";
+import { ErrorBoundary } from "./ErrorBoundary";
 import { KIND_ICONS, STATUS_META } from "./TechNode";
 
 export interface DetailPanelProps {
@@ -233,9 +234,17 @@ export function DetailPanel({ graph }: DetailPanelProps) {
         {node.body ? (
           <section className="detail-panel__section">
             <div className="detail-panel__markdown">
-              <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
-                {node.body}
-              </Markdown>
+              <ErrorBoundary
+                fallback={() => (
+                  <p role="alert">
+                    Couldn't render the notes in <code>{node.filePath}</code>.
+                  </p>
+                )}
+              >
+                <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
+                  {node.body}
+                </Markdown>
+              </ErrorBoundary>
             </div>
           </section>
         ) : null}

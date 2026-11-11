@@ -59,6 +59,8 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
   const isFarView = useStore((state) => state.transform[2] < FAR_VIEW_ZOOM);
   const [positioned, setPositioned] = useState<PositionedGraph | null>(null);
   const [hoveredEdgeId, setHoveredEdgeId] = useState<string | null>(null);
+  const [failedLayoutKey, setFailedLayoutKey] = useState<string | null>(null);
+  const [layoutAttempt, setLayoutAttempt] = useState(0);
   const handledFocusSeqRef = useRef<number>(0);
   const fittedLayoutRef = useRef<PositionedGraph | null>(null);
 
@@ -71,7 +73,8 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
     () => buildLayoutCacheKey(slice, layoutMode, filterSignature),
     [slice, layoutMode, filterSignature],
   );
-  const isLayoutPending = positioned?.cacheKey !== layoutKey;
+  const hasLayoutFailed = failedLayoutKey === layoutKey;
+  const isLayoutPending = !hasLayoutFailed && positioned?.cacheKey !== layoutKey;
 
   useEffect(() => {
     let cancelled = false;
@@ -84,12 +87,21 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
       })
       .catch((err: unknown) => {
         console.error("[GraphCanvas] ELK layout failed:", err);
+        if (!cancelled) {
+          setPositioned(null);
+          setFailedLayoutKey(layoutKey);
+        }
       });
 
     return () => {
       cancelled = true;
     };
-  }, [graph, slice, layoutMode, filterSignature]);
+  }, [graph, slice, layoutMode, filterSignature, layoutKey, layoutAttempt]);
+
+  const retryLayout = useCallback(() => {
+    setFailedLayoutKey(null);
+    setLayoutAttempt((n) => n + 1);
+  }, []);
 
   useEffect(() => {
     if (!positioned || isLayoutPending) {
@@ -294,7 +306,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
                 + <strong>{ghostCount}</strong> ghost
               </>
             ) : null}{" "}
-            · <strong>{slice.edges.length}</strong> edges
+            · <strong>{slice.edges.length}</strong> {slice.edges.length === 1 ? "edge" : "edges"}
           </span>
           {hasActiveFilters ? (
             <button
@@ -309,9 +321,22 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
           {isLayoutPending ? <span className="graph-canvas__layout-badge">Layouting…</span> : null}
         </Panel>
 
+        {hasLayoutFailed ? (
+          <Panel position="top-center" className="graph-canvas__empty" role="alert">
+            <p>Couldn't arrange the nodes on this map.</p>
+            <button type="button" className="graph-canvas__empty-btn" onClick={retryLayout}>
+              Try again
+            </button>
+          </Panel>
+        ) : null}
+
         {!isLayoutPending && slice.nodes.length === 0 ? (
           <Panel position="top-center" className="graph-canvas__empty">
-            <p>No nodes match the current filters on this map.</p>
+            <p>
+              {hasActiveFilters
+                ? "No nodes match the current filters on this map."
+                : "This map has no nodes yet."}
+            </p>
             {hasActiveFilters ? (
               <button type="button" className="graph-canvas__empty-btn" onClick={resetFilters}>
                 Reset Filters

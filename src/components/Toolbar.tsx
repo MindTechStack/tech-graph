@@ -15,6 +15,8 @@ export function Toolbar({ graph }: ToolbarProps) {
     showAllEdgeLabels,
     hasActiveFilters,
     isSidebarOpen,
+    isSearchOpen,
+    isErrorPanelOpen,
     setActiveMap,
     setLayoutMode,
     toggleShowAllEdgeLabels,
@@ -47,7 +49,7 @@ export function Toolbar({ graph }: ToolbarProps) {
   const warningCount = graph.warnings.length;
 
   return (
-    <header className="toolbar">
+    <header className="toolbar" inert={isSearchOpen || isErrorPanelOpen}>
       <div className="toolbar__left">
         <button
           type="button"

@@ -19,6 +19,13 @@ interface ScoredNode {
   readonly score: number;
 }
 
+const MAX_RESULTS = 25;
+const RESULTS_ID = "search-results";
+
+function optionId(node: TechNodeData): string {
+  return `search-option-${node.id}`;
+}
+
 function scoreNodeMatch(node: TechNodeData, rawQuery: string, activeMap: string): number {
   const q = rawQuery.trim().toLowerCase();
   const inActiveMapBonus = activeMap === "all" || node.map === activeMap ? 5 : 0;
@@ -61,16 +68,24 @@ export function SearchModal({ graph }: SearchModalProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (isSearchOpen) {
-      setQuery("");
-      setActiveIndex(0);
-      requestAnimationFrame(() => {
-        inputRef.current?.focus();
-      });
+    if (!isSearchOpen) {
+      return;
     }
+    const previouslyFocused = document.activeElement;
+    setQuery("");
+    setActiveIndex(0);
+    const frame = requestAnimationFrame(() => {
+      inputRef.current?.focus();
+    });
+    return () => {
+      cancelAnimationFrame(frame);
+      if (previouslyFocused instanceof HTMLElement) {
+        previouslyFocused.focus();
+      }
+    };
   }, [isSearchOpen]);
 
-  const results = useMemo<readonly TechNodeData[]>(() => {
+  const { results, matchCount } = useMemo(() => {
     const scored: ScoredNode[] = [];
     for (const node of graph.nodes) {
       const score = scoreNodeMatch(node, query, activeMap);
@@ -79,12 +94,23 @@ export function SearchModal({ graph }: SearchModalProps) {
       }
     }
     scored.sort((a, b) => b.score - a.score || a.node.name.localeCompare(b.node.name));
-    return scored.slice(0, 25).map((item) => item.node);
+    return {
+      results: scored.slice(0, MAX_RESULTS).map((item) => item.node),
+      matchCount: scored.length,
+    };
   }, [graph.nodes, query, activeMap]);
 
   useEffect(() => {
     setActiveIndex(0);
   }, [query]);
+
+  const activeOptionId = results[activeIndex] ? optionId(results[activeIndex]) : undefined;
+
+  useEffect(() => {
+    if (activeOptionId) {
+      document.getElementById(activeOptionId)?.scrollIntoView({ block: "nearest" });
+    }
+  }, [activeOptionId]);
 
   if (!isSearchOpen) {
     return null;
@@ -96,6 +122,10 @@ export function SearchModal({ graph }: SearchModalProps) {
   };
 
   const handleKeyDown = (event: ReactKeyboardEvent<HTMLInputElement>) => {
+    if (event.nativeEvent.isComposing) {
+      return;
+    }
+
     if (event.key === "ArrowDown") {
       event.preventDefault();
       if (results.length > 0) {
@@ -141,6 +171,14 @@ export function SearchModal({ graph }: SearchModalProps) {
           <input
             ref={inputRef}
             type="text"
+            role="combobox"
+            aria-label="Search nodes"
+            aria-expanded="true"
+            aria-controls={RESULTS_ID}
+            aria-autocomplete="list"
+            aria-activedescendant={activeOptionId}
+            autoComplete="off"
+            spellCheck={false}
             className="search-modal__input"
             placeholder="Search by name, tag (#orm), or description…"
             value={query}
@@ -157,10 +195,16 @@ export function SearchModal({ graph }: SearchModalProps) {
           </button>
         </div>
 
-        <div className="search-modal__results" role="listbox">
+        <div className="search-modal__results" id={RESULTS_ID} role="listbox">
           {results.length === 0 ? (
             <div className="search-modal__empty">
-              No nodes matching <strong>"{query}"</strong>
+              {query.trim() ? (
+                <>
+                  No nodes match <strong>"{query.trim()}"</strong>. Try part of a name or a tag.
+                </>
+              ) : (
+                "No nodes loaded."
+              )}
             </div>
           ) : (
             results.map((node, idx) => {
@@ -171,11 +215,13 @@ export function SearchModal({ graph }: SearchModalProps) {
               return (
                 <button
                   key={node.id}
+                  id={optionId(node)}
                   type="button"
                   role="option"
+                  tabIndex={-1}
                   aria-selected={isHighlighted}
                   className={`search-modal__item ${isHighlighted ? "search-modal__item--active" : ""}`}
-                  onMouseEnter={() => setActiveIndex(idx)}
+                  onMouseMove={() => setActiveIndex(idx)}
                   onClick={() => handleSelect(node)}
                 >
                   <div className="search-modal__item-top">
@@ -217,6 +263,11 @@ export function SearchModal({ graph }: SearchModalProps) {
               );
             })
           )}
+          {matchCount > results.length ? (
+            <p className="search-modal__more">
+              Showing {results.length} of {matchCount}. Keep typing to narrow it down.
+            </p>
+          ) : null}
         </div>
 
         <footer className="search-modal__footer">

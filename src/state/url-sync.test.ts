@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { formatUrlHash, parseUrlHash } from "./url-sync";
+import type { KnowledgeGraph } from "../content/graph";
+import type { TechNodeData } from "../content/parse";
+import { formatUrlHash, parseUrlHash, resolveDeepLink } from "./url-sync";
+
+function graphWith(nodes: ReadonlyArray<Pick<TechNodeData, "id" | "map" | "alsoIn">>) {
+  return { nodesById: new Map(nodes.map((n) => [n.id, n])) } as unknown as KnowledgeGraph;
+}
 
 describe("url-sync", () => {
   it("parses empty or root hash using defaults", () => {
@@ -42,6 +48,24 @@ describe("url-sync", () => {
       selectedNodeId: "express",
       layoutMode: "layers",
     });
+  });
+
+  it("keeps malformed percent-encoding instead of throwing", () => {
+    expect(parseUrlHash("#/frontend/%E0%A4%A").selectedNodeId).toBe("%E0%A4%A");
+  });
+
+  it("resolves deep links against the graph", () => {
+    const graph = graphWith([
+      { id: "vue", map: "frontend", alsoIn: [] },
+      { id: "docker", map: "devops", alsoIn: ["backend"] },
+    ]);
+    const link = (activeMap: "frontend" | "backend" | "all", selectedNodeId: string) =>
+      resolveDeepLink({ activeMap, selectedNodeId, layoutMode: "layers" }, graph);
+
+    expect(link("backend", "vue").activeMap).toBe("frontend");
+    expect(link("backend", "docker").activeMap).toBe("backend");
+    expect(link("all", "vue").activeMap).toBe("all");
+    expect(link("frontend", "renamed-node").selectedNodeId).toBeNull();
   });
 
   it("formats URL hash symmetrically", () => {

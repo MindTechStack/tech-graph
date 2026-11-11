@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
-import { MAP_IDS, type MapId } from "../content/schema";
+import { isNodeDirectlyInMap, type KnowledgeGraph } from "../content/graph";
+import { MAP_IDS } from "../content/schema";
 import type { ActiveMapTab, LayoutMode } from "./useAppState";
 
 export interface ParsedUrlState {
@@ -17,6 +18,28 @@ export function isValidActiveMap(value: string): value is ActiveMapTab {
 
 export function isValidLayoutMode(value: string): value is LayoutMode {
   return VALID_MODES.has(value);
+}
+
+function decodeSegment(segment: string): string {
+  try {
+    return decodeURIComponent(segment);
+  } catch {
+    return segment;
+  }
+}
+
+export function resolveDeepLink(parsed: ParsedUrlState, graph: KnowledgeGraph): ParsedUrlState {
+  if (!parsed.selectedNodeId) {
+    return parsed;
+  }
+  const node = graph.nodesById.get(parsed.selectedNodeId);
+  if (!node) {
+    return { ...parsed, selectedNodeId: null };
+  }
+  if (isNodeDirectlyInMap(node, parsed.activeMap)) {
+    return parsed;
+  }
+  return { ...parsed, activeMap: node.map };
 }
 
 /**
@@ -50,7 +73,7 @@ export function parseUrlHash(
   const [pathPart = "", queryPart = ""] = withoutHash.split("?");
   const segments = pathPart
     .split("/")
-    .map((s) => decodeURIComponent(s.trim()))
+    .map((s) => decodeSegment(s.trim()))
     .filter(Boolean);
 
   const mapCandidate = segments[0] ?? "";
@@ -93,6 +116,7 @@ export interface UseUrlSyncOptions {
   readonly activeMap: ActiveMapTab;
   readonly selectedNodeId: string | null;
   readonly layoutMode: LayoutMode;
+  readonly parseHash: (rawHash: string) => ParsedUrlState;
   readonly onUrlStateChange: (next: ParsedUrlState) => void;
 }
 
@@ -103,11 +127,14 @@ export function useUrlSync({
   activeMap,
   selectedNodeId,
   layoutMode,
+  parseHash,
   onUrlStateChange,
 }: UseUrlSyncOptions): void {
   const isApplyingFromHashRef = useRef(false);
   const latestCallbackRef = useRef(onUrlStateChange);
   latestCallbackRef.current = onUrlStateChange;
+  const latestParseRef = useRef(parseHash);
+  latestParseRef.current = parseHash;
 
   // Listen to browser Back/Forward or manual hash edits
   useEffect(() => {
@@ -116,10 +143,7 @@ export function useUrlSync({
     }
 
     const handleHashChange = () => {
-      const parsed = parseUrlHash(window.location.hash, {
-        defaultMap: "backend" as MapId,
-        defaultMode: "layers",
-      });
+      const parsed = latestParseRef.current(window.location.hash);
       isApplyingFromHashRef.current = true;
       latestCallbackRef.current(parsed);
     };
