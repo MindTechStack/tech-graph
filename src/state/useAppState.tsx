@@ -107,7 +107,9 @@ export function AppStateProvider({
   );
 
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(
+    () => typeof window === "undefined" || window.matchMedia("(min-width: 1025px)").matches,
+  );
   const [isErrorPanelOpen, setIsErrorPanelOpen] = useState<boolean>(hasInitialErrors);
 
   const requestCenterNode = useCallback((nodeId: string) => {

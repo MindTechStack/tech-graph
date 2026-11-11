@@ -148,6 +148,13 @@ export function SearchModal({ graph }: SearchModalProps) {
             onKeyDown={handleKeyDown}
           />
           <kbd className="search-modal__kbd">Esc</kbd>
+          <button
+            type="button"
+            className="search-modal__close"
+            onClick={() => setIsSearchOpen(false)}
+          >
+            Cancel
+          </button>
         </div>
 
         <div className="search-modal__results" role="listbox">

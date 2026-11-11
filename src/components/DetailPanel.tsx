@@ -126,7 +126,7 @@ export function DetailPanel({ graph }: DetailPanelProps) {
         </div>
       </header>
 
-      <div className="detail-panel__scroll">
+      <div key={node.id} className="detail-panel__scroll">
         {/* Core Trio: What / Why / Problem */}
         <section className="detail-panel__trio">
           <div className="detail-panel__trio-card detail-panel__trio-card--what">

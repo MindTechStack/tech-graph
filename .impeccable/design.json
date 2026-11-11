@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-11T14:59:57.991Z",
+  "generatedAt": "2026-11-11T15:12:54.287Z",
   "title": "Design System: Tech Graph",
   "extensions": {
     "colorMeta": {
@@ -549,6 +549,14 @@
       {
         "name": "compact",
         "value": "1024px"
+      },
+      {
+        "name": "phone",
+        "value": "640px"
+      },
+      {
+        "name": "phone-landscape",
+        "value": "(max-height: 480px) and (pointer: coarse)"
       }
     ]
   },

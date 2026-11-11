@@ -256,6 +256,8 @@ Validation results use red, amber and green on 10–20% tints of themselves, wit
 - **Badge** (600, 10–11px): status pills, map chips, counts.
 - **Mono** (12px, 1.5) / **Mono Small** (11px): code blocks and inline code at 12px; node ids, tags, kbd hints and error messages at 10–11.5px.
 
+**Phone reading scale** (phone layout only): the node card steps up so it reads like an article. Card title 22px, Markdown headings 17px, trio and body text 16px, relation and link rows 15px, inline code and tables 14px, code blocks 13px, labels 12px, tags 13px. Search result titles are 16px with 14px descriptions. The search input is 16px on every touch device so iOS doesn't zoom on focus.
+
 ### Named Rules
 **The Mono-for-Identifiers Rule.** Anything the user could type or paste (an id, a tag, a shortcut, a code sample, a validation message) is set in mono. Names and prose never are.
 
@@ -269,7 +271,15 @@ The canvas uses a dot grid (22px gap, 1.2px dots, a navy just above the ground) 
 
 Spacing is a dense 4px rhythm: 4–8px between related items, 10–12px inside cards and rows, 16–18px between sections, 12–16px pane padding. Half-steps (6px, 10px, 14px) are common inside controls.
 
-**Responsive behaviour:** at 1360px and below, the toolbar legend hides, the sidebar narrows to 240px and the detail panel to 380px. At 1024px and below, the sidebar and detail panel stop docking and overlay the canvas from their edges with a heavy side shadow (detail panel at most 88vw). There is no phone layout yet. Search and the node card must become readable on a phone (see PRODUCT.md).
+**Responsive behaviour:** at 1360px and below, the toolbar legend hides, the sidebar narrows to 240px and the detail panel to 380px. At 1024px and below, the sidebar and detail panel stop docking and overlay the canvas from their edges with a heavy side shadow (detail panel at most 88vw), and the sidebar starts closed.
+
+**Phones** (640px and below, or a touch screen at most 480px tall, which covers phones held sideways) get a reading layout, not a smaller workspace:
+- **Toolbar:** two rows. The first holds an icon-only filters button, the brand and search; the second is a swipeable strip of map tabs. The Layers/Network switch, the edge-label toggle and the validation badge are desktop-only.
+- **Node card:** takes the whole screen above the toolbar and has a close button but no Center action. Its content is capped at 680px and centred, so landscape lines stay readable. It respects the phone's safe areas (notch and home bar).
+- **Search:** takes the whole screen too, with a text Cancel button in place of the Esc hint and no keyboard footer. Result descriptions are cut to two lines, and tags stay on one line that fades out.
+- **Canvas and sidebar:** the minimap hides and the sidebar opens at up to 320px (86vw) when asked.
+
+Touch devices at any width get 44px hit areas on buttons and rows (36px on chips) and no keyboard hints. Node hover lifts only happen where real hover exists.
 
 Modals (search, error panel) are top-aligned at 9vh over a 72% navy backdrop with a 4px blur. Search is 600px wide, the error panel 680px, both at most 92–94vw and 76–78vh.
 
@@ -298,7 +308,7 @@ Lines are 1px everywhere except where they carry meaning: node borders are 1.8px
 
 ## Components
 
-**Character:** soft and tactile. Controls are rounded, sit on inset navy wells and answer every hover with a brighter border, brighter text or a blue wash within 120–150ms. Today's controls are compact (12px text, 4–7px vertical padding). When they change, they move toward roomier hit areas, which the phone-reading requirement also needs, not toward denser ones.
+**Character:** soft and tactile. Controls are rounded, sit on inset navy wells and answer every hover with a brighter border, brighter text or a blue wash within 120–150ms. With a mouse, controls are compact (12px text, 4–7px vertical padding). On touch screens the same controls grow to 44px hit areas (36px for chips) without changing their look. When they change, they move toward roomier hit areas, not denser ones.
 
 ### Buttons
 - **Shape:** gently rounded (8px; 6px for small panel actions, 7px for filled primary buttons).
@@ -326,7 +336,7 @@ Lines are 1px everywhere except where they carry meaning: node borders are 1.8px
 - **Code block:** Code Well fill, 1px border, 8px radius, 12px padding, horizontal scroll. The syntax palette is violet keywords (`#c084fc`), blue functions and titles (`#60a5fa`), green strings (`#86efac`), amber numbers and attributes (`#fbbf24`), and muted italic comments (`#64748b`).
 
 ### Inputs / Fields
-- **Search:** the only text input. It is borderless and transparent inside a Margin Navy header row of the search modal, with 14.5px text and a mono kbd hint. Focus is carried by the modal itself; results below highlight the active row with Annotation Wash and a 45% blue border.
+- **Search:** the only text input. It is borderless and transparent inside a Margin Navy header row of the search modal, with 14.5px text and a mono kbd hint. On touch screens the hint becomes a 15px Annotation Blue Light "Cancel" text button. Focus is carried by the modal itself; results below highlight the active row with Annotation Wash and a 45% blue border.
 - **Checkboxes:** native, with 12px Ink Secondary labels.
 
 ### Navigation

@@ -24,7 +24,7 @@ Not a generic roadmap. It is one developer's own map: every node carries a truth
 ## Operating Context
 
 - **Exploring** (relations, maps, layouts, filters, progress) happens on a laptop or desktop.
-- **Reading** (search, then a node's card) must also work on a phone. The current UI has laptop breakpoints only (1360px, 1024px); phone reading is a requirement not yet met.
+- **Reading** (search, then a node's card) must also work on a phone. On phones, search and node cards open full-screen for reading. The graph is still reachable there, but exploring it isn't designed for phones.
 - Typical sessions: quick lookup via search (Ctrl+K), browsing a map before an interview, reviewing progress after finishing a course module, sharing a deep link (`#/<map>/<nodeId>`) to a specific node.
 
 ## Capabilities and Constraints
