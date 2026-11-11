@@ -1,0 +1,689 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-11T14:59:57.991Z",
+  "title": "Design System: Tech Graph",
+  "extensions": {
+    "colorMeta": {
+      "margin-navy": {
+        "role": "neutral",
+        "displayName": "Margin Navy",
+        "canonical": "#0b0e14",
+        "tonalRamp": [
+          "oklch(15.0% 0.004 264.1)",
+          "oklch(25.0% 0.006 264.1)",
+          "oklch(35.0% 0.008 264.1)",
+          "oklch(45.0% 0.010 264.1)",
+          "oklch(58.0% 0.013 264.1)",
+          "oklch(70.0% 0.011 264.1)",
+          "oklch(82.0% 0.009 264.1)",
+          "oklch(95.0% 0.006 264.1)"
+        ]
+      },
+      "panel-navy": {
+        "role": "neutral",
+        "displayName": "Panel Navy",
+        "canonical": "#131722",
+        "tonalRamp": [
+          "oklch(15.0% 0.006 268.9)",
+          "oklch(25.0% 0.010 268.9)",
+          "oklch(35.0% 0.014 268.9)",
+          "oklch(45.0% 0.017 268.9)",
+          "oklch(58.0% 0.022 268.9)",
+          "oklch(70.0% 0.019 268.9)",
+          "oklch(82.0% 0.015 268.9)",
+          "oklch(95.0% 0.010 268.9)"
+        ]
+      },
+      "card-navy": {
+        "role": "neutral",
+        "displayName": "Card Navy",
+        "canonical": "#161b28",
+        "tonalRamp": [
+          "oklch(15.0% 0.007 268.0)",
+          "oklch(25.0% 0.012 268.0)",
+          "oklch(35.0% 0.016 268.0)",
+          "oklch(45.0% 0.020 268.0)",
+          "oklch(58.0% 0.026 268.0)",
+          "oklch(70.0% 0.022 268.0)",
+          "oklch(82.0% 0.017 268.0)",
+          "oklch(95.0% 0.012 268.0)"
+        ]
+      },
+      "raised-navy": {
+        "role": "neutral",
+        "displayName": "Raised Navy",
+        "canonical": "#1a2030",
+        "tonalRamp": [
+          "oklch(15.0% 0.009 268.2)",
+          "oklch(25.0% 0.014 268.2)",
+          "oklch(35.0% 0.019 268.2)",
+          "oklch(45.0% 0.024 268.2)",
+          "oklch(58.0% 0.031 268.2)",
+          "oklch(70.0% 0.027 268.2)",
+          "oklch(82.0% 0.021 268.2)",
+          "oklch(95.0% 0.014 268.2)"
+        ]
+      },
+      "node-surface": {
+        "role": "neutral",
+        "displayName": "Node Surface",
+        "canonical": "#141925",
+        "tonalRamp": [
+          "oklch(15.0% 0.007 266.8)",
+          "oklch(25.0% 0.011 266.8)",
+          "oklch(35.0% 0.015 266.8)",
+          "oklch(45.0% 0.019 266.8)",
+          "oklch(58.0% 0.024 266.8)",
+          "oklch(70.0% 0.021 266.8)",
+          "oklch(82.0% 0.016 266.8)",
+          "oklch(95.0% 0.011 266.8)"
+        ]
+      },
+      "code-well": {
+        "role": "neutral",
+        "displayName": "Code Well",
+        "canonical": "#0a0d14",
+        "tonalRamp": [
+          "oklch(15.0% 0.004 266.6)",
+          "oklch(25.0% 0.007 266.6)",
+          "oklch(35.0% 0.009 266.6)",
+          "oklch(45.0% 0.012 266.6)",
+          "oklch(58.0% 0.015 266.6)",
+          "oklch(70.0% 0.013 266.6)",
+          "oklch(82.0% 0.010 266.6)",
+          "oklch(95.0% 0.007 266.6)"
+        ]
+      },
+      "border-navy": {
+        "role": "neutral",
+        "displayName": "Border Navy",
+        "canonical": "#262e42",
+        "tonalRamp": [
+          "oklch(15.0% 0.011 267.3)",
+          "oklch(25.0% 0.017 267.3)",
+          "oklch(35.0% 0.023 267.3)",
+          "oklch(45.0% 0.029 267.3)",
+          "oklch(58.0% 0.037 267.3)",
+          "oklch(70.0% 0.032 267.3)",
+          "oklch(82.0% 0.025 267.3)",
+          "oklch(95.0% 0.017 267.3)"
+        ]
+      },
+      "border-strong": {
+        "role": "neutral",
+        "displayName": "Border Strong",
+        "canonical": "#3b4764",
+        "tonalRamp": [
+          "oklch(15.0% 0.014 266.8)",
+          "oklch(25.0% 0.023 266.8)",
+          "oklch(35.0% 0.031 266.8)",
+          "oklch(45.0% 0.039 266.8)",
+          "oklch(58.0% 0.050 266.8)",
+          "oklch(70.0% 0.043 266.8)",
+          "oklch(82.0% 0.033 266.8)",
+          "oklch(95.0% 0.023 266.8)"
+        ]
+      },
+      "border-subtle": {
+        "role": "neutral",
+        "displayName": "Border Subtle",
+        "canonical": "rgba(148, 163, 184, 0.14)"
+      },
+      "ink-primary": {
+        "role": "neutral",
+        "displayName": "Ink Primary",
+        "canonical": "#e6edf3",
+        "tonalRamp": [
+          "oklch(15.0% 0.003 243.7)",
+          "oklch(25.0% 0.005 243.7)",
+          "oklch(35.0% 0.007 243.7)",
+          "oklch(45.0% 0.008 243.7)",
+          "oklch(58.0% 0.011 243.7)",
+          "oklch(70.0% 0.009 243.7)",
+          "oklch(82.0% 0.007 243.7)",
+          "oklch(95.0% 0.005 243.7)"
+        ]
+      },
+      "ink-heading": {
+        "role": "neutral",
+        "displayName": "Ink Heading",
+        "canonical": "#f8fafc",
+        "tonalRamp": [
+          "oklch(15.0% 0.001 247.9)",
+          "oklch(25.0% 0.002 247.9)",
+          "oklch(35.0% 0.002 247.9)",
+          "oklch(45.0% 0.003 247.9)",
+          "oklch(58.0% 0.003 247.9)",
+          "oklch(70.0% 0.003 247.9)",
+          "oklch(82.0% 0.002 247.9)",
+          "oklch(95.0% 0.002 247.9)"
+        ]
+      },
+      "ink-label": {
+        "role": "neutral",
+        "displayName": "Ink Label",
+        "canonical": "#e2e8f0",
+        "tonalRamp": [
+          "oklch(15.0% 0.004 255.5)",
+          "oklch(25.0% 0.006 255.5)",
+          "oklch(35.0% 0.008 255.5)",
+          "oklch(45.0% 0.010 255.5)",
+          "oklch(58.0% 0.012 255.5)",
+          "oklch(70.0% 0.011 255.5)",
+          "oklch(82.0% 0.008 255.5)",
+          "oklch(95.0% 0.006 255.5)"
+        ]
+      },
+      "ink-prose": {
+        "role": "neutral",
+        "displayName": "Ink Prose",
+        "canonical": "#cbd5e1",
+        "tonalRamp": [
+          "oklch(15.0% 0.006 252.9)",
+          "oklch(25.0% 0.009 252.9)",
+          "oklch(35.0% 0.012 252.9)",
+          "oklch(45.0% 0.015 252.9)",
+          "oklch(58.0% 0.019 252.9)",
+          "oklch(70.0% 0.017 252.9)",
+          "oklch(82.0% 0.013 252.9)",
+          "oklch(95.0% 0.009 252.9)"
+        ]
+      },
+      "ink-secondary": {
+        "role": "neutral",
+        "displayName": "Ink Secondary",
+        "canonical": "#94a3b8",
+        "tonalRamp": [
+          "oklch(15.0% 0.010 256.8)",
+          "oklch(25.0% 0.015 256.8)",
+          "oklch(35.0% 0.021 256.8)",
+          "oklch(45.0% 0.027 256.8)",
+          "oklch(58.0% 0.034 256.8)",
+          "oklch(70.0% 0.029 256.8)",
+          "oklch(82.0% 0.023 256.8)",
+          "oklch(95.0% 0.015 256.8)"
+        ]
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Ink Muted",
+        "canonical": "#64748b",
+        "tonalRamp": [
+          "oklch(15.0% 0.011 257.4)",
+          "oklch(25.0% 0.018 257.4)",
+          "oklch(35.0% 0.024 257.4)",
+          "oklch(45.0% 0.031 257.4)",
+          "oklch(58.0% 0.039 257.4)",
+          "oklch(70.0% 0.034 257.4)",
+          "oklch(82.0% 0.026 257.4)",
+          "oklch(95.0% 0.018 257.4)"
+        ]
+      },
+      "annotation-blue": {
+        "role": "primary",
+        "displayName": "Annotation Blue",
+        "canonical": "#3b82f6",
+        "tonalRamp": [
+          "oklch(15.0% 0.053 259.8)",
+          "oklch(25.0% 0.083 259.8)",
+          "oklch(35.0% 0.113 259.8)",
+          "oklch(45.0% 0.143 259.8)",
+          "oklch(58.0% 0.182 259.8)",
+          "oklch(70.0% 0.158 259.8)",
+          "oklch(82.0% 0.122 259.8)",
+          "oklch(95.0% 0.083 259.8)"
+        ]
+      },
+      "annotation-blue-deep": {
+        "role": "primary",
+        "displayName": "Annotation Blue Deep",
+        "canonical": "#2563eb",
+        "tonalRamp": [
+          "oklch(15.0% 0.060 262.9)",
+          "oklch(25.0% 0.095 262.9)",
+          "oklch(35.0% 0.129 262.9)",
+          "oklch(45.0% 0.164 262.9)",
+          "oklch(58.0% 0.208 262.9)",
+          "oklch(70.0% 0.181 262.9)",
+          "oklch(82.0% 0.139 262.9)",
+          "oklch(95.0% 0.095 262.9)"
+        ]
+      },
+      "annotation-blue-bright": {
+        "role": "primary",
+        "displayName": "Annotation Blue Bright",
+        "canonical": "#60a5fa",
+        "tonalRamp": [
+          "oklch(15.0% 0.040 254.6)",
+          "oklch(25.0% 0.063 254.6)",
+          "oklch(35.0% 0.086 254.6)",
+          "oklch(45.0% 0.109 254.6)",
+          "oklch(58.0% 0.139 254.6)",
+          "oklch(70.0% 0.120 254.6)",
+          "oklch(82.0% 0.093 254.6)",
+          "oklch(95.0% 0.063 254.6)"
+        ]
+      },
+      "annotation-blue-light": {
+        "role": "primary",
+        "displayName": "Annotation Blue Light",
+        "canonical": "#93c5fd",
+        "tonalRamp": [
+          "oklch(15.0% 0.027 251.8)",
+          "oklch(25.0% 0.042 251.8)",
+          "oklch(35.0% 0.057 251.8)",
+          "oklch(45.0% 0.073 251.8)",
+          "oklch(58.0% 0.093 251.8)",
+          "oklch(70.0% 0.080 251.8)",
+          "oklch(82.0% 0.062 251.8)",
+          "oklch(95.0% 0.042 251.8)"
+        ]
+      },
+      "annotation-wash": {
+        "role": "primary",
+        "displayName": "Annotation Wash",
+        "canonical": "rgba(59, 130, 246, 0.14)"
+      },
+      "on-annotation": {
+        "role": "primary",
+        "displayName": "On Annotation",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 0.0)",
+          "oklch(25.0% 0.000 0.0)",
+          "oklch(35.0% 0.000 0.0)",
+          "oklch(45.0% 0.000 0.0)",
+          "oklch(58.0% 0.000 0.0)",
+          "oklch(70.0% 0.000 0.0)",
+          "oklch(82.0% 0.000 0.0)",
+          "oklch(95.0% 0.000 0.0)"
+        ]
+      },
+      "status-work": {
+        "role": "status",
+        "displayName": "Status Work",
+        "canonical": "#3b82f6",
+        "tonalRamp": [
+          "oklch(15.0% 0.053 259.8)",
+          "oklch(25.0% 0.083 259.8)",
+          "oklch(35.0% 0.113 259.8)",
+          "oklch(45.0% 0.143 259.8)",
+          "oklch(58.0% 0.182 259.8)",
+          "oklch(70.0% 0.158 259.8)",
+          "oklch(82.0% 0.122 259.8)",
+          "oklch(95.0% 0.083 259.8)"
+        ]
+      },
+      "status-practiced": {
+        "role": "status",
+        "displayName": "Status Practiced",
+        "canonical": "#a855f7",
+        "tonalRamp": [
+          "oklch(15.0% 0.065 303.9)",
+          "oklch(25.0% 0.102 303.9)",
+          "oklch(35.0% 0.140 303.9)",
+          "oklch(45.0% 0.177 303.9)",
+          "oklch(58.0% 0.225 303.9)",
+          "oklch(70.0% 0.195 303.9)",
+          "oklch(82.0% 0.151 303.9)",
+          "oklch(95.0% 0.102 303.9)"
+        ]
+      },
+      "status-learned": {
+        "role": "status",
+        "displayName": "Status Learned",
+        "canonical": "#22c55e",
+        "tonalRamp": [
+          "oklch(15.0% 0.054 149.6)",
+          "oklch(25.0% 0.084 149.6)",
+          "oklch(35.0% 0.115 149.6)",
+          "oklch(45.0% 0.146 149.6)",
+          "oklch(58.0% 0.186 149.6)",
+          "oklch(70.0% 0.161 149.6)",
+          "oklch(82.0% 0.124 149.6)",
+          "oklch(95.0% 0.084 149.6)"
+        ]
+      },
+      "status-learning": {
+        "role": "status",
+        "displayName": "Status Learning",
+        "canonical": "#f59e0b",
+        "tonalRamp": [
+          "oklch(15.0% 0.046 70.1)",
+          "oklch(25.0% 0.072 70.1)",
+          "oklch(35.0% 0.099 70.1)",
+          "oklch(45.0% 0.125 70.1)",
+          "oklch(58.0% 0.159 70.1)",
+          "oklch(70.0% 0.138 70.1)",
+          "oklch(82.0% 0.107 70.1)",
+          "oklch(95.0% 0.072 70.1)"
+        ]
+      },
+      "status-planned": {
+        "role": "status",
+        "displayName": "Status Planned",
+        "canonical": "#64748b",
+        "tonalRamp": [
+          "oklch(15.0% 0.011 257.4)",
+          "oklch(25.0% 0.018 257.4)",
+          "oklch(35.0% 0.024 257.4)",
+          "oklch(45.0% 0.031 257.4)",
+          "oklch(58.0% 0.039 257.4)",
+          "oklch(70.0% 0.034 257.4)",
+          "oklch(82.0% 0.026 257.4)",
+          "oklch(95.0% 0.018 257.4)"
+        ]
+      },
+      "error-red": {
+        "role": "feedback",
+        "displayName": "Error Red",
+        "canonical": "#ef4444",
+        "tonalRamp": [
+          "oklch(15.0% 0.058 25.3)",
+          "oklch(25.0% 0.091 25.3)",
+          "oklch(35.0% 0.125 25.3)",
+          "oklch(45.0% 0.158 25.3)",
+          "oklch(58.0% 0.201 25.3)",
+          "oklch(70.0% 0.175 25.3)",
+          "oklch(82.0% 0.135 25.3)",
+          "oklch(95.0% 0.091 25.3)"
+        ]
+      },
+      "error-text": {
+        "role": "feedback",
+        "displayName": "Error Text",
+        "canonical": "#f87171",
+        "tonalRamp": [
+          "oklch(15.0% 0.047 22.2)",
+          "oklch(25.0% 0.073 22.2)",
+          "oklch(35.0% 0.100 22.2)",
+          "oklch(45.0% 0.126 22.2)",
+          "oklch(58.0% 0.161 22.2)",
+          "oklch(70.0% 0.140 22.2)",
+          "oklch(82.0% 0.108 22.2)",
+          "oklch(95.0% 0.073 22.2)"
+        ]
+      },
+      "warning-text": {
+        "role": "feedback",
+        "displayName": "Warning Text",
+        "canonical": "#fbbf24",
+        "tonalRamp": [
+          "oklch(15.0% 0.046 84.4)",
+          "oklch(25.0% 0.072 84.4)",
+          "oklch(35.0% 0.099 84.4)",
+          "oklch(45.0% 0.125 84.4)",
+          "oklch(58.0% 0.159 84.4)",
+          "oklch(70.0% 0.138 84.4)",
+          "oklch(82.0% 0.107 84.4)",
+          "oklch(95.0% 0.072 84.4)"
+        ]
+      },
+      "success-text": {
+        "role": "feedback",
+        "displayName": "Success Text",
+        "canonical": "#4ade80",
+        "tonalRamp": [
+          "oklch(15.0% 0.051 151.7)",
+          "oklch(25.0% 0.080 151.7)",
+          "oklch(35.0% 0.109 151.7)",
+          "oklch(45.0% 0.138 151.7)",
+          "oklch(58.0% 0.176 151.7)",
+          "oklch(70.0% 0.153 151.7)",
+          "oklch(82.0% 0.118 151.7)",
+          "oklch(95.0% 0.080 151.7)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Node name at the top of the detail panel; the largest type in the app."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "The Tech Graph wordmark and modal titles."
+      },
+      "node-title": {
+        "displayName": "Node Title",
+        "purpose": "Technology names on the canvas and in search results; truncates, never wraps."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Trio text and the Markdown body of a card."
+      },
+      "input": {
+        "displayName": "Input",
+        "purpose": "The search field, the only text input."
+      },
+      "control": {
+        "displayName": "Control",
+        "purpose": "Buttons, tabs, filter rows, relation rows and links."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase Ink Muted section titles and trio labels."
+      },
+      "badge": {
+        "displayName": "Badge",
+        "purpose": "Status pills, map chips and counts."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "Code blocks and inline code."
+      },
+      "mono-sm": {
+        "displayName": "Mono Sm",
+        "purpose": "Node ids, tags, kbd hints and validation messages."
+      }
+    },
+    "shadows": [
+      {
+        "name": "node-rest",
+        "value": "0 4px 14px rgba(0, 0, 0, 0.35)",
+        "purpose": "Every graph node, so pins sit above the map."
+      },
+      {
+        "name": "node-selected",
+        "value": "0 0 0 2px <status colour>, 0 8px 24px rgba(0, 0, 0, 0.55)",
+        "purpose": "Selected node: status-coloured ring plus a deeper lift."
+      },
+      {
+        "name": "panel-edge",
+        "value": "-8px 0 28px rgba(0, 0, 0, 0.45)",
+        "purpose": "Detail panel's left edge."
+      },
+      {
+        "name": "panel-overlay",
+        "value": "8px 0 28px rgba(0, 0, 0, 0.55)",
+        "purpose": "Sidebar when it overlays the canvas at 1024px and below."
+      },
+      {
+        "name": "modal",
+        "value": "0 24px 56px rgba(0, 0, 0, 0.65)",
+        "purpose": "Search modal and error panel."
+      },
+      {
+        "name": "banner",
+        "value": "0 12px 32px rgba(0, 0, 0, 0.55)",
+        "purpose": "Floating error banner."
+      },
+      {
+        "name": "segment",
+        "value": "0 1px 2px rgba(0, 0, 0, 0.35)",
+        "purpose": "Active Layers/Network segment; the only shadow inside a control."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-control",
+        "value": "0.15s ease",
+        "purpose": "Buttons, tabs, search trigger, node hover lift and shadow."
+      },
+      {
+        "name": "ease-row",
+        "value": "0.12s ease",
+        "purpose": "Sidebar filter rows and kind chips."
+      },
+      {
+        "name": "ease-relation",
+        "value": "0.14s ease",
+        "purpose": "Relation and link rows in the detail panel."
+      },
+      {
+        "name": "ease-dim",
+        "value": "0.18s ease",
+        "purpose": "Node opacity when dimmed or restored."
+      },
+      {
+        "name": "ease-progress",
+        "value": "0.25s ease",
+        "purpose": "Progress bar segment widths."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "laptop",
+        "value": "1360px"
+      },
+      {
+        "name": "compact",
+        "value": "1024px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Map Tabs",
+      "kind": "nav",
+      "refersTo": "map-tab",
+      "description": "Toolbar rail for switching maps; the current map is the one solid blue element in the chrome.",
+      "html": "<nav class=\"ds-tabs\" aria-label=\"Knowledge maps\"><button class=\"ds-tab ds-tab--active\">Backend <span class=\"ds-tab-count\">71</span></button><button class=\"ds-tab\">Frontend <span class=\"ds-tab-count\">61</span></button><button class=\"ds-tab\">Web Fundamentals <span class=\"ds-tab-count\">14</span></button><button class=\"ds-tab\">DevOps <span class=\"ds-tab-count\">12</span></button></nav>",
+      "css": ".ds-tabs { display: inline-flex; align-items: center; gap: 4px; padding: 3px; border-radius: 10px; background: var(--bg-primary, #0b0e14); border: 1px solid var(--border-color, #262e42); font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Inter, Roboto, sans-serif; } .ds-tab { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border: none; border-radius: 7px; background: transparent; color: var(--text-secondary, #94a3b8); font: inherit; font-size: 12.5px; font-weight: 500; cursor: pointer; transition: all 0.15s ease; } .ds-tab:hover { color: var(--text-primary, #e6edf3); background: rgba(255, 255, 255, 0.04); } .ds-tab--active { background: var(--accent-color, #3b82f6); color: #ffffff; } .ds-tab--active:hover { background: #2563eb; color: #ffffff; } .ds-tab-count { font-size: 10.5px; padding: 1px 6px; border-radius: 999px; background: rgba(255, 255, 255, 0.14); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Default toolbar and panel control; toggles to a blue wash when active.",
+      "html": "<div class=\"ds-row\"><button class=\"ds-btn-ghost\">Filters</button><button class=\"ds-btn-ghost ds-btn-ghost--active\">Edge labels</button></div>",
+      "css": ".ds-row { display: flex; gap: 8px; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Inter, Roboto, sans-serif; } .ds-btn-ghost { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border-color, #262e42); background: var(--bg-primary, #0b0e14); color: var(--text-secondary, #94a3b8); font: inherit; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s ease; } .ds-btn-ghost:hover { color: var(--text-primary, #e6edf3); border-color: #3b4764; } .ds-btn-ghost--active { border-color: var(--accent-color, #3b82f6); color: #93c5fd; background: rgba(59, 130, 246, 0.12); } .ds-btn-ghost--active:hover { border-color: var(--accent-color, #3b82f6); color: #93c5fd; }"
+    },
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Solid Annotation Blue for the one action that resolves a state, such as resetting filters.",
+      "html": "<button class=\"ds-btn-primary\">Reset filters</button>",
+      "css": ".ds-btn-primary { padding: 6px 12px; border: none; border-radius: 7px; background: var(--accent-color, #3b82f6); color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Inter, Roboto, sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.15s ease; } .ds-btn-primary:hover { background: #2563eb; }"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "input-search",
+      "description": "Header row of the Ctrl+K search modal; borderless input on Margin Navy with a mono kbd hint.",
+      "html": "<label class=\"ds-search\"><span aria-hidden=\"true\">🔍</span><input class=\"ds-search-input\" placeholder=\"Search technologies, tags, concepts…\" /><kbd class=\"ds-kbd\">Esc</kbd></label>",
+      "css": ".ds-search { display: flex; align-items: center; gap: 10px; width: 520px; max-width: 100%; padding: 12px 16px; background: var(--bg-primary, #0b0e14); border: 1px solid var(--border-color, #262e42); border-radius: 12px; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Inter, Roboto, sans-serif; } .ds-search-input { flex: 1; background: transparent; border: none; outline: none; color: var(--text-primary, #e6edf3); font: inherit; font-size: 14.5px; } .ds-search-input::placeholder { color: var(--text-muted, #64748b); } .ds-kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 11px; padding: 2px 6px; border-radius: 4px; background: var(--bg-elevated, #1a2030); border: 1px solid var(--border-color, #262e42); color: var(--text-muted, #64748b); }"
+    },
+    {
+      "name": "Kind Filter Chips",
+      "kind": "chip",
+      "refersTo": "chip-filter",
+      "description": "Sidebar filter by node kind: emoji, name and muted count; active chips take the blue wash.",
+      "html": "<div class=\"ds-chips\"><button class=\"ds-chip ds-chip--active\">📦 library <span class=\"ds-chip-count\">50</span></button><button class=\"ds-chip\">🏗️ framework <span class=\"ds-chip-count\">13</span></button><button class=\"ds-chip\">💡 concept <span class=\"ds-chip-count\">45</span></button></div>",
+      "css": ".ds-chips { display: flex; flex-wrap: wrap; gap: 5px; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Inter, Roboto, sans-serif; } .ds-chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border-color, #262e42); background: var(--bg-primary, #0b0e14); color: var(--text-secondary, #94a3b8); font: inherit; font-size: 11.5px; cursor: pointer; transition: all 0.12s ease; } .ds-chip:hover { border-color: #3e4c6d; color: var(--text-primary, #e6edf3); } .ds-chip--active { background: rgba(59, 130, 246, 0.15); border-color: var(--accent-color, #3b82f6); color: #93c5fd; } .ds-chip-count { font-size: 10px; color: var(--text-muted, #64748b); }"
+    },
+    {
+      "name": "Status Badges",
+      "kind": "chip",
+      "refersTo": "status-badge",
+      "description": "The five learning statuses as pills: hue for text and border over its own tint; planned is the only dashed one.",
+      "html": "<div class=\"ds-badges\"><span class=\"ds-status ds-status--work\">Work</span><span class=\"ds-status ds-status--practiced\">Practiced</span><span class=\"ds-status ds-status--learned\">Learned</span><span class=\"ds-status ds-status--learning\">Learning</span><span class=\"ds-status ds-status--planned\">Planned</span></div>",
+      "css": ".ds-badges { display: flex; flex-wrap: wrap; gap: 6px; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Inter, Roboto, sans-serif; } .ds-status { padding: 1px 6px; border-radius: 999px; border: 1px solid; font-size: 10.5px; font-weight: 600; } .ds-status--work { color: #3b82f6; border-color: #3b82f6; background: rgba(59, 130, 246, 0.16); } .ds-status--practiced { color: #a855f7; border-color: #a855f7; background: rgba(168, 85, 247, 0.16); } .ds-status--learned { color: #22c55e; border-color: #22c55e; background: rgba(34, 197, 94, 0.16); } .ds-status--learning { color: #f59e0b; border-color: #f59e0b; background: rgba(245, 158, 11, 0.18); } .ds-status--planned { color: #64748b; border-color: #64748b; border-style: dashed; background: rgba(100, 116, 139, 0.14); }"
+    },
+    {
+      "name": "Tech Node",
+      "kind": "custom",
+      "refersTo": "tech-node",
+      "description": "The pin on the map: status-coloured border, category bar on the left, kind emoji, name, category label and status pill.",
+      "html": "<div class=\"ds-nodes\"><div class=\"ds-node\" style=\"border-color:#3b82f6\"><div class=\"ds-node-bar\" style=\"background:#f59e0b\"></div><div class=\"ds-node-body\"><div class=\"ds-node-head\"><span aria-hidden=\"true\">📦</span><span class=\"ds-node-title\">Sequelize</span></div><div class=\"ds-node-meta\"><span style=\"color:#f59e0b\">Databases & ORM</span><span class=\"ds-node-status\" style=\"color:#22c55e;border-color:#22c55e;background:rgba(34,197,94,0.16)\">Learned</span></div></div></div><div class=\"ds-node ds-node--ghost\" style=\"border-color:#3b82f6\"><div class=\"ds-node-bar\" style=\"background:#3b82f6\"></div><div class=\"ds-node-body\"><div class=\"ds-node-head\"><span aria-hidden=\"true\">🔤</span><span class=\"ds-node-title\">TypeScript</span></div><div class=\"ds-node-meta\"><span class=\"ds-node-ghost\">↗ frontend</span><span class=\"ds-node-status\" style=\"color:#3b82f6;border-color:#3b82f6;background:rgba(59,130,246,0.16)\">Work</span></div></div></div></div>",
+      "css": ".ds-nodes { display: flex; flex-wrap: wrap; gap: 16px; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Inter, Roboto, sans-serif; } .ds-node { display: flex; width: 220px; height: 68px; border-radius: 10px; border: 1.8px solid; background: #141925; color: var(--text-primary, #e6edf3); overflow: hidden; cursor: pointer; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35); transition: opacity 0.18s ease, transform 0.15s ease, box-shadow 0.15s ease; } .ds-node:hover { transform: translateY(-1px); } .ds-node--ghost { border-style: dashed; opacity: 0.68; background: rgba(20, 25, 37, 0.72); } .ds-node--ghost:hover { opacity: 0.95; } .ds-node-bar { width: 5px; flex-shrink: 0; } .ds-node-body { flex: 1; min-width: 0; padding: 9px 11px; display: flex; flex-direction: column; justify-content: space-between; } .ds-node-head { display: flex; align-items: center; gap: 6px; font-size: 14px; } .ds-node-title { font-size: 13.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .ds-node-meta { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 11px; font-weight: 500; } .ds-node-status { padding: 1px 6px; border-radius: 999px; border: 1px solid; font-size: 10px; font-weight: 600; } .ds-node-ghost { padding: 1px 6px; border-radius: 4px; background: rgba(148, 163, 184, 0.16); color: #cbd5e1; font-weight: 600; font-size: 10.5px; }"
+    },
+    {
+      "name": "Trio Card",
+      "kind": "card",
+      "refersTo": "card-trio",
+      "description": "What / why / problem cards at the top of a node's detail panel; the heart of the reading experience.",
+      "html": "<div class=\"ds-trio\"><div class=\"ds-trio-card ds-trio-card--what\"><div class=\"ds-trio-label\">What</div><div class=\"ds-trio-text\">Promise-based ORM for Node.js that works with SQL databases.</div></div><div class=\"ds-trio-card ds-trio-card--why\"><div class=\"ds-trio-label\">Why</div><div class=\"ds-trio-text\">Define tables as models and query them with JS objects instead of raw SQL.</div></div><div class=\"ds-trio-card ds-trio-card--problem\"><div class=\"ds-trio-label\">Problem</div><div class=\"ds-trio-text\">Raw SQL is verbose, error-prone, and disconnected from application code.</div></div></div>",
+      "css": ".ds-trio { display: flex; flex-direction: column; gap: 10px; width: 398px; max-width: 100%; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Inter, Roboto, sans-serif; } .ds-trio-card { padding: 11px 13px; border-radius: 9px; background: var(--bg-card, #161b28); border: 1px solid var(--border-color, #262e42); border-left-width: 3px; } .ds-trio-card--what { border-left-color: #3b82f6; } .ds-trio-card--why { border-left-color: #22c55e; } .ds-trio-card--problem { border-left-color: #f59e0b; } .ds-trio-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted, #64748b); margin-bottom: 4px; } .ds-trio-text { font-size: 13px; line-height: 1.5; color: var(--text-primary, #e6edf3); }"
+    },
+    {
+      "name": "Relation Row",
+      "kind": "custom",
+      "refersTo": "relation-item",
+      "description": "Clickable relation in the detail panel: status dot, kind emoji, name, italic verb.",
+      "html": "<div class=\"ds-relations\"><button class=\"ds-relation\"><span class=\"ds-relation-target\"><span class=\"ds-relation-dot\" style=\"background:#22c55e\"></span><span aria-hidden=\"true\">⚙️</span><span class=\"ds-relation-name\">Node.js</span></span><span class=\"ds-relation-verb\">runs on</span></button><button class=\"ds-relation\"><span class=\"ds-relation-target\"><span class=\"ds-relation-dot\" style=\"background:#a855f7\"></span><span aria-hidden=\"true\">📦</span><span class=\"ds-relation-name\">Drizzle</span></span><span class=\"ds-relation-verb\">alternative to</span></button></div>",
+      "css": ".ds-relations { display: flex; flex-direction: column; gap: 5px; width: 398px; max-width: 100%; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Inter, Roboto, sans-serif; } .ds-relation { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border-color, #262e42); background: var(--bg-card, #161b28); color: var(--text-primary, #e6edf3); font: inherit; font-size: 12.5px; text-align: left; cursor: pointer; transition: all 0.14s ease; } .ds-relation:hover { border-color: #3b82f6; background: rgba(59, 130, 246, 0.1); } .ds-relation-target { display: inline-flex; align-items: center; gap: 6px; min-width: 0; } .ds-relation-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; } .ds-relation-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .ds-relation-verb { font-size: 11.5px; color: var(--text-secondary, #94a3b8); font-style: italic; flex-shrink: 0; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Annotated Map",
+    "overview": "The graph is the map and the cards are the margin notes. The canvas gives you the territory: categories as tinted regions, technologies as labelled pins, relations as roads. The detail panel is where you stop and read what you wrote. Reading matters as much as navigating, so the card's what / why / problem trio and its code example get the calmest, most legible treatment in the app.\n\nThe mood is calm and focused, precise and honest, and a little friendly. It is calm because the chrome stays in slate and navy and only content carries saturated colour. It is precise because every hue, border style and opacity encodes a fact about a node: its status, its category, whether it lives on another map. It is friendly because of the soft corners, emoji kind icons and small hover lifts, so that a recruiter opening a shared link meets something approachable rather than an IDE.\n\nDensity is high but not cramped. Small type (11–13px), tight 4–12px gaps and three docked panes make a laptop screen hold a whole map. The canvas sits on a quiet dot grid, and everything floats over it at clearly separated depths.",
+    "keyCharacteristics": [
+      "Dark-only, built on four navy steps from Margin Navy to Raised Navy.",
+      "Saturated colour only where it means something: the five statuses, content-defined category hues, selection and validation results.",
+      "Dashed lines mean distance: a node you haven't touched yet, or one whose home is another map.",
+      "Monospace marks identifiers: ids, tags, keyboard hints, code.",
+      "Soft, tactile controls: rounded corners at every scale, visible hover feedback, small lifts."
+    ],
+    "rules": [
+      {
+        "name": "The Facts-Only Colour Rule",
+        "body": "Saturated colour appears only where it encodes a fact: a status, a category, the current selection, or a validation result. Everything else is navy and slate.",
+        "section": "colors"
+      },
+      {
+        "name": "The Dashed-Means-Distance Rule",
+        "body": "A dashed border means the node is not yours yet (`planned`) or lives on another map (ghost node or ghost group). Nothing else is dashed.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mono-for-Identifiers Rule",
+        "body": "Anything the user could type or paste (an id, a tag, a shortcut, a code sample, a validation message) is set in mono. Names and prose never are.",
+        "section": "typography"
+      },
+      {
+        "name": "The Quiet Label Rule",
+        "body": "Uppercase is reserved for small Ink Muted section labels and canvas group titles. Never uppercase a name, a button or a sentence.",
+        "section": "typography"
+      },
+      {
+        "name": "The Float-Only Shadow Rule",
+        "body": "If it's docked, it's flat. A shadow says \"this is above the map\": nodes, the detail panel, overlaid panes, modals, banners. Cards inside a panel never cast one.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Translucent Overlay Rule",
+        "body": "Anything laid directly over the canvas (info pill, empty state, modal backdrop) is navy at 72–94% opacity with a 4–8px backdrop blur, so the map stays faintly visible underneath.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** encode status through the node's border colour, its pill badge and its legend dot together, using the five fixed status tokens.",
+      "**Do** use a category's hue only as a mark: the 5px node bar, its label text, its dot and its group frame tints.",
+      "**Do** show active and selected controls with Annotation Wash, an Annotation Blue border and Annotation Blue Light text. Reserve solid Annotation Blue for the current map tab and primary buttons.",
+      "**Do** separate docked surfaces by navy tone and 1px Border Navy lines, and give a shadow only to things that float (see The Float-Only Shadow Rule).",
+      "**Do** set ids, tags, keyboard hints, code and validation messages in the mono stack.",
+      "**Do** keep transitions short and eased (120–250ms) and limit movement to the 1px node lift.",
+      "**Do** give every new rounded element a corner from the existing scale (4/6/7/8/9/10/12/14/pill), stepping up with its size."
+    ],
+    "donts": [
+      "**Don't** use a status hue for decoration or for a meaning other than its status. Status colours state facts about the author's experience.",
+      "**Don't** use a dashed border for anything except planned nodes and ghost nodes or groups (see The Dashed-Means-Distance Rule).",
+      "**Don't** put a shadow on cards or rows inside a docked panel.",
+      "**Don't** fill large surfaces with Annotation Blue or any saturated hue. The error banner is the only full-colour surface.",
+      "**Don't** make new design decisions that depend on the emoji icons; they are placeholders for an SVG set.",
+      "**Don't** hard-code new category colours in CSS or components. They belong in `content/maps.yaml`."
+    ]
+  }
+}
