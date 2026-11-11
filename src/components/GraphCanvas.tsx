@@ -326,11 +326,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
           <Panel position="top-center" className="graph-canvas__empty">
             <p>No nodes match the current filters on this map.</p>
             {hasActiveFilters ? (
-              <button
-                type="button"
-                className="graph-canvas__empty-btn"
-                onClick={resetFilters}
-              >
+              <button type="button" className="graph-canvas__empty-btn" onClick={resetFilters}>
                 Reset Filters
               </button>
             ) : null}
