@@ -9,6 +9,8 @@ why: "Delivers top Lighthouse scores for blogs, docs, and marketing sites while 
 problem: "Using a full SPA framework for content-heavy sites forces users to download and hydrate hundreds of kilobytes of JavaScript just to read static text."
 relations:
   - { to: vite, label: "built on" }
+  - { to: rendering-strategies, label: "implements Islands in" }
+  - { to: client-vs-server, label: "enforces boundary of" }
   - { to: react, label: "mounts islands of" }
   - { to: vue, label: "mounts islands of" }
   - { to: svelte, label: "mounts islands of" }

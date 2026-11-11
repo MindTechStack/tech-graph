@@ -8,8 +8,10 @@ what: Platform for packaging an application and its entire OS/runtime environmen
 why: Guarantees that an app runs identically on a developer's laptop, in CI pipelines, and in production servers.
 problem: "'Works on my machine' bugs caused by mismatched Node versions, missing native OS libraries, or conflicting local database installs."
 relations:
-  - { to: nodejs, label: "integrates with" }
-  - { to: mysql, label: "integrates with" }
+  - { to: docker-compose, label: "orchestrated by" }
+  - { to: nodejs, label: "packages" }
+  - { to: mysql, label: "runs" }
+  - { to: github-actions, label: "built in" }
 links:
   - { title: Docker Docs, url: https://docs.docker.com/ }
   - { title: Node.js Docker Best Practices, url: https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md }

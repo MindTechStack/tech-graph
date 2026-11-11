@@ -8,7 +8,10 @@ what: Open-source relational database management system (RDBMS) based on structu
 why: Enforces strict data integrity, relational constraints, and predictable transactional guarantees for structured domain data (users, orders, products).
 problem: Storing relational business data in flat files or unvalidated schemas leads to orphaned records, race conditions, and inconsistent state.
 relations:
+  - { to: sql, label: "implements" }
   - { to: sequelize, label: "integrates with" }
+  - { to: drizzle, label: "integrates with" }
+  - { to: postgresql, label: "alternative to" }
 links:
   - { title: MySQL 8.4 Reference Manual, url: https://dev.mysql.com/doc/refman/8.4/en/ }
   - { title: mysql2 Node.js Driver, url: https://sidorares.github.io/node-mysql2/docs }

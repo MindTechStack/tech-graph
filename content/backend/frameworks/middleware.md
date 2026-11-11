@@ -9,6 +9,9 @@ why: Decouples cross-cutting concerns—logging, body parsing, CORS, authenticat
 problem: Without a composable pipeline, every route handler must duplicate authentication checks, payload parsing, logging, and error formatting.
 relations:
   - { to: express, label: "part of" }
+  - { to: error-handling, label: "handles errors via" }
+  - { to: helmet, label: "implemented by" }
+  - { to: morgan, label: "implemented by" }
   - { to: http-status-codes, label: "uses" }
 links:
   - { title: Using Middleware in Express, url: https://expressjs.com/en/guide/using-middleware.html }

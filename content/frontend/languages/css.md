@@ -10,6 +10,8 @@ problem: "Using JavaScript resize listeners or rigid pixel positioning for layou
 relations:
   - { to: html, label: "styles" }
   - { to: scss, label: "extended by" }
+  - { to: tailwind, label: "utility-first alternative" }
+  - { to: bem, label: "structured with" }
 links:
   - { title: "MDN: CSS Reference", url: https://developer.mozilla.org/en-US/docs/Web/CSS }
   - { title: "web.dev Learn CSS", url: https://web.dev/learn/css }

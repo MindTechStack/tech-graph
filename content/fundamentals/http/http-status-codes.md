@@ -8,7 +8,10 @@ what: Standardized 3-digit numeric codes returned in an HTTP response to indicat
 why: Allows browsers, API clients, proxies, and caches to handle responses uniformly without parsing custom error strings in the response body.
 problem: "Returning 200 OK with `{ \"success\": false, \"error\": \"...\" }` breaks HTTP caching, retry logic, API client interceptors, and monitoring alerts."
 relations:
-  - { to: express, label: "part of" }
+  - { to: http, label: "part of" }
+  - { to: rest-api, label: "used in" }
+  - { to: express, label: "returned by" }
+  - { to: error-handling, label: "signals errors in" }
 links:
   - { title: MDN HTTP Response Status Codes, url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status }
   - { title: RFC 9110 — Status Codes, url: https://www.rfc-editor.org/rfc/rfc9110#name-status-codes }

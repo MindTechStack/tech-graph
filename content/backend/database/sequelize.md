@@ -8,8 +8,11 @@ what: Promise-based ORM for Node.js that maps SQL tables and relations (MySQL, P
 why: Lets you define schemas, associations (1:1, 1:N, N:M), and queries in JavaScript without writing repetitive SQL strings by hand.
 problem: Raw SQL queries scattered across controllers are verbose, vulnerable to SQL injection when interpolated improperly, and tedious to map into nested objects.
 relations:
+  - { to: orm, label: "implements" }
   - { to: mysql, label: "ORM for" }
+  - { to: postgresql, label: "ORM for" }
   - { to: nodejs, label: "runs on" }
+  - { to: drizzle, label: "alternative to" }
 links:
   - { title: Sequelize v6 Docs, url: https://sequelize.org/docs/v6/ }
 alsoIn: []

@@ -272,8 +272,8 @@ export async function computeGraphLayout(
     const rootElkGraph: ElkNode = {
       id: "root",
       layoutOptions: {
-        "elk.algorithm": "stress",
-        "elk.stress.desiredEdgeLength": "240",
+        "elk.algorithm": "force",
+        "elk.force.iterations": "60",
         "elk.spacing.nodeNode": "96",
         "elk.spacing.componentComponent": "110",
         "elk.padding": "[top=32,left=32,bottom=32,right=32]",
@@ -287,14 +287,48 @@ export async function computeGraphLayout(
     };
 
     const laidOut = await elk.layout(rootElkGraph);
-    const posById = new Map<string, { readonly x: number; readonly y: number }>();
+    const pts = (laidOut.children ?? []).map((child, idx) => ({
+      id: child.id,
+      x: Math.round(child.x ?? idx * 12),
+      y: Math.round(child.y ?? idx * 12),
+    }));
 
-    for (const child of laidOut.children ?? []) {
-      posById.set(child.id, {
-        x: Math.round(child.x ?? 0),
-        y: Math.round(child.y ?? 0),
-      });
+    const minSepX = TECH_NODE_WIDTH + 24;
+    const minSepY = TECH_NODE_HEIGHT + 20;
+    for (let iter = 0; iter < 80; iter++) {
+      let moved = false;
+      for (let i = 0; i < pts.length; i++) {
+        for (let j = i + 1; j < pts.length; j++) {
+          const a = pts[i]!;
+          const b = pts[j]!;
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          const ox = minSepX - Math.abs(dx);
+          const oy = minSepY - Math.abs(dy);
+          if (ox > 0 && oy > 0) {
+            moved = true;
+            if (ox / minSepX < oy / minSepY) {
+              const push = Math.ceil(ox / 2) + 1;
+              const dir = dx >= 0 ? 1 : -1;
+              a.x -= dir * push;
+              b.x += dir * push;
+            } else {
+              const push = Math.ceil(oy / 2) + 1;
+              const dir = dy >= 0 ? 1 : -1;
+              a.y -= dir * push;
+              b.y += dir * push;
+            }
+          }
+        }
+      }
+      if (!moved) {
+        break;
+      }
     }
+
+    const posById = new Map<string, { readonly x: number; readonly y: number }>(
+      pts.map((pt) => [pt.id, { x: pt.x, y: pt.y }]),
+    );
 
     positionedNodes = slice.nodes.map((sn) =>
       createTechFlowNode(sn, posById.get(sn.node.id) ?? { x: 0, y: 0 }),

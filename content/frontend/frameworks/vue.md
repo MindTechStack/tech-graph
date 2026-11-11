@@ -9,6 +9,8 @@ why: "Tracks reactive dependencies automatically at runtime so only the exact co
 problem: "Managing manual render optimizations or scattering HTML, CSS, and state logic across separate files slows down feature development in complex SPAs."
 relations:
   - { to: composition-api, label: "authored with" }
+  - { to: pinia, label: "state managed with" }
+  - { to: vue-router, label: "routed with" }
   - { to: nuxt, label: "powers" }
   - { to: typescript, label: "typed with" }
   - { to: vite, label: "built with" }

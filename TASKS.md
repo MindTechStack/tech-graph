@@ -88,21 +88,21 @@ flowchart LR
 
 ---
 
-## E6 · Полный контент (по NODES.md)
+## E6 · Полный контент (по NODES.md) ✅
 Каждый узел: `what`, `why`, `problem`, 2–6 связей, 1–3 ссылки, тело с `## Example` (код) и `## Key points`.
 Итого 158 узлов (9 из них уже есть в пилоте E3). Связи на узлы из ещё не созданных пакетов добавляются в T6.9.
 
 | ID | Пакет | Узлов | Зависит от |
 |---|---|---|---|
 | T6.1 ✅ | Frontend: languages, frameworks | 18 | T3.2 |
-| T6.2 | Frontend: state-routing, data-network | 17 | T3.2 |
-| T6.3 | Frontend: build-performance, ui-styling, ui-widgets, testing, quality | 26 | T3.2 |
-| T6.4 | Backend: runtime, frameworks, api, templating (вкл. ✚ course: `node-fs`, `async-await`, `node-debugging`, `node-typescript`, `oak`) | 31 | T3.2 |
-| T6.5 | Backend: database, auth-security | 21 | T3.2 |
-| T6.6 | Backend: email, payments, realtime, observability (вкл. развёрнутый ответ `logging`), testing, architecture | 19 | T3.2 |
-| T6.7 | Web Fundamentals + **4 развёрнутых ответа на вопросы** (`http-status-codes`, `client-vs-server`, `api-clients`, `ssl-tls`) | 14 | T3.2 |
-| T6.8 | DevOps | 12 | T3.2 |
-| T6.9 | Ревью: битые связи, дубли, сироты (узлы без связей), блоки "Today" для устаревших инструментов курса | — | T6.1–T6.8 |
+| T6.2 ✅ | Frontend: state-routing, data-network | 17 | T3.2 |
+| T6.3 ✅ | Frontend: build-performance, ui-styling, ui-widgets, testing, quality | 26 | T3.2 |
+| T6.4 ✅ | Backend: runtime, frameworks, api, templating (вкл. ✚ course: `node-fs`, `async-await`, `node-debugging`, `node-typescript`, `oak`) | 31 | T3.2 |
+| T6.5 ✅ | Backend: database, auth-security | 21 | T3.2 |
+| T6.6 ✅ | Backend: email, payments, realtime, observability (вкл. развёрнутый ответ `logging`), testing, architecture | 19 | T3.2 |
+| T6.7 ✅ | Web Fundamentals + **4 развёрнутых ответа на вопросы** (`http-status-codes`, `client-vs-server`, `api-clients`, `ssl-tls`) | 14 | T3.2 |
+| T6.8 ✅ | DevOps | 12 | T3.2 |
+| T6.9 ✅ | Ревью: битые связи, дубли, сироты (узлы без связей), блоки "Today" для устаревших инструментов курса | — | T6.1–T6.8 |
 
 ---
 

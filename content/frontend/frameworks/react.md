@@ -12,6 +12,8 @@ relations:
   - { to: typescript, label: "typed with" }
   - { to: vite, label: "built with" }
   - { to: nextjs, label: "powers" }
+  - { to: tanstack-query, label: "fetches server state with" }
+  - { to: zustand, label: "manages client state with" }
 links:
   - { title: "React Docs (react.dev)", url: https://react.dev/ }
 alsoIn: []

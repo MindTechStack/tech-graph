@@ -9,7 +9,11 @@ why: Starts the dev server in milliseconds regardless of app size by serving nat
 problem: Traditional bundle-based dev servers (Webpack) had to rebuild the whole module graph before serving a page, resulting in slow cold starts and sluggish HMR.
 relations:
   - { to: nodejs, label: "runs on" }
-  - { to: react, label: "integrates with" }
+  - { to: typescript, label: "transpiles" }
+  - { to: vue, label: "bundles" }
+  - { to: react, label: "bundles" }
+  - { to: vitest, label: "powers" }
+  - { to: code-splitting, label: "performs" }
 links:
   - { title: Vite Guide, url: https://vite.dev/guide/ }
 alsoIn: []

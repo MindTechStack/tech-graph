@@ -8,7 +8,11 @@ what: Cross-platform JavaScript runtime built on Chrome's V8 engine and libuv fo
 why: Enables building fast, scalable network servers, CLI tools, and build pipelines using a single event-driven, non-blocking I/O model.
 problem: Browser JavaScript had no access to the OS file system, TCP sockets, or processes, and traditional thread-per-request servers struggled with high I/O concurrency.
 relations:
-  - { to: mysql, label: "integrates with" }
+  - { to: javascript, label: "executes" }
+  - { to: event-loop, label: "built on" }
+  - { to: npm, label: "packaged with" }
+  - { to: express, label: "runs" }
+  - { to: deno, label: "alternative to" }
 links:
   - { title: Official Docs, url: https://nodejs.org/en/docs }
   - { title: Event Loop Guide, url: https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick }

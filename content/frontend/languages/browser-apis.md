@@ -10,6 +10,9 @@ problem: "Re-implementing scroll detection, URL parsing, or clipboard access in 
 relations:
   - { to: javascript, label: "exposed to" }
   - { to: html, label: "operates on" }
+  - { to: fetch-api, label: "includes" }
+  - { to: service-workers, label: "includes" }
+  - { to: lazy-loading, label: "enables via IntersectionObserver" }
 links:
   - { title: "MDN: Web APIs Reference", url: https://developer.mozilla.org/en-US/docs/Web/API }
 alsoIn: []
