@@ -6,7 +6,7 @@
 **Статусы:** `work` 🔵 · `practiced` 🟣 · `learned` 🟢 · `learning` 🟡 · `planned` ⚪
 **✚ course**: тема курса, которой не было в исходном списке; добавлена по программе курса (курс пройден полностью → `learned`).
 
-Итого: 158 узлов (Frontend 61 · Backend 71 · Web Fundamentals 14 · DevOps 12), дальше будут добавляться новые.
+Итого: 163 узлов (Frontend 61 · Backend 74 · Web Fundamentals 14 · DevOps 14), дальше будут добавляться новые.
 
 ---
 
@@ -140,6 +140,8 @@
 | error-handling | Error Handling (sync, async, global) | concept | learned |
 | compression | compression middleware ✚ course | library | learned |
 | hono | Hono | framework | practiced |
+| fastify | Fastify | framework | planned |
+| nestjs | NestJS | framework | planned |
 
 ### `api` — APIs
 | id | name | kind | status |
@@ -207,6 +209,7 @@
 |---|---|---|---|
 | websocket | WebSocket protocol | concept | work |
 | socket-io | Socket.IO | library | work (`alsoIn: [frontend]`) |
+| kafka | Kafka | platform | planned |
 
 ### `observability` — Logging & Monitoring
 | id | name | kind | status |
@@ -266,6 +269,8 @@
 | id | name | kind | status |
 |---|---|---|---|
 | git | Git | tool | work |
+| commitizen | Commitizen | tool | work |
+| gitbutler | GitButler | tool | work |
 
 ### `containers` — Containers
 | id | name | kind | status |

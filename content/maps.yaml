@@ -97,7 +97,7 @@ maps:
         order: 8
       - id: realtime
         name: Realtime
-        description: Persistent bidirectional communication via WebSockets and Socket.IO.
+        description: Persistent bidirectional communication via WebSockets, Socket.IO, and distributed event streaming with Kafka.
         color: "#b1ae76"
         order: 9
       - id: observability
