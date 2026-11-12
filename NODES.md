@@ -6,7 +6,7 @@
 **Статусы:** `work` 🔵 · `practiced` 🟣 · `learned` 🟢 · `learning` 🟡 · `planned` ⚪
 **✚ course**: тема курса, которой не было в исходном списке; добавлена по программе курса (курс пройден полностью → `learned`).
 
-Итого: 163 узлов (Frontend 61 · Backend 74 · Web Fundamentals 14 · DevOps 14), дальше будут добавляться новые.
+Итого: 168 узлов (Frontend 61 · Backend 74 · Web Fundamentals 14 · DevOps 14 · AI 5), дальше будут добавляться новые.
 
 ---
 
@@ -298,6 +298,25 @@
 | iac | Infrastructure as Code | concept | planned |
 | alchemy | Alchemy | tool | planned |
 | terraform | Terraform | tool | planned |
+
+---
+
+## 🗺️ Map: `ai`
+
+Своя экосистема: связи только внутри карты, без ссылок на технологии других карт.
+
+### `coding-agents` — AI Coding Agents
+| id | name | kind | status |
+|---|---|---|---|
+| claude-code | Claude Code | tool | work |
+| antigravity | Google Antigravity | tool | work |
+| codex | OpenAI Codex | tool | work |
+
+### `agent-ecosystem` — Agent Ecosystem
+| id | name | kind | status |
+|---|---|---|---|
+| mcp | MCP (Model Context Protocol) | concept | work |
+| agent-rules | Agent Rules & Skills (AGENTS.md, CLAUDE.md, SKILL.md) | concept | work |
 
 ---
 

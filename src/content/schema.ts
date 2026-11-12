@@ -1,6 +1,6 @@
 import { Effect, Result, Schema } from "effect";
 
-export const MAP_IDS = ["frontend", "backend", "fundamentals", "devops"] as const;
+export const MAP_IDS = ["frontend", "backend", "fundamentals", "devops", "ai"] as const;
 export const MapIdSchema = Schema.Literals(MAP_IDS);
 export type MapId = typeof MapIdSchema.Type;
 

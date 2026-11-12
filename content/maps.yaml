@@ -163,3 +163,19 @@ maps:
         color: "#ddbf95"
         order: 5
 
+  - id: ai
+    name: AI
+    description: AI coding agents and the ecosystem that extends them with tools, context, and project rules.
+    order: 5
+    categories:
+      - id: coding-agents
+        name: AI Coding Agents
+        description: Agentic assistants that read the codebase, run commands, and edit files autonomously.
+        color: "#d4b8e2"
+        order: 1
+      - id: agent-ecosystem
+        name: Agent Ecosystem
+        description: Protocols and conventions that give agents tools, context, and project-specific instructions.
+        color: "#92d2d1"
+        order: 2
+

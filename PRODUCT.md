@@ -29,7 +29,7 @@ Not a generic roadmap. It is one developer's own map: every node carries a truth
 
 ## Capabilities and Constraints
 
-- **Maps:** Frontend, Backend, Web Fundamentals, DevOps, and All (overview). Each map has ordered, coloured categories defined in `content/maps.yaml`.
+- **Maps:** Frontend, Backend, Web Fundamentals, DevOps, AI, and All (overview). Each map has ordered, coloured categories defined in `content/maps.yaml`.
 - **Nodes:** one Markdown file per node at `content/<map>/<category>/<id>.md`; frontmatter holds metadata and relations, the body holds `## Example` and `## Key points`. Template: `content/_TEMPLATE.md`. Registry and contract: `NODES.md`.
 - **Kinds:** language, framework, library, tool, service, concept, platform.
 - **Statuses:** `work` (commercial use), `practiced` (personal projects), `learned` (course), `learning` (in progress / open questions), `planned`.
