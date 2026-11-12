@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { isNodeDirectlyInMap, type KnowledgeGraph } from "../content/graph";
+import { CORE_SCOPE_LABEL, isNodeDirectlyInMap, type KnowledgeGraph } from "../content/graph";
 import { NODE_STATUSES } from "../content/schema";
 import { type ActiveMapTab, useAppState } from "../state/useAppState";
 import { STATUS_META } from "./TechNode";
@@ -40,6 +40,12 @@ export function Toolbar({ graph }: ToolbarProps) {
       name: m.name,
       count: graph.nodes.filter((n) => isNodeDirectlyInMap(n, m.id)).length,
     }));
+
+    items.unshift({
+      id: "core",
+      name: CORE_SCOPE_LABEL,
+      count: graph.nodes.filter((n) => isNodeDirectlyInMap(n, "core")).length,
+    });
 
     items.push({
       id: "all",

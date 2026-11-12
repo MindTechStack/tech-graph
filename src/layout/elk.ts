@@ -2,7 +2,12 @@ import { type Edge, MarkerType } from "@xyflow/react";
 import ELK, { type ElkExtendedEdge, type ElkNode } from "elkjs/lib/elk.bundled.js";
 import type { GroupFlowNode } from "../components/GroupNode";
 import type { TechFlowNode } from "../components/TechNode";
-import type { KnowledgeGraph, MapGraphSlice, MapSliceNode } from "../content/graph";
+import {
+  isCrossMapScope,
+  type KnowledgeGraph,
+  type MapGraphSlice,
+  type MapSliceNode,
+} from "../content/graph";
 import type { LayoutMode } from "../state/useAppState";
 
 export type AppFlowNode = GroupFlowNode | TechFlowNode;
@@ -75,12 +80,11 @@ function buildGroupBuckets(graph: KnowledgeGraph, slice: MapGraphSlice): readonl
     }
 
     const mapConfig = graph.mapsById.get(node.map);
-    const groupKey =
-      slice.mapId === "all" ? `group--${node.map}--${node.category}` : `group--${node.category}`;
-    const label =
-      slice.mapId === "all"
-        ? `${mapConfig?.name ?? node.map} / ${categoryConfig?.name ?? node.category}`
-        : (categoryConfig?.name ?? node.category);
+    const spansMaps = isCrossMapScope(slice.mapId);
+    const groupKey = spansMaps ? `group--${node.map}--${node.category}` : `group--${node.category}`;
+    const label = spansMaps
+      ? `${mapConfig?.name ?? node.map} / ${categoryConfig?.name ?? node.category}`
+      : (categoryConfig?.name ?? node.category);
     const color = categoryConfig?.color ?? "#94a3b8";
     const order = (mapConfig?.order ?? 1) * 100 + (categoryConfig?.order ?? 1);
 

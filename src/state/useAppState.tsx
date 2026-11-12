@@ -7,12 +7,12 @@ import {
   useMemo,
   useState,
 } from "react";
-import type { GraphFilterCriteria } from "../content/graph";
+import { type GraphFilterCriteria, isNodeDirectlyInMap, type MapScope } from "../content/graph";
 import type { TechNodeData } from "../content/parse";
-import type { MapId, NodeKind, NodeStatus } from "../content/schema";
+import type { NodeKind, NodeStatus } from "../content/schema";
 import { type ParsedUrlState, parseUrlHash, useUrlSync } from "./url-sync";
 
-export type ActiveMapTab = MapId | "all";
+export type ActiveMapTab = MapScope;
 export type LayoutMode = "layers" | "network";
 
 export interface FocusRequest {
@@ -246,7 +246,7 @@ export function AppStateProvider({
   const navigateToNode = useCallback(
     (node: TechNodeData) => {
       setActiveMapState((prev) => {
-        if (prev === "all" || prev === node.map || node.alsoIn.includes(prev)) {
+        if (isNodeDirectlyInMap(node, prev)) {
           return prev;
         }
         setCategories(new Set());

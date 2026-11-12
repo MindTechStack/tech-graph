@@ -24,6 +24,7 @@ describe("Effect Schema validation (schema.ts)", () => {
       expect(result.value.links).toEqual([]);
       expect(result.value.alsoIn).toEqual([]);
       expect(result.value.source).toBe("self-study");
+      expect(result.value.core).toBe(false);
     }
   });
 
@@ -306,5 +307,10 @@ describe("Environment parity: Vite glob vs Node fs (load.ts)", () => {
     expect(fromGlob.nodes.map((n) => n.id)).toEqual(fromFs.nodes.map((n) => n.id));
     expect(fromGlob.edges).toEqual(fromFs.edges);
     expect(fromFs.nodes.length).toBeGreaterThanOrEqual(9);
+
+    const coreSlice = getMapGraphSlice(fromFs, "core");
+    expect(coreSlice.nodes.length).toBeGreaterThan(0);
+    expect(coreSlice.nodes.every((n) => n.node.core && !n.isGhost)).toBe(true);
+    expect(coreSlice.nodes.length).toBeLessThan(fromFs.nodes.length);
   });
 });

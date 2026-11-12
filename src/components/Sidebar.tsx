@@ -1,5 +1,11 @@
 import { useMemo } from "react";
-import { getNodeCategoryKey, isNodeDirectlyInMap, type KnowledgeGraph } from "../content/graph";
+import {
+  CORE_SCOPE_LABEL,
+  getNodeCategoryKey,
+  isCrossMapScope,
+  isNodeDirectlyInMap,
+  type KnowledgeGraph,
+} from "../content/graph";
 import { NODE_KINDS, NODE_STATUSES, type NodeKind, type NodeStatus } from "../content/schema";
 import { useAppState } from "../state/useAppState";
 import { KIND_ICONS, STATUS_META } from "./TechNode";
@@ -71,12 +77,15 @@ export function Sidebar({ graph }: SidebarProps) {
   }, [mapNodes]);
 
   const categoryStats = useMemo<readonly CategoryStatItem[]>(() => {
-    if (activeMap === "all") {
+    if (isCrossMapScope(activeMap)) {
       const items: CategoryStatItem[] = [];
       for (const mapCfg of graph.maps) {
         for (const cat of mapCfg.categories) {
           const key = `${mapCfg.id}:${cat.id}`;
-          const matching = graph.nodes.filter((n) => n.map === mapCfg.id && n.category === cat.id);
+          const matching = mapNodes.filter((n) => n.map === mapCfg.id && n.category === cat.id);
+          if (activeMap === "core" && matching.length === 0) {
+            continue;
+          }
           const completed = matching.filter((n) => isCompletedStatus(n.status)).length;
           items.push({
             key,
@@ -109,7 +118,7 @@ export function Sidebar({ graph }: SidebarProps) {
         completed,
       };
     });
-  }, [activeMap, graph.maps, graph.mapsById, graph.nodes, mapNodes]);
+  }, [activeMap, graph.maps, graph.mapsById, mapNodes]);
 
   if (!isSidebarOpen) {
     return null;
@@ -125,7 +134,11 @@ export function Sidebar({ graph }: SidebarProps) {
         <div>
           <h2 className="sidebar__title">Filters & Progress</h2>
           <p className="sidebar__subtitle">
-            {activeMap === "all" ? "All Maps" : (graph.mapsById.get(activeMap)?.name ?? activeMap)}
+            {activeMap === "all"
+              ? "All Maps"
+              : activeMap === "core"
+                ? CORE_SCOPE_LABEL
+                : (graph.mapsById.get(activeMap)?.name ?? activeMap)}
           </p>
         </div>
 
@@ -302,7 +315,7 @@ export function Sidebar({ graph }: SidebarProps) {
         </section>
 
         {/* Cross-map Ghost Nodes Toggle */}
-        {activeMap !== "all" ? (
+        {!isCrossMapScope(activeMap) ? (
           <section className="sidebar__section">
             <label className="sidebar__checkbox-label">
               <input

@@ -3,6 +3,7 @@ id: vite
 name: Vite
 kind: tool
 status: work
+core: true
 tags: [bundler, esm, hmr, rollup, dev-server]
 what: Next-generation frontend build tool featuring an native-ESM dev server with instant HMR and an optimized Rollup/Rolldown production build.
 why: Starts the dev server in milliseconds regardless of app size by serving native ES modules on demand instead of bundling the entire application upfront.

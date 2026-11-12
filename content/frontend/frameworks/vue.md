@@ -3,6 +3,7 @@ id: vue
 name: Vue 3
 kind: framework
 status: work
+core: true
 tags: [sfc, reactivity, proxy, virtual-dom, components]
 what: "Progressive JavaScript framework built on fine-grained Proxy-based reactivity and Single-File Components (`.vue`)."
 why: "Tracks reactive dependencies automatically at runtime so only the exact components and DOM bindings that depend on changed state re-render."

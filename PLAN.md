@@ -111,6 +111,7 @@ relations:
 links:
   - { title: Docs, url: https://sequelize.org/docs/v6/ }
 alsoIn: []                    # опционально: дополнительные карты
+core: false                   # опционально: true = узел виден во вкладке Main stack
 source: course                # course | work | personal | self-study
 ---
 

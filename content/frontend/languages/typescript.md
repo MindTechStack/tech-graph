@@ -3,6 +3,7 @@ id: typescript
 name: TypeScript
 kind: language
 status: work
+core: true
 tags: [types, static-analysis, generics, discriminated-unions, dx]
 what: "Statically typed superset of JavaScript that adds a structural type system, generics, and compile-time soundness checks before erasing types to standard JS."
 why: "Catches nullability bugs, mismatched API payloads, and unhandled union cases in the editor and CI long before code reaches production."

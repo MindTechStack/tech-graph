@@ -3,6 +3,7 @@ id: playwright
 name: "Playwright"
 kind: tool
 status: work
+core: true
 tags: [e2e-testing, browser-automation, cross-browser, visual-regression, ci]
 what: "Modern end-to-end testing and browser automation framework from Microsoft that tests across Chromium, Firefox, and WebKit with a single API."
 why: "Eliminates flaky tests with auto-waiting assertions, network interception, web-first locators, and interactive tracing."

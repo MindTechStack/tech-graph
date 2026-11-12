@@ -1,6 +1,14 @@
 import type { ContentDiagnostic, TechNodeData } from "./parse";
 import type { CategoryConfig, MapConfig, MapId, MapsFile, NodeKind, NodeStatus } from "./schema";
 
+export type MapScope = MapId | "all" | "core";
+
+export const CORE_SCOPE_LABEL = "Main stack";
+
+export function isCrossMapScope(scope: MapScope): scope is "all" | "core" {
+  return scope === "all" || scope === "core";
+}
+
 export interface GraphFilterCriteria {
   readonly categories?: ReadonlySet<string>;
   readonly statuses?: ReadonlySet<NodeStatus>;
@@ -48,7 +56,7 @@ export interface MapSliceNode {
 }
 
 export interface MapGraphSlice {
-  readonly mapId: MapId | "all";
+  readonly mapId: MapScope;
   readonly nodes: readonly MapSliceNode[];
   readonly edges: readonly GraphEdge[];
 }
@@ -214,20 +222,23 @@ export function buildKnowledgeGraph(
   };
 }
 
-export function isNodeDirectlyInMap(node: TechNodeData, mapId: MapId | "all"): boolean {
+export function isNodeDirectlyInMap(node: TechNodeData, mapId: MapScope): boolean {
   if (mapId === "all") {
     return true;
+  }
+  if (mapId === "core") {
+    return node.core;
   }
   return node.map === mapId || node.alsoIn.includes(mapId);
 }
 
-export function getNodeCategoryKey(node: TechNodeData, activeMap: MapId | "all"): string {
-  return activeMap === "all" ? `${node.map}:${node.category}` : node.category;
+export function getNodeCategoryKey(node: TechNodeData, activeMap: MapScope): string {
+  return isCrossMapScope(activeMap) ? `${node.map}:${node.category}` : node.category;
 }
 
 export function matchesNodeFilters(
   node: TechNodeData,
-  activeMap: MapId | "all",
+  activeMap: MapScope,
   filters?: GraphFilterCriteria,
   ignoreCategory: boolean = false,
 ): boolean {
@@ -262,17 +273,17 @@ export function buildFilterSignature(filters?: GraphFilterCriteria): string {
 
 export function getMapGraphSlice(
   graph: KnowledgeGraph,
-  mapId: MapId | "all",
+  mapId: MapScope,
   filters?: GraphFilterCriteria,
 ): MapGraphSlice {
   const includeGhosts = filters?.includeGhosts !== false;
 
-  if (mapId === "all") {
+  if (isCrossMapScope(mapId)) {
     const keptIds = new Set<string>();
     const sliceNodes: MapSliceNode[] = [];
 
     for (const node of graph.nodes) {
-      if (matchesNodeFilters(node, "all", filters)) {
+      if (isNodeDirectlyInMap(node, mapId) && matchesNodeFilters(node, mapId, filters)) {
         keptIds.add(node.id);
         sliceNodes.push({
           node,

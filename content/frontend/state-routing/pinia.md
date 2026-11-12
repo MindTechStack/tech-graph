@@ -3,6 +3,7 @@ id: pinia
 name: Pinia
 kind: library
 status: work
+core: true
 tags: [vue, state-management, store, composition-api, typescript]
 what: "The intuitive, type-safe store and official state management library for Vue applications."
 why: "Provides modular stores with seamless TypeScript autocompletion, devtools time travel, and no mutations boilerplate."

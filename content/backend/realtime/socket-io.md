@@ -3,6 +3,7 @@ id: socket-io
 name: "Socket.IO"
 kind: library
 status: work
+core: true
 tags: [realtime, websockets, events, polling, rooms]
 what: "Event-based bidirectional communication library featuring automatic fallback to HTTP long-polling, connection recovery, and room abstractions."
 why: "Provides robust high-level primitives (named event listeners, rooms, acknowledgments, broadcasts) and auto-reconnection where raw WebSockets require manual implementation."

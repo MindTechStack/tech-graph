@@ -3,6 +3,7 @@ id: gitlab-ci
 name: "GitLab CI/CD"
 kind: service
 status: work
+core: true
 tags: [gitlab-ci, ci-cd, devops, pipelines, automation]
 what: "A comprehensive built-in continuous integration and deployment engine configured through a single .gitlab-ci.yml file in the repository root."
 why: "Provides structured pipeline stages (lint, test, build, deploy), container registry integration, and self-hosted runner flexibility for enterprise codebases."

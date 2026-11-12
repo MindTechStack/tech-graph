@@ -3,6 +3,7 @@ id: vitest
 name: "Vitest"
 kind: tool
 status: work
+core: true
 tags: [unit-testing, vite-native, test-runner, fast-tests, esm]
 what: "Next-generation unit test framework powered by Vite that shares the same configuration, plugins, and transform pipeline as your app."
 why: "Executes unit and component tests with blazing speed via worker threads, instant watch-mode HMR, and Jest-compatible assertion APIs."

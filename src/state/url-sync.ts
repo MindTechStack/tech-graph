@@ -9,7 +9,7 @@ export interface ParsedUrlState {
   readonly layoutMode: LayoutMode;
 }
 
-const VALID_MAPS = new Set<string>([...MAP_IDS, "all"]);
+const VALID_MAPS = new Set<string>([...MAP_IDS, "all", "core"]);
 const VALID_MODES = new Set<string>(["layers", "network"]);
 
 export function isValidActiveMap(value: string): value is ActiveMapTab {

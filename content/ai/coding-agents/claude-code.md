@@ -3,6 +3,7 @@ id: claude-code
 name: "Claude Code"
 kind: tool
 status: work
+core: true
 tags: [ai, coding-agent, anthropic, claude, cli, agentic]
 what: "Anthropic's agentic coding tool that runs in the terminal (and IDE/desktop), reads the codebase, executes commands, and edits files across a project."
 why: "Delegates multi-step engineering tasks (refactors, bug hunts, test writing, reviews) to an agent that plans, acts, and verifies its own work inside the real repository."

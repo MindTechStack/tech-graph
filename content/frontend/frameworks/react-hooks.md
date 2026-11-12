@@ -2,7 +2,7 @@
 id: react-hooks
 name: React Hooks
 kind: concept
-status: learning
+status: practiced
 tags: [react, state, effects, memoization, custom-hooks]
 what: "Special functions (`useState`, `useEffect`, `useMemo`, `useCallback`, `useRef`, `useContext`) that hook functional React components into state, lifecycle synchronization, and context."
 why: "Lets you compose and share stateful behavior across components using plain functions (`use*`) without class hierarchies or wrapper hell."

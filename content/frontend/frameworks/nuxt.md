@@ -3,6 +3,7 @@ id: nuxt
 name: Nuxt 3/4
 kind: framework
 status: work
+core: true
 tags: [vue, ssr, ssg, nitro, file-routing, fullstack]
 what: "Full-stack Vue meta-framework powered by Vite and the Nitro server engine, supporting SSR, SSG, hybrid route rules, and auto-imported composables."
 why: "Delivers fast initial HTML rendering, SEO metadata, file-based routing, and type-safe `/server/api` endpoints in a single unified Vue project."

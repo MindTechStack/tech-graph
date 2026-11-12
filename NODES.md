@@ -29,7 +29,7 @@
 | composition-api | Vue Composition API & Composables | concept | work |
 | nuxt | Nuxt 3/4 | framework | work |
 | react | React | framework | practiced |
-| react-hooks | React Hooks | concept | learning |
+| react-hooks | React Hooks | concept | practiced |
 | nextjs | Next.js | framework | planned |
 | react-native | React Native | framework | practiced |
 | expo | Expo | platform | practiced |
@@ -116,7 +116,7 @@
 ### `runtime` — Node.js Core
 | id | name | kind | status |
 |---|---|---|---|
-| nodejs | Node.js | platform | learned |
+| nodejs | Node.js | platform | practiced |
 | npm | npm & package.json | tool | learned |
 | nodemon | nodemon | tool | learned |
 | event-loop | Event Loop & Non-blocking I/O | concept | learned |

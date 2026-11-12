@@ -3,6 +3,7 @@ id: react-native
 name: React Native
 kind: framework
 status: practiced
+core: true
 tags: [mobile, ios, android, react, native-ui]
 what: "Cross-platform mobile framework that renders React component trees into genuine iOS (UIKit/SwiftUI) and Android (View) native UI widgets."
 why: "Shares TypeScript business logic and React component patterns across iOS and Android while preserving native scrolling, gestures, and platform look-and-feel."

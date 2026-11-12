@@ -3,6 +3,7 @@ id: tailwind
 name: "Tailwind CSS"
 kind: library
 status: work
+core: true
 tags: [utility-first, atomic-css, design-system, responsive, postcss]
 what: "Utility-first CSS framework packed with composable classes like flex, pt-4, text-center, and rotate-90 that can be composed directly in markup."
 why: "Enables rapid UI development without writing custom CSS files or inventing arbitrary class names, while purging unused rules in production."

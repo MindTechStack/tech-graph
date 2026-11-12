@@ -46,7 +46,7 @@ export function App() {
 
   return (
     <AppStateProvider
-      initialMap="frontend"
+      initialMap="core"
       initialMode="layers"
       hasInitialErrors={graph.errors.length > 0}
       resolveUrlState={resolveUrlState}

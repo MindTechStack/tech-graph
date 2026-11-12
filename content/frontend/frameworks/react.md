@@ -3,6 +3,7 @@ id: react
 name: React
 kind: framework
 status: practiced
+core: true
 tags: [ui, components, jsx, hooks, virtual-dom]
 what: "Declarative JavaScript library for building user interfaces from composable, state-driven components."
 why: "Keeps the DOM in sync with application state automatically (`UI = f(state)`) and scales through unidirectional data flow and reusable hooks."

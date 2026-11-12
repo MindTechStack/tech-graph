@@ -3,6 +3,7 @@ id: hono
 name: "Hono"
 kind: framework
 status: practiced
+core: true
 tags: [hono, edge, typescript, web-standards, ultrafast]
 what: "Ultrafast, lightweight, web-standards-based web framework designed to run anywhere: Cloudflare Workers, Fastly, Deno, Bun, Node.js, and AWS Lambda."
 why: "Offers phenomenal performance, zero third-party dependencies, first-class TypeScript inference (RPC client), and unified cross-runtime portability."

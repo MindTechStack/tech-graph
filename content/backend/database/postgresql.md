@@ -3,6 +3,7 @@ id: postgresql
 name: "PostgreSQL"
 kind: platform
 status: practiced
+core: true
 tags: [postgresql, sql, relational, rdbms, database, jsonb]
 what: "Advanced, open-source object-relational database management system known for reliability, standards compliance, and extensibility."
 why: "Delivers enterprise-grade ACID transactions, complex analytical queries, native JSONB support, and rich extensions like PostGIS and pgvector."

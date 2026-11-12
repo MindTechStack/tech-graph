@@ -68,6 +68,7 @@ export const NodeFrontmatterSchema = Schema.Struct({
   name: NonEmptyTrimmedStringSchema,
   kind: NodeKindSchema,
   status: NodeStatusSchema,
+  core: Schema.Boolean.pipe(Schema.withDecodingDefault(Effect.succeed(false))),
   tags: Schema.Array(KebabIdSchema).pipe(
     Schema.withDecodingDefault(Effect.succeed([] as readonly string[])),
   ),

@@ -3,6 +3,7 @@ id: drizzle
 name: "Drizzle ORM"
 kind: library
 status: practiced
+core: true
 tags: [drizzle, orm, typescript, sql, database, type-safety]
 what: "Lightweight, headless TypeScript ORM and query builder that brings end-to-end type safety while keeping queries as close to SQL as possible."
 why: "Provides exact TypeScript type inference from schema definitions, zero engine binary overhead, and unified support for PostgreSQL, MySQL, and SQLite/Turso."

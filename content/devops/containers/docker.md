@@ -3,6 +3,7 @@ id: docker
 name: Docker
 kind: tool
 status: practiced
+core: true
 tags: [containers, devops, dockerfile, image, deployment]
 what: Platform for packaging an application and its entire OS/runtime environment into reproducible, isolated containers.
 why: Guarantees that an app runs identically on a developer's laptop, in CI pipelines, and in production servers.

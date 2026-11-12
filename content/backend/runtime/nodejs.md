@@ -2,7 +2,8 @@
 id: nodejs
 name: Node.js
 kind: platform
-status: learned
+status: practiced
+core: true
 tags: [javascript, runtime, v8, backend, non-blocking]
 what: Cross-platform JavaScript runtime built on Chrome's V8 engine and libuv for executing JavaScript outside the browser.
 why: Enables building fast, scalable network servers, CLI tools, and build pipelines using a single event-driven, non-blocking I/O model.
@@ -17,7 +18,7 @@ links:
   - { title: Official Docs, url: https://nodejs.org/en/docs }
   - { title: Event Loop Guide, url: https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick }
 alsoIn: []
-source: course
+source: personal
 ---
 
 ## Example
