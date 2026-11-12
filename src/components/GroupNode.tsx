@@ -18,15 +18,15 @@ function GroupNodeComponent({ data }: NodeProps<GroupFlowNode>) {
     <div
       className={`group-node ${isGhostGroup ? "group-node--ghost" : ""}`}
       style={{
-        borderColor: `${color}55`,
-        backgroundColor: `${color}0d`,
+        borderColor: `${color}66`,
+        backgroundColor: `${color}12`,
       }}
     >
       <div
         className="group-node__header"
         style={{
-          borderBottomColor: `${color}33`,
-          backgroundColor: `${color}18`,
+          borderBottomColor: `${color}3d`,
+          backgroundColor: `${color}21`,
         }}
       >
         <span className="group-node__dot" style={{ backgroundColor: color }} />

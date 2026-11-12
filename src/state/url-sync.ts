@@ -112,6 +112,24 @@ export function formatUrlHash(
   return `${path}?mode=${encodeURIComponent(layoutMode)}`;
 }
 
+export type HashUpdate = "none" | "replace" | "push";
+
+export function planHashUpdate(
+  currentHash: string,
+  state: ParsedUrlState,
+  parseHash: (rawHash: string) => ParsedUrlState,
+): HashUpdate {
+  if (currentHash === formatUrlHash(state.activeMap, state.selectedNodeId, state.layoutMode)) {
+    return "none";
+  }
+  const current = parseHash(currentHash);
+  const urlAlreadyShowsState =
+    current.activeMap === state.activeMap &&
+    current.selectedNodeId === state.selectedNodeId &&
+    current.layoutMode === state.layoutMode;
+  return urlAlreadyShowsState ? "replace" : "push";
+}
+
 export interface UseUrlSyncOptions {
   readonly activeMap: ActiveMapTab;
   readonly selectedNodeId: string | null;
@@ -130,7 +148,6 @@ export function useUrlSync({
   parseHash,
   onUrlStateChange,
 }: UseUrlSyncOptions): void {
-  const isApplyingFromHashRef = useRef(false);
   const latestCallbackRef = useRef(onUrlStateChange);
   latestCallbackRef.current = onUrlStateChange;
   const latestParseRef = useRef(parseHash);
@@ -143,9 +160,7 @@ export function useUrlSync({
     }
 
     const handleHashChange = () => {
-      const parsed = latestParseRef.current(window.location.hash);
-      isApplyingFromHashRef.current = true;
-      latestCallbackRef.current(parsed);
+      latestCallbackRef.current(latestParseRef.current(window.location.hash));
     };
 
     window.addEventListener("hashchange", handleHashChange);
@@ -160,17 +175,16 @@ export function useUrlSync({
       return;
     }
 
+    const state = { activeMap, selectedNodeId, layoutMode };
+    const update = planHashUpdate(window.location.hash, state, latestParseRef.current);
+    if (update === "none") {
+      return;
+    }
     const nextHash = formatUrlHash(activeMap, selectedNodeId, layoutMode);
-    if (window.location.hash === nextHash) {
-      isApplyingFromHashRef.current = false;
-      return;
+    if (update === "push") {
+      window.history.pushState(null, "", nextHash);
+    } else {
+      window.history.replaceState(null, "", nextHash);
     }
-
-    if (isApplyingFromHashRef.current) {
-      isApplyingFromHashRef.current = false;
-      return;
-    }
-
-    window.history.replaceState(null, "", nextHash);
   }, [activeMap, selectedNodeId, layoutMode]);
 }

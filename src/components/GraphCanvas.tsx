@@ -12,9 +12,17 @@ import {
   ReactFlowProvider,
   useReactFlow,
   useStore,
+  useStoreApi,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  type KeyboardEvent as ReactKeyboardEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { buildFilterSignature, getMapGraphSlice, type KnowledgeGraph } from "../content/graph";
 import {
   type AppFlowEdge,
@@ -34,6 +42,51 @@ const NODE_TYPES: NodeTypes = {
 
 const OVERVIEW_MIN_ZOOM = 0.4;
 const FAR_VIEW_ZOOM = 0.75;
+const FOCUS_ZOOM = 1.15;
+
+const NODE_KEYBOARD_HINT = "Press Enter or Space to open its card.";
+const ARIA_LABEL_CONFIG = {
+  "node.a11yDescription.default": NODE_KEYBOARD_HINT,
+  "node.a11yDescription.keyboardDisabled": NODE_KEYBOARD_HINT,
+};
+
+function motionDuration(ms: number): number {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : ms;
+}
+
+function detailPanelOverlap(pane: HTMLElement): number {
+  const panel = document.querySelector(".detail-panel");
+  if (!panel) {
+    return 0;
+  }
+  const paneBox = pane.getBoundingClientRect();
+  const overlap = paneBox.right - panel.getBoundingClientRect().left;
+  return overlap > 0 && overlap < paneBox.width ? overlap : 0;
+}
+
+function flowBox(nodes: readonly AppFlowNode[], nodeId: string) {
+  const node = nodes.find((n) => n.id === nodeId);
+  if (!node) {
+    return null;
+  }
+  const parent = node.parentId ? nodes.find((n) => n.id === node.parentId) : undefined;
+  return {
+    x: node.position.x + (parent?.position.x ?? 0),
+    y: node.position.y + (parent?.position.y ?? 0),
+    width: node.width ?? 0,
+    height: node.height ?? 0,
+  };
+}
+
+function pluralWord(count: number, word: string): string {
+  return count === 1 ? word : `${word}s`;
+}
+
+function focusedNodeId(target: EventTarget): string | undefined {
+  return target instanceof HTMLElement && target.classList.contains("react-flow__node")
+    ? target.dataset.id
+    : undefined;
+}
 
 export interface GraphCanvasProps {
   readonly graph: KnowledgeGraph;
@@ -55,7 +108,8 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
     resetFilters,
   } = useAppState();
 
-  const { fitView } = useReactFlow();
+  const store = useStoreApi<AppFlowNode, AppFlowEdge>();
+  const { fitView, setCenter, getViewport } = useReactFlow<AppFlowNode, AppFlowEdge>();
   const isFarView = useStore((state) => state.transform[2] < FAR_VIEW_ZOOM);
   const [positioned, setPositioned] = useState<PositionedGraph | null>(null);
   const [hoveredEdgeId, setHoveredEdgeId] = useState<string | null>(null);
@@ -63,6 +117,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
   const [layoutAttempt, setLayoutAttempt] = useState(0);
   const handledFocusSeqRef = useRef<number>(0);
   const fittedLayoutRef = useRef<PositionedGraph | null>(null);
+  const revealedNodeIdRef = useRef<string | null>(null);
 
   const filterSignature = useMemo(() => buildFilterSignature(filters), [filters]);
   const slice = useMemo(
@@ -103,6 +158,46 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
     setLayoutAttempt((n) => n + 1);
   }, []);
 
+  const syncPaneSize = useCallback((): HTMLElement | null => {
+    const { domNode, width, height } = store.getState();
+    if (domNode && (domNode.offsetWidth !== width || domNode.offsetHeight !== height)) {
+      store.setState({ width: domNode.offsetWidth, height: domNode.offsetHeight });
+    }
+    return domNode;
+  }, [store]);
+
+  const centreOnNode = useCallback(
+    (nodeId: string, zoom: number, duration: number): boolean => {
+      const pane = syncPaneSize();
+      const box = positioned ? flowBox(positioned.nodes, nodeId) : null;
+      if (!pane || !box) {
+        return false;
+      }
+      const shiftPastPanel = detailPanelOverlap(pane) / 2 / zoom;
+      void setCenter(box.x + box.width / 2 + shiftPastPanel, box.y + box.height / 2, {
+        zoom,
+        duration,
+      });
+      return true;
+    },
+    [positioned, syncPaneSize, setCenter],
+  );
+
+  const isNodeOutOfView = useCallback(
+    (nodeId: string): boolean => {
+      const pane = syncPaneSize();
+      const box = positioned ? flowBox(positioned.nodes, nodeId) : null;
+      if (!pane || !box) {
+        return false;
+      }
+      const { x, zoom } = getViewport();
+      const left = box.x * zoom + x;
+      const right = left + box.width * zoom;
+      return left < 0 || right > pane.offsetWidth - detailPanelOverlap(pane);
+    },
+    [positioned, syncPaneSize, getViewport],
+  );
+
   useEffect(() => {
     if (!positioned || isLayoutPending) {
       return;
@@ -115,19 +210,31 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
         ? focusRequest
         : null;
 
-    if (pendingFocus) {
+    if (pendingFocus && centreOnNode(pendingFocus.nodeId, FOCUS_ZOOM, motionDuration(340))) {
       handledFocusSeqRef.current = pendingFocus.seq;
-      void fitView({
-        nodes: [{ id: pendingFocus.nodeId }],
-        duration: 340,
-        maxZoom: 1.15,
-        padding: 0.6,
-      });
     } else if (fittedLayoutRef.current !== positioned) {
-      void fitView({ padding: 0.16, duration: 260, minZoom: OVERVIEW_MIN_ZOOM });
+      syncPaneSize();
+      void fitView({ padding: 0.16, duration: motionDuration(260), minZoom: OVERVIEW_MIN_ZOOM });
+    } else if (
+      selectedNodeId &&
+      selectedNodeId !== revealedNodeIdRef.current &&
+      isNodeOutOfView(selectedNodeId)
+    ) {
+      centreOnNode(selectedNodeId, getViewport().zoom, motionDuration(260));
     }
     fittedLayoutRef.current = positioned;
-  }, [positioned, isLayoutPending, focusRequest, fitView]);
+    revealedNodeIdRef.current = selectedNodeId;
+  }, [
+    positioned,
+    isLayoutPending,
+    focusRequest,
+    selectedNodeId,
+    fitView,
+    syncPaneSize,
+    centreOnNode,
+    isNodeOutOfView,
+    getViewport,
+  ]);
 
   const activeFocusNodeId = hoveredNodeId ?? selectedNodeId;
 
@@ -196,7 +303,6 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
         ...edge,
         label: showLabel ? edge.data?.rawLabel : undefined,
         className: isHighlighted ? "is-highlighted" : undefined,
-        animated: isHighlighted,
         zIndex: isHighlighted ? 10 : 0,
         style: {
           stroke: strokeColor,
@@ -233,6 +339,21 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
     [handleNodeClick],
   );
 
+  const onCanvasKeyDown = useCallback(
+    (event: ReactKeyboardEvent<HTMLDivElement>) => {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+      const nodeId = focusedNodeId(event.target);
+      const node = nodeId ? positioned?.nodes.find((n) => n.id === nodeId) : undefined;
+      if (node?.type === "tech") {
+        event.preventDefault();
+        handleNodeClick(node.data.tech, node.data.isGhost);
+      }
+    },
+    [positioned, handleNodeClick],
+  );
+
   const onNodeMouseEnter = useCallback<NodeMouseHandler<AppFlowNode>>(
     (_event, node) => {
       if (node.type === "tech") {
@@ -262,11 +383,16 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
   const primaryCount = slice.nodes.length - ghostCount;
 
   return (
-    <div className={isFarView ? "graph-canvas graph-canvas--far" : "graph-canvas"}>
+    <div
+      className={isFarView ? "graph-canvas graph-canvas--far" : "graph-canvas"}
+      onKeyDown={onCanvasKeyDown}
+    >
       <ReactFlow
         nodes={displayNodes}
         edges={displayEdges}
         nodeTypes={NODE_TYPES}
+        edgesFocusable={false}
+        ariaLabelConfig={ARIA_LABEL_CONFIG}
         onNodeClick={onNodeClick}
         onNodeMouseEnter={onNodeMouseEnter}
         onNodeMouseLeave={onNodeMouseLeave}
@@ -299,14 +425,14 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
 
         <Panel position="top-left" className="graph-canvas__info-pill">
           <span>
-            Showing <strong>{primaryCount}</strong> primary
+            Showing <strong>{primaryCount}</strong> {pluralWord(primaryCount, "node")}
             {ghostCount > 0 ? (
               <>
                 {" "}
-                + <strong>{ghostCount}</strong> ghost
+                + <strong>{ghostCount}</strong> from other maps
               </>
             ) : null}{" "}
-            · <strong>{slice.edges.length}</strong> {slice.edges.length === 1 ? "edge" : "edges"}
+            · <strong>{slice.edges.length}</strong> {pluralWord(slice.edges.length, "relation")}
           </span>
           {hasActiveFilters ? (
             <button
@@ -339,7 +465,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
             </p>
             {hasActiveFilters ? (
               <button type="button" className="graph-canvas__empty-btn" onClick={resetFilters}>
-                Reset Filters
+                Clear filters
               </button>
             ) : null}
           </Panel>

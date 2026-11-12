@@ -205,6 +205,7 @@ export function Sidebar({ graph }: SidebarProps) {
                   className={`sidebar__filter-row ${isSelected ? "sidebar__filter-row--active" : ""}`}
                   onClick={() => toggleStatusFilter(status)}
                   aria-pressed={isSelected}
+                  disabled={count === 0 && !isSelected}
                 >
                   <span
                     className="sidebar__status-dot"
@@ -242,6 +243,7 @@ export function Sidebar({ graph }: SidebarProps) {
                   className={`sidebar__category-item ${isSelected ? "sidebar__category-item--active" : ""}`}
                   onClick={() => toggleCategoryFilter(cat.key)}
                   aria-pressed={isSelected}
+                  disabled={cat.total === 0 && !isSelected}
                 >
                   <div className="sidebar__category-top">
                     <span
@@ -288,8 +290,9 @@ export function Sidebar({ graph }: SidebarProps) {
                   className={`sidebar__kind-chip ${isSelected ? "sidebar__kind-chip--active" : ""}`}
                   onClick={() => toggleKindFilter(kind)}
                   aria-pressed={isSelected}
+                  disabled={count === 0 && !isSelected}
                 >
-                  <span>{KIND_ICONS[kind]}</span>
+                  <span aria-hidden="true">{KIND_ICONS[kind]}</span>
                   <span>{kind}</span>
                   <span className="sidebar__chip-count">{count}</span>
                 </button>

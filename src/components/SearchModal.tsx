@@ -8,6 +8,7 @@ import {
 import type { KnowledgeGraph } from "../content/graph";
 import type { TechNodeData } from "../content/parse";
 import { useAppState } from "../state/useAppState";
+import { InlineCodeText } from "./DetailPanel";
 import { KIND_ICONS, STATUS_META } from "./TechNode";
 
 export interface SearchModalProps {
@@ -26,12 +27,17 @@ function optionId(node: TechNodeData): string {
   return `search-option-${node.id}`;
 }
 
-function scoreNodeMatch(node: TechNodeData, rawQuery: string, activeMap: string): number {
+export function scoreNodeMatch(node: TechNodeData, rawQuery: string, activeMap: string): number {
   const q = rawQuery.trim().toLowerCase();
   const inActiveMapBonus = activeMap === "all" || node.map === activeMap ? 5 : 0;
 
   if (!q) {
     return 10 + inActiveMapBonus;
+  }
+
+  if (q.startsWith("#")) {
+    const tagQuery = q.slice(1);
+    return node.tags.some((t) => t.toLowerCase().startsWith(tagQuery)) ? 50 + inActiveMapBonus : 0;
   }
 
   const nameLower = node.name.toLowerCase();
@@ -180,7 +186,7 @@ export function SearchModal({ graph }: SearchModalProps) {
             autoComplete="off"
             spellCheck={false}
             className="search-modal__input"
-            placeholder="Search by name, tag (#orm), or description…"
+            placeholder="Name, #tag, or description…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -233,7 +239,8 @@ export function SearchModal({ graph }: SearchModalProps) {
 
                     <div className="search-modal__item-badges">
                       <span className="search-modal__map-badge">
-                        {node.map} / {categoryConfig?.name ?? node.category}
+                        {graph.mapsById.get(node.map)?.name ?? node.map} /{" "}
+                        {categoryConfig?.name ?? node.category}
                       </span>
                       <span
                         className="search-modal__status-badge"
@@ -248,7 +255,9 @@ export function SearchModal({ graph }: SearchModalProps) {
                     </div>
                   </div>
 
-                  <p className="search-modal__item-what">{node.what}</p>
+                  <p className="search-modal__item-what">
+                    <InlineCodeText text={node.what} />
+                  </p>
 
                   {node.tags.length > 0 ? (
                     <div className="search-modal__item-tags">

@@ -81,7 +81,7 @@ function buildGroupBuckets(graph: KnowledgeGraph, slice: MapGraphSlice): readonl
       slice.mapId === "all"
         ? `${mapConfig?.name ?? node.map} / ${categoryConfig?.name ?? node.category}`
         : (categoryConfig?.name ?? node.category);
-    const color = categoryConfig?.color ?? "#3b82f6";
+    const color = categoryConfig?.color ?? "#94a3b8";
     const order = (mapConfig?.order ?? 1) * 100 + (categoryConfig?.order ?? 1);
 
     let bucket = buckets.get(groupKey);
@@ -103,14 +103,20 @@ function buildGroupBuckets(graph: KnowledgeGraph, slice: MapGraphSlice): readonl
 }
 
 function createTechFlowNode(
+  graph: KnowledgeGraph,
   sliceNode: MapSliceNode,
   position: { readonly x: number; readonly y: number },
   parentId?: string,
 ): TechFlowNode {
   const { node, isGhost, categoryConfig } = sliceNode;
+  const categoryName = categoryConfig?.name ?? node.category;
+  const homeMapName = graph.mapsById.get(node.map)?.name ?? node.map;
   return {
     id: node.id,
     type: "tech",
+    ariaLabel: [node.name, isGhost ? `on the ${homeMapName} map` : categoryName, node.status].join(
+      ", ",
+    ),
     position,
     width: TECH_NODE_WIDTH,
     height: TECH_NODE_HEIGHT,
@@ -123,8 +129,9 @@ function createTechFlowNode(
     data: {
       tech: node,
       isGhost,
-      categoryName: categoryConfig?.name ?? node.category,
-      categoryColor: categoryConfig?.color ?? "#3b82f6",
+      categoryName,
+      homeMapName,
+      categoryColor: categoryConfig?.color ?? "#94a3b8",
       isSelected: false,
       isDimmed: false,
     },
@@ -245,6 +252,7 @@ export async function computeGraphLayout(
         },
         draggable: false,
         selectable: false,
+        focusable: false,
         data: {
           label: bucket.label,
           color: bucket.color,
@@ -260,6 +268,7 @@ export async function computeGraphLayout(
         }
         childNodes.push(
           createTechFlowNode(
+            graph,
             sliceNode,
             {
               x: Math.round(elkChild.x ?? 20),
@@ -336,7 +345,7 @@ export async function computeGraphLayout(
     );
 
     positionedNodes = slice.nodes.map((sn) =>
-      createTechFlowNode(sn, posById.get(sn.node.id) ?? { x: 0, y: 0 }),
+      createTechFlowNode(graph, sn, posById.get(sn.node.id) ?? { x: 0, y: 0 }),
     );
   }
 

@@ -4,6 +4,11 @@ import { NODE_STATUSES } from "../content/schema";
 import { type ActiveMapTab, useAppState } from "../state/useAppState";
 import { STATUS_META } from "./TechNode";
 
+const SEARCH_SHORTCUT =
+  typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.userAgent)
+    ? "⌘ K"
+    : "Ctrl K";
+
 export interface ToolbarProps {
   readonly graph: KnowledgeGraph;
 }
@@ -84,6 +89,7 @@ export function Toolbar({ graph }: ToolbarProps) {
               key={tab.id}
               type="button"
               className={`toolbar__tab ${isActive ? "toolbar__tab--active" : ""}`}
+              aria-current={isActive ? "page" : undefined}
               onClick={() => setActiveMap(tab.id)}
             >
               <span>{tab.name}</span>
@@ -98,16 +104,17 @@ export function Toolbar({ graph }: ToolbarProps) {
           type="button"
           className="toolbar__search-btn"
           onClick={() => setIsSearchOpen(true)}
-          title="Search nodes (Ctrl+K)"
+          title={`Search nodes (${SEARCH_SHORTCUT})`}
         >
           <span>🔍 Search…</span>
-          <kbd className="toolbar__kbd">Ctrl K</kbd>
+          <kbd className="toolbar__kbd">{SEARCH_SHORTCUT}</kbd>
         </button>
 
         <div className="toolbar__segmented" role="group" aria-label="Layout mode">
           <button
             type="button"
             className={`toolbar__segment ${layoutMode === "layers" ? "toolbar__segment--active" : ""}`}
+            aria-pressed={layoutMode === "layers"}
             onClick={() => setLayoutMode("layers")}
           >
             Layers
@@ -115,6 +122,7 @@ export function Toolbar({ graph }: ToolbarProps) {
           <button
             type="button"
             className={`toolbar__segment ${layoutMode === "network" ? "toolbar__segment--active" : ""}`}
+            aria-pressed={layoutMode === "network"}
             onClick={() => setLayoutMode("network")}
           >
             Network

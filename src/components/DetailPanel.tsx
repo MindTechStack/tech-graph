@@ -13,6 +13,15 @@ export interface DetailPanelProps {
 }
 
 const VISIBLE_RELATIONS = 6;
+const MARKDOWN_COMPONENTS = { h2: "h3" } as const;
+
+export function InlineCodeText({ text }: { readonly text: string }) {
+  const parts = text.split("`");
+  if (parts.length % 2 === 0) {
+    return text;
+  }
+  return parts.map((part, index) => (index % 2 === 1 ? <code key={index}>{part}</code> : part));
+}
 
 interface RelationRowData {
   readonly key: string;
@@ -61,6 +70,8 @@ function RelationList({ title, rows, homeMap, graph }: RelationListProps) {
             className="detail-panel__relation-dot"
             style={{ backgroundColor: status.color }}
             title={status.label}
+            role="img"
+            aria-label={status.label}
           />
         </span>
         {row.direction === "incoming" ? verb : null}
@@ -109,7 +120,7 @@ export function DetailPanel({ graph }: DetailPanelProps) {
 
   const mapConfig = graph.mapsById.get(node.map);
   const categoryConfig = graph.categoriesByMap.get(node.map)?.get(node.category);
-  const categoryColor = categoryConfig?.color ?? "#3b82f6";
+  const categoryColor = categoryConfig?.color ?? "#94a3b8";
   const statusMeta = STATUS_META[node.status];
   const kindIcon = KIND_ICONS[node.kind];
 
@@ -216,17 +227,23 @@ export function DetailPanel({ graph }: DetailPanelProps) {
         <section className="detail-panel__trio">
           <div className="detail-panel__trio-card detail-panel__trio-card--what">
             <h3 className="detail-panel__trio-label">What it is</h3>
-            <p className="detail-panel__trio-text">{node.what}</p>
+            <p className="detail-panel__trio-text">
+              <InlineCodeText text={node.what} />
+            </p>
           </div>
 
           <div className="detail-panel__trio-card detail-panel__trio-card--why">
             <h3 className="detail-panel__trio-label">Why use it</h3>
-            <p className="detail-panel__trio-text">{node.why}</p>
+            <p className="detail-panel__trio-text">
+              <InlineCodeText text={node.why} />
+            </p>
           </div>
 
           <div className="detail-panel__trio-card detail-panel__trio-card--problem">
             <h3 className="detail-panel__trio-label">Problem it solves</h3>
-            <p className="detail-panel__trio-text">{node.problem}</p>
+            <p className="detail-panel__trio-text">
+              <InlineCodeText text={node.problem} />
+            </p>
           </div>
         </section>
 
@@ -241,7 +258,11 @@ export function DetailPanel({ graph }: DetailPanelProps) {
                   </p>
                 )}
               >
-                <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
+                <Markdown
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeHighlight]}
+                  components={MARKDOWN_COMPONENTS}
+                >
                   {node.body}
                 </Markdown>
               </ErrorBoundary>

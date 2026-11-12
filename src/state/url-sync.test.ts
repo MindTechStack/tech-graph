@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { KnowledgeGraph } from "../content/graph";
 import type { TechNodeData } from "../content/parse";
-import { formatUrlHash, parseUrlHash, resolveDeepLink } from "./url-sync";
+import { formatUrlHash, parseUrlHash, planHashUpdate, resolveDeepLink } from "./url-sync";
 
 function graphWith(nodes: ReadonlyArray<Pick<TechNodeData, "id" | "map" | "alsoIn">>) {
   return { nodesById: new Map(nodes.map((n) => [n.id, n])) } as unknown as KnowledgeGraph;
@@ -71,5 +71,17 @@ describe("url-sync", () => {
   it("formats URL hash symmetrically", () => {
     expect(formatUrlHash("backend", "express", "layers")).toBe("#/backend/express?mode=layers");
     expect(formatUrlHash("frontend", null, "network")).toBe("#/frontend?mode=network");
+  });
+
+  it("pushes history only when the state moved away from the URL", () => {
+    const parse = (hash: string) => parseUrlHash(hash, { defaultMap: "frontend" });
+    const at = (selectedNodeId: string | null) =>
+      ({ activeMap: "frontend", selectedNodeId, layoutMode: "layers" }) as const;
+
+    expect(planHashUpdate("#/frontend/vue?mode=layers", at("vue"), parse)).toBe("none");
+    expect(planHashUpdate("", at(null), parse)).toBe("replace");
+    expect(planHashUpdate("#/frontend/vue", at("vue"), parse)).toBe("replace");
+    expect(planHashUpdate("#/frontend/vue?mode=layers", at("react"), parse)).toBe("push");
+    expect(planHashUpdate("#/frontend/vue?mode=layers", at(null), parse)).toBe("push");
   });
 });

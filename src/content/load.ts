@@ -25,7 +25,7 @@ const FALLBACK_MAPS_FILE: MapsFile = {
           id: "general",
           name: "General",
           description: "Fallback category",
-          color: "#3b82f6",
+          color: "#94a3b8",
           order: 1,
         },
       ],

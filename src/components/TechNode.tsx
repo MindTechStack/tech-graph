@@ -7,6 +7,7 @@ export interface TechNodeFlowData extends Record<string, unknown> {
   readonly tech: TechNodeData;
   readonly isGhost: boolean;
   readonly categoryName: string;
+  readonly homeMapName: string;
   readonly categoryColor: string;
   readonly isSelected: boolean;
   readonly isDimmed: boolean;
@@ -68,7 +69,7 @@ export const KIND_ICONS: Readonly<Record<NodeKind, string>> = {
 };
 
 function TechNodeComponent({ data }: NodeProps<TechFlowNode>) {
-  const { tech, isGhost, categoryName, categoryColor, isSelected, isDimmed } = data;
+  const { tech, isGhost, categoryName, homeMapName, categoryColor, isSelected, isDimmed } = data;
   const statusMeta = STATUS_META[tech.status];
   const kindIcon = KIND_ICONS[tech.kind];
 
@@ -94,8 +95,8 @@ function TechNodeComponent({ data }: NodeProps<TechFlowNode>) {
       }}
       title={
         isGhost
-          ? `${tech.name} — Click to jump to ${tech.map} map`
-          : `${tech.name} (${statusMeta.label}) — ${tech.what}`
+          ? `${tech.name} — open it on the ${homeMapName} map`
+          : `${tech.name} (${statusMeta.label}) — ${tech.what.replaceAll("`", "")}`
       }
     >
       <Handle
@@ -117,7 +118,7 @@ function TechNodeComponent({ data }: NodeProps<TechFlowNode>) {
 
         <div className="tech-node__meta">
           {isGhost ? (
-            <span className="tech-node__ghost-badge">↗ {tech.map}</span>
+            <span className="tech-node__ghost-badge">↗ {homeMapName}</span>
           ) : (
             <span className="tech-node__category-label" style={{ color: categoryColor }}>
               {categoryName}
