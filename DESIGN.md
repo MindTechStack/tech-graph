@@ -289,7 +289,7 @@ The panel is laid out on two columns: a **hanging column** of 1 module (64px) fo
 - **Focus camera:** opening a node by deep link, search or a relation fits the node plus as many of its nearest neighbours as fit at 75% zoom or closer, inside the canvas area the entry leaves visible. The camera never drops into the far view to fit more; neighbours that do not fit stay off-screen, and their highlighted edges lead toward them.
 - **Layers mode:** category groups are flat tint fields packed in `maps.yaml` order. Each group has a header line inside the field, flush left: the category name in ink at Control 600 and a mono count. There is no outline and no corner radius. Ghost groups have no fill and a 1px dashed Ink Muted outline, and are titled "↗ <map name>".
 - **Network mode:** the same nodes float free over the grid.
-- **Far view** (below 75% zoom): nodes show the name only, at 26 canvas px. The ink density ramp keeps status readable at that distance. Group titles grow to 26px and the counts hide.
+- **Far view** (below 75% zoom): nodes show the name only, at 26 canvas px. The ink density ramp keeps status readable at that distance. Group titles grow to 26px and the counts hide. Edges stay drawn at 10% ink so the structure still reads; edge labels hide.
 - Overlays on the canvas (the info line, the empty state) are paper blocks with a 1px Rule frame. They are opaque, unblurred and have no shadow.
 
 ### Search and error panel
@@ -356,7 +356,7 @@ A 224 × 64 block with square corners. The fill and edge follow the ink density 
 - Connection handles are hidden until hover.
 
 ### Edges
-Straight or orthogonal 1px ink lines at 30% opacity. They drop to 10% when dimmed. The selected node's relations become 2px accent lines at 100%. Edge labels are Mono Small on an opaque paper plate with no frame. A hovered edge always shows its label. On selection, a relation's label shows only when the selected node has six relations or fewer and the plate clears every node box and every plate already placed; anything else waits for hover, because the Connections table lists every relation anyway. The toggle shows all labels. Edges are never dashed and never animated.
+Straight or orthogonal 1px ink lines at 30% opacity. They drop to 10% when dimmed. The selected node's relations become 2px accent lines at 100%. A hub (nine relations or more) keeps the accent only on relations whose other end is on screen; the rest stay 1px ink at 30%, so the accent marks what you can follow, not a starburst. Edge labels are Mono Small on an opaque paper plate with no frame. A hovered edge always shows its label. On selection, a relation's label shows only when the selected node has six relations or fewer and the plate clears every node box and every plate already placed; anything else waits for hover, because the Connections table lists every relation anyway. The toggle shows all labels. Edges are never dashed and never animated.
 
 ### Inputs
 - **Search field:** borderless inside the sheet's head, at Title size. Keyboard hints (`↑ ↓`, `Enter`, `Esc`) live only in the sheet's footer. A 2px Rule sits under the field. A query starting with `#` matches tags only.

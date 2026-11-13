@@ -52,6 +52,7 @@ const EDGE_INK = {
 const MODULE_PITCH = 80;
 const LIFTED_NODE_Z = 20;
 const LABELLED_FOCUS_MAX_DEGREE = 6;
+const HUB_MIN_DEGREE = 9;
 
 const OVERVIEW_MIN_ZOOM = 0.2;
 const FAR_VIEW_ZOOM = 0.75;
@@ -377,6 +378,32 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
     return set;
   }, [activeFocusNodeId, positioned]);
 
+  const isHubFocus = connectedNodeIds !== null && connectedNodeIds.size - 1 >= HUB_MIN_DEGREE;
+
+  const onScreenNeighbourKey = useStore((state) => {
+    if (!isHubFocus || !positioned || !connectedNodeIds) {
+      return "";
+    }
+    const [x, y, zoom] = state.transform;
+    const view: Rect = {
+      x: -x / zoom,
+      y: -y / zoom,
+      width: state.width / zoom,
+      height: state.height / zoom,
+    };
+    return [...connectedNodeIds]
+      .filter((id) => {
+        const box = flowBox(positioned.nodes, id);
+        return box !== null && rectsOverlap(box, view);
+      })
+      .join(" ");
+  });
+
+  const onScreenNeighbourIds = useMemo(
+    () => new Set(onScreenNeighbourKey.split(" ")),
+    [onScreenNeighbourKey],
+  );
+
   const labelledFocusEdgeIds = useMemo(() => {
     const labelled = new Set<string>();
     if (!positioned || !connectedNodeIds || connectedNodeIds.size - 1 > LABELLED_FOCUS_MAX_DEGREE) {
@@ -445,9 +472,13 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
       const isConnectedToFocus =
         activeFocusNodeId !== null &&
         (edge.source === activeFocusNodeId || edge.target === activeFocusNodeId);
+      const otherEnd = edge.source === activeFocusNodeId ? edge.target : edge.source;
+      const leadsOffScreen =
+        isConnectedToFocus && isHubFocus && !onScreenNeighbourIds.has(otherEnd);
       const isHoveredEdge = edge.id === hoveredEdgeId;
-      const isHighlighted = isConnectedToFocus || isHoveredEdge;
-      const isDimmed = activeFocusNodeId !== null && !isConnectedToFocus && !isHoveredEdge;
+      const isHighlighted = (isConnectedToFocus && !leadsOffScreen) || isHoveredEdge;
+      const isDimmed =
+        !isHighlighted && !leadsOffScreen && (activeFocusNodeId !== null || isFarView);
 
       const showLabel = showAllEdgeLabels || isHoveredEdge || labelledFocusEdgeIds.has(edge.id);
       const strokeColor = isHighlighted
@@ -458,10 +489,9 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
 
       return {
         ...edge,
-        hidden: isFarView && !isHighlighted,
         label: showLabel ? edge.data?.rawLabel : undefined,
         className: isHighlighted ? "is-highlighted" : undefined,
-        zIndex: 0,
+        zIndex: isHighlighted ? 1 : 0,
         style: {
           stroke: strokeColor,
           strokeWidth: isHighlighted ? 2 : 1,
@@ -488,6 +518,8 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
   }, [
     positioned,
     activeFocusNodeId,
+    isHubFocus,
+    onScreenNeighbourIds,
     labelledFocusEdgeIds,
     hoveredEdgeId,
     showAllEdgeLabels,
