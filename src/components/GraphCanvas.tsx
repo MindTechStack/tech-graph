@@ -490,7 +490,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
       return {
         ...edge,
         label: showLabel ? edge.data?.rawLabel : undefined,
-        className: isHighlighted ? "is-highlighted" : undefined,
+        className: isHighlighted ? "is-highlighted" : isDimmed ? "is-dimmed" : undefined,
         zIndex: isHighlighted ? 1 : 0,
         style: {
           stroke: strokeColor,

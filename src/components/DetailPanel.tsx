@@ -1,4 +1,4 @@
-import { type ReactNode, useMemo } from "react";
+import { type ReactNode, useEffect, useMemo, useRef } from "react";
 import Markdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
@@ -15,6 +15,8 @@ export interface DetailPanelProps {
 
 const VISIBLE_RELATION_ROWS = 6;
 const MARKDOWN_COMPONENTS = { h2: "h3" } as const;
+const SITE_NAME = "Tech Graph";
+const DEFAULT_TITLE = `${SITE_NAME} — Interactive Knowledge Map`;
 
 function lowercaseFirst(text: string): string {
   return text.charAt(0).toLowerCase() + text.slice(1);
@@ -110,6 +112,43 @@ function EntryRow({ label, children }: { readonly label: string; readonly childr
   );
 }
 
+function canvasNodeElement(nodeId: string): HTMLElement | null {
+  return document.querySelector<HTMLElement>(`.react-flow__node[data-id="${CSS.escape(nodeId)}"]`);
+}
+
+function returnFocusFromCard(opener: HTMLElement | null, closedNodeId: string) {
+  const target =
+    opener?.isConnected && opener !== document.body ? opener : canvasNodeElement(closedNodeId);
+  target?.focus({ preventScroll: true });
+}
+
+function useCardFocus(node: TechNodeData | null) {
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
+  const shownNodeRef = useRef<TechNodeData | null>(null);
+
+  useEffect(() => {
+    const previous = shownNodeRef.current;
+    shownNodeRef.current = node;
+    if (node) {
+      if (!previous) {
+        openerRef.current =
+          document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      }
+      titleRef.current?.focus({ preventScroll: true });
+    } else if (previous) {
+      returnFocusFromCard(openerRef.current, previous.id);
+      openerRef.current = null;
+    }
+  }, [node]);
+
+  useEffect(() => {
+    document.title = node ? `${node.name} — ${SITE_NAME}` : DEFAULT_TITLE;
+  }, [node]);
+
+  return titleRef;
+}
+
 export function DetailPanel({ graph }: DetailPanelProps) {
   const { selectedNodeId, setSelectedNodeId, requestCenterNode, setActiveMap } = useAppState();
 
@@ -117,9 +156,16 @@ export function DetailPanel({ graph }: DetailPanelProps) {
     () => (selectedNodeId ? (graph.nodesById.get(selectedNodeId) ?? null) : null),
     [graph.nodesById, selectedNodeId],
   );
+  const titleRef = useCardFocus(node);
+
+  const notice = (
+    <p className="visually-hidden" role="status">
+      {node ? `${node.name} card opened.` : ""}
+    </p>
+  );
 
   if (!node) {
-    return null;
+    return <>{notice}</>;
   }
 
   const mapConfig = graph.mapsById.get(node.map);
@@ -142,148 +188,163 @@ export function DetailPanel({ graph }: DetailPanelProps) {
   );
 
   return (
-    <aside className="detail-panel" aria-label={`Details for ${node.name}`}>
-      <header className="detail-panel__header">
-        <div className="detail-panel__top-row">
-          <h2 className="detail-panel__title">{node.name}</h2>
-          <button
-            type="button"
-            className="detail-panel__icon-btn detail-panel__center-btn"
-            onClick={() => requestCenterNode(node.id)}
-            aria-label="Center this node on canvas"
-            title="Center on canvas"
-          >
-            <Icon name="target" />
-          </button>
-          <button
-            type="button"
-            className="detail-panel__icon-btn"
-            onClick={() => setSelectedNodeId(null)}
-            aria-label="Close detail panel"
-            title="Close (Esc)"
-          >
-            <Icon name="close" />
-          </button>
-        </div>
-
-        <p className="detail-panel__place">
-          <span
-            className="detail-panel__swatch"
-            style={categoryConfig ? { backgroundColor: categoryConfig.color } : undefined}
-          />
-          <span>{categoryConfig?.name ?? node.category}</span>
-          <span className="detail-panel__place-sep">·</span>
-          <button
-            type="button"
-            className="detail-panel__map-link"
-            onClick={() => setActiveMap(node.map)}
-            title={`Switch to the ${mapName} map`}
-          >
-            {mapName}
-          </button>
-        </p>
-
-        <p className="detail-panel__status">
-          <span className={`status-swatch status-swatch--${node.status}`} aria-hidden="true" />
-          <span className="detail-panel__status-value">{node.status}</span>
-          <span className="detail-panel__place-sep" aria-hidden="true">
-            ·
-          </span>
-          <span>{lowercaseFirst(STATUS_META[node.status].definition)}</span>
-        </p>
-
-        <p className="detail-panel__values">
-          {node.kind} · {node.id}
-        </p>
-      </header>
-
-      <div key={node.id} className="detail-panel__scroll">
-        <EntryRow label="What">
-          <p className="entry-row__prose">
-            <InlineCodeText text={node.what} />
-          </p>
-        </EntryRow>
-        <EntryRow label="Why">
-          <p className="entry-row__prose">
-            <InlineCodeText text={node.why} />
-          </p>
-        </EntryRow>
-        <EntryRow label="Problem">
-          <p className="entry-row__prose">
-            <InlineCodeText text={node.problem} />
-          </p>
-        </EntryRow>
-
-        {node.body ? (
-          <div className="detail-panel__markdown">
-            <ErrorBoundary
-              fallback={() => (
-                <p role="alert">
-                  Couldn't render the notes in <code>{node.filePath}</code>.
-                </p>
-              )}
+    <>
+      {notice}
+      <aside className="detail-panel" aria-label={`Details for ${node.name}`}>
+        <header className="detail-panel__header">
+          <div className="detail-panel__top-row">
+            <h2 ref={titleRef} className="detail-panel__title" tabIndex={-1}>
+              {node.name}
+            </h2>
+            <button
+              type="button"
+              className="detail-panel__icon-btn detail-panel__center-btn"
+              onClick={() => requestCenterNode(node.id)}
+              aria-label="Center this node on canvas"
+              title="Center on canvas"
             >
-              <Markdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeHighlight]}
-                components={MARKDOWN_COMPONENTS}
-              >
-                {node.body}
-              </Markdown>
-            </ErrorBoundary>
+              <Icon name="target" />
+            </button>
+            <button
+              type="button"
+              className="detail-panel__icon-btn"
+              onClick={() => setSelectedNodeId(null)}
+              aria-label="Close detail panel"
+              title="Close (Esc)"
+            >
+              <Icon name="close" />
+            </button>
           </div>
-        ) : null}
 
-        {outgoing.length > 0 || incoming.length > 0 ? (
-          <EntryRow label="Connections">
-            <RelationTable direction="outgoing" rows={outgoing} homeMap={node.map} graph={graph} />
-            <RelationTable direction="incoming" rows={incoming} homeMap={node.map} graph={graph} />
-          </EntryRow>
-        ) : null}
+          <p className="detail-panel__place">
+            <span
+              className="detail-panel__swatch"
+              style={categoryConfig ? { backgroundColor: categoryConfig.color } : undefined}
+            />
+            <span>{categoryConfig?.name ?? node.category}</span>
+            <span className="detail-panel__place-sep">·</span>
+            <button
+              type="button"
+              className="detail-panel__map-link"
+              onClick={() => setActiveMap(node.map)}
+              title={`Switch to the ${mapName} map`}
+            >
+              {mapName}
+            </button>
+          </p>
 
-        {node.links.length > 0 ? (
-          <EntryRow label="Links">
-            <ul className="detail-panel__links">
-              {node.links.map((link) => (
-                <li key={link.url}>
-                  <a
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="detail-panel__link"
-                  >
-                    <span>{link.title}</span>
-                    <Icon name="link" size={12} />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </EntryRow>
-        ) : null}
+          <p className="detail-panel__status">
+            <span className={`status-swatch status-swatch--${node.status}`} aria-hidden="true" />
+            <span className="detail-panel__status-value">{node.status}</span>
+            <span className="detail-panel__place-sep" aria-hidden="true">
+              ·
+            </span>
+            <span>{lowercaseFirst(STATUS_META[node.status].definition)}</span>
+          </p>
 
-        {node.alsoIn.length > 0 ? (
-          <EntryRow label="Also in">
-            <p className="detail-panel__also-in">
-              {node.alsoIn.map((mapId) => (
-                <button
-                  key={mapId}
-                  type="button"
-                  className="detail-panel__map-link"
-                  onClick={() => setActiveMap(mapId)}
-                >
-                  ↗ {graph.mapsById.get(mapId)?.name ?? mapId}
-                </button>
-              ))}
+          <p className="detail-panel__values">
+            {node.kind} · {node.id}
+          </p>
+        </header>
+
+        <div key={node.id} className="detail-panel__scroll">
+          <EntryRow label="What">
+            <p className="entry-row__prose">
+              <InlineCodeText text={node.what} />
             </p>
           </EntryRow>
-        ) : null}
-
-        {node.tags.length > 0 ? (
-          <EntryRow label="Tags">
-            <p className="detail-panel__tags">{node.tags.map((tag) => `#${tag}`).join(" ")}</p>
+          <EntryRow label="Why">
+            <p className="entry-row__prose">
+              <InlineCodeText text={node.why} />
+            </p>
           </EntryRow>
-        ) : null}
-      </div>
-    </aside>
+          <EntryRow label="Problem">
+            <p className="entry-row__prose">
+              <InlineCodeText text={node.problem} />
+            </p>
+          </EntryRow>
+
+          {node.body ? (
+            <div className="detail-panel__markdown">
+              <ErrorBoundary
+                fallback={() => (
+                  <p role="alert">
+                    Couldn't render the notes in <code>{node.filePath}</code>.
+                  </p>
+                )}
+              >
+                <Markdown
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeHighlight]}
+                  components={MARKDOWN_COMPONENTS}
+                >
+                  {node.body}
+                </Markdown>
+              </ErrorBoundary>
+            </div>
+          ) : null}
+
+          {outgoing.length > 0 || incoming.length > 0 ? (
+            <EntryRow label="Connections">
+              <RelationTable
+                direction="outgoing"
+                rows={outgoing}
+                homeMap={node.map}
+                graph={graph}
+              />
+              <RelationTable
+                direction="incoming"
+                rows={incoming}
+                homeMap={node.map}
+                graph={graph}
+              />
+            </EntryRow>
+          ) : null}
+
+          {node.links.length > 0 ? (
+            <EntryRow label="Links">
+              <ul className="detail-panel__links">
+                {node.links.map((link) => (
+                  <li key={link.url}>
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="detail-panel__link"
+                    >
+                      <span>{link.title}</span>
+                      <Icon name="link" size={12} />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </EntryRow>
+          ) : null}
+
+          {node.alsoIn.length > 0 ? (
+            <EntryRow label="Also in">
+              <p className="detail-panel__also-in">
+                {node.alsoIn.map((mapId) => (
+                  <button
+                    key={mapId}
+                    type="button"
+                    className="detail-panel__map-link"
+                    onClick={() => setActiveMap(mapId)}
+                  >
+                    ↗ {graph.mapsById.get(mapId)?.name ?? mapId}
+                  </button>
+                ))}
+              </p>
+            </EntryRow>
+          ) : null}
+
+          {node.tags.length > 0 ? (
+            <EntryRow label="Tags">
+              <p className="detail-panel__tags">{node.tags.map((tag) => `#${tag}`).join(" ")}</p>
+            </EntryRow>
+          ) : null}
+        </div>
+      </aside>
+    </>
   );
 }

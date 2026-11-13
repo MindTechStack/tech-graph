@@ -351,12 +351,12 @@ A 224 × 64 block with square corners. The fill and edge follow the ink density 
 - **Hover:** a 1px accent outline at a 2px offset.
 - **Selected:** a 2px accent outline at a 2px offset. The node's own fill never changes. While a node is selected or hovered, it and its neighbours lift above the edge layer, so no relation line crosses a name.
 - **Ghost:** a paper fill, a 1px dashed Ink Muted edge, and line 2 reads `↗ backend`.
-- **Dimmed:** 20% opacity over 120ms.
+- **Dimmed:** 35% opacity over 120ms, so names still read as context.
 - **Focus-visible:** the same 2px accent outline at a 4px offset (8px wide in the far view). Enter or Space opens the entry.
 - Connection handles are hidden until hover.
 
 ### Edges
-Straight or orthogonal 1px ink lines at 30% opacity. They drop to 10% when dimmed. The selected node's relations become 2px accent lines at 100%. A hub (nine relations or more) keeps the accent only on relations whose other end is on screen; the rest stay 1px ink at 30%, so the accent marks what you can follow, not a starburst. Edge labels are Mono Small on an opaque paper plate with no frame. A hovered edge always shows its label. On selection, a relation's label shows only when the selected node has six relations or fewer and the plate clears every node box and every plate already placed; anything else waits for hover, because the Connections table lists every relation anyway. The toggle shows all labels. Edges are never dashed and never animated.
+Straight or orthogonal 1px ink lines at 30% opacity. They drop to 10% when dimmed and stop taking the pointer, so a faded line never steals a hover from the node above it. The selected node's relations become 2px accent lines at 100%. A hub (nine relations or more) keeps the accent only on relations whose other end is on screen; the rest stay 1px ink at 30%, so the accent marks what you can follow, not a starburst. Edge labels are Mono Small on an opaque paper plate with no frame. A hovered edge always shows its label. On selection, a relation's label shows only when the selected node has six relations or fewer and the plate clears every node box and every plate already placed; anything else waits for hover, because the Connections table lists every relation anyway. The toggle shows all labels. Edges are never dashed and never animated.
 
 ### Inputs
 - **Search field:** borderless inside the sheet's head, at Title size. Keyboard hints (`↑ ↓`, `Enter`, `Esc`) live only in the sheet's footer. A 2px Rule sits under the field. A query starting with `#` matches tags only.

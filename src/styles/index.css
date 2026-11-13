@@ -934,7 +934,7 @@ body,
 }
 
 .tech-node--dimmed {
-  opacity: 0.2;
+  opacity: 0.35;
 }
 
 .tech-node__band {
@@ -1015,6 +1015,11 @@ body,
   color: var(--ink-2);
 }
 
+.react-flow__edge.is-dimmed,
+.react-flow__edge.is-dimmed .react-flow__edge-textwrapper {
+  pointer-events: none;
+}
+
 .graph-canvas--far .tech-node__meta,
 .graph-canvas--far .group-node__count,
 .graph-canvas--far .react-flow__edge-textwrapper {
@@ -1076,6 +1081,10 @@ body,
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.detail-panel__title:focus {
+  outline: none;
 }
 
 .detail-panel__title {
@@ -2172,4 +2181,14 @@ body,
     font-size: 13px;
     line-height: 20px;
   }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
