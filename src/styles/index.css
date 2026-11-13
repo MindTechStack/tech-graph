@@ -659,17 +659,12 @@ body,
 }
 
 .sidebar__mini-bar {
-  display: block;
+  display: flex;
+  gap: 1px;
   flex-basis: 100%;
-  height: 2px;
+  height: 4px;
   margin-left: 16px;
   background: var(--hairline);
-}
-
-.sidebar__mini-fill {
-  display: block;
-  height: 100%;
-  transition: width var(--ease-state);
 }
 
 .sidebar__checkbox-label {

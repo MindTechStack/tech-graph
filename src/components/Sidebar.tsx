@@ -21,11 +21,32 @@ interface CategoryStatItem {
   readonly label: string;
   readonly color: string;
   readonly total: number;
-  readonly completed: number;
+  readonly statusCounts: Record<NodeStatus, number>;
 }
 
-function isCompletedStatus(status: NodeStatus): boolean {
-  return status === "work" || status === "practiced" || status === "learned";
+function countByStatus(nodes: readonly { readonly status: NodeStatus }[]) {
+  const counts: Record<NodeStatus, number> = {
+    work: 0,
+    practiced: 0,
+    learned: 0,
+    learning: 0,
+    planned: 0,
+  };
+  for (const node of nodes) {
+    counts[node.status] += 1;
+  }
+  return counts;
+}
+
+function statusSegments(counts: Record<NodeStatus, number>) {
+  return NODE_STATUSES.filter((status) => counts[status] > 0).map((status) => (
+    <span
+      key={status}
+      className={`sidebar__progress-segment status-fill--${status}`}
+      style={{ flexGrow: counts[status] }}
+      title={`${STATUS_META[status].label}: ${counts[status]}`}
+    />
+  ));
 }
 
 export function Sidebar({ graph }: SidebarProps) {
@@ -51,19 +72,7 @@ export function Sidebar({ graph }: SidebarProps) {
     [graph.nodes, activeMap],
   );
 
-  const statusCounts = useMemo(() => {
-    const counts: Record<NodeStatus, number> = {
-      work: 0,
-      practiced: 0,
-      learned: 0,
-      learning: 0,
-      planned: 0,
-    };
-    for (const node of mapNodes) {
-      counts[node.status] += 1;
-    }
-    return counts;
-  }, [mapNodes]);
+  const statusCounts = useMemo(() => countByStatus(mapNodes), [mapNodes]);
 
   const kindCounts = useMemo(() => {
     const counts: Record<NodeKind, number> = {
@@ -91,14 +100,13 @@ export function Sidebar({ graph }: SidebarProps) {
           if (activeMap === "core" && matching.length === 0) {
             continue;
           }
-          const completed = matching.filter((n) => isCompletedStatus(n.status)).length;
           items.push({
             key,
             id: cat.id,
             label: `${mapCfg.name} · ${cat.name}`,
             color: cat.color,
             total: matching.length,
-            completed,
+            statusCounts: countByStatus(matching),
           });
         }
       }
@@ -113,14 +121,13 @@ export function Sidebar({ graph }: SidebarProps) {
     return mapCfg.categories.map((cat) => {
       const key = cat.id;
       const matching = mapNodes.filter((n) => getNodeCategoryKey(n, activeMap) === key);
-      const completed = matching.filter((n) => isCompletedStatus(n.status)).length;
       return {
         key,
         id: cat.id,
         label: cat.name,
         color: cat.color,
         total: matching.length,
-        completed,
+        statusCounts: countByStatus(matching),
       };
     });
   }, [activeMap, graph.maps, graph.mapsById, mapNodes]);
@@ -129,7 +136,6 @@ export function Sidebar({ graph }: SidebarProps) {
     return null;
   }
 
-  const totalNodes = mapNodes.length;
   const statusBreakdown = NODE_STATUSES.filter((status) => statusCounts[status] > 0)
     .map((status) => `${statusCounts[status]} ${STATUS_META[status].countPhrase}`)
     .join(" · ");
@@ -215,7 +221,6 @@ export function Sidebar({ graph }: SidebarProps) {
           <div className="sidebar__rows">
             {categoryStats.map((cat) => {
               const isSelected = filters.categories.has(cat.key);
-              const pct = cat.total > 0 ? Math.round((cat.completed / cat.total) * 100) : 0;
               return (
                 <button
                   key={cat.key}
@@ -227,14 +232,9 @@ export function Sidebar({ graph }: SidebarProps) {
                 >
                   <span className="sidebar__swatch" style={{ backgroundColor: cat.color }} />
                   <span className="sidebar__filter-label">{cat.label}</span>
-                  <span className="sidebar__filter-count">
-                    {cat.completed}/{cat.total}
-                  </span>
+                  <span className="sidebar__filter-count">{cat.total}</span>
                   <span className="sidebar__mini-bar" aria-hidden="true">
-                    <span
-                      className="sidebar__mini-fill"
-                      style={{ width: `${pct}%`, backgroundColor: cat.color }}
-                    />
+                    {statusSegments(cat.statusCounts)}
                   </span>
                 </button>
               );
@@ -329,20 +329,7 @@ export function Sidebar({ graph }: SidebarProps) {
           </div>
 
           <div className="sidebar__progress-bar" role="img" aria-label={statusBreakdown}>
-            {NODE_STATUSES.map((status) => {
-              const count = statusCounts[status];
-              if (count === 0 || totalNodes === 0) {
-                return null;
-              }
-              return (
-                <span
-                  key={status}
-                  className={`sidebar__progress-segment status-fill--${status}`}
-                  style={{ flexGrow: count }}
-                  title={`${STATUS_META[status].label}: ${count}`}
-                />
-              );
-            })}
+            {statusSegments(statusCounts)}
           </div>
 
           <ul className="sidebar__progress-legend" aria-hidden="true">

@@ -340,7 +340,7 @@ The head is the current map name at Title size, with Reset (only when filters ar
 - **Category rows** wrap a long name to a second line instead of truncating it. On cross-map scopes the name reads `Frontend · Languages & Platform`.
 - **Kinds:** rows, not chips. The kind value is set in mono (`framework`). The ghost-node checkbox, labelled "Show linked nodes from other maps", sits under them.
 - **View** (1024px and below, where the toolbar drops these controls): an "Always show edge labels" row, plus "Grouped by category" and "Free layout" rows at phone width. Same filter-row styling; active is accent.
-- **Progress:** a 4px bar on a hairline track, divided by the five status treatments (ink, ink-2, outlined, ticked, dashed), with a plain breakdown beneath: a mono count plus a phrase per non-empty status (`48 at work`, `7 in projects`, `61 from a course`, `8 learning now`, `9 planned`). No percentage or "done" total: it would count a course as equal to commercial use. Per-category bars use the category tint on a hairline track.
+- **Progress:** a 4px bar on a hairline track, divided by the five status treatments (ink, ink-2, outlined, ticked, dashed), with a plain breakdown beneath: a mono count plus a phrase per non-empty status (`48 at work`, `7 in projects`, `61 from a course`, `8 learning now`, `9 planned`). No percentage or "done" total: it would count a course as equal to commercial use. Per-category bars are the same 4px status split under each category row, whose count is a plain total (`14`, never `14/14`); the row's swatch carries the category tint.
 
 ### Tech Node (signature)
 A 224 × 64 block with square corners. The fill and edge follow the ink density ramp, and a 6px category band runs down the left edge.
