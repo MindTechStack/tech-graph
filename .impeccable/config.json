@@ -1,0 +1,32 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font-size",
+        "value": "26px",
+        "createdAt": "2026-11-13T11:44:52.874Z",
+        "reason": "DESIGN.md prose: far view 26px, phone reading scale Display 28, Prose 17, Control 16"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "28px",
+        "createdAt": "2026-11-13T11:44:52.995Z",
+        "reason": "DESIGN.md prose: far view 26px, phone reading scale Display 28, Prose 17, Control 16"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "17px",
+        "createdAt": "2026-11-13T11:44:53.097Z",
+        "reason": "DESIGN.md prose: far view 26px, phone reading scale Display 28, Prose 17, Control 16"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "16px",
+        "createdAt": "2026-11-13T11:44:53.210Z",
+        "reason": "DESIGN.md prose: far view 26px, phone reading scale Display 28, Prose 17, Control 16"
+      }
+    ]
+  }
+}

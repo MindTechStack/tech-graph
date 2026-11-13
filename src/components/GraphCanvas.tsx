@@ -310,8 +310,9 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
         },
         labelStyle: {
           fill: isHighlighted ? "#e2e8f0" : "#94a3b8",
+          fontFamily: "var(--font-mono)",
           fontSize: 11,
-          fontWeight: 500,
+          fontWeight: 400,
         },
         labelBgStyle: {
           fill: "rgba(15, 17, 23, 0.88)",

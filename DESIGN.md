@@ -1,410 +1,362 @@
 ---
 name: Tech Graph
-description: A personal knowledge map where the graph is the map and every card is a margin note.
+description: A Swiss-grid register of what one developer knows, where the graph is the index plate and every node is a ruled entry.
 colors:
-  margin-navy: "#0b0e14"
-  panel-navy: "#131722"
-  card-navy: "#161b28"
-  raised-navy: "#1a2030"
-  node-surface: "#141925"
-  code-well: "#0a0d14"
-  border-navy: "#262e42"
-  border-strong: "#3b4764"
-  border-subtle: "rgba(148, 163, 184, 0.14)"
-  slate-wash: "rgba(148, 163, 184, 0.12)"
-  ink-primary: "#e6edf3"
-  ink-heading: "#f8fafc"
-  ink-label: "#e2e8f0"
-  ink-prose: "#cbd5e1"
-  ink-secondary: "#94a3b8"
-  ink-muted: "#7c8aa0"
-  annotation-blue: "#3b82f6"
-  annotation-blue-deep: "#2563eb"
-  annotation-blue-bright: "#60a5fa"
-  annotation-blue-light: "#93c5fd"
-  annotation-wash: "rgba(59, 130, 246, 0.14)"
-  on-annotation: "#ffffff"
-  status-work: "#3b82f6"
-  status-practiced: "#a855f7"
-  status-learned: "#22c55e"
-  status-learning: "#f59e0b"
-  status-planned: "#64748b"
-  error-red: "#ef4444"
-  error-text: "#f87171"
-  warning-text: "#fbbf24"
-  success-text: "#4ade80"
+  paper: "#f6f6f3"
+  paper-sunk: "#ecece8"
+  ink: "#111111"
+  ink-2: "#5c5c58"
+  ink-muted: "#63635d"
+  hairline: "#d6d6d1"
+  rule: "#111111"
+  grid-line: "rgba(17, 17, 17, 0.05)"
+  accent: "#1f3bd6"
+  accent-wash: "rgba(31, 59, 214, 0.08)"
+  on-accent: "#ffffff"
+  on-ink: "#f6f6f3"
+  error: "#c4271b"
+  status-work-fill: "#111111"
+  status-practiced-fill: "#5c5c58"
+  status-learned-fill: "#f6f6f3"
+  status-learning-fill: "#f6f6f3"
+  status-planned-fill: "#f6f6f3"
 typography:
-  headline:
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif'
-    fontSize: "19px"
+  display:
+    fontFamily: '"Host Grotesk Variable", "Helvetica Neue", Arial, sans-serif'
+    fontSize: "32px"
     fontWeight: 700
-    lineHeight: 1.2
+    lineHeight: "36px"
+    letterSpacing: "-0.025em"
   title:
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif'
+    fontFamily: '"Host Grotesk Variable", "Helvetica Neue", Arial, sans-serif'
+    fontSize: "20px"
+    fontWeight: 600
+    lineHeight: "24px"
+    letterSpacing: "-0.015em"
+  name:
+    fontFamily: '"Host Grotesk Variable", "Helvetica Neue", Arial, sans-serif'
     fontSize: "15px"
-    fontWeight: 700
+    fontWeight: 600
+    lineHeight: "20px"
     letterSpacing: "-0.01em"
-  node-title:
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif'
-    fontSize: "13.5px"
-    fontWeight: 600
-  body:
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif'
-    fontSize: "13px"
+  prose:
+    fontFamily: '"Host Grotesk Variable", "Helvetica Neue", Arial, sans-serif'
+    fontSize: "15px"
     fontWeight: 400
-    lineHeight: 1.6
-  input:
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif'
-    fontSize: "14.5px"
-    fontWeight: 400
+    lineHeight: "24px"
   control:
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif'
-    fontSize: "12px"
+    fontFamily: '"Host Grotesk Variable", "Helvetica Neue", Arial, sans-serif'
+    fontSize: "13px"
     fontWeight: 500
+    lineHeight: "16px"
   label:
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif'
-    fontSize: "11px"
-    fontWeight: 700
-    letterSpacing: "0.05em"
-  badge:
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif'
-    fontSize: "11px"
+    fontFamily: '"Host Grotesk Variable", "Helvetica Neue", Arial, sans-serif'
+    fontSize: "13px"
     fontWeight: 600
+    lineHeight: "20px"
   mono:
-    fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+    fontFamily: '"Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace'
     fontSize: "12px"
-    lineHeight: 1.5
+    fontWeight: 400
+    lineHeight: "16px"
+  mono-code:
+    fontFamily: '"Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace'
+    fontSize: "12.5px"
+    fontWeight: 400
+    lineHeight: "20px"
   mono-sm:
-    fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+    fontFamily: '"Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace'
     fontSize: "11px"
+    fontWeight: 400
+    lineHeight: "16px"
 rounded:
-  xs: "4px"
-  sm: "6px"
-  row: "7px"
-  md: "8px"
-  card: "9px"
-  lg: "10px"
-  xl: "12px"
-  group: "14px"
-  pill: "999px"
+  none: "0px"
 spacing:
+  baseline: "4px"
   xs: "4px"
   sm: "8px"
   md: "12px"
   lg: "16px"
   xl: "24px"
+  2xl: "32px"
+  3xl: "48px"
+grid:
+  module: "80px"
+  column: "64px"
+  gutter: "16px"
 components:
+  toolbar:
+    backgroundColor: "{colors.paper}"
+    height: "48px"
   map-tab:
-    backgroundColor: "transparent"
-    textColor: "{colors.ink-secondary}"
+    textColor: "{colors.ink-2}"
     typography: "{typography.control}"
-    rounded: "{rounded.row}"
-    padding: "5px 11px"
   map-tab-active:
-    backgroundColor: "{colors.annotation-blue}"
-    textColor: "{colors.on-annotation}"
-  map-tab-active-hover:
-    backgroundColor: "{colors.annotation-blue-deep}"
-  button-ghost:
-    backgroundColor: "{colors.margin-navy}"
-    textColor: "{colors.ink-secondary}"
-    typography: "{typography.control}"
-    rounded: "{rounded.md}"
-    padding: "6px 10px"
-  button-ghost-active:
-    backgroundColor: "{colors.annotation-wash}"
-    textColor: "{colors.annotation-blue-light}"
-  button-primary:
-    backgroundColor: "{colors.annotation-blue}"
-    textColor: "{colors.on-annotation}"
-    typography: "{typography.control}"
-    rounded: "{rounded.row}"
-    padding: "6px 12px"
-  chip-filter:
-    backgroundColor: "{colors.margin-navy}"
-    textColor: "{colors.ink-secondary}"
-    rounded: "{rounded.sm}"
-    padding: "4px 8px"
-  chip-filter-active:
-    backgroundColor: "{colors.annotation-wash}"
-    textColor: "{colors.annotation-blue-light}"
-  tag:
-    backgroundColor: "{colors.annotation-wash}"
-    textColor: "{colors.annotation-blue-light}"
-    typography: "{typography.mono-sm}"
-    rounded: "{rounded.pill}"
-    padding: "2px 8px"
-  status-badge:
-    typography: "{typography.badge}"
-    rounded: "{rounded.pill}"
-    padding: "1px 6px"
-  input-search:
-    backgroundColor: "{colors.margin-navy}"
-    textColor: "{colors.ink-primary}"
-    typography: "{typography.input}"
-    padding: "12px 16px"
-  card-trio:
-    backgroundColor: "{colors.card-navy}"
-    textColor: "{colors.ink-primary}"
-    typography: "{typography.body}"
-    rounded: "{rounded.card}"
-    padding: "11px 13px"
-  relation-item:
-    backgroundColor: "{colors.card-navy}"
-    textColor: "{colors.ink-primary}"
-    rounded: "{rounded.md}"
-    padding: "7px 10px"
-  tech-node:
-    backgroundColor: "{colors.node-surface}"
-    textColor: "{colors.ink-primary}"
-    rounded: "{rounded.lg}"
-    width: "220px"
-    height: "68px"
-  inline-code:
-    backgroundColor: "{colors.slate-wash}"
-    textColor: "{colors.annotation-blue-light}"
-    typography: "{typography.mono}"
-    rounded: "{rounded.xs}"
-    padding: "1px 4px"
-  code-block:
-    backgroundColor: "{colors.code-well}"
-    textColor: "{colors.ink-label}"
-    typography: "{typography.mono}"
-    rounded: "{rounded.md}"
-    padding: "12px"
+    textColor: "{colors.ink}"
+    underline: "2px {colors.accent}"
+  view-toggle-active:
+    textColor: "{colors.ink}"
+    underline: "2px {colors.ink}"
   sidebar:
-    backgroundColor: "{colors.panel-navy}"
-    width: "268px"
+    backgroundColor: "{colors.paper}"
+    width: "240px"
   detail-panel:
-    backgroundColor: "{colors.panel-navy}"
-    width: "430px"
+    backgroundColor: "{colors.paper}"
+    width: "464px"
+  filter-row-active:
+    textColor: "{colors.accent}"
+    leftRule: "2px {colors.accent}"
+  relation-row:
+    typography: "{typography.control}"
+    divider: "1px {colors.hairline}"
+  tech-node:
+    width: "224px"
+    height: "64px"
+    rounded: "{rounded.none}"
+  code-block:
+    backgroundColor: "{colors.paper-sunk}"
+    textColor: "{colors.ink}"
+    typography: "{typography.mono-code}"
+    rounded: "{rounded.none}"
+    padding: "12px 16px"
   modal-search:
-    backgroundColor: "{colors.panel-navy}"
-    rounded: "{rounded.xl}"
-    width: "600px"
+    backgroundColor: "{colors.paper}"
+    width: "624px"
+    frame: "1px {colors.rule}"
 ---
 
 # Design System: Tech Graph
 
 ## Overview
 
-**Creative North Star: "The Annotated Map"**
+**Creative North Star: "The Ruled Register"**
 
-The graph is the map and the cards are the margin notes. The canvas gives you the territory: categories as tinted regions, technologies as labelled pins, relations as roads. The detail panel is where you stop and read what you wrote. Reading matters as much as navigating, so the card's what / why / problem trio and its code example get the calmest, most legible treatment in the app.
+Tech Graph is laid out like a Swiss technical register: a printed sheet of entries on a module grid, ruled with hairlines and set in one grotesque, with a monospace face for identifiers. The canvas is the register's index plate, showing every entry as a block on the grid, filled with as much ink as the author has earned. The detail panel is the entry itself, a ruled information sheet with a hanging label column on the left and the text in the column beside it.
 
-The mood is calm and focused, precise and honest, and a little friendly. It is calm because the chrome stays in slate and navy and only content carries saturated colour. It is precise because every hue, border style and opacity encodes a fact about a node: its status, its category, whether it lives on another map. It is friendly because of the soft corners, emoji kind icons and small hover lifts, so that a recruiter opening a shared link meets something approachable rather than an IDE.
+The mood is exact, plain and confident. Hierarchy comes from size, weight, position and rule weight, never from boxes or tone. Colour is rationed: black ink on white paper, one ultramarine accent for *where you are and what you picked*, and the twelve atlas tints for *which category a node belongs to*. Everything else is ink.
 
-Density is high but not cramped. Small type (11–13px), tight 4–12px gaps and three docked panes make a laptop screen hold a whole map. The canvas sits on a quiet dot grid, and everything floats over it at clearly separated depths.
+The register is still dense, because a laptop must hold a whole map. It gets there through alignment rather than shrinking: every pane, node and row snaps to the same 4px baseline and 80px module, so a dense screen still reads as one calm sheet.
 
-**Key Characteristics:**
-- Dark-only, built on four navy steps from Margin Navy to Raised Navy.
-- Saturated colour only where it states a fact: the five statuses, selection and validation results. Categories speak in soft atlas tints, so vivid colour on the map always means status.
-- Dashed lines mean distance: a node you haven't touched yet, or one whose home is another map.
-- Monospace marks identifiers: ids, tags, keyboard hints, code.
-- Soft, tactile controls: rounded corners at every scale, visible hover feedback, small lifts.
+**Key characteristics:**
+- Light paper only. One ground, with no tonal stacking of panes.
+- Sections are separated by hairlines and whitespace, never by cards, fills or shadows.
+- Status is shown by the amount of ink, not by hue: solid, grey, outlined, ticked, dashed.
+- Category is the only other colour, as flat atlas-tint fields and bands.
+- Square corners everywhere. Nothing floats on a shadow.
+- Mono marks identifiers: relation verbs, ids, kinds, status values, tags, counts and code.
+
+## Anti-reference: "The Annotated Map"
+
+The previous system, an annotated map in navy, is what this one replaces. When a decision feels familiar, check it against this list. Anything here is out of bounds:
+
+- **Dark navy ground with four tonal steps** (Margin, Panel, Card, Raised Navy), where depth meant "a slightly lighter navy box".
+- **Cards inside panels.** Trio cards, relation rows, link rows and error items each sat in their own rounded, bordered box on a different navy. Every section was a container.
+- **Soft corners at every scale** (4/6/7/8/9/10/12/14px and pills) and the "soft and tactile, a little friendly" register.
+- **Five vivid status hues** (blue, violet, green, amber, slate) as borders, pill badges and dots, with the accent blue sharing a hex with `work`.
+- **Washes as state.** Translucent blue fills behind active chips, rows, tags and search results.
+- **Floating depth.** Shadows on every node, a lift on hover, a shadow on the panel's edge, blurred translucent overlays over the canvas.
+- **Emoji kind icons and an emoji logo.**
+- **Pill badges and chips** for status, tags, counts and maps.
+- **Uppercase muted section labels** as the only structure inside a panel.
+- **A dot grid** as canvas texture.
+
+What survives from the old system is product truth, not look: the five statuses, the category atlas order, ghost nodes, the dashed-means-distance idea, the far view, the phone reading layout and every interaction.
 
 ## Colors
 
-Ink-dark navy surfaces with slate text. One blue does the interface work, five vivid status hues carry learning facts, and a muted, content-owned atlas palette marks where each node belongs. The two voices never share a register: status is ink, category is the region it's written on.
+Colour strategy: **Restrained.** Ink on paper, one accent, and a content-owned category palette.
 
-### Primary
-- **Annotation Blue** (`annotation-blue`): the pen's ink. Active map tab, primary buttons, focused borders, the "what" stripe on a card, the selected-edge highlight. Its deeper step **Annotation Blue Deep** is the hover for filled blue controls.
-- **Annotation Blue Bright** (`annotation-blue-bright`): small emphasised text on navy, such as active-filter counts, the layout badge, highlighted edges and search-result tags.
-- **Annotation Blue Light** (`annotation-blue-light`): text on a blue wash. Active chips and toggles, tags, external links, inline code.
-- **Annotation Wash** (`annotation-wash`): the translucent blue behind anything selected or active (filter rows, chips, search results, relation hover). It appears at 12–15% alpha across the code; 14% is the reference.
+### Ground and ink
+- **Paper** (`paper`, `#f6f6f3`): the only ground. Toolbar, sidebar, canvas, detail panel and modals all sit on it. Panes are told apart by hairlines and position, not by tone.
+- **Paper Sunk** (`paper-sunk`): the code field, and the only area filled differently from the page. It is a field, not a box: no border, no corners.
+- **Ink** (`ink`, `#111111`, 17:1 on paper): text, heavy rules and the `work` fill.
+- **Ink 2** (`ink-2`, 6.2:1): secondary text and the `practiced` fill (white text on it is 6.7:1).
+- **Ink Muted** (`ink-muted`, ≈5.5:1): metadata, counts, relation verbs and placeholders. Never lighter than this for text.
+- **Hairline** (`hairline`): the 1px rule between rows, sections and panes.
+- **Rule** (`rule`, ink): the 2px rule that opens a major section, and the frame of a modal.
+- **Grid Line** (`grid-line`): the module grid drawn on the canvas, at 5% ink.
 
-### Status (semantic, fixed)
-Each status is drawn three ways at once: the node's border colour, a pill badge with a 16–18% tint of the hue, and a dot in legends and filters.
-- **Work** (`status-work`): used in commercial work. Solid border.
-- **Practiced** (`status-practiced`): personal projects. Solid border.
-- **Learned** (`status-learned`): course-complete. Solid border.
-- **Learning** (`status-learning`): in progress. Solid border.
-- **Planned** (`status-planned`): not started. The only status with a **dashed** border.
+### Accent: Signal Ultramarine
+- **Accent** (`accent`, `#1f3bd6`, 7.3:1 on paper, 7.9:1 for white on it): the one saturated colour. It marks *place and selection*: the active map tab underline, active filter rows, the selected node's outline, the selected node's edges, the focus ring, the active search result, links, and the primary action.
+- **Accent Wash** (`accent-wash`, 8%): only behind the keyboard-active search result. Nowhere else.
+- **One sanctioned non-interactive use:** the `learning` tick on a node (see Status). It differs from selection by shape, a short solid bar against a full outline, and it is the only time the accent states a fact.
 
-**Known overlap:** Work shares its hex with Annotation Blue on purpose; the accent stays findable through shape (solid tab, ring, wash) rather than hue. The card trio still reuses status hues (what = blue, why = learned green, problem = learning amber). This is the incumbent state. Don't extend the overlap to new meanings.
+### Status: the ink density ramp
+Status is the amount of ink a node carries. It is never shown by hue:
 
-### Category palette (content-owned atlas tints)
-Category colours live in `content/maps.yaml`, not in CSS, and come from twelve muted **atlas tints**: pastel, low-chroma map-region colours that can't be mistaken for a status. They alternate between two steps, OKLCH L 0.82 / C 0.065 and L 0.74 / C 0.075, at 30° hue intervals:
-
-| Tint | Hex | Tint | Hex |
+| Status | Node fill | Text | Edge |
 |---|---|---|---|
-| Rose | `#ebb4b7` | Seafoam | `#92d2d1` |
-| Clay | `#d49c84` | Glacier | `#75b5cf` |
-| Sand | `#ddbf95` | Dusk | `#a8c7ee` |
-| Olive | `#b1ae76` | Lavender | `#a5a5d9` |
-| Moss | `#b2cea4` | Mauve | `#d4b8e2` |
-| Sage | `#7dba9f` | Heather | `#ce98b6` |
+| `work` | Ink | Paper | none |
+| `practiced` | Ink 2 | White | none |
+| `learned` | Paper | Ink | 1px ink |
+| `learning` | Paper | Ink | 1px ink + 4px accent tick on the right edge |
+| `planned` | Paper | Ink 2 | 1px dashed Ink Muted |
 
-They appear only as identity marks: the 5px bar on a node's left edge, the category label text (7.4–10.3:1 on Node Surface), legend dots and mini progress bars, and the group frame (border at about 40% alpha, header at about 13%, fill at about 7%). Within a map no two categories share a tint, and categories next to each other in `maps.yaml` order never take neighbouring tints, because the atlas packs them side by side. Backend uses all twelve. Frontend's nine leave Rose, Olive and Mauve free, which belong to the Backend categories (Auth & Security, Realtime, Architecture) that also appear on the Frontend map. A new category takes one of the twelve; the schema requires a 6-digit hex. A category with no config falls back to Ink Secondary, never to a status hue.
+Every node and every list row also carries the status as its literal mono value (`work`, `learned`…), so status never depends on fill alone. Legend swatches and the progress bar use the same five treatments as the nodes.
 
-### Neutral
-- **Margin Navy** (`margin-navy`): the page and canvas ground, also the inset fill for inputs, chips and segmented controls.
-- **Panel Navy** (`panel-navy`): docked panes (toolbar, sidebar, detail panel) and modal bodies.
-- **Card Navy** (`card-navy`): cards inside panels (trio cards, relation rows, links, error items).
-- **Raised Navy** (`raised-navy`): the highest resting tone, used for active segments, kbd keys, map chips and table headers.
-- **Node Surface** (`node-surface`): the fill of a graph node, a half-step between Margin and Card Navy.
-- **Code Well** (`code-well`): code blocks, darker than the page so code reads as sunk into the card.
-- **Border Navy** (`border-navy`): the default 1px line for every pane, card and control. **Border Strong** (`border-strong`, `--border-strong` in CSS) is its hover state, the edge of both modals and the resting scrollbar thumb, which brightens to Ink Muted on hover. **Border Subtle** is the faint rule under Markdown headings.
-- **Slate Wash** (`slate-wash`): the neutral 12–16% slate behind inline code, ghost-node map badges and cross-map chips in relation rows. It marks an identifier or a place without claiming a status or a selection.
-- **Ink Primary / Heading / Label / Prose** (`ink-primary`, `ink-heading`, `ink-label`, `ink-prose`): text from brightest to softest. Headings in Markdown use Ink Heading, group titles and code use Ink Label, and paragraphs and lists use Ink Prose.
-- **Ink Secondary** (`ink-secondary`) and **Ink Muted** (`ink-muted`): control text, metadata, counts, uppercase section labels and placeholders.
+### Category: atlas tints (content-owned, unchanged)
+Category colours stay in `content/maps.yaml` as the twelve atlas tints (OKLCH L 0.82 / C 0.065 and L 0.74 / C 0.075, at 30° hue steps): Rose `#ebb4b7`, Clay `#d49c84`, Sand `#ddbf95`, Olive `#b1ae76`, Moss `#b2cea4`, Sage `#7dba9f`, Seafoam `#92d2d1`, Glacier `#75b5cf`, Dusk `#a8c7ee`, Lavender `#a5a5d9`, Mauve `#d4b8e2`, Heather `#ce98b6`. The assignment rules hold: no two categories in a map share a tint, categories that sit next to each other in order never take neighbouring tints, and a new category picks one of the twelve.
+
+On paper the tints are only 1.6–2.1:1, so they become **fields, never ink**:
+- the 6px band down a node's left edge (8–10:1 against an ink node);
+- the Layers-mode group region, a flat tint field at about 30% alpha;
+- the 8px square swatch beside a category name in the sidebar, legend and card;
+- the per-category mini progress bar.
+
+A category name is always set in ink beside its swatch. Tint text and tint outlines are never used.
 
 ### Feedback
-Validation results use red, amber and green on 10–20% tints of themselves, with lighter text: **Error Red** with **Error Text**, the learning amber with **Warning Text**, the learned green with **Success Text**. The error banner is the one place a large surface turns red (deep red at 94% opacity); on it, text is white and the button edge a pale rose so they stay legible, and that rose appears nowhere else.
+- **Error** (`error`, `#c4271b`): validation errors only, in the error panel, on the toolbar's validation count and in error rows. It is a system state, not a second accent.
+- Warnings and a clean result are ink with a mono count (`3 warnings`, `0 issues`). Amber and green are retired.
+
+### Code
+The code is monochrome with one accent: keywords in ink at 600 weight, strings and numbers in accent, functions and everything else in ink, and comments in Ink Muted.
 
 ### Named Rules
-**The Facts-Only Colour Rule.** Saturated colour appears only where it encodes a fact: a status, the current selection, or a validation result. Categories use atlas tints, and everything else is navy and slate.
+**The One Accent Rule.** Ultramarine means "here" or "chosen". If a second saturated hue appears outside the error state, something has drifted.
 
-**The Ink-and-Region Rule.** Status is vivid ink; category is a pastel region. Never give a category a saturated hue, and never draw a status in a tint. If a viewer can't tell which channel a colour belongs to at a glance, one of them has drifted.
+**The Ink-Is-Experience Rule.** The more ink a node carries, the deeper the author's experience. Never fill a node for emphasis, decoration or hover.
 
-**The Dashed-Means-Distance Rule.** A dashed border means the node is not yours yet (`planned`) or lives on another map (ghost node or ghost group). Nothing else is dashed.
+**The Tint-Is-Territory Rule.** Atlas tints are fields that say "this belongs to category X". They are never text, lines, status or state.
+
+**The Dashed-Means-Distance Rule** (kept). A dashed line means not yours yet (`planned`) or living on another map (ghost node or ghost group). Nothing else is dashed.
 
 ## Typography
 
-**Body Font:** the system UI stack (`-apple-system`, `BlinkMacSystemFont`, `Segoe UI`, Inter, Roboto, sans-serif)
-**Mono Font:** the system mono stack (`ui-monospace`, `SFMono-Regular`, Menlo, Monaco, Consolas, monospace)
+**Grotesque:** Host Grotesk (variable, self-hosted via `@fontsource-variable/host-grotesk`), falling back to Helvetica Neue and Arial.
+**Mono:** Geist Mono (variable, self-hosted via `@fontsource-variable/geist-mono`), falling back to the system mono stack.
 
-**Character:** native and unbranded on purpose. The system sans keeps the interface feeling like a tool you live in, and the mono face is the voice of the content's identifiers: what you'd type, not what you'd read.
+**Character:** a neutral grotesque carries every name, sentence and control. The mono is the voice of the data model: anything that is a literal value in the Markdown frontmatter (an id, a relation verb, a kind, a status, a tag) or that you would type (code, a shortcut) is set in mono. Hierarchy comes from size and weight only. Colour is never used for type hierarchy.
 
-### Hierarchy
-- **Headline** (700, 19px, 1.2): the node name at the top of the detail panel. The largest type in the app.
-- **Title** (700, 15px, −0.01em): the "Tech Graph" wordmark and modal titles.
-- **Node Title** (600, 13.5px): technology names on the canvas, search result titles and Markdown headings (700 there). Truncates with an ellipsis rather than wrapping.
-- **Body** (400, 13px, 1.5–1.6): the trio text and Markdown body. Reading text sits in a 430px panel, which keeps lines near 60 characters.
-- **Input** (400, 14.5px): the search field, the only text input.
-- **Control** (500, 12–12.5px): buttons, tabs, filter rows, relation rows, links.
-- **Label** (700, 10.5–11.5px, 0.05em, uppercase): section titles in the sidebar and detail panel, and trio labels. Group titles on the canvas use the same treatment at 12px with 0.02em.
-- **Badge** (600, 11px): status pills, map chips, counts.
-- **Mono** (12px, 1.5) / **Mono Small** (11px): code blocks and inline code at 12px; node ids, tags, kbd hints and error messages at 11–11.5px.
+### Scale (desktop; every line height a multiple of the 4px baseline)
+- **Display** (700, 32/36, −0.025em): the node name at the top of the entry. Flush left, wraps, never truncates.
+- **Title** (600, 20/24, −0.015em): modal titles and the map name in the sidebar head.
+- **Name** (600, 15/20, −0.01em): node names on the canvas and in search results. Truncates with an ellipsis on the canvas.
+- **Prose** (400, 15/24): what / why / problem, the Markdown body and key points. In the entry's content column, lines run about 55–62 characters.
+- **Control** (500, 13/16): tabs, toggles, filter rows, relation names, buttons.
+- **Label** (600, 13/20, sentence case): the hanging-column labels ("What", "Why", "Problem", "Example", "Connections") and sidebar section heads. Labels are not uppercase and not tracked.
+- **Mono** (400, 12/16): relation verbs, ids, kinds, status values, tags, counts and kbd hints. Counts use tabular figures.
+- **Mono Code** (400, 12.5/20): code blocks and inline code.
+- **Mono Small** (400, 11/16): the kind · status line on a canvas node and edge labels.
 
-**Phone reading scale** (phone layout only): the node card steps up so it reads like an article. Card title 22px, Markdown headings 17px, trio and body text 16px, relation and link rows 15px, inline code and tables 14px, code blocks 13px, labels 12px, tags 13px. Search result titles are 16px with 14px descriptions. The search input is 16px on every touch device so iOS doesn't zoom on focus.
+**Phone reading scale** (phone layout only): Display 28/32, Prose 17/28, Control and relation rows 16/24, Mono 13/20, code 13.5/20. The search input is 16px on every touch device.
 
 ### Named Rules
-**The Mono-for-Identifiers Rule.** Anything the user could type or paste (an id, a tag, a shortcut, a code sample, a validation message) is set in mono. Names and prose never are.
+**The Mono-for-Values Rule.** If it appears literally in a node's frontmatter or could be typed (`built on`, `nestjs`, `framework`, `learning`, `#orm`, Ctrl K), it is mono. Names and sentences never are.
 
-**The Quiet Label Rule.** Uppercase is reserved for small Ink Muted section labels and canvas group titles. Never uppercase a name, a button or a sentence.
+**The No-Shouting Rule.** Nothing is uppercase or letter-spaced. Hierarchy is size, weight and position.
 
 ## Layout
 
-A full-viewport, three-pane workspace with no page scroll: a toolbar on top (8px × 16px padding) holding the brand, map tabs, search, the Layers/Network segmented switch and the status legend. Below it sit the **sidebar** on the left (268px; filters, progress, legend), the **canvas** in the centre (flexible), and the **detail panel** on the right (430px, at most 45vw), which appears when a node is selected. Each pane scrolls independently.
+### The grid
+- **Baseline:** 4px. Every line height, padding and gap is a multiple of 4.
+- **Module:** an 80px pitch, made of a 64px column and a 16px gutter. Pane widths, node sizes and canvas spacing are whole modules.
+- **Spacing scale:** 4, 8, 12, 16, 24, 32, 48. Inside a row use 4–12, between rows 0 (a hairline does the work), and between sections 24 or 32 plus a rule.
 
-The canvas uses a dot grid (22px gap, 1.2px dots, a navy just above the ground) under fixed-size 220 × 68px nodes. In Layers mode the category frames are packed into a compact **atlas** in `maps.yaml` category order (ELK rectpacking, aspect ratio 1.5), ghost groups last; inside each frame nodes flow left to right (ELK layered). In Network mode they float free. Overlays on the canvas (info pill, empty state) are centred, translucent and blurred.
+### Workspace
+A full-viewport sheet with no page scroll:
+- **Toolbar:** 48px, one row, with a hairline underneath. Wordmark "Tech Graph" (Name size, 700) and the mono counts at the left, the map tabs, then on the right search, the Layers/Network toggle, the edge-label toggle and the validation count. The status legend moves out of the toolbar into the sidebar.
+- **Sidebar:** 3 modules (240px), on the left, with a hairline on its right edge.
+- **Canvas:** fills the space between the panes. Paper with the module grid drawn in Grid Line.
+- **Detail panel (the entry):** 6 modules (464px), on the right, with a hairline on its left edge. At 1360px and below it is 5 modules (384px) and the sidebar stays 240px.
+- At 1024px and below the panes overlay the canvas, separated from it by a 1px Rule line instead of a shadow. The sidebar starts closed.
 
-**Landing and far view.** The root URL opens the Frontend map. Fitting a whole map never zooms out below 40%; a map that doesn't fit is centred at 40% instead of shrinking to unreadable type. Below 75% zoom the canvas switches to a **far view**: node text drops to the name alone at 26px canvas units (about 10–20px on screen), nodes take a 24% tint of their status colour (18% for planned), group titles grow to 26px with no count, edge labels hide, and unhighlighted edges fade to 40%. Navigating to a node (search, relation, ghost, deep link, Back/Forward) always re-centres on it at 115%, in the part of the canvas the card leaves uncovered. Clicking a node that the opening card would hide pans it back into view at the current zoom.
+### The entry (detail panel)
+The panel is laid out on two columns: a **hanging column** of 1 module (64px) for labels, a 16px gutter, and a **content column** for everything else.
+- **Head:** a mono line `framework · learning · nestjs`, then the Display name, then the category swatch, category name and map name on one line. A 2px Rule closes the head.
+- **Body sections**, in order: What, Why, Problem, Example, Key points, Connections, Links, Tags. Each section is a row: its label sits in the hanging column on the first baseline of its content, and a full-width hairline sits above it. There are no boxes and no stripes.
+- **Example:** the code field spans the content column and bleeds to the panel's right edge.
+- **Connections:** a ruled table. Each row has three columns: a mono verb in Ink Muted, the name at Control size, then the map (mono, only when it differs from the current map). Outgoing rows read "verb → name" and backlinks read "name ← verb". There is a hairline between rows. The first six rows of each direction are shown, and the rest sit behind a native `<details>` ("6 more", mono).
+- **Tags:** inline mono words (`#orm #sql`), separated by spaces. No chips.
 
-Spacing is a dense 4px rhythm: 4–8px between related items, 10–12px inside cards and rows, 16–18px between sections, 12–16px pane padding. Half-steps (6px, 10px, 14px) are common inside controls.
+### The canvas
+- Nodes are **224 × 64**, so a node plus its gutter fills exactly 3 × 1 modules. ELK spacing is set in multiples of 16, so in Layers mode nodes sit on the grid at 100% zoom.
+- **Layers mode:** category groups are flat tint fields packed in `maps.yaml` order. Each group has a header line inside the field, flush left: the category name in ink at Control 600 and a mono count. There is no outline and no corner radius. Ghost groups have no fill and a 1px dashed Ink Muted outline, and are titled "↗ <map name>".
+- **Network mode:** the same nodes float free over the grid.
+- **Far view** (below 75% zoom): nodes show the name only, at 26 canvas px. The ink density ramp keeps status readable at that distance. Group titles grow to 26px and the counts hide.
+- Overlays on the canvas (the info line, the empty state) are paper blocks with a 1px Rule frame. They are opaque, unblurred and have no shadow.
 
-**Responsive behaviour:** at 1360px and below, the toolbar legend hides, the sidebar narrows to 240px and the detail panel to 380px. At 1024px and below, the sidebar and detail panel stop docking and overlay the canvas from their edges with a heavy side shadow (detail panel at most 88vw), and the sidebar starts closed.
+### Search and error panel
+Both are **sheets**, top-aligned at 9vh, on a backdrop of paper at 80% with no blur. Search is 624px wide (8 modules − 16), the error panel 704px. Both have a 1px Rule frame and no shadow. A search result is a ruled row: the name (Name size), its `what` in Prose 13/20 in Ink 2, then a mono line `map · kind · status`. The keyboard-active row gets Accent Wash and a 2px accent rule on its left.
 
-**Phones** (640px and below, or a touch screen at most 480px tall, which covers phones held sideways) get a reading layout, not a smaller workspace:
-- **Toolbar:** two rows. The first holds an icon-only filters button, the brand and search; the second is a swipeable strip of map tabs whose right edge fades out, so it reads as scrollable. The Layers/Network switch, the edge-label toggle and the validation badge are desktop-only.
-- **Node card:** takes the whole screen above the toolbar and has a close button but no Center action. Its content is capped at 680px and centred, so landscape lines stay readable. It respects the phone's safe areas (notch and home bar).
-- **Search:** takes the whole screen too, with a text Cancel button in place of the Esc hint and no keyboard footer. Result descriptions are cut to two lines, and tags stay on one line that fades out.
-- **Canvas and sidebar:** the minimap hides and the sidebar opens at up to 320px (86vw) when asked.
-
-Touch devices at any width get 44px hit areas on buttons and rows (36px on chips) and no keyboard hints. Node hover lifts only happen where real hover exists.
-
-Modals (search, error panel) are top-aligned at 9vh over a 72% navy backdrop with a 4px blur. Search is 600px wide, the error panel 680px, both at most 92–94vw and 76–78vh, and both edged in Border Strong rather than Border Navy because they float above everything.
+### Phones
+The reading layout is kept. The entry takes the full screen and the hanging column collapses: each label sits above its content and the hairlines remain. Content is capped at 680px. The toolbar keeps two rows (filters button, wordmark and search, then a swipeable map-tab strip). Touch devices get 44px hit areas on rows and buttons.
 
 ## Elevation & Depth
 
-Tonal panels, lifted floaters. Docked surfaces separate by tone alone: Margin Navy → Panel Navy → Card Navy → Raised Navy, each edged with a 1px Border Navy line. Shadows exist only on things that float above the canvas or the workspace, and they are always dark and soft, never coloured, except for the selected node's status ring.
+None. The sheet is flat. Depth is said by position (an overlay sits on top) and by a 1px Rule frame. There are no shadows, no lifts and no blurred overlays.
 
-### Shadow Vocabulary
-- **Node rest** (`box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35)`): every graph node, so pins sit above the map.
-- **Node selected** (`box-shadow: 0 0 0 2px <status colour>, 0 8px 24px rgba(0, 0, 0, 0.55)`): a status-coloured ring plus a deeper lift. The border turns Ink Heading white.
-- **Panel edge** (`box-shadow: -8px 0 28px rgba(0, 0, 0, 0.45)`): the detail panel's left edge. At 1024px and below the overlaid sidebar casts the mirror shadow (`8px 0 28px rgba(0, 0, 0, 0.55)`).
-- **Modal** (`box-shadow: 0 24px 56px rgba(0, 0, 0, 0.65)`): search and the error panel.
-- **Banner** (`box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55)`): the floating error banner.
-- **Segment** (`box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35)`): the active Layers/Network segment, the only shadow inside a control.
-
-### Named Rules
-**The Float-Only Shadow Rule.** If it's docked, it's flat. A shadow says "this is above the map": nodes, the detail panel, overlaid panes, modals, banners. Cards inside a panel never cast one.
-
-**The Translucent Overlay Rule.** Anything laid directly over the canvas (info pill, empty state, modal backdrop) is navy at 72–94% opacity with a 4–8px backdrop blur, so the map stays faintly visible underneath.
+**The Flat Sheet Rule.** If something needs to read as "on top", give it a Rule frame and an opaque paper fill. Never use a shadow.
 
 ## Shapes
 
-Soft corners at every scale, stepping up with the size of the object: 4px for kbd keys, inline code and micro-badges; 6px for small buttons and chips; 7px for tabs and filter rows; 8px for buttons, rows, links and code blocks; 9px for cards; 10px for nodes and the tab rail; 12px for modals and the empty state; 14px for category group frames; and full pills for status badges, tags and counts. Nothing is square.
-
-Lines are 1px everywhere except where they carry meaning: node borders are 1.8px (the status line), group frames 1.5px, and accent stripes 3px (the trio's left edge, error and warning items) or 5px (the category bar on a node). Status and legend dots are 7–9px circles with a 1.5px border that copies the node's solid or dashed style.
+Every corner is square, and there are no circles: status, category and legend marks are squares, and so are focus rings. Line weights carry meaning:
+- 1px Hairline: rows, sections, pane edges.
+- 1px Ink: `learned` and `learning` node edges, toggles.
+- 1px dashed Ink Muted: `planned` nodes, ghosts.
+- 2px Rule: the close of the entry head, major section breaks, modal frames.
+- 2px Accent: selection, the active tab underline, the active filter rule, focus.
+- 4px Accent: the `learning` tick.
+- 6px tint: the category band on a node.
 
 ## Components
 
-**Character:** soft and tactile. Controls are rounded, sit on inset navy wells and answer every hover with a brighter border, brighter text or a blue wash within 120–150ms. With a mouse, controls are compact (12px text, 4–7px vertical padding). On touch screens the same controls grow to 44px hit areas (36px for chips) without changing their look. When they change, they move toward roomier hit areas, not denser ones.
+### Buttons and toggles
+- **Default button:** text at Control size in ink on paper, with a 1px ink frame and 4px × 12px padding. On hover the frame and text turn accent.
+- **Primary:** an accent fill with white text and no frame. Used once per context at most (for example "Reset filters" in the empty state).
+- **Icon / close:** borderless. On hover the glyph turns accent.
+- **Map tabs:** plain text with a mono count. The active tab is ink text with a 2px accent underline flush with the toolbar's bottom hairline.
+- **Layers / Network:** two words separated by a hairline. The active word is ink with a 2px **ink** underline (a view setting, not a place, so it is not accent).
+- **Validation count:** mono text. Ink when clean or only warnings, Error red with errors.
+- **Transitions:** colour and opacity only, 120ms ease-out. Nothing moves.
 
-### Buttons
-- **Shape:** gently rounded (8px; 6px for small panel actions, 7px for filled primary buttons).
-- **Ghost (default):** Margin Navy fill, 1px Border Navy, Ink Secondary text at control size, 6px × 10px padding. Hover brightens the text to Ink Primary and the border to Border Strong. Reset and Clear filters are ghost buttons too: amber belongs to Learning and to warnings.
-- **Active / toggled:** Annotation Blue border, Annotation Wash fill, Annotation Blue Light text.
-- **Primary:** solid Annotation Blue, white 600-weight text, 6px × 12px, no border. Used sparingly, for example "reset filters" in the empty state.
-- **Close / icon:** borderless and transparent; hover adds an 8% white wash.
-- **Validation button (toolbar):** takes the tint of its result: green when clean, amber with warnings, red with errors.
-- **Transitions:** `all 0.15s ease`.
-
-### Map tabs and segmented control
-- **Tabs:** a 3px-padded Margin Navy rail (10px radius, 1px border) holding transparent 7px-radius tabs with a node-count pill. The active tab is solid Annotation Blue with white text and a translucent white count pill; hover on the active tab deepens to Annotation Blue Deep.
-- **Segmented (Layers / Network):** the same rail at 8px radius. The active segment lifts to Raised Navy with Ink Primary text and the Segment shadow, not blue, because it's a view setting rather than a place.
-
-### Chips
-- **Kind filter chips:** Margin Navy, 6px radius, 1px border, emoji and name plus a muted count. Active means Annotation Wash fill, Annotation Blue border and Annotation Blue Light text.
-- **Tags:** mono, full pill, Annotation Wash with a 30% blue border and Annotation Blue Light text.
-- **Status badges:** full pill, 600 weight, text and border in the status colour over its 16–18% tint.
-- **Map / meta chips:** Raised or Margin Navy, 6px radius, Ink Secondary. A map chip is clickable and turns its border blue on hover.
-
-### Cards / Containers
-- **Trio card (what / why / problem):** Card Navy, 9px radius, 1px Border Navy, with a 3px left stripe (blue for what, green for why, amber for problem). An uppercase Ink Muted label sits over 13px / 1.5 Ink Primary text. This is the heart of the reading experience.
-- **Card order:** trio, then the Markdown body (Example, Key points), then connections, links, and tags last. The substance comes before the index.
-- **Relation row:** Card Navy, 8px radius, a full-width button showing a status dot, kind emoji, a 600-weight name, an optional map chip (the map's name, not its id, never uppercase) and an italic Ink Secondary verb. The verb reads in the relation's direction: before the name for outgoing rows ("authored with →"), after it for backlinks ("→ integrates with"). On phones a long name wraps under the verb. Hover turns the border Annotation Blue over a 10% wash. Each direction (outgoing, backlinks) shows its first six rows; the rest sit behind a native `<details>` disclosure ("N more", 12px Ink Secondary, 4% white wash on hover).
-- **Link row:** the same shape with Annotation Blue Light text.
-- **Inline code:** in Markdown, the trio and search descriptions, a mono chip in Annotation Blue Light on a 12% slate wash, 4px radius, 1px × 4px padding. Backticks in frontmatter text render as inline code, never as literal backticks.
-- **Code block:** Code Well fill, 1px border, 8px radius, 12px padding, horizontal scroll. The syntax palette is violet keywords (`#c084fc`), blue functions and titles (`#60a5fa`), green strings (`#86efac`), amber numbers and attributes (`#fbbf24`), and muted italic comments (Ink Muted).
-
-### Inputs / Fields
-- **Search:** the only text input. It is borderless and transparent inside a Margin Navy header row of the search modal, with 14.5px text and a mono kbd hint. On touch screens the hint becomes a 15px Annotation Blue Light "Cancel" text button. Focus is carried by the modal itself; results below highlight the active row with Annotation Wash and a 45% blue border. A query starting with `#` matches tag prefixes only. Result rows show the map's name, never its id.
-- **Checkboxes:** native, with 12px Ink Secondary labels.
-
-### Navigation
-- **Toolbar:** Panel Navy band with a bottom border. The brand (emoji logo, 15px bold "Tech Graph", 11px node and relation count) sits at the left, map tabs in the middle, and search, mode switch, edge-label toggle, validation button and legend on the right. It wraps when narrow.
-- **Sidebar filter rows:** transparent 7px-radius rows with a status or category dot, a 500-weight label and a tabular-number count. Hover adds a 4% white wash. Active means Annotation Wash with a 45% blue border. Category rows add a 3px mini progress bar in the category hue. A row or kind chip whose count is zero on the current map is disabled at 45% opacity with no hover.
-- **Progress bar:** a 7px pill track on Margin Navy, segmented by status colour, animating width over 250ms.
-- **History:** every change of map, node or mode is a browser history entry, so Back retraces a walk through relations. Only the first load and unreadable deep links rewrite the URL in place.
+### Sidebar
+Sections in order: Status (the legend is now a filter), Categories, Kinds, Progress. They are separated by hairlines and 24px of space, and each has a sentence-case Label head.
+- **Filter row:** a 32px row with a swatch (the status ramp square or the category tint square), the name at Control size, and a right-aligned tabular mono count. Hover turns the name accent. Active means accent text plus a 2px accent rule at the row's left edge. A row with a zero count shows at 40% opacity and has no hover.
+- **Kinds:** rows, not chips. The kind value is set in mono (`framework`).
+- **Progress:** a 4px bar on a hairline track, divided by the five status treatments (ink, ink-2, outlined, ticked, dashed), with mono counts beneath. Per-category bars use the category tint on a hairline track.
 
 ### Tech Node (signature)
-The pin on the map: 220 × 68px, Node Surface fill, 10px radius, a 1.8px border in the **status** colour (dashed when planned), and a 5px **category** bar down the left edge. Inside are a kind emoji, a 13.5px semibold name that truncates with an ellipsis, then a meta row with the category name in its own hue on the left and the status pill on the right. States:
-- **Hover:** lifts 1px over 150ms.
-- **Selected:** Ink Heading border, status-coloured 2px ring, deeper shadow.
-- **Ghost** (home is another map): dashed border, 68% opacity on a translucent fill, an "↗ map" badge in place of the category name, and 95% opacity on hover.
-- **Dimmed** (not a neighbour of the selection): 25% opacity over 180ms.
-- **Far** (zoom below 75%): name only, 26px, up to two balanced lines; the fill takes the status tint so status still reads when the border is sub-pixel.
-Connection handles are 6px slate dots at 40% opacity.
-
-### Category Group (signature, Layers mode)
-A 14px-radius frame whose 1.5px border, header band and fill are the category's atlas tint at roughly 40%, 13% and 7% alpha. A bullet dot, an uppercase 12px Ink Label title and a pill count sit in the header. Ghost groups use a dashed frame and are titled "↗ <map name>", matching the ghost-node badge. In the far view the title grows to 26px and truncates with an ellipsis, the dot to 18px, and the count hides.
+A 224 × 64 block with square corners. The fill and edge follow the ink density ramp, and a 6px category band runs down the left edge.
+- **Line 1:** mono small `kind · status` (for example `framework · work`) at 70% of the text colour.
+- **Line 2:** the name at Name size, truncated with an ellipsis.
+- **Hover:** a 1px accent outline at a 2px offset.
+- **Selected:** a 2px accent outline at a 2px offset. The node's own fill never changes.
+- **Ghost:** a paper fill, a 1px dashed Ink Muted edge, and line 1 reads `↗ backend`.
+- **Dimmed:** 20% opacity over 120ms.
+- **Focus-visible:** the same 2px accent outline at a 4px offset (8px wide in the far view). Enter or Space opens the entry.
+- Connection handles are hidden until hover.
 
 ### Edges
-Smooth slate lines (`rgba(148, 163, 184, 0.55)`), fading to 22% when dimmed. Relations of the selected node turn Annotation Blue Bright as a solid 2.2px stroke. Edges never animate or dash (see The Dashed-Means-Distance Rule). Labels sit on a dark rounded plate and appear on hover or selection, or always when the edge-label toggle is on.
+Straight or orthogonal 1px ink lines at 30% opacity. They drop to 10% when dimmed. The selected node's relations become 2px accent lines at 100%. Edge labels are Mono Small on an opaque paper plate with no frame, shown on hover or selection, or always when the toggle is on. Edges are never dashed and never animated.
+
+### Inputs
+- **Search field:** borderless inside the sheet's head, at Title size, with a mono `Esc` hint at the right. A 2px Rule sits under the field. A query starting with `#` matches tags only.
+- **Checkboxes:** native, with `accent-color: accent`.
+
+### Inline code
+Mono Code in ink on Paper Sunk, padded 0 × 4px, with square corners. Backticks in frontmatter text render as inline code.
 
 ### Icons
-The kind icons and logo are emoji today (🔤 language, 🏗️ framework, 📦 library, 🛠️ tool, ☁️ service, 💡 concept, ⚙️ platform; 🕸️ logo). They are **placeholders**: a proper SVG icon set may replace them, so don't build new identity on emoji.
+There are none. Emoji are removed: a kind is its mono value, and the logo is the wordmark. If an icon is ever added, it is a 1.5px-stroke square-capped line glyph at 16px, drawn in ink.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** encode status through the node's border colour, its pill badge and its legend dot together, using the five fixed status tokens.
-- **Do** use a category's hue only as a mark: the 5px node bar, its label text, its dot and its group frame tints.
-- **Do** show active and selected controls with Annotation Wash, an Annotation Blue border and Annotation Blue Light text. Reserve solid Annotation Blue for the current map tab and primary buttons.
-- **Do** separate docked surfaces by navy tone and 1px Border Navy lines, and give a shadow only to things that float (see The Float-Only Shadow Rule).
-- **Do** set ids, tags, keyboard hints, code and validation messages in the mono stack.
-- **Do** keep transitions short and eased (120–250ms) and limit movement to the 1px node lift. Under `prefers-reduced-motion` every transition, animation and viewport move is instant.
-- **Do** show keyboard focus as a 2px Annotation Blue outline at a 2px offset on `:focus-visible`. A focused node takes the outline at a 3px offset (6px wide at a 6px offset in the far view) and returns to full opacity even when dimmed. Enter or Space on a focused node opens its card.
-- **Do** give every new rounded element a corner from the existing scale (4/6/7/8/9/10/12/14/pill), stepping up with its size.
+- **Do** align every pane, node and row to the 4px baseline and the 80px module.
+- **Do** separate sections with a hairline and 24–32px of space, and open major sections with a 2px Rule.
+- **Do** show status with the ink density ramp *and* the literal mono value, together.
+- **Do** use atlas tints only as fields: node bands, group regions, swatches and category progress bars.
+- **Do** keep the accent for place, selection, focus, links, the primary action and the `learning` tick.
+- **Do** set every frontmatter value (ids, verbs, kinds, statuses, tags) in Geist Mono.
+- **Do** make every transition colour or opacity only, 120ms, and instant under `prefers-reduced-motion`.
 
 ### Don't:
-- **Don't** use a status hue for decoration or for a meaning other than its status. Status colours state facts about the author's experience.
-- **Don't** use a dashed border for anything except planned nodes and ghost nodes or groups (see The Dashed-Means-Distance Rule).
-- **Don't** put a shadow on cards or rows inside a docked panel.
-- **Don't** fill large surfaces with Annotation Blue or any saturated hue. The error banner is the only full-colour surface.
-- **Don't** make new design decisions that depend on the emoji icons; they are placeholders for an SVG set.
-- **Don't** hard-code new category colours in CSS or components. They belong in `content/maps.yaml` and come from the twelve atlas tints.
-- **Don't** give a category a saturated hue or a status hue, even a near one (see The Ink-and-Region Rule).
+- **Don't** put a section, relation, link or error item in a card, a tinted box or a bordered container (see the Anti-reference).
+- **Don't** round a corner, cast a shadow, lift on hover or blur a backdrop.
+- **Don't** add a second saturated hue. Error red is the only exception, and only for validation errors.
+- **Don't** fill a node for any reason other than its status.
+- **Don't** use a tint as text, as an outline or for a status.
+- **Don't** uppercase or letter-space anything.
+- **Don't** use emoji or pill badges, or chips for tags, kinds or statuses.
+- **Don't** hard-code category colours in CSS. They live in `content/maps.yaml`.

@@ -82,7 +82,7 @@ function RelationList({ title, rows, homeMap, graph }: RelationListProps) {
   return (
     <div className="detail-panel__relation-group">
       <h4 className="detail-panel__relation-subtitle">
-        {title} ({rows.length})
+        {title} <span className="detail-panel__count">{rows.length}</span>
       </h4>
       <div className="detail-panel__relation-list">
         {rows.slice(0, VISIBLE_RELATIONS).map(renderRow)}
@@ -210,7 +210,7 @@ export function DetailPanel({ graph }: DetailPanelProps) {
             ● {statusMeta.label}
           </span>
 
-          <span className="detail-panel__meta-badge">
+          <span className="detail-panel__meta-badge detail-panel__meta-badge--value">
             {kindIcon} {node.kind}
           </span>
 
@@ -224,28 +224,28 @@ export function DetailPanel({ graph }: DetailPanelProps) {
 
       <div key={node.id} className="detail-panel__scroll">
         {/* Core Trio: What / Why / Problem */}
-        <section className="detail-panel__trio">
-          <div className="detail-panel__trio-card detail-panel__trio-card--what">
-            <h3 className="detail-panel__trio-label">What it is</h3>
-            <p className="detail-panel__trio-text">
+        <dl className="detail-panel__trio">
+          <div className="detail-panel__trio-row">
+            <dt className="detail-panel__trio-label">What</dt>
+            <dd className="detail-panel__trio-text">
               <InlineCodeText text={node.what} />
-            </p>
+            </dd>
           </div>
 
-          <div className="detail-panel__trio-card detail-panel__trio-card--why">
-            <h3 className="detail-panel__trio-label">Why use it</h3>
-            <p className="detail-panel__trio-text">
+          <div className="detail-panel__trio-row">
+            <dt className="detail-panel__trio-label">Why</dt>
+            <dd className="detail-panel__trio-text">
               <InlineCodeText text={node.why} />
-            </p>
+            </dd>
           </div>
 
-          <div className="detail-panel__trio-card detail-panel__trio-card--problem">
-            <h3 className="detail-panel__trio-label">Problem it solves</h3>
-            <p className="detail-panel__trio-text">
+          <div className="detail-panel__trio-row">
+            <dt className="detail-panel__trio-label">Problem</dt>
+            <dd className="detail-panel__trio-text">
               <InlineCodeText text={node.problem} />
-            </p>
+            </dd>
           </div>
-        </section>
+        </dl>
 
         {/* Markdown Body */}
         {node.body ? (
@@ -274,7 +274,8 @@ export function DetailPanel({ graph }: DetailPanelProps) {
         {outgoing.length > 0 || incoming.length > 0 ? (
           <section className="detail-panel__section">
             <h3 className="detail-panel__section-title">
-              Connections ({outgoing.length + incoming.length})
+              Connections{" "}
+              <span className="detail-panel__count">{outgoing.length + incoming.length}</span>
             </h3>
             <RelationList title="Outgoing" rows={outgoing} homeMap={node.map} graph={graph} />
             <RelationList
