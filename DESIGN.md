@@ -345,7 +345,7 @@ The head is the current map name at Title size, with Reset (only when filters ar
 ### Tech Node (signature)
 A 224 × 64 block with square corners. The fill and edge follow the ink density ramp, and a 6px category band runs down the left edge.
 - **Line 1:** the name at Name size, truncated with an ellipsis.
-- **Line 2:** mono small `kind · status` (for example `framework · work`) at 70% of the text colour.
+- **Line 2:** mono small `kind · status` (for example `framework · work`), one step quieter than the name and never below 4.5:1: Ink Muted on paper nodes, 70% Paper on `work`, 85% white on `practiced`.
 - **Hover:** a 1px accent outline at a 2px offset.
 - **Selected:** a 2px accent outline at a 2px offset. The node's own fill never changes. While a node is selected or hovered, it and its neighbours lift above the edge layer, so no relation line crosses a name.
 - **Ghost:** a paper fill, a 1px dashed Ink Muted edge, and line 2 reads `↗ backend`.

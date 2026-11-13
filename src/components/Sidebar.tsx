@@ -147,7 +147,7 @@ export function Sidebar({ graph }: SidebarProps) {
         : (graph.mapsById.get(activeMap)?.name ?? activeMap);
 
   return (
-    <aside className="sidebar" aria-label="Filters and progress">
+    <aside id="filters-sidebar" className="sidebar" aria-label="Filters and progress">
       <div className="sidebar__header">
         <h2 className="sidebar__title">{scopeName}</h2>
         {hasActiveFilters ? (
@@ -163,7 +163,10 @@ export function Sidebar({ graph }: SidebarProps) {
         <button
           type="button"
           className="sidebar__collapse-btn"
-          onClick={toggleSidebar}
+          onClick={() => {
+            toggleSidebar();
+            document.getElementById("filters-toggle")?.focus();
+          }}
           title="Collapse sidebar"
           aria-label="Collapse sidebar"
         >

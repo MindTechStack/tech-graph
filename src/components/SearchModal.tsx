@@ -176,7 +176,7 @@ export function SearchModal({ graph }: SearchModalProps) {
             type="text"
             role="combobox"
             aria-label="Search nodes"
-            aria-expanded="true"
+            aria-expanded={results.length > 0}
             aria-controls={RESULTS_ID}
             aria-autocomplete="list"
             aria-activedescendant={activeOptionId}

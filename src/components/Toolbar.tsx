@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { CORE_SCOPE_LABEL, isNodeDirectlyInMap, type KnowledgeGraph } from "../content/graph";
 import { type ActiveMapTab, useAppState } from "../state/useAppState";
 import { Icon } from "./Icon";
@@ -59,6 +59,17 @@ export function Toolbar({ graph }: ToolbarProps) {
     return items;
   }, [graph]);
 
+  const tabStripRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const revealActiveTab = () =>
+      tabStripRef.current
+        ?.querySelector('[aria-current="page"]')
+        ?.scrollIntoView({ block: "nearest", inline: "nearest" });
+    revealActiveTab();
+    void document.fonts.ready.then(revealActiveTab);
+  }, [activeMap]);
+
   const errorCount = graph.errors.length;
   const warningCount = graph.warnings.length;
 
@@ -66,18 +77,18 @@ export function Toolbar({ graph }: ToolbarProps) {
     <header className="toolbar" inert={isSearchOpen || isErrorPanelOpen}>
       <div className="toolbar__left">
         <button
+          id="filters-toggle"
           type="button"
           className={`toolbar__icon-btn ${isSidebarOpen ? "toolbar__icon-btn--active" : ""}`}
           onClick={toggleSidebar}
           title={isSidebarOpen ? "Hide filters sidebar" : "Show filters sidebar"}
-          aria-label="Toggle filters sidebar"
+          aria-label={hasActiveFilters ? "Filters, some active" : "Filters"}
           aria-expanded={isSidebarOpen}
+          aria-controls={isSidebarOpen ? "filters-sidebar" : undefined}
         >
           <Icon name="menu" />
           <span className="toolbar__btn-label">Filters</span>
-          {hasActiveFilters ? (
-            <span className="toolbar__filter-dot" role="img" aria-label="Filters active" />
-          ) : null}
+          {hasActiveFilters ? <span className="toolbar__filter-dot" aria-hidden="true" /> : null}
         </button>
 
         <div className="toolbar__brand">
@@ -88,7 +99,7 @@ export function Toolbar({ graph }: ToolbarProps) {
         </div>
       </div>
 
-      <nav className="toolbar__tabs" aria-label="Knowledge maps">
+      <nav ref={tabStripRef} className="toolbar__tabs" aria-label="Knowledge maps">
         {mapTabs.map((tab) => {
           const isActive = activeMap === tab.id;
           return (
@@ -112,6 +123,7 @@ export function Toolbar({ graph }: ToolbarProps) {
           className="toolbar__search-btn"
           onClick={() => setIsSearchOpen(true)}
           title={`Search nodes (${SEARCH_SHORTCUT})`}
+          aria-haspopup="dialog"
         >
           <Icon name="search" />
           <span>Search</span>
@@ -145,7 +157,9 @@ export function Toolbar({ graph }: ToolbarProps) {
           title="Show edge labels always, or only on hover and selection"
         >
           Labels{" "}
-          <span className="toolbar__toggle-value">{showAllEdgeLabels ? "always" : "hover"}</span>
+          <span className="toolbar__toggle-value" aria-hidden="true">
+            {showAllEdgeLabels ? "always" : "hover"}
+          </span>
         </button>
 
         {import.meta.env.DEV ? (
