@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { CORE_SCOPE_LABEL, isNodeDirectlyInMap, type KnowledgeGraph } from "../content/graph";
 import { NODE_STATUSES } from "../content/schema";
 import { type ActiveMapTab, useAppState } from "../state/useAppState";
+import { Icon } from "./Icon";
 import { STATUS_META } from "./TechNode";
 
 const SEARCH_SHORTCUT =
@@ -69,14 +70,14 @@ export function Toolbar({ graph }: ToolbarProps) {
           title={isSidebarOpen ? "Hide filters sidebar" : "Show filters sidebar"}
           aria-label="Toggle filters sidebar"
         >
-          <span>☰</span>
+          <Icon name="menu" />
           <span className="toolbar__btn-label">Filters</span>
           {hasActiveFilters ? <span className="toolbar__filter-dot" /> : null}
         </button>
 
         <div className="toolbar__brand">
-          <span className="toolbar__logo" aria-hidden="true">
-            🕸️
+          <span className="toolbar__logo">
+            <Icon name="graph" size={20} />
           </span>
           <div>
             <h1 className="toolbar__title">Tech Graph</h1>
@@ -112,7 +113,8 @@ export function Toolbar({ graph }: ToolbarProps) {
           onClick={() => setIsSearchOpen(true)}
           title={`Search nodes (${SEARCH_SHORTCUT})`}
         >
-          <span>🔍 Search…</span>
+          <Icon name="search" />
+          <span>Search…</span>
           <kbd className="toolbar__kbd">{SEARCH_SHORTCUT}</kbd>
         </button>
 
@@ -156,11 +158,12 @@ export function Toolbar({ graph }: ToolbarProps) {
           onClick={() => setIsErrorPanelOpen(true)}
           title="Open content validation diagnostics"
         >
+          <Icon name={errorCount + warningCount > 0 ? "alert" : "check"} />
           {errorCount > 0
-            ? `⚠️ ${errorCount} err`
+            ? `${errorCount} err`
             : warningCount > 0
-              ? `⚡ ${warningCount} warn`
-              : "✓ Valid"}
+              ? `${warningCount} warn`
+              : "Valid"}
         </button>
 
         <div className="toolbar__legend" aria-label="Status legend">

@@ -6,13 +6,14 @@ import type { KnowledgeGraph } from "../content/graph";
 import type { TechNodeData } from "../content/parse";
 import { useAppState } from "../state/useAppState";
 import { ErrorBoundary } from "./ErrorBoundary";
-import { KIND_ICONS, STATUS_META } from "./TechNode";
+import { Icon } from "./Icon";
+import { STATUS_META } from "./TechNode";
 
 export interface DetailPanelProps {
   readonly graph: KnowledgeGraph;
 }
 
-const VISIBLE_RELATIONS = 6;
+const VISIBLE_RELATION_NAMES = 12;
 const MARKDOWN_COMPONENTS = { h2: "h3" } as const;
 
 export function InlineCodeText({ text }: { readonly text: string }) {
@@ -37,6 +38,37 @@ interface RelationListProps {
   readonly graph: KnowledgeGraph;
 }
 
+interface VerbGroup {
+  readonly verb: string;
+  readonly rows: RelationRowData[];
+}
+
+function groupByVerb(rows: readonly RelationRowData[]): VerbGroup[] {
+  const groups = new Map<string, RelationRowData[]>();
+  for (const row of rows) {
+    const group = groups.get(row.verb);
+    if (group) {
+      group.push(row);
+    } else {
+      groups.set(row.verb, [row]);
+    }
+  }
+  return [...groups].map(([verb, groupRows]) => ({ verb, rows: groupRows }));
+}
+
+function splitAtNameBudget(groups: readonly VerbGroup[], budget: number) {
+  let used = 0;
+  let cut = 0;
+  for (const group of groups) {
+    if (cut > 0 && used + group.rows.length > budget) {
+      break;
+    }
+    used += group.rows.length;
+    cut += 1;
+  }
+  return { visible: groups.slice(0, cut), hidden: groups.slice(cut) };
+}
+
 function RelationList({ title, rows, homeMap, graph }: RelationListProps) {
   const { navigateToNode, setHoveredNodeId } = useAppState();
 
@@ -44,10 +76,11 @@ function RelationList({ title, rows, homeMap, graph }: RelationListProps) {
     return null;
   }
 
-  const renderRow = (row: RelationRowData) => {
+  const { visible, hidden } = splitAtNameBudget(groupByVerb(rows), VISIBLE_RELATION_NAMES);
+  const hiddenNameCount = hidden.reduce((sum, group) => sum + group.rows.length, 0);
+
+  const renderName = (row: RelationRowData) => {
     const status = STATUS_META[row.node.status];
-    const verbLabel = row.direction === "outgoing" ? `${row.verb} →` : `→ ${row.verb}`;
-    const verb = <span className="detail-panel__relation-verb">{verbLabel}</span>;
     return (
       <button
         key={row.key}
@@ -57,54 +90,51 @@ function RelationList({ title, rows, homeMap, graph }: RelationListProps) {
         onMouseEnter={() => setHoveredNodeId(row.node.id)}
         onMouseLeave={() => setHoveredNodeId(null)}
       >
-        {row.direction === "outgoing" ? verb : null}
-        <span className="detail-panel__relation-target">
-          <span aria-hidden="true">{KIND_ICONS[row.node.kind]}</span>
-          <span className="detail-panel__relation-name">{row.node.name}</span>
-          {row.node.map !== homeMap ? (
-            <span className="detail-panel__relation-map">
-              {graph.mapsById.get(row.node.map)?.name ?? row.node.map}
-            </span>
-          ) : null}
-          <span
-            className="detail-panel__relation-dot"
-            style={{ backgroundColor: status.color }}
-            title={status.label}
-            role="img"
-            aria-label={status.label}
-          />
-        </span>
-        {row.direction === "incoming" ? verb : null}
+        <span
+          className="detail-panel__relation-dot"
+          style={{ backgroundColor: status.color }}
+          title={status.label}
+          role="img"
+          aria-label={status.label}
+        />
+        <span className="detail-panel__relation-name">{row.node.name}</span>
+        {row.node.map !== homeMap ? (
+          <span className="detail-panel__relation-map">
+            {graph.mapsById.get(row.node.map)?.name ?? row.node.map}
+          </span>
+        ) : null}
       </button>
     );
   };
+
+  const renderGroups = (groups: readonly VerbGroup[]) => (
+    <dl className="detail-panel__relation-list">
+      {groups.map((group) => (
+        <div key={group.verb} className="detail-panel__relation-row">
+          <dt className="detail-panel__relation-verb">
+            {group.rows[0]?.direction === "incoming" ? `← ${group.verb}` : `${group.verb} →`}
+          </dt>
+          <dd className="detail-panel__relation-targets">{group.rows.map(renderName)}</dd>
+        </div>
+      ))}
+    </dl>
+  );
 
   return (
     <div className="detail-panel__relation-group">
       <h4 className="detail-panel__relation-subtitle">
         {title} <span className="detail-panel__count">{rows.length}</span>
       </h4>
-      <div className="detail-panel__relation-list">
-        {rows.slice(0, VISIBLE_RELATIONS).map(renderRow)}
-      </div>
-      {rows.length > VISIBLE_RELATIONS ? (
+      {renderGroups(visible)}
+      {hidden.length > 0 ? (
         <details className="detail-panel__relation-more">
-          <summary>{rows.length - VISIBLE_RELATIONS} more</summary>
-          <div className="detail-panel__relation-list">
-            {rows.slice(VISIBLE_RELATIONS).map(renderRow)}
-          </div>
+          <summary>{hiddenNameCount} more</summary>
+          {renderGroups(hidden)}
         </details>
       ) : null}
     </div>
   );
 }
-
-const SOURCE_LABELS: Readonly<Record<string, string>> = {
-  course: "🎓 Node.js Course",
-  work: "💼 Commercial Work",
-  personal: "🚀 Personal Project",
-  "self-study": "📚 Self-Study",
-};
 
 export function DetailPanel({ graph }: DetailPanelProps) {
   const { selectedNodeId, setSelectedNodeId, requestCenterNode, setActiveMap } = useAppState();
@@ -121,8 +151,7 @@ export function DetailPanel({ graph }: DetailPanelProps) {
   const mapConfig = graph.mapsById.get(node.map);
   const categoryConfig = graph.categoriesByMap.get(node.map)?.get(node.category);
   const categoryColor = categoryConfig?.color ?? "#94a3b8";
-  const statusMeta = STATUS_META[node.status];
-  const kindIcon = KIND_ICONS[node.kind];
+  const mapName = mapConfig?.name ?? node.map;
 
   const outgoing: readonly RelationRowData[] = (graph.outgoingByNodeId.get(node.id) ?? []).map(
     (rel) => ({
@@ -145,81 +174,46 @@ export function DetailPanel({ graph }: DetailPanelProps) {
     <aside className="detail-panel" aria-label={`Details for ${node.name}`}>
       <header className="detail-panel__header">
         <div className="detail-panel__top-row">
-          <div className="detail-panel__breadcrumbs">
-            <button
-              type="button"
-              className="detail-panel__map-chip"
-              onClick={() => setActiveMap(node.map)}
-              title={`Switch to ${mapConfig?.name ?? node.map} map`}
-            >
-              {mapConfig?.name ?? node.map}
-            </button>
-            <span className="detail-panel__crumb-sep">/</span>
-            <span
-              className="detail-panel__category-chip"
-              style={{
-                borderColor: categoryColor,
-                color: categoryColor,
-              }}
-            >
+          <p className="detail-panel__meta">
+            <span className="detail-panel__place">
+              <span className="detail-panel__swatch" style={{ backgroundColor: categoryColor }} />
+              <button
+                type="button"
+                className="detail-panel__map-link"
+                onClick={() => setActiveMap(node.map)}
+                title={`Switch to ${mapName} map`}
+              >
+                {mapName}
+              </button>
+              {" / "}
               {categoryConfig?.name ?? node.category}
             </span>
-          </div>
-
-          <div className="detail-panel__actions">
-            <button
-              type="button"
-              className="detail-panel__action-btn"
-              onClick={() => requestCenterNode(node.id)}
-              title="Center this node on canvas"
-            >
-              🎯 Center
-            </button>
-            <button
-              type="button"
-              className="detail-panel__close-btn"
-              onClick={() => setSelectedNodeId(null)}
-              aria-label="Close detail panel"
-              title="Close (Esc)"
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-
-        <div className="detail-panel__title-row">
-          <span className="detail-panel__kind-icon" aria-hidden="true">
-            {kindIcon}
-          </span>
-          <div>
-            <h2 className="detail-panel__title">{node.name}</h2>
-            <code className="detail-panel__id">{node.id}</code>
-          </div>
-        </div>
-
-        <div className="detail-panel__badges">
-          <span
-            className="detail-panel__status-badge"
-            style={{
-              color: statusMeta.color,
-              backgroundColor: statusMeta.bg,
-              borderColor: statusMeta.color,
-              borderStyle: statusMeta.borderStyle,
-            }}
-          >
-            ● {statusMeta.label}
-          </span>
-
-          <span className="detail-panel__meta-badge detail-panel__meta-badge--value">
-            {kindIcon} {node.kind}
-          </span>
-
-          {node.source ? (
-            <span className="detail-panel__meta-badge">
-              {SOURCE_LABELS[node.source] ?? node.source}
+            <span className="detail-panel__values">
+              · {node.kind} · {node.status}
             </span>
-          ) : null}
+          </p>
+
+          <button
+            type="button"
+            className="detail-panel__icon-btn detail-panel__center-btn"
+            onClick={() => requestCenterNode(node.id)}
+            aria-label="Center this node on canvas"
+            title="Center on canvas"
+          >
+            <Icon name="target" />
+          </button>
+          <button
+            type="button"
+            className="detail-panel__icon-btn"
+            onClick={() => setSelectedNodeId(null)}
+            aria-label="Close detail panel"
+            title="Close (Esc)"
+          >
+            <Icon name="close" />
+          </button>
         </div>
+
+        <h2 className="detail-panel__title">{node.name}</h2>
       </header>
 
       <div key={node.id} className="detail-panel__scroll">
@@ -300,10 +294,8 @@ export function DetailPanel({ graph }: DetailPanelProps) {
                   rel="noopener noreferrer"
                   className="detail-panel__link"
                 >
-                  <span>🔗 {link.title}</span>
-                  <span className="detail-panel__link-arrow" aria-hidden="true">
-                    ↗
-                  </span>
+                  <span>{link.title}</span>
+                  <Icon name="link" />
                 </a>
               ))}
             </div>

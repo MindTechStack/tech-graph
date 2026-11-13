@@ -8,7 +8,8 @@ import {
 } from "../content/graph";
 import { NODE_KINDS, NODE_STATUSES, type NodeKind, type NodeStatus } from "../content/schema";
 import { useAppState } from "../state/useAppState";
-import { KIND_ICONS, STATUS_META } from "./TechNode";
+import { Icon } from "./Icon";
+import { STATUS_META } from "./TechNode";
 
 export interface SidebarProps {
   readonly graph: KnowledgeGraph;
@@ -305,7 +306,7 @@ export function Sidebar({ graph }: SidebarProps) {
                   aria-pressed={isSelected}
                   disabled={count === 0 && !isSelected}
                 >
-                  <span aria-hidden="true">{KIND_ICONS[kind]}</span>
+                  <Icon name={kind} />
                   <span>{kind}</span>
                   <span className="sidebar__chip-count">{count}</span>
                 </button>

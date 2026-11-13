@@ -9,7 +9,8 @@ import type { KnowledgeGraph } from "../content/graph";
 import type { TechNodeData } from "../content/parse";
 import { useAppState } from "../state/useAppState";
 import { InlineCodeText } from "./DetailPanel";
-import { KIND_ICONS, STATUS_META } from "./TechNode";
+import { Icon } from "./Icon";
+import { STATUS_META } from "./TechNode";
 
 export interface SearchModalProps {
   readonly graph: KnowledgeGraph;
@@ -171,8 +172,8 @@ export function SearchModal({ graph }: SearchModalProps) {
     >
       <div className="search-modal">
         <div className="search-modal__input-row">
-          <span className="search-modal__icon" aria-hidden="true">
-            🔍
+          <span className="search-modal__icon">
+            <Icon name="search" size={20} />
           </span>
           <input
             ref={inputRef}
@@ -232,7 +233,7 @@ export function SearchModal({ graph }: SearchModalProps) {
                 >
                   <div className="search-modal__item-top">
                     <span className="search-modal__item-title">
-                      <span>{KIND_ICONS[node.kind]}</span>
+                      <Icon name={node.kind} />
                       <strong>{node.name}</strong>
                       <code className="search-modal__item-id">{node.id}</code>
                     </span>

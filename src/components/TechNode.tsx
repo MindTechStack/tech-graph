@@ -1,7 +1,8 @@
 import { Handle, type Node, type NodeProps, Position } from "@xyflow/react";
-import { memo } from "react";
+import { type CSSProperties, memo } from "react";
 import type { TechNodeData } from "../content/parse";
-import type { NodeKind, NodeStatus } from "../content/schema";
+import type { NodeStatus } from "../content/schema";
+import { Icon } from "./Icon";
 
 export interface TechNodeFlowData extends Record<string, unknown> {
   readonly tech: TechNodeData;
@@ -58,20 +59,9 @@ export const STATUS_META: Readonly<
   },
 };
 
-export const KIND_ICONS: Readonly<Record<NodeKind, string>> = {
-  language: "🔤",
-  framework: "🏗️",
-  library: "📦",
-  tool: "🛠️",
-  service: "☁️",
-  concept: "💡",
-  platform: "⚙️",
-};
-
 function TechNodeComponent({ data }: NodeProps<TechFlowNode>) {
   const { tech, isGhost, categoryName, homeMapName, categoryColor, isSelected, isDimmed } = data;
   const statusMeta = STATUS_META[tech.status];
-  const kindIcon = KIND_ICONS[tech.kind];
 
   const classNames = [
     "tech-node",
@@ -86,13 +76,7 @@ function TechNodeComponent({ data }: NodeProps<TechFlowNode>) {
   return (
     <div
       className={classNames}
-      style={{
-        borderColor: isSelected ? "#f8fafc" : statusMeta.color,
-        borderStyle: isGhost ? "dashed" : statusMeta.borderStyle,
-        boxShadow: isSelected
-          ? `0 0 0 2px ${statusMeta.color}, 0 8px 24px rgba(0, 0, 0, 0.55)`
-          : undefined,
-      }}
+      style={{ "--status-color": statusMeta.color } as CSSProperties}
       title={
         isGhost
           ? `${tech.name} — open it on the ${homeMapName} map`
@@ -110,8 +94,8 @@ function TechNodeComponent({ data }: NodeProps<TechFlowNode>) {
 
       <div className="tech-node__body">
         <div className="tech-node__header">
-          <span className="tech-node__icon" aria-hidden="true">
-            {kindIcon}
+          <span className="tech-node__icon">
+            <Icon name={tech.kind} />
           </span>
           <span className="tech-node__title">{tech.name}</span>
         </div>
@@ -124,17 +108,7 @@ function TechNodeComponent({ data }: NodeProps<TechFlowNode>) {
               {categoryName}
             </span>
           )}
-
-          <span
-            className="tech-node__status-badge"
-            style={{
-              color: statusMeta.color,
-              backgroundColor: statusMeta.bg,
-              borderColor: statusMeta.color,
-            }}
-          >
-            {statusMeta.label}
-          </span>
+          <span className="tech-node__status">{tech.status}</span>
         </div>
       </div>
 

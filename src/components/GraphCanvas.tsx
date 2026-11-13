@@ -4,7 +4,6 @@ import {
   Controls,
   type EdgeMouseHandler,
   MarkerType,
-  MiniMap,
   type NodeMouseHandler,
   type NodeTypes,
   Panel,
@@ -33,7 +32,8 @@ import {
 } from "../layout/elk";
 import { useAppState } from "../state/useAppState";
 import { GroupNode } from "./GroupNode";
-import { STATUS_META, TechNode } from "./TechNode";
+import { Icon } from "./Icon";
+import { TechNode } from "./TechNode";
 
 const NODE_TYPES: NodeTypes = {
   tech: TechNode,
@@ -43,6 +43,7 @@ const NODE_TYPES: NodeTypes = {
 const OVERVIEW_MIN_ZOOM = 0.4;
 const FAR_VIEW_ZOOM = 0.75;
 const FOCUS_ZOOM = 1.15;
+const FIT_INSET = { top: 72, right: 72, bottom: 32, left: 32 };
 
 const NODE_KEYBOARD_HINT = "Press Enter or Space to open its card.";
 const ARIA_LABEL_CONFIG = {
@@ -78,6 +79,46 @@ function flowBox(nodes: readonly AppFlowNode[], nodeId: string) {
   };
 }
 
+function layoutBounds(nodes: readonly AppFlowNode[]) {
+  const topLevel = nodes.filter((n) => !n.parentId);
+  if (topLevel.length === 0) {
+    return null;
+  }
+  const minX = Math.min(...topLevel.map((n) => n.position.x));
+  const minY = Math.min(...topLevel.map((n) => n.position.y));
+  const maxX = Math.max(
+    ...topLevel.map((n) => n.position.x + (n.width ?? Number(n.style?.width ?? 0))),
+  );
+  const maxY = Math.max(
+    ...topLevel.map((n) => n.position.y + (n.height ?? Number(n.style?.height ?? 0))),
+  );
+  return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
+}
+
+function overviewViewport(
+  bounds: { x: number; y: number; width: number; height: number },
+  paneWidth: number,
+  paneHeight: number,
+  rightInset: number,
+) {
+  const availableWidth = paneWidth - FIT_INSET.left - rightInset;
+  const availableHeight = paneHeight - FIT_INSET.top - FIT_INSET.bottom;
+  const zoom = Math.min(
+    1,
+    Math.max(
+      OVERVIEW_MIN_ZOOM,
+      Math.min(availableWidth / bounds.width, availableHeight / bounds.height),
+    ),
+  );
+  const slackX = Math.max(0, availableWidth - bounds.width * zoom);
+  const slackY = Math.max(0, availableHeight - bounds.height * zoom);
+  return {
+    x: FIT_INSET.left + slackX / 2 - bounds.x * zoom,
+    y: FIT_INSET.top + slackY / 2 - bounds.y * zoom,
+    zoom,
+  };
+}
+
 function pluralWord(count: number, word: string): string {
   return count === 1 ? word : `${word}s`;
 }
@@ -109,7 +150,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
   } = useAppState();
 
   const store = useStoreApi<AppFlowNode, AppFlowEdge>();
-  const { fitView, setCenter, getViewport } = useReactFlow<AppFlowNode, AppFlowEdge>();
+  const { setViewport, setCenter, getViewport } = useReactFlow<AppFlowNode, AppFlowEdge>();
   const isFarView = useStore((state) => state.transform[2] < FAR_VIEW_ZOOM);
   const [positioned, setPositioned] = useState<PositionedGraph | null>(null);
   const [hoveredEdgeId, setHoveredEdgeId] = useState<string | null>(null);
@@ -213,8 +254,15 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
     if (pendingFocus && centreOnNode(pendingFocus.nodeId, FOCUS_ZOOM, motionDuration(340))) {
       handledFocusSeqRef.current = pendingFocus.seq;
     } else if (fittedLayoutRef.current !== positioned) {
-      syncPaneSize();
-      void fitView({ padding: 0.16, duration: motionDuration(260), minZoom: OVERVIEW_MIN_ZOOM });
+      const pane = syncPaneSize();
+      const bounds = layoutBounds(positioned.nodes);
+      if (pane && bounds) {
+        const rightInset = FIT_INSET.right + detailPanelOverlap(pane);
+        void setViewport(
+          overviewViewport(bounds, pane.offsetWidth, pane.offsetHeight, rightInset),
+          { duration: motionDuration(260) },
+        );
+      }
     } else if (
       selectedNodeId &&
       selectedNodeId !== revealedNodeIdRef.current &&
@@ -229,7 +277,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
     isLayoutPending,
     focusRequest,
     selectedNodeId,
-    fitView,
+    setViewport,
     syncPaneSize,
     centreOnNode,
     isNodeOutOfView,
@@ -301,6 +349,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
 
       return {
         ...edge,
+        hidden: isFarView && !isHighlighted,
         label: showLabel ? edge.data?.rawLabel : undefined,
         className: isHighlighted ? "is-highlighted" : undefined,
         zIndex: isHighlighted ? 10 : 0,
@@ -329,7 +378,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
         },
       };
     });
-  }, [positioned, activeFocusNodeId, hoveredEdgeId, showAllEdgeLabels]);
+  }, [positioned, activeFocusNodeId, hoveredEdgeId, showAllEdgeLabels, isFarView]);
 
   const onNodeClick = useCallback<NodeMouseHandler<AppFlowNode>>(
     (_event, node) => {
@@ -407,22 +456,6 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
       >
         <Background variant={BackgroundVariant.Dots} gap={22} size={1.2} color="#262b38" />
         <Controls position="bottom-right" showInteractive={false} />
-        <MiniMap<AppFlowNode>
-          position="bottom-left"
-          style={{ width: 168, height: 112 }}
-          pannable
-          zoomable
-          nodeColor={(node) => {
-            if (node.type === "categoryGroup") {
-              return "rgba(100, 116, 139, 0.12)";
-            }
-            if (node.type === "tech") {
-              return STATUS_META[node.data.tech.status].color;
-            }
-            return "#475569";
-          }}
-          maskColor="rgba(10, 12, 18, 0.72)"
-        />
 
         <Panel position="top-left" className="graph-canvas__info-pill">
           <span>
@@ -442,7 +475,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
               onClick={resetFilters}
               title="Reset active filters"
             >
-              Clear filters ✕
+              Clear filters <Icon name="close" size={12} />
             </button>
           ) : null}
           {isLayoutPending ? <span className="graph-canvas__layout-badge">Layouting…</span> : null}

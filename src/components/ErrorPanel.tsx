@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import type { KnowledgeGraph } from "../content/graph";
 import { useAppState } from "../state/useAppState";
+import { Icon } from "./Icon";
 
 export interface ErrorPanelProps {
   readonly graph: KnowledgeGraph;
@@ -38,7 +39,7 @@ export function ErrorPanel({ graph }: ErrorPanelProps) {
     return (
       <div className="error-banner" role="alert">
         <span>
-          ⚠️ Content validation detected <strong>{errorCount}</strong>{" "}
+          <Icon name="alert" /> Content validation detected <strong>{errorCount}</strong>{" "}
           {errorCount === 1 ? "error" : "errors"}
           {warningCount > 0 ? ` and ${countOf(warningCount, "warning")}` : ""}.
         </span>
@@ -81,14 +82,16 @@ export function ErrorPanel({ graph }: ErrorPanelProps) {
             onClick={() => setIsErrorPanelOpen(false)}
             aria-label="Close diagnostics"
           >
-            ✕
+            <Icon name="close" />
           </button>
         </header>
 
         <div className="error-panel__body">
           {totalCount === 0 ? (
             <div className="error-panel__clean">
-              <span className="error-panel__clean-icon">✅</span>
+              <span className="error-panel__clean-icon">
+                <Icon name="check" size={20} />
+              </span>
               <div>
                 <strong>All content files are valid!</strong>
                 <p>
