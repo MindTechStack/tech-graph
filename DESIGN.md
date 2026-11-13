@@ -278,7 +278,7 @@ A full-viewport sheet with no page scroll:
 
 ### The entry (detail panel)
 The panel is laid out on two columns: a **hanging column** of 1 module (64px) for labels, a 16px gutter, and a **content column** for everything else.
-- **Head:** the Display name first, with the centre and close buttons at its right. Then the category swatch, category name and map link on one line. Then a mono line `framework · learning · nestjs`. A 2px Rule closes the head. Nothing sits above the name: a mono line over a heading reads as an eyebrow and is not used.
+- **Head:** the Display name first, with the centre and close buttons at its right. Then the category swatch, category name and map link on one line. Then the status line: the status swatch, the mono value `learned` in Ink, and its definition in Ink Muted at Control size (`learned · completed in a course`). Then a mono line `framework · nestjs`. A 2px Rule closes the head. Nothing sits above the name: a mono line over a heading reads as an eyebrow and is not used.
 - **Body sections**, in order: What, Why, Problem, Example, Key points, Connections, Links, Tags. Each section is a row: its label sits in the hanging column on the first baseline of its content, and a full-width hairline sits above it. There are no boxes and no stripes.
 - **Example:** the code field spans the content column and bleeds to the panel's right edge.
 - **Connections:** a ruled table. Each row has three columns: a mono verb in Ink Muted, the name at Control size, then the map (mono, only when it differs from the current map). Outgoing rows read "verb → name" and backlinks read "name ← verb". There is a hairline between rows. The first six rows of each direction are shown, and the rest sit behind a native `<details>` ("6 more", mono).
@@ -357,7 +357,7 @@ A 224 × 64 block with square corners. The fill and edge follow the ink density 
 Straight or orthogonal 1px ink lines at 30% opacity. They drop to 10% when dimmed. The selected node's relations become 2px accent lines at 100%. Edge labels are Mono Small on an opaque paper plate with no frame. A hovered edge always shows its label. On selection, a relation's label shows only when the selected node has six relations or fewer and the plate clears every node box and every plate already placed; anything else waits for hover, because the Connections table lists every relation anyway. The toggle shows all labels. Edges are never dashed and never animated.
 
 ### Inputs
-- **Search field:** borderless inside the sheet's head, at Title size, with a mono `Esc` hint at the right. A 2px Rule sits under the field. A query starting with `#` matches tags only.
+- **Search field:** borderless inside the sheet's head, at Title size. Keyboard hints (`↑ ↓`, `Enter`, `Esc`) live only in the sheet's footer. A 2px Rule sits under the field. A query starting with `#` matches tags only.
 - **Checkboxes:** native, with `accent-color: accent`.
 
 ### Inline code

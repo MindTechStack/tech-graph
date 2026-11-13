@@ -154,11 +154,16 @@ export function Toolbar({ graph }: ToolbarProps) {
           className="toolbar__toggle"
           aria-pressed={showAllEdgeLabels}
           onClick={toggleShowAllEdgeLabels}
-          title="Show edge labels always, or only on hover and selection"
+          aria-label="Always show edge labels"
+          title={
+            showAllEdgeLabels
+              ? "Edge labels always shown. Click to show them only on hover and selection"
+              : "Edge labels shown on hover and selection. Click to always show them"
+          }
         >
-          Labels{" "}
+          Edge labels{" "}
           <span className="toolbar__toggle-value" aria-hidden="true">
-            {showAllEdgeLabels ? "always" : "hover"}
+            {showAllEdgeLabels ? "always" : "on hover"}
           </span>
         </button>
 

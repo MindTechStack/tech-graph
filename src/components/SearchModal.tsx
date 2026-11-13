@@ -9,7 +9,7 @@ import type { KnowledgeGraph } from "../content/graph";
 import type { TechNodeData } from "../content/parse";
 import { useAppState } from "../state/useAppState";
 import { InlineCodeText } from "./DetailPanel";
-import { StatusSwatch } from "./TechNode";
+import { STATUS_META, StatusSwatch } from "./TechNode";
 
 export interface SearchModalProps {
   readonly graph: KnowledgeGraph;
@@ -188,7 +188,6 @@ export function SearchModal({ graph }: SearchModalProps) {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
           />
-          <kbd className="search-modal__kbd">Esc</kbd>
           <button
             type="button"
             className="search-modal__close"
@@ -232,7 +231,10 @@ export function SearchModal({ graph }: SearchModalProps) {
                   </span>
                   <span className="search-modal__item-meta">
                     <StatusSwatch status={node.status} />
-                    {mapName.toLowerCase()} · {node.kind} · {node.status}
+                    {mapName.toLowerCase()} · {node.kind} ·{" "}
+                    <span title={`status: ${node.status} — ${STATUS_META[node.status].definition}`}>
+                      {node.status}
+                    </span>
                     {node.tags.length > 0 ? (
                       <span className="search-modal__item-tags">
                         {node.tags.map((tag) => `#${tag}`).join(" ")}

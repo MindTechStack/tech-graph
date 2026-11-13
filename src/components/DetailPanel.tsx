@@ -7,7 +7,7 @@ import type { TechNodeData } from "../content/parse";
 import { useAppState } from "../state/useAppState";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { Icon } from "./Icon";
-import { StatusSwatch } from "./TechNode";
+import { STATUS_META, StatusSwatch } from "./TechNode";
 
 export interface DetailPanelProps {
   readonly graph: KnowledgeGraph;
@@ -15,6 +15,10 @@ export interface DetailPanelProps {
 
 const VISIBLE_RELATION_ROWS = 6;
 const MARKDOWN_COMPONENTS = { h2: "h3" } as const;
+
+function lowercaseFirst(text: string): string {
+  return text.charAt(0).toLowerCase() + text.slice(1);
+}
 
 export function InlineCodeText({ text }: { readonly text: string }) {
   const parts = text.split("`");
@@ -179,8 +183,17 @@ export function DetailPanel({ graph }: DetailPanelProps) {
           </button>
         </p>
 
+        <p className="detail-panel__status">
+          <span className={`status-swatch status-swatch--${node.status}`} aria-hidden="true" />
+          <span className="detail-panel__status-value">{node.status}</span>
+          <span className="detail-panel__place-sep" aria-hidden="true">
+            ·
+          </span>
+          <span>{lowercaseFirst(STATUS_META[node.status].definition)}</span>
+        </p>
+
         <p className="detail-panel__values">
-          {node.kind} · {node.status} · {node.id}
+          {node.kind} · {node.id}
         </p>
       </header>
 

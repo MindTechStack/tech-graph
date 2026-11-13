@@ -642,7 +642,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
           ) : null}{" "}
           · <strong>{slice.edges.length}</strong> {pluralWord(slice.edges.length, "relation")}
         </span>
-        {isLayoutPending ? <span className="graph-canvas__layout-badge">Layouting…</span> : null}
+        {isLayoutPending ? <span className="graph-canvas__layout-badge">Arranging…</span> : null}
         {hasActiveFilters ? (
           <button type="button" className="graph-canvas__status-btn" onClick={resetFilters}>
             Clear filters <Icon name="close" size={12} />
