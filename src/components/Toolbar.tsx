@@ -25,12 +25,14 @@ export function Toolbar({ graph }: ToolbarProps) {
     isSidebarOpen,
     isSearchOpen,
     isErrorPanelOpen,
+    isPhoneMapShown,
     setActiveMap,
     setLayoutMode,
     toggleShowAllEdgeLabels,
     setIsSearchOpen,
     toggleSidebar,
     setIsErrorPanelOpen,
+    setIsPhoneMapShown,
   } = useAppState();
 
   const mapTabs = useMemo(() => {
@@ -118,6 +120,17 @@ export function Toolbar({ graph }: ToolbarProps) {
       </nav>
 
       <div className="toolbar__controls">
+        <button
+          type="button"
+          className="toolbar__icon-btn toolbar__map-toggle"
+          aria-pressed={isPhoneMapShown}
+          onClick={() => setIsPhoneMapShown(!isPhoneMapShown)}
+          title={isPhoneMapShown ? "Back to the node list" : "Show the graph"}
+        >
+          <Icon name="graph" />
+          Map
+        </button>
+
         <button
           type="button"
           className="toolbar__search-btn"

@@ -4,6 +4,7 @@ import { DetailPanel } from "./components/DetailPanel";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { ErrorPanel } from "./components/ErrorPanel";
 import { GraphCanvas } from "./components/GraphCanvas";
+import { PhoneIndex, useIsPhoneLayout } from "./components/PhoneIndex";
 import { SearchModal } from "./components/SearchModal";
 import { Sidebar } from "./components/Sidebar";
 import { Toolbar } from "./components/Toolbar";
@@ -27,25 +28,30 @@ function AuthorBar() {
 }
 
 function Workspace({ graph }: { readonly graph: KnowledgeGraph }) {
-  const { isSearchOpen, isErrorPanelOpen } = useAppState();
+  const { activeMap, isSearchOpen, isErrorPanelOpen, isPhoneMapShown } = useAppState();
+  const isPhoneLayout = useIsPhoneLayout();
 
   return (
     <div className="app-workspace" inert={isSearchOpen || isErrorPanelOpen}>
       <Sidebar graph={graph} />
       <main className="app-main">
-        <ErrorBoundary
-          fallback={(_error, reset) => (
-            <div className="fallback" role="alert">
-              <p className="fallback__title">The map couldn't be drawn.</p>
-              <p>Search and the node cards still work.</p>
-              <button type="button" className="fallback__btn" onClick={reset}>
-                Redraw map
-              </button>
-            </div>
-          )}
-        >
-          <GraphCanvas graph={graph} />
-        </ErrorBoundary>
+        {isPhoneLayout && !isPhoneMapShown ? (
+          <PhoneIndex key={activeMap} graph={graph} />
+        ) : (
+          <ErrorBoundary
+            fallback={(_error, reset) => (
+              <div className="fallback" role="alert">
+                <p className="fallback__title">The map couldn't be drawn.</p>
+                <p>Search and the node cards still work.</p>
+                <button type="button" className="fallback__btn" onClick={reset}>
+                  Redraw map
+                </button>
+              </div>
+            )}
+          >
+            <GraphCanvas graph={graph} />
+          </ErrorBoundary>
+        )}
       </main>
       <DetailPanel graph={graph} />
     </div>

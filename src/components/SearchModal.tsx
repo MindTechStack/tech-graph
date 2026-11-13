@@ -8,8 +8,7 @@ import {
 import type { KnowledgeGraph } from "../content/graph";
 import type { TechNodeData } from "../content/parse";
 import { useAppState } from "../state/useAppState";
-import { InlineCodeText } from "./DetailPanel";
-import { STATUS_META, StatusSwatch } from "./TechNode";
+import { NodeRowContent } from "./NodeRow";
 
 export interface SearchModalProps {
   readonly graph: KnowledgeGraph;
@@ -221,26 +220,11 @@ export function SearchModal({ graph }: SearchModalProps) {
                   role="option"
                   tabIndex={-1}
                   aria-selected={isHighlighted}
-                  className={`search-modal__item ${isHighlighted ? "search-modal__item--active" : ""}`}
+                  className={`node-row ${isHighlighted ? "node-row--active" : ""}`}
                   onMouseMove={() => setActiveIndex(idx)}
                   onClick={() => handleSelect(node)}
                 >
-                  <span className="search-modal__item-title">{node.name}</span>
-                  <span className="search-modal__item-what">
-                    <InlineCodeText text={node.what} />
-                  </span>
-                  <span className="search-modal__item-meta">
-                    <StatusSwatch status={node.status} />
-                    {mapName.toLowerCase()} · {node.kind} ·{" "}
-                    <span title={`status: ${node.status} — ${STATUS_META[node.status].definition}`}>
-                      {node.status}
-                    </span>
-                    {node.tags.length > 0 ? (
-                      <span className="search-modal__item-tags">
-                        {node.tags.map((tag) => `#${tag}`).join(" ")}
-                      </span>
-                    ) : null}
-                  </span>
+                  <NodeRowContent node={node} mapName={mapName} showTags />
                 </button>
               );
             })

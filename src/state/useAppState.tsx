@@ -32,6 +32,7 @@ export interface AppStateValue {
   readonly isSearchOpen: boolean;
   readonly isSidebarOpen: boolean;
   readonly isErrorPanelOpen: boolean;
+  readonly isPhoneMapShown: boolean;
   readonly setActiveMap: (map: ActiveMapTab) => void;
   readonly setLayoutMode: (mode: LayoutMode) => void;
   readonly setSelectedNodeId: (nodeId: string | null) => void;
@@ -48,6 +49,7 @@ export interface AppStateValue {
   readonly setIsSearchOpen: (open: boolean) => void;
   readonly toggleSidebar: () => void;
   readonly setIsErrorPanelOpen: (open: boolean) => void;
+  readonly setIsPhoneMapShown: (shown: boolean) => void;
 }
 
 const AppStateContext = createContext<AppStateValue | null>(null);
@@ -121,6 +123,7 @@ export function AppStateProvider({
     () => typeof window === "undefined" || window.matchMedia("(min-width: 1025px)").matches,
   );
   const [isErrorPanelOpen, setIsErrorPanelOpen] = useState<boolean>(hasInitialErrors);
+  const [isPhoneMapShown, setIsPhoneMapShown] = useState<boolean>(false);
 
   const requestCenterNode = useCallback((nodeId: string) => {
     setFocusRequest((prev) => ({
@@ -298,6 +301,7 @@ export function AppStateProvider({
       isSearchOpen,
       isSidebarOpen,
       isErrorPanelOpen,
+      isPhoneMapShown,
       setActiveMap,
       setLayoutMode,
       setSelectedNodeId,
@@ -314,6 +318,7 @@ export function AppStateProvider({
       setIsSearchOpen,
       toggleSidebar,
       setIsErrorPanelOpen,
+      setIsPhoneMapShown,
     }),
     [
       activeMap,
@@ -327,6 +332,7 @@ export function AppStateProvider({
       isSearchOpen,
       isSidebarOpen,
       isErrorPanelOpen,
+      isPhoneMapShown,
       setActiveMap,
       toggleShowAllEdgeLabels,
       toggleCategoryFilter,
