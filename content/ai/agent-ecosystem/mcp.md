@@ -4,7 +4,7 @@ name: "MCP (Model Context Protocol)"
 kind: concept
 status: work
 tags: [ai, mcp, protocol, tools, json-rpc, agents]
-what: "Open protocol that standardizes how AI applications connect to external tools, data sources, and prompts through MCP servers."
+what: "Open protocol for connecting AI apps to external tools, data and prompts through MCP servers."
 why: "A tool written once as an MCP server works in every MCP-capable client (Claude Code, Antigravity, Codex, and others) without a separate integration for each."
 problem: "Without a shared protocol, every AI client needs its own plugin format and glue code for each database, API, or service, so integrations don't carry over between tools."
 relations: []

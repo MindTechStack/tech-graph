@@ -4,7 +4,7 @@ name: "MongoDB"
 kind: platform
 status: learned
 tags: [mongodb, nosql, document-database, bson, collections]
-what: "Document-oriented database that stores records as flexible, JSON-like BSON documents with dynamic schemas and expressive querying."
+what: "Document database that stores records as JSON-like BSON documents without a fixed schema."
 why: "Enables developers to persist nested JavaScript objects naturally, query deep subdocument fields, and scale horizontally through replica sets and sharding."
 problem: "Storing hierarchical nested business entities in normalized relational tables requires splitting them across multiple foreign-key tables and joining on every read."
 relations:

@@ -4,7 +4,7 @@ name: "AWS"
 kind: platform
 status: planned
 tags: [aws, cloud, infrastructure, devops, serverless]
-what: "Amazon Web Services, the world's most comprehensive cloud computing platform offering hundreds of managed services including compute, storage, databases, and networking."
+what: "Amazon Web Services: Amazon's cloud, with managed services for compute, storage, databases and networking."
 why: "Provides enterprise-grade scalability, fine-grained IAM access control, compliance certifications, and foundational services (EC2, S3, Lambda, RDS, SES)."
 problem: "Building large-scale applications on niche PaaS hosts eventually encounters vendor ceilings in service variety, compliance certifications, or custom networking."
 relations:

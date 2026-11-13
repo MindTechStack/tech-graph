@@ -5,7 +5,7 @@ kind: library
 status: practiced
 core: true
 tags: [drizzle, orm, typescript, sql, database, type-safety]
-what: "Lightweight, headless TypeScript ORM and query builder that brings end-to-end type safety while keeping queries as close to SQL as possible."
+what: "TypeScript ORM and query builder whose API mirrors SQL and infers result types from the schema."
 why: "Provides exact TypeScript type inference from schema definitions, zero engine binary overhead, and unified support for PostgreSQL, MySQL, and SQLite/Turso."
 problem: "Traditional heavyweight ORMs hide underlying SQL execution behind magic abstraction layers, slow down cold starts, and suffer from out-of-sync type generation."
 relations:

@@ -4,7 +4,7 @@ name: "Alchemy"
 kind: tool
 status: planned
 tags: [alchemy, iac, typescript, cloudflare, infrastructure]
-what: "A modern TypeScript-first Infrastructure as Code framework designed for defining and deploying cloud infrastructure using native TypeScript constructs."
+what: "Infrastructure as Code library where cloud resources are declared as plain async TypeScript functions."
 why: "Brings full TypeScript type-safety, IDE autocompletion, refactoring, and code reuse to cloud resource provisioning without learning proprietary DSLs."
 problem: "Writing infrastructure in HCL or raw YAML lacks compile-time type validation, requires custom DSL learning curves, and makes programmatic logic clunky."
 relations:

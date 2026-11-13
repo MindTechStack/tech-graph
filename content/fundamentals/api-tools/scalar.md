@@ -4,7 +4,7 @@ name: "Scalar / OpenAPI"
 kind: tool
 status: planned
 tags: [scalar, openapi, swagger, api-documentation, api-client]
-what: "A modern, interactive OpenAPI documentation and API testing client designed as a fast, beautiful replacement for Swagger UI."
+what: "Interactive OpenAPI reference and API client, used as a replacement for Swagger UI."
 why: "Generates interactive API reference documentation with an embedded API client, code generation in multiple languages, and instant schema validation."
 problem: "Legacy Swagger UI is visually dated, clunky on mobile devices, difficult to theme, and provides a poor interactive request-testing experience."
 relations:

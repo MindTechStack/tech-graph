@@ -4,7 +4,7 @@ name: Express.js
 kind: framework
 status: learned
 tags: [http, routing, middleware, rest, mvc]
-what: Minimalist, unopinionated web framework for Node.js built around routing and a composable middleware pipeline.
+what: "Minimal Node.js web framework built around routing and a chain of middleware functions."
 why: Eliminates boilerplate from raw node:http (URL parsing, method matching, body parsing, headers, and response helpers) while staying flexible for SSR or REST APIs.
 problem: Writing raw node:http servers requires manually buffering request streams, matching URL patterns, setting headers, and chaining request handlers.
 relations:

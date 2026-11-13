@@ -4,7 +4,7 @@ name: TanStack Query
 kind: library
 status: planned
 tags: [async-state, data-fetching, cache, server-state, react]
-what: "Powerful asynchronous server-state management, caching, and synchronization library for web frameworks."
+what: "Library that fetches, caches and keeps server state in sync in React, Vue, Svelte and Solid apps."
 why: "Automates caching, background revalidation, request deduplication, and optimistic updates for server data."
 problem: "Storing server responses in global client stores like Redux or Pinia leads to stale data bugs, manual cache tracking, and duplicated loading states."
 relations:

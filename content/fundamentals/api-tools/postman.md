@@ -4,7 +4,7 @@ name: "Postman"
 kind: tool
 status: learned
 tags: [postman, api-testing, rest, http, collections]
-what: "A comprehensive API platform for building, testing, documenting, and mocking HTTP, GraphQL, and WebSocket APIs."
+what: "API client and collaboration platform for sending, testing, documenting and mocking HTTP, GraphQL and WebSocket APIs."
 why: "Provides an intuitive graphical interface for creating complex request collections, chained test assertions (pm.test), environment variables, and automated mock servers."
 problem: "Manual endpoint testing with browser DevTools or raw cURL lacks assertion automation, collection organization, and team workspace synchronization."
 relations:

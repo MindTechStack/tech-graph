@@ -72,7 +72,7 @@ export function ErrorPanel({ graph }: ErrorPanelProps) {
             <h2 className="error-panel__title">Content validation</h2>
             <p className="error-panel__subtitle">
               {countOf(errorCount, "error")} · {countOf(warningCount, "warning")} ·{" "}
-              {countOf(graph.nodes.length, "valid node")} loaded
+              {countOf(graph.nodes.length, "node")} loaded
             </p>
           </div>
           <button

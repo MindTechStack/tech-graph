@@ -5,7 +5,7 @@ kind: tool
 status: work
 core: true
 tags: [bundler, esm, hmr, rollup, dev-server]
-what: Next-generation frontend build tool featuring an native-ESM dev server with instant HMR and an optimized Rollup/Rolldown production build.
+what: "Frontend build tool with a native-ESM dev server and fast HMR, plus a Rollup/Rolldown production build."
 why: Starts the dev server in milliseconds regardless of app size by serving native ES modules on demand instead of bundling the entire application upfront.
 problem: Traditional bundle-based dev servers (Webpack) had to rebuild the whole module graph before serving a page, resulting in slow cold starts and sluggish HMR.
 relations:

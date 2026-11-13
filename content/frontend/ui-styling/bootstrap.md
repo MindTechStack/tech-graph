@@ -4,7 +4,7 @@ name: "Bootstrap"
 kind: library
 status: work
 tags: [responsive-grid, ui-components, scss, mobile-first, classic-css]
-what: "Pioneering responsive front-end toolkit featuring a 12-column flexbox grid, extensive prebuilt components, and powerful JavaScript plugins."
+what: "CSS framework with a 12-column flexbox grid, prebuilt components and JavaScript plugins."
 why: "Provides an ubiquitous, well-documented foundation for rapid prototyping and responsive layouts that work reliably across all browser versions."
 problem: "Custom responsive styling often suffers from inconsistent browser breakpoints, table layout quirks, and fragile hand-rolled modal logic."
 relations:

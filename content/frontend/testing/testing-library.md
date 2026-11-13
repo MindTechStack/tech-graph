@@ -4,7 +4,7 @@ name: "Testing Library"
 kind: library
 status: planned
 tags: [component-testing, user-centric, accessibility, dom-testing, queries]
-what: "Simple and complete testing utilities that encourage writing tests that closely resemble how real users interact with your web application."
+what: "Testing utilities that query the DOM by role, label and text, the way a user finds things."
 why: "Avoids brittle tests that rely on internal implementation details, ensuring tests remain green through major refactorings as long as user behavior holds."
 problem: "Tests asserting component internal state, private methods, or CSS selectors frequently break during harmless refactoring and miss real user-facing bugs."
 relations:

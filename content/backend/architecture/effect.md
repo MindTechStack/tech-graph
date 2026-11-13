@@ -4,7 +4,7 @@ name: "Effect"
 kind: library
 status: planned
 tags: [functional-programming, typescript, effects, concurrency, runtime]
-what: "Next-generation TypeScript framework for building robust, type-safe, concurrent, and fault-tolerant software using functional effect systems."
+what: "TypeScript library that models programs as typed effects, tracking errors, dependencies and concurrency in the type system."
 why: "Models computations as typed data structures Effect<Success, Error, Requirements>, turning runtime errors into trackable types and offering structured concurrency, retries, and dependency injection."
 problem: "Standard JavaScript Promise<T> erases error types to any, offers no built-in cancellation or interruption, and makes managing async resource lifetimes and dependency injection brittle."
 relations:

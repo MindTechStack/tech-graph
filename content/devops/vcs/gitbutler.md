@@ -4,7 +4,7 @@ name: "GitButler"
 kind: tool
 status: work
 tags: [git, gitbutler, virtual-branches, vcs, workflow]
-what: "Next-generation Git client and branch management tool built around virtual branches for concurrent task development."
+what: "Git client built around virtual branches, so several branches can be worked on at once in one working directory."
 why: "Allows working on multiple independent features or bugfixes simultaneously in the same working directory without constant `git stash`, `git checkout`, or context switching."
 problem: "Standard Git forces developers to switch branches or stash uncommitted changes whenever an urgent fix or concurrent task arises, disrupting focus and causing merge conflicts."
 relations:

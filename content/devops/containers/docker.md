@@ -5,7 +5,7 @@ kind: tool
 status: practiced
 core: true
 tags: [containers, devops, dockerfile, image, deployment]
-what: Platform for packaging an application and its entire OS/runtime environment into reproducible, isolated containers.
+what: "Tool for packaging an application with its OS and runtime into reproducible, isolated containers."
 why: Guarantees that an app runs identically on a developer's laptop, in CI pipelines, and in production servers.
 problem: "'Works on my machine' bugs caused by mismatched Node versions, missing native OS libraries, or conflicting local database installs."
 relations:

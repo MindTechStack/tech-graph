@@ -4,7 +4,7 @@ name: "Infrastructure as Code"
 kind: concept
 status: planned
 tags: [iac, devops, cloud, infrastructure, automation]
-what: "The practice of managing, provisioning, and configuring computer data centers and cloud resources through declarative definition files rather than manual console clicks."
+what: "Managing servers and cloud resources through declarative definition files in version control instead of manual console changes."
 why: "Makes infrastructure reproducible, auditable in Git, testable in CI, and immune to configuration drift across development, staging, and production environments."
 problem: "Manual cloud console configuration ('ClickOps') leads to undocumented settings, untracked drifts, environment discrepancies, and unrepeatable disaster recovery."
 relations:

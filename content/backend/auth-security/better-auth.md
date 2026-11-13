@@ -4,7 +4,7 @@ name: "Better Auth"
 kind: library
 status: practiced
 tags: [better-auth, authentication, typescript, sso, oauth, session-management]
-what: "Comprehensive, framework-agnostic TypeScript authentication framework designed for modern full-stack web applications and edge runtimes."
+what: "Framework-agnostic TypeScript auth library that runs inside your own server and database, including edge runtimes."
 why: "Provides built-in email/password, social OAuth, passkeys, multi-session management, and rate limiting with end-to-end type safety and zero vendor lock-in."
 problem: "Building custom production-grade authentication from scratch requires hundreds of hours handling OAuth edge cases, CSRF, session rotation, and passkeys, while third-party SaaS auth is costly."
 relations:

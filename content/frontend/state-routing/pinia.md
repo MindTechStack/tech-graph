@@ -5,7 +5,7 @@ kind: library
 status: work
 core: true
 tags: [vue, state-management, store, composition-api, typescript]
-what: "The intuitive, type-safe store and official state management library for Vue applications."
+what: "Vue's official state management library: type-safe stores defined with the Composition or Options API."
 why: "Provides modular stores with seamless TypeScript autocompletion, devtools time travel, and no mutations boilerplate."
 problem: "Prop-drilling deeply nested state or sharing complex reactive data across distant components leads to tight coupling and synchronization bugs."
 relations:

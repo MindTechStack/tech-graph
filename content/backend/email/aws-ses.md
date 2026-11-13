@@ -4,7 +4,7 @@ name: "Amazon SES"
 kind: service
 status: learned
 tags: [email, aws, cloud, smtp, transactional-email]
-what: "Cost-effective, highly scalable cloud email service by AWS designed for sending and receiving transactional and bulk email."
+what: "AWS service for sending and receiving transactional and bulk email, priced per message."
 why: "Offers extremely low pricing ($0.10 per 1,000 emails) combined with high throughput, tight AWS IAM security integration, and automated SNS bounce and complaint handling."
 problem: "Commercial transactional email SaaS providers become prohibitively expensive at scale (millions of emails per month) with rigid subscription tiers and vendor lock-in."
 relations:

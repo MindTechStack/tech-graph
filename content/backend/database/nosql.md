@@ -4,7 +4,7 @@ name: "NoSQL"
 kind: concept
 status: learned
 tags: [nosql, document-store, database, unstructured, schema-free]
-what: "Non-relational database paradigm designed for flexible schemas, horizontal scaling, and high-throughput document, key-value, or graph storage."
+what: "Umbrella term for non-relational databases (document, key-value, wide-column, graph) that trade joins and fixed schemas for flexible shapes and horizontal scaling."
 why: "Ideal for rapidly iterating schemas, hierarchical JSON documents, caching, and distributed workloads where relational join overhead is undesirable."
 problem: "Strict relational table schemas require extensive migration ceremonies and multiple table joins to represent polymorphic, deeply nested, or rapidly changing domain data."
 relations:

@@ -4,7 +4,7 @@ name: Zustand
 kind: library
 status: planned
 tags: [react, state-management, store, lightweight, hooks]
-what: "Small, fast, unopinionated state management solution using simplified flux principles for React."
+what: "Small React state library: a store is a hook created from one function, with no providers or reducers."
 why: "Provides global stores without React Context provider nesting, boilerplate reducers, or unnecessary component re-renders."
 problem: "Prop-drilling creates maintainability headaches, while React Context causes widespread re-renders across consumers on any state slice update."
 relations:

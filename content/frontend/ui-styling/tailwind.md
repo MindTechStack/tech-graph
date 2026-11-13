@@ -5,7 +5,7 @@ kind: library
 status: work
 core: true
 tags: [utility-first, atomic-css, design-system, responsive, postcss]
-what: "Utility-first CSS framework packed with composable classes like flex, pt-4, text-center, and rotate-90 that can be composed directly in markup."
+what: "Utility-first CSS framework: single-purpose classes like `flex`, `pt-4` and `text-center` are composed directly in markup."
 why: "Enables rapid UI development without writing custom CSS files or inventing arbitrary class names, while purging unused rules in production."
 problem: "Traditional CSS stylesheets grow monotonically with every new feature, resulting in bloated bundles, dead styles, and frequent specificity conflicts."
 relations:

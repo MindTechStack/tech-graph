@@ -4,7 +4,7 @@ name: "Effect Schema"
 kind: library
 status: planned
 tags: [validation, schema, parsing, typescript, effect]
-what: "High-performance schema modeling and data transformation library within the Effect ecosystem that derives TypeScript types, encoders, and decoders."
+what: "Effect's schema library: one definition yields a TypeScript type, a decoder and an encoder."
 why: "Provides bidirectional parsing and encoding, custom transformations, automated JSON Schema generation, and deep integration with Effect's typed error handling."
 problem: "Traditional validation libraries like Zod and Joi handle validation but lack bidirectional transformation pipelines, rich AST inspection, or first-class typed error propagation compatible with Effect workflows."
 relations:

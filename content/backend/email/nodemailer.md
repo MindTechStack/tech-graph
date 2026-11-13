@@ -4,7 +4,7 @@ name: "Nodemailer"
 kind: library
 status: learned
 tags: [email, smtp, nodejs, transactional-email, backend]
-what: "Zero-dependency module for Node.js applications to send emails via SMTP, sendmail, or cloud service transports."
+what: "Node.js module with no dependencies that sends email over SMTP, sendmail or a provider's transport."
 why: "Provides a unified, flexible API to compose HTML and plain-text emails, attach files, embed inline images, and dispatch them across multiple email providers."
 problem: "Without it, developers must manually open raw TCP sockets, implement the complex RFC 5321 SMTP protocol handshake, and format MIME multipart bodies."
 relations:

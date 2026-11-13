@@ -4,7 +4,7 @@ name: MySQL
 kind: platform
 status: learned
 tags: [sql, relational, database, acid, innodb]
-what: Open-source relational database management system (RDBMS) based on structured tables, foreign keys, and ACID transactions.
+what: "Open-source relational database: tables, foreign keys and ACID transactions."
 why: Enforces strict data integrity, relational constraints, and predictable transactional guarantees for structured domain data (users, orders, products).
 problem: Storing relational business data in flat files or unvalidated schemas leads to orphaned records, race conditions, and inconsistent state.
 relations:

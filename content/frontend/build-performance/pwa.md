@@ -4,7 +4,7 @@ name: "Progressive Web Apps"
 kind: concept
 status: work
 tags: [web-manifest, offline-first, mobile-web, installability, caching]
-what: "Web application architecture that leverages modern browser capabilities to deliver an app-like, installable, and offline-capable user experience."
+what: "Web app that uses a manifest and a service worker to become installable and work offline."
 why: "Enables single-codebase web applications to be installed on desktop and mobile home screens with background sync and offline resilience."
 problem: "Standard web apps fail immediately without network connectivity and lack native OS features like app icons, splash screens, and push alerts."
 relations:

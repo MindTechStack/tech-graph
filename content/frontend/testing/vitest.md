@@ -5,7 +5,7 @@ kind: tool
 status: work
 core: true
 tags: [unit-testing, vite-native, test-runner, fast-tests, esm]
-what: "Next-generation unit test framework powered by Vite that shares the same configuration, plugins, and transform pipeline as your app."
+what: "Unit test framework built on Vite that reuses the app's config, plugins and transforms."
 why: "Executes unit and component tests with blazing speed via worker threads, instant watch-mode HMR, and Jest-compatible assertion APIs."
 problem: "Legacy test runners like Jest require duplicating build configurations via Babel or ts-jest, leading to config drift and slow startup times."
 relations:

@@ -4,7 +4,7 @@ name: "EJS"
 kind: library
 status: learned
 tags: [ejs, templating, ssr, javascript-templates, express]
-what: "Simple server-side templating engine for Node.js that embeds plain JavaScript directly inside standard HTML syntax using <% %> scriptlet tags."
+what: "Server-side templating engine for Node.js that embeds plain JavaScript in HTML with `<% %>` tags."
 why: "Has zero learning curve for developers because templates are standard HTML with familiar JavaScript control structures (if/else, for loops)."
 problem: "Specialized syntax templating engines require learning proprietary markup and converting existing HTML mockups or designer templates."
 relations:

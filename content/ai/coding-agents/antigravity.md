@@ -4,7 +4,7 @@ name: "Google Antigravity"
 kind: tool
 status: work
 tags: [ai, coding-agent, google, gemini, ide, agentic]
-what: "Google's agent-first development platform (IDE, desktop app, and `agy` CLI) where AI agents plan, write, run, and verify code across the editor, terminal, and browser."
+what: "Google's agent-centred IDE, desktop app and `agy` CLI, where agents plan, write, run and check code across editor, terminal and browser."
 why: "Runs several agents in parallel on separate tasks and reports progress through reviewable artifacts (plans, task lists, walkthroughs) instead of a raw chat log."
 problem: "Classic autocomplete and chat assistants keep the developer in the loop for every step and offer no structured way to review or steer long-running autonomous work."
 relations:

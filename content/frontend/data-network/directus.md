@@ -4,7 +4,7 @@ name: Directus (headless CMS)
 kind: service
 status: work
 tags: [headless-cms, rest-api, graphql, backend-as-a-service, sql]
-what: "Open-source headless CMS and data platform providing auto-generated REST and GraphQL APIs on top of any SQL database."
+what: "Open-source headless CMS that generates REST and GraphQL APIs and an admin app over an existing SQL database."
 why: "Instantly turns existing relational databases into accessible, documented APIs with built-in auth, granular permissions, and an intuitive admin app."
 problem: "Developing custom CRUD backends, asset storage handlers, and admin dashboards for content-heavy applications consumes immense engineering time."
 relations:

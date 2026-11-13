@@ -4,7 +4,7 @@ name: "SendGrid"
 kind: service
 status: learned
 tags: [email, transactional-email, saas, api, cloud]
-what: "Cloud-based customer communication platform providing transactional and marketing email delivery via REST API or SMTP relay."
+what: "Twilio's hosted email service that delivers transactional and marketing mail through a REST API or SMTP relay."
 why: "Guarantees high inbox deliverability, handles SPF, DKIM, and DMARC domain authentication, and provides automated analytics for bounces, spam reports, and engagement."
 problem: "Self-hosted SMTP servers are frequently blacklisted or delayed by major email providers like Gmail and Outlook due to poor IP reputation and missing reputation warming."
 relations:

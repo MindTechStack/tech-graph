@@ -5,7 +5,7 @@ kind: platform
 status: practiced
 core: true
 tags: [postgresql, sql, relational, rdbms, database, jsonb]
-what: "Advanced, open-source object-relational database management system known for reliability, standards compliance, and extensibility."
+what: "Open-source object-relational database with strict SQL compliance and extensions such as JSONB, full-text search and PostGIS."
 why: "Delivers enterprise-grade ACID transactions, complex analytical queries, native JSONB support, and rich extensions like PostGIS and pgvector."
 problem: "Simpler databases struggle with complex queries, partial indexes, concurrent transactional workloads, or combining structured relational data with flexible JSON documents."
 relations:

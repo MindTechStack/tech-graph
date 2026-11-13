@@ -16,13 +16,24 @@ export interface TechNodeFlowData extends Record<string, unknown> {
 export type TechFlowNode = Node<TechNodeFlowData, "tech">;
 
 export const STATUS_META: Readonly<
-  Record<NodeStatus, { readonly label: string; readonly definition: string }>
+  Record<
+    NodeStatus,
+    { readonly label: string; readonly definition: string; readonly countPhrase: string }
+  >
 > = {
-  work: { label: "Work", definition: "Used in commercial projects" },
-  practiced: { label: "Practiced", definition: "Built in personal projects" },
-  learned: { label: "Learned", definition: "Completed in a course" },
-  learning: { label: "Learning", definition: "Studying now, open questions" },
-  planned: { label: "Planned", definition: "Next on the study list" },
+  work: { label: "Work", definition: "Used in commercial projects", countPhrase: "at work" },
+  practiced: {
+    label: "Practiced",
+    definition: "Built in personal projects",
+    countPhrase: "in projects",
+  },
+  learned: { label: "Learned", definition: "Completed in a course", countPhrase: "from a course" },
+  learning: {
+    label: "Learning",
+    definition: "Studying now, open questions",
+    countPhrase: "learning now",
+  },
+  planned: { label: "Planned", definition: "Next on the study list", countPhrase: "planned" },
 };
 
 export function StatusSwatch({ status }: { readonly status: NodeStatus }) {

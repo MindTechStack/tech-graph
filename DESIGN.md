@@ -322,7 +322,7 @@ Every corner is square, and there are no circles: status, category and legend ma
 - **Primary:** an accent fill with white text and no frame. Used once per context at most (for example "Reset filters" in the empty state).
 - **Icon / close:** borderless. On hover the glyph turns accent.
 - **Map tabs:** plain text with a mono count. The active tab is ink text with a 2px accent underline flush with the toolbar's bottom hairline.
-- **Layers / Network:** two words separated by a hairline. The active word is ink with a 2px **ink** underline (a view setting, not a place, so it is not accent).
+- **Grouped / Free** (the `layers` and `network` layout modes): two words separated by a hairline. The active word is ink with a 2px **ink** underline (a view setting, not a place, so it is not accent).
 - **Validation count:** mono text. Ink when clean or only warnings, Error red with errors. Rendered in development builds only; production omits it entirely rather than hiding it.
 - **Transitions:** colour and opacity only, 120ms ease-out. Nothing moves.
 
@@ -338,9 +338,9 @@ The head is the current map name at Title size, with Reset (only when filters ar
 - **Filter row:** a 32px row with a swatch (the status ramp square or the category tint square), the name at Control size, and a right-aligned tabular mono count. Hover turns the name accent. Active means accent text plus a 2px accent rule at the row's left edge. A row with a zero count is disabled and has no hover: its swatch, count and bar drop to 40% opacity and its name turns Ink Muted, but a status definition stays at full Ink Muted so the legend still reads.
 - **Status legend rows:** the Status section is also the legend, so each of its rows defines its status. A status row is 44px: the swatch, the status name at Control size, and beneath it a one-line definition in the grotesque at 12/16 (400) in Ink Muted, then the mono count. The definitions are fixed and honest: `work` Used in commercial projects, `practiced` Built in personal projects, `learned` Completed in a course, `learning` Studying now, open questions, `planned` Next on the study list. Wherever a status mark appears without room for its definition, the definition rides along as the element's title.
 - **Category rows** wrap a long name to a second line instead of truncating it. On cross-map scopes the name reads `Frontend · Languages & Platform`.
-- **Kinds:** rows, not chips. The kind value is set in mono (`framework`). The ghost-node checkbox sits under them.
-- **View** (1024px and below, where the toolbar drops these controls): an "Always show edge labels" row, plus Layers and Network rows at phone width. Same filter-row styling; active is accent.
-- **Progress:** a 4px bar on a hairline track, divided by the five status treatments (ink, ink-2, outlined, ticked, dashed), with mono counts beneath. Per-category bars use the category tint on a hairline track.
+- **Kinds:** rows, not chips. The kind value is set in mono (`framework`). The ghost-node checkbox, labelled "Show linked nodes from other maps", sits under them.
+- **View** (1024px and below, where the toolbar drops these controls): an "Always show edge labels" row, plus "Grouped by category" and "Free layout" rows at phone width. Same filter-row styling; active is accent.
+- **Progress:** a 4px bar on a hairline track, divided by the five status treatments (ink, ink-2, outlined, ticked, dashed), with a plain breakdown beneath: a mono count plus a phrase per non-empty status (`48 at work`, `7 in projects`, `61 from a course`, `8 learning now`, `9 planned`). No percentage or "done" total: it would count a course as equal to commercial use. Per-category bars use the category tint on a hairline track.
 
 ### Tech Node (signature)
 A 224 × 64 block with square corners. The fill and edge follow the ink density ramp, and a 6px category band runs down the left edge.

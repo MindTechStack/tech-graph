@@ -4,7 +4,7 @@ name: Centralized API & Error Layer
 kind: concept
 status: work
 tags: [architecture, error-handling, http, interceptors, client]
-what: "Architectural pattern that isolates networking clients, API serialization, and error normalization into a single unified client-side service layer."
+what: "Pattern that puts the HTTP client, request and response mapping and error normalization in one client-side module."
 why: "Shields UI components from raw HTTP details, status codes, and backend schema shifts while guaranteeing consistent error notifications and auth recovery."
 problem: "Scattering raw fetch or axios calls throughout UI components causes duplicated authorization headers, inconsistent error alerts, and unhandled session expirations."
 relations:

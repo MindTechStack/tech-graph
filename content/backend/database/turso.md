@@ -4,7 +4,7 @@ name: "Turso / libSQL (SQLite)"
 kind: service
 status: practiced
 tags: [turso, libsql, sqlite, edge, serverless, database]
-what: "Distributed database platform built on libSQL, an open-source, open-contribution fork of SQLite optimized for edge and serverless architectures."
+what: "Hosted database built on libSQL, an open fork of SQLite, with replicas close to edge and serverless functions."
 why: "Provides sub-millisecond read latencies through global replication, instantaneous connection establishment over HTTP/WebSockets, and lightweight SQLite simplicity."
 problem: "Traditional relational databases introduce high network latency when queried from global edge runtimes and require heavyweight persistent TCP connection pools."
 relations:

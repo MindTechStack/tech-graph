@@ -4,7 +4,7 @@ name: "oxlint"
 kind: tool
 status: work
 tags: [rust-linter, ultra-fast, oxc, static-analysis, zero-config]
-what: "Ultra-fast, Rust-based JavaScript and TypeScript linter from the Oxc toolchain designed to catch bugs with zero configuration."
+what: "Rust linter for JavaScript and TypeScript from the Oxc project that works without configuration."
 why: "Runs 50 to 100 times faster than ESLint, allowing instant feedback on massive codebases without bogging down developer workflow or CI pipelines."
 problem: "Heavy ESLint rule suites with many plugins become unbearably slow on large monorepos, discouraging frequent linting during local development."
 relations:

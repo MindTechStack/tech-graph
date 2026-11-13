@@ -4,7 +4,7 @@ name: "Fastify"
 kind: framework
 status: planned
 tags: [fastify, http, nodejs, routing, performance, json-schema]
-what: "Highly performant, low-overhead web framework for Node.js focused on speed, modular plugin architecture, and schema-based JSON serialization."
+what: "Node.js web framework built for low overhead, with an encapsulated plugin system and JSON Schema validation and serialization."
 why: "Delivers 2x-4x the throughput of Express using `fast-json-stringify` and `find-my-way` router, while enforcing built-in JSON Schema validation and encapsulated plugin scopes."
 problem: "Express has higher per-request overhead, unencapsulated global middleware, and relies on slower generic `JSON.stringify` serialization under high traffic."
 relations:

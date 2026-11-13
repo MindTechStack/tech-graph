@@ -4,7 +4,7 @@ name: "Chart.js"
 kind: library
 status: work
 tags: [canvas-charts, data-visualization, lightweight, animations, responsive]
-what: "Popular open-source JavaScript library for rendering responsive HTML5 canvas-based charts with great performance and low memory overhead."
+what: "Open-source JavaScript library that draws charts on HTML canvas."
 why: "Draws lightweight, smooth charts that scale effortlessly on mobile devices and lower-powered hardware via hardware-accelerated canvas."
 problem: "Rendering hundreds of SVG elements in complex multi-series charts degrades DOM performance and causes noticeable frame rate drops."
 relations:

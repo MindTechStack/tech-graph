@@ -4,7 +4,7 @@ name: "GridStack"
 kind: library
 status: work
 tags: [dashboard-grid, drag-and-drop, resizable, layout-engine, responsive]
-what: "Modern TypeScript dashboard layout library for creating draggable, resizable, multi-column interactive grid layouts."
+what: "TypeScript library for dashboard grids with draggable, resizable widgets."
 why: "Enables users to customize, rearrange, and persist widget dashboard layouts with automated collision detection and responsive breakpoints."
 problem: "Implementing interactive drag-and-drop widget layouts with collision avoidance, auto-compacting, and column reflow from scratch is notoriously tricky."
 relations:

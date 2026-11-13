@@ -4,7 +4,7 @@ name: "HTTP protocol"
 kind: concept
 status: learned
 tags: [http, protocol, networking, rest, web-standards]
-what: "The foundational application-layer protocol of the World Wide Web, operating over TCP/IP as a stateless request-response exchange between clients and servers."
+what: "Stateless request-response protocol of the web, in which clients send requests to servers over TCP (or QUIC for HTTP/3)."
 why: "Underpins all browser-to-server and service-to-service communication, defining standardized message framing, headers, status codes, and caching semantics."
 problem: "Without a standardized protocol, clients and servers would require custom binary or socket protocols for every web transaction, eliminating universal interoperability."
 relations:

@@ -4,7 +4,7 @@ name: Svelte 5
 kind: framework
 status: practiced
 tags: [compiler, runes, signals, reactivity, components]
-what: "Compiler-first UI framework that compiles `.svelte` components into surgical DOM updates powered by fine-grained signals called Runes (`$state`, `$derived`, `$effect`)."
+what: "Compiler-based UI framework that turns `.svelte` components into direct DOM updates driven by signals called runes (`$state`, `$derived`, `$effect`)."
 why: "Eliminates Virtual DOM diffing overhead and ships compact JavaScript bundles with explicit, universal reactivity inside both `.svelte` and `.svelte.ts` modules."
 problem: "Runtime-heavy frameworks ship a large runtime and re-execute entire component functions on state changes unless carefully memoized."
 relations:

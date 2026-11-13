@@ -5,7 +5,7 @@ kind: framework
 status: practiced
 core: true
 tags: [hono, edge, typescript, web-standards, ultrafast]
-what: "Ultrafast, lightweight, web-standards-based web framework designed to run anywhere: Cloudflare Workers, Fastly, Deno, Bun, Node.js, and AWS Lambda."
+what: "Small web framework built on the Fetch API's Request and Response, so the same app runs on Cloudflare Workers, Deno, Bun, Node.js and AWS Lambda."
 why: "Offers phenomenal performance, zero third-party dependencies, first-class TypeScript inference (RPC client), and unified cross-runtime portability."
 problem: "Traditional Node.js frameworks like Express rely on Node-specific APIs (IncomingMessage, ServerResponse), making them incompatible with modern Edge and serverless runtimes."
 relations:

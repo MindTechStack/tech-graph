@@ -4,7 +4,7 @@ name: "Mailchimp"
 kind: service
 status: learned
 tags: [email, marketing, newsletter, campaigns, saas]
-what: "Marketing automation platform and email marketing service designed for managing subscriber lists, automated newsletters, and audience segmentation."
+what: "Email marketing service for subscriber lists, newsletters, automations and audience segments."
 why: "Provides non-technical marketing teams with visual drag-and-drop template builders, automated drip campaigns, audience tags, and detailed campaign performance analytics."
 problem: "Using transactional email tools or raw SMTP for bulk marketing campaigns violates unsubscribe compliance laws such as CAN-SPAM and GDPR and risks blacklisting transactional IPs."
 relations:

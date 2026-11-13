@@ -5,7 +5,7 @@ kind: service
 status: work
 core: true
 tags: [gitlab-ci, ci-cd, devops, pipelines, automation]
-what: "A comprehensive built-in continuous integration and deployment engine configured through a single .gitlab-ci.yml file in the repository root."
+what: "GitLab's built-in CI/CD, configured by a `.gitlab-ci.yml` file in the repository root."
 why: "Provides structured pipeline stages (lint, test, build, deploy), container registry integration, and self-hosted runner flexibility for enterprise codebases."
 problem: "Fragmented third-party CI systems require complex external webhooks, separate user management, and disjointed pipeline visibility across repositories."
 relations:

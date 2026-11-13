@@ -4,7 +4,7 @@ name: "Deno"
 kind: platform
 status: learned
 tags: [deno, runtime, typescript, rust, v8]
-what: "Secure, modern JavaScript and TypeScript runtime built on V8 and Rust with built-in tooling, web-standard APIs, and strict default security sandboxing."
+what: "JavaScript and TypeScript runtime on V8 and Rust with built-in tooling, web-standard APIs and permissions that are off by default."
 why: "Provides native TypeScript execution without transpilation steps, standard Web APIs (fetch, Request, Response), and granular command-line permission controls."
 problem: "Node.js historically suffered from fragmented build toolchains (separate test, lint, format setups), complete lack of runtime security permissions, and CommonJS legacy quirks."
 relations:

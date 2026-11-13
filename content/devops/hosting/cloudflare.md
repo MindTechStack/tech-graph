@@ -4,7 +4,7 @@ name: "Cloudflare (Workers / Pages)"
 kind: platform
 status: planned
 tags: [cloudflare, edge, serverless, cdn, workers, pages]
-what: "A global cloud platform providing DNS, DDoS protection, edge computing via V8-isolate Cloudflare Workers, and static/full-stack hosting via Cloudflare Pages."
+what: "Network and hosting platform: DNS, DDoS protection, Workers (V8 isolates at the edge) and Pages for static and full-stack sites."
 why: "Runs compute logic within milliseconds of end users across hundreds of edge data centers without cold starts, while offering generous free-tier hosting and edge KV/D1."
 problem: "Traditional regional cloud servers experience high latency for users across different continents and suffer from noticeable serverless container cold starts."
 relations:

@@ -4,7 +4,7 @@ name: "Ant Design"
 kind: library
 status: work
 tags: [ui-kit, enterprise-ui, react-components, form-controls, design-system]
-what: "Enterprise-class React UI design system providing a rich collection of high-quality components, advanced data tables, and complex form controls."
+what: "React design system and component library aimed at admin and data-heavy apps, with tables and complex form controls."
 why: "Accelerates internal tools and enterprise dashboard development with battle-tested tables, date pickers, trees, and accessible layout primitives."
 problem: "Building complex enterprise UI widgets like editable data grids, tree selects, and multi-step forms from scratch requires months of developer time."
 relations:

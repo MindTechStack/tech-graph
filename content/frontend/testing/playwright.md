@@ -5,7 +5,7 @@ kind: tool
 status: work
 core: true
 tags: [e2e-testing, browser-automation, cross-browser, visual-regression, ci]
-what: "Modern end-to-end testing and browser automation framework from Microsoft that tests across Chromium, Firefox, and WebKit with a single API."
+what: "Microsoft's end-to-end testing and browser automation framework that drives Chromium, Firefox and WebKit through one API."
 why: "Eliminates flaky tests with auto-waiting assertions, network interception, web-first locators, and interactive tracing."
 problem: "Traditional E2E test tools like Cypress or Selenium suffer from arbitrary sleep timeouts, flakiness, and limited cross-engine browser fidelity."
 relations:

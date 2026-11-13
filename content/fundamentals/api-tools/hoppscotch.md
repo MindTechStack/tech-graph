@@ -4,7 +4,7 @@ name: "Hoppscotch"
 kind: tool
 status: planned
 tags: [hoppscotch, api-client, open-source, web-based, graphql]
-what: "A lightweight, open-source web-based API development ecosystem built with Vue, accessible directly from the browser or as a desktop application."
+what: "Open-source API client built with Vue that runs in the browser or as a desktop app."
 why: "Allows zero-install, instant API testing from any web browser while supporting self-hosting, WebSockets, SSE, MQTT, and GraphQL."
 problem: "Traditional API desktop clients require heavy Electron installs and multi-gigabyte memory footprints just to test a few HTTP endpoints."
 relations:

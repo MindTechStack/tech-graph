@@ -130,8 +130,9 @@ export function Sidebar({ graph }: SidebarProps) {
   }
 
   const totalNodes = mapNodes.length;
-  const completedNodes = statusCounts.work + statusCounts.practiced + statusCounts.learned;
-  const completionPct = totalNodes > 0 ? Math.round((completedNodes / totalNodes) * 100) : 0;
+  const statusBreakdown = NODE_STATUSES.filter((status) => statusCounts[status] > 0)
+    .map((status) => `${statusCounts[status]} ${STATUS_META[status].countPhrase}`)
+    .join(" · ");
   const scopeName =
     activeMap === "all"
       ? "All maps"
@@ -278,7 +279,7 @@ export function Sidebar({ graph }: SidebarProps) {
                 checked={filters.includeGhosts}
                 onChange={(e) => setIncludeGhosts(e.target.checked)}
               />
-              <span>Show external ghost nodes</span>
+              <span>Show linked nodes from other maps</span>
             </label>
           ) : null}
         </section>
@@ -295,8 +296,8 @@ export function Sidebar({ graph }: SidebarProps) {
           <div className="sidebar__rows">
             {(
               [
-                ["layers", "Layers"],
-                ["network", "Network"],
+                ["layers", "Grouped by category"],
+                ["network", "Free layout"],
               ] as const
             ).map(([mode, label]) => (
               <button
@@ -325,12 +326,9 @@ export function Sidebar({ graph }: SidebarProps) {
             <h3 id="sidebar-progress" className="sidebar__section-title">
               Progress
             </h3>
-            <span className="sidebar__progress-summary">
-              {completedNodes}/{totalNodes} · {completionPct}%
-            </span>
           </div>
 
-          <div className="sidebar__progress-bar" role="img" aria-label="Status distribution">
+          <div className="sidebar__progress-bar" role="img" aria-label={statusBreakdown}>
             {NODE_STATUSES.map((status) => {
               const count = statusCounts[status];
               if (count === 0 || totalNodes === 0) {
@@ -347,14 +345,14 @@ export function Sidebar({ graph }: SidebarProps) {
             })}
           </div>
 
-          <dl className="sidebar__progress-legend">
-            {NODE_STATUSES.map((status) => (
-              <div key={status} className="sidebar__progress-item">
-                <dt>{status}</dt>
-                <dd>{statusCounts[status]}</dd>
-              </div>
+          <ul className="sidebar__progress-legend" aria-hidden="true">
+            {NODE_STATUSES.filter((status) => statusCounts[status] > 0).map((status) => (
+              <li key={status} className="sidebar__progress-item">
+                <span className="sidebar__progress-count">{statusCounts[status]}</span>
+                {STATUS_META[status].countPhrase}
+              </li>
             ))}
-          </dl>
+          </ul>
         </section>
       </div>
     </aside>

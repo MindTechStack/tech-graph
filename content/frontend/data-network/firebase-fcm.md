@@ -4,7 +4,7 @@ name: Firebase Cloud Messaging
 kind: service
 status: work
 tags: [push-notifications, firebase, messaging, pwa, cloud]
-what: "Cross-platform messaging solution from Google for sending push notifications and data messages reliably to web and mobile clients."
+what: "Google's service for sending push notifications and data messages to web, Android and iOS clients."
 why: "Delivers real-time notifications to users even when browser tabs are closed, handling background delivery through web push standards."
 problem: "Direct WebSocket connections require persistent active tabs and drain battery, failing completely when users close the web browser."
 relations:

@@ -4,7 +4,7 @@ name: "Kafka"
 kind: platform
 status: planned
 tags: [kafka, event-streaming, pub-sub, message-broker, realtime, microservices]
-what: "Distributed event store and stream-processing platform designed for high-throughput, fault-tolerant real-time data feeds."
+what: "Distributed, append-only event log that producers write to and consumer groups read from, partitioned and replicated across brokers."
 why: "Decouples microservices through asynchronous event streams, persists append-only partitioned logs, and handles millions of events per second with high durability."
 problem: "Direct synchronous HTTP/RPC calls between services cause tight coupling, cascading failures under load, and inability to replay past events."
 relations:

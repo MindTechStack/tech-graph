@@ -4,7 +4,7 @@ name: "Pino"
 kind: library
 status: planned
 tags: [logging, json-logs, performance, fastify, nodejs]
-what: "Extremely fast, low-overhead Node.js JSON logger designed to minimize CPU and event loop impact in production."
+what: "Node.js logger that writes JSON lines and moves formatting and transport off the main thread."
 why: "Up to 5x faster than alternatives by serializing JSON directly to process.stdout and offloading formatting or log-shipping to worker threads or external transports."
 problem: "Traditional loggers with synchronous in-process string manipulation and file-writing block the Node.js single-threaded event loop under heavy request load."
 relations:

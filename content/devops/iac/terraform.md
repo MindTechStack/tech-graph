@@ -4,7 +4,7 @@ name: "Terraform"
 kind: tool
 status: planned
 tags: [terraform, iac, hcl, devops, cloud-provisioning]
-what: "An industry-standard open-source Infrastructure as Code tool created by HashiCorp for provisioning multi-cloud resources using declarative HashiCorp Configuration Language (HCL)."
+what: "HashiCorp's Infrastructure as Code tool that provisions resources across cloud providers from declarative HCL files."
 why: "Provides a vast provider ecosystem (AWS, GCP, Azure, Cloudflare) with deterministic state tracking, dependency graphing, and execution plans ('terraform plan')."
 problem: "Multi-cloud deployments using provider-specific templates (CloudFormation, ARM) require maintaining separate tooling and disparate configuration models."
 relations:

@@ -4,7 +4,7 @@ name: Expo
 kind: platform
 status: practiced
 tags: [react-native, mobile, expo-router, eas, native-modules]
-what: "SDK, file-based router, and cloud build platform (EAS) that streamlines developing, building, and shipping React Native apps."
+what: "SDK, file-based router and cloud build service (EAS) for developing, building and shipping React Native apps."
 why: "Provides ~70 vetted native APIs (camera, notifications, secure storage,文件系统) and Continuous Native Generation (`prebuild`) without touching Xcode or Android Studio manually."
 problem: "Raw React Native upgrades and native dependency linking frequently break `Podfile` or Gradle configs and require local macOS/Android toolchains for every developer."
 relations:

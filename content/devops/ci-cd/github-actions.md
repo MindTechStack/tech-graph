@@ -4,7 +4,7 @@ name: "GitHub Actions"
 kind: service
 status: work
 tags: [github-actions, ci-cd, automation, devops, testing]
-what: "A continuous integration and continuous delivery (CI/CD) platform natively integrated into GitHub for automating build, test, and deployment workflows."
+what: "GitHub's built-in CI/CD: YAML workflows in `.github/workflows` that build, test and deploy on repository events."
 why: "Automates test suites on pull requests, enforces linting gates, and deploys production builds automatically upon merging to release branches."
 problem: "Manual testing and manual deployments lead to human error, untested code merged into main, inconsistent production builds, and delayed releases."
 relations:

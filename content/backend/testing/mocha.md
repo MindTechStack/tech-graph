@@ -4,7 +4,7 @@ name: "Mocha"
 kind: tool
 status: learned
 tags: [testing, test-runner, tdd, bdd, async-testing]
-what: "Flexible, modular JavaScript test runner running on Node.js and in the browser with support for asynchronous test execution and custom reporters."
+what: "JavaScript test runner for Node.js and the browser; assertions, mocks and coverage come from separate libraries."
 why: "Provides an unopinionated test execution engine where developers choose their own assertion libraries (Chai), mocking tools (Sinon), and coverage utilities (c8)."
 problem: "Writing tests with raw Node.js assert statements lacks test suite organization (describe/it), lifecycle hooks (beforeEach/afterEach), and structured test reports."
 relations:

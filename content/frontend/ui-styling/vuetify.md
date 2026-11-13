@@ -4,7 +4,7 @@ name: "Vuetify 3"
 kind: library
 status: work
 tags: [material-design, vue-components, ui-kit, layout-system, accessible]
-what: "Complete Material Design component library for Vue 3 featuring responsive grids, comprehensive form inputs, and dynamic theme switching."
+what: "Material Design component library for Vue 3 with a grid system, form inputs and theme switching."
 why: "Delivers a cohesive, accessible Material Design system with minimal configuration for Vue applications."
 problem: "Implementing responsive navigation drawers, dialogs, and validated inputs adhering to accessibility specs takes significant custom styling effort."
 relations:

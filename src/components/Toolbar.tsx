@@ -118,14 +118,14 @@ export function Toolbar({ graph }: ToolbarProps) {
           <kbd className="toolbar__kbd">{SEARCH_SHORTCUT}</kbd>
         </button>
 
-        <div className="toolbar__segmented" role="group" aria-label="Layout mode">
+        <div className="toolbar__segmented" role="group" aria-label="Arrange nodes">
           <button
             type="button"
             className={`toolbar__segment ${layoutMode === "layers" ? "toolbar__segment--active" : ""}`}
             aria-pressed={layoutMode === "layers"}
             onClick={() => setLayoutMode("layers")}
           >
-            Layers
+            Grouped
           </button>
           <button
             type="button"
@@ -133,7 +133,7 @@ export function Toolbar({ graph }: ToolbarProps) {
             aria-pressed={layoutMode === "network"}
             onClick={() => setLayoutMode("network")}
           >
-            Network
+            Free
           </button>
         </div>
 

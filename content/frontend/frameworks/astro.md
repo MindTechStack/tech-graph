@@ -4,7 +4,7 @@ name: Astro
 kind: framework
 status: learning
 tags: [islands, ssg, ssr, content-collections, zero-js]
-what: "Content-focused web framework that renders HTML on the server and ships zero client-side JavaScript by default, hydrating interactive UI components via Islands Architecture."
+what: "Content-focused web framework that renders HTML on the server and ships no client JavaScript by default, hydrating only the interactive islands."
 why: "Delivers top Lighthouse scores for blogs, docs, and marketing sites while letting you mix React, Vue, and Svelte islands on the same page."
 problem: "Using a full SPA framework for content-heavy sites forces users to download and hydrate hundreds of kilobytes of JavaScript just to read static text."
 relations:

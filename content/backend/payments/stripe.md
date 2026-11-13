@@ -4,7 +4,7 @@ name: "Stripe"
 kind: service
 status: learned
 tags: [payments, billing, webhooks, checkout, subscriptions]
-what: "Financial infrastructure and developer-first payment platform for processing online card transactions, recurring subscriptions, and multi-party payouts."
+what: "Payments API for card charges, subscriptions and marketplace payouts."
 why: "Eliminates PCI-DSS compliance scope by tokenizing cardholder data client-side and provides a battle-tested API for Checkout sessions, Payment Intents, and Webhooks."
 problem: "Handling raw credit card numbers on your server requires severe and costly Level 1 PCI-DSS audits, bank relationships, and constant fraud liability."
 relations:

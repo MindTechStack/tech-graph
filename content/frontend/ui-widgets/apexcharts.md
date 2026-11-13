@@ -4,7 +4,7 @@ name: "ApexCharts"
 kind: library
 status: work
 tags: [charts, svg-visualization, time-series, dashboard, interactive]
-what: "Modern SVG-based charting library providing responsive, animated, and interactive data visualizations with rich tooltips and zooming."
+what: "SVG charting library with animated, interactive charts, tooltips and zoom."
 why: "Simplifies building production-ready financial and telemetry dashboards with built-in time-series handling, panning, and theme modes."
 problem: "Raw D3.js requires extensive boilerplate to build responsive axes, interactive legends, and crosshair tooltips for standard chart types."
 relations:

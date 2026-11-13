@@ -4,7 +4,7 @@ name: SvelteKit
 kind: framework
 status: practiced
 tags: [svelte, ssr, routing, form-actions, fullstack]
-what: "Official full-stack application framework for Svelte featuring filesystem routing, server/universal `load` functions, progressive Form Actions, and deployment adapters."
+what: "Svelte's full-stack framework: filesystem routing, server and universal `load` functions, form actions and deployment adapters."
 why: "Unifies SSR, client-side navigation, type-safe data loading (`$types`), and progressive enhancement forms in a Vite-native workflow."
 problem: "Wiring SSR, code splitting, CSRF-safe mutations, and serverless deployment targets manually for a Svelte app requires extensive custom infrastructure."
 relations:

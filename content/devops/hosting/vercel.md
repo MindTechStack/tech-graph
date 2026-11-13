@@ -4,7 +4,7 @@ name: "Vercel"
 kind: platform
 status: practiced
 tags: [vercel, serverless, hosting, edge, frontend, nextjs]
-what: "A cloud deployment platform optimized for modern frontend frameworks and serverless functions, featuring instant preview deployments and global edge CDN."
+what: "Hosting platform for frontend frameworks and serverless functions, with a preview deployment for every push."
 why: "Delivers automated CI/CD branch preview deployments, zero-configuration framework detection, and optimal edge routing for Next.js, Astro, Nuxt, and SvelteKit."
 problem: "Setting up custom CDN invalidation, serverless function packaging, and per-PR preview environments manually requires extensive DevOps engineering."
 relations:

@@ -4,7 +4,7 @@ name: "Leaflet / Google Maps"
 kind: library
 status: work
 tags: [interactive-maps, gis, tile-layer, markers, geojson]
-what: "Leading lightweight open-source JavaScript library for mobile-friendly interactive maps, tile rendering, and geospatial data visualization."
+what: "Open-source JavaScript library for interactive maps: tile layers, markers and GeoJSON."
 why: "Provides an easy-to-use API for rendering interactive vector markers, popups, and GeoJSON layers on top of OpenStreetMap or Google Maps tiles."
 problem: "Rendering interactive geospatial maps and handling custom projections manually on HTML5 canvas is exceptionally complex and error-prone."
 relations:

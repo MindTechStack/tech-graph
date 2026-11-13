@@ -4,7 +4,7 @@ name: "Jest"
 kind: tool
 status: learned
 tags: [testing, test-runner, assertions, mocks, snapshot-testing]
-what: "Delightful, batteries-included JavaScript and TypeScript testing framework with built-in test runner, assertions, mocking, and code coverage."
+what: "JavaScript and TypeScript test framework with runner, assertions, mocks and coverage in one package."
 why: "Zero-configuration setup for common projects that bundles what previously required Mocha, Chai, Sinon, and c8 into one cohesive, parallelized tool."
 problem: "Assembling and configuring separate test runners, assertion libraries, mock managers, and coverage generators creates brittle toolchain maintenance."
 relations:

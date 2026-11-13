@@ -4,7 +4,7 @@ name: "Heroku"
 kind: platform
 status: learned
 tags: [heroku, paas, deployment, hosting, cloud]
-what: "A pioneering cloud Platform as a Service (PaaS) that manages containerized application dynos, routing, and add-on databases via Git push deployments."
+what: "Platform as a Service that deploys apps from a Git push and runs them in dynos with add-on databases."
 why: "Abstracts away infrastructure and OS management, allowing developers to deploy production web apps by simply pushing to a remote Git repository."
 problem: "Provisioning and maintaining bare Linux virtual machines (SSH, Nginx, systemd, SSL) is time-consuming and error-prone for application developers."
 relations:

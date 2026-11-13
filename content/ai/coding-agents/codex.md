@@ -4,7 +4,7 @@ name: "OpenAI Codex"
 kind: tool
 status: work
 tags: [ai, coding-agent, openai, cli, agentic]
-what: "OpenAI's coding agent, available as an open-source CLI, an IDE extension, and a cloud agent that works on tasks in isolated sandboxes."
+what: "OpenAI's coding agent, shipped as an open-source CLI, an IDE extension and a cloud agent that runs tasks in sandboxes."
 why: "Handles coding tasks locally under configurable sandbox and approval policies, or in the cloud in parallel, returning diffs and pull requests to review."
 problem: "Letting an AI run arbitrary commands on a dev machine is risky without clear limits on what it can read, write, and reach over the network."
 relations:

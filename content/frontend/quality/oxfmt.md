@@ -4,7 +4,7 @@ name: "oxfmt"
 kind: tool
 status: work
 tags: [code-formatter, rust-tool, ultra-fast, oxc, code-style]
-what: "High-performance code formatter from the Oxc project built in Rust as a blazingly fast alternative to Prettier."
+what: "Rust code formatter from the Oxc project, built as a Prettier-compatible replacement."
 why: "Formats entire codebases in milliseconds with consistent rules and zero configuration, eliminating code formatting bottlenecks in CI."
 problem: "Node-based formatters like Prettier can take minutes on large monorepos during pre-commit hooks or continuous integration checks."
 relations:

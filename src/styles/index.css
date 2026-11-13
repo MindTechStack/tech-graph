@@ -553,11 +553,6 @@ body,
   color: var(--accent);
 }
 
-.sidebar__progress-summary {
-  font: var(--type-mono);
-  color: var(--ink-muted);
-}
-
 .sidebar__rows {
   display: flex;
   flex-direction: column;
@@ -705,20 +700,21 @@ body,
   display: flex;
   flex-wrap: wrap;
   gap: 4px 12px;
+  margin: 0;
   padding: 8px 16px 0;
+  list-style: none;
 }
 
 .sidebar__progress-item {
-  font: var(--type-mono);
+  font: var(--type-control);
   display: flex;
   gap: 4px;
-}
-
-.sidebar__progress-item dt {
   color: var(--ink-muted);
 }
 
-.sidebar__progress-item dd {
+.sidebar__progress-count {
+  font: var(--type-mono);
+  font-variant-numeric: tabular-nums;
   color: var(--ink);
 }
 

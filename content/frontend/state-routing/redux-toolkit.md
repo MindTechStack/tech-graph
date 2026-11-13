@@ -4,7 +4,7 @@ name: Redux Toolkit
 kind: library
 status: planned
 tags: [redux, state-management, react, slices, typescript]
-what: "The official, opinionated, batteries-included toolset for efficient Redux development."
+what: "Official package for writing Redux: slices, an Immer-based reducer helper, store setup and RTK Query."
 why: "Eliminates traditional Redux boilerplate through createSlice, built-in Immer immutable updates, and pre-configured store setups."
 problem: "Original vanilla Redux required verbose action types, action creators, handwritten immutable reducers, and manual middleware configuration."
 relations:

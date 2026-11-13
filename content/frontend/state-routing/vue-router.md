@@ -4,7 +4,7 @@ name: Vue Router
 kind: library
 status: work
 tags: [routing, vue, navigation, history-api, spa]
-what: "The official client-side routing library for Vue.js, mapping URLs to nested component trees."
+what: "Vue's official client-side router, mapping URLs to nested component trees."
 why: "Enables deep linking, browser history navigation, dynamic routing, and transition-rich Single Page Applications."
 problem: "Building multi-view web applications without a router forces manual URL parsing, history state manipulation, and broken browser back-button behavior."
 relations:

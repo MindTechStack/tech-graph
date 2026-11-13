@@ -4,7 +4,7 @@ name: "NestJS"
 kind: framework
 status: planned
 tags: [nestjs, typescript, backend, mvc, dependency-injection, architecture]
-what: "Progressive, opinionated Node.js framework built with TypeScript for building enterprise-grade, scalable server-side applications."
+what: "Opinionated TypeScript framework for Node.js servers, structured into modules, controllers and providers wired by dependency injection."
 why: "Provides a structured modular architecture (`@Module`, `@Controller`, `@Injectable`) with built-in Dependency Injection and native support for REST, GraphQL, WebSockets, and Microservices."
 problem: "Unopinionated frameworks like Express lack architectural conventions, leading large teams to create inconsistent file structures, ad-hoc dependency wiring, and hard-to-test codebases."
 relations:

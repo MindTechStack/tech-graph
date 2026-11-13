@@ -4,7 +4,7 @@ name: Fetch API
 kind: concept
 status: work
 tags: [http, browser-apis, promises, networking, javascript]
-what: "Native browser and modern runtime interface for executing asynchronous HTTP network requests via Promises."
+what: "Built-in browser and runtime API for HTTP requests, returning Promises of Request and Response objects."
 why: "Provides built-in, promise-based networking without external dependencies, supporting streaming, abort signals, and headers configuration."
 problem: "Legacy XMLHttpRequest required clunky event-driven callback code, lacked streaming, and had no standard cross-platform Promise interface."
 relations:

@@ -4,7 +4,7 @@ name: "Oak (Deno web framework)"
 kind: framework
 status: learned
 tags: [deno, oak, web-framework, middleware, router]
-what: "Middleware-driven HTTP server framework for Deno inspired by Koa, designed specifically for async/await workflows and typed routing."
+what: "Koa-style middleware framework for HTTP servers on Deno."
 why: "Brings familiar Express/Koa-style middleware composition, routing, and error cascades to the modern Deno runtime with first-class TypeScript support."
 problem: "Building complex multi-route applications using only raw Deno.serve requires manually parsing URL paths, matching HTTP verbs, and chaining async middleware."
 relations:

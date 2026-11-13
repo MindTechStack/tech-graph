@@ -5,7 +5,7 @@ kind: framework
 status: practiced
 core: true
 tags: [mobile, ios, android, react, native-ui]
-what: "Cross-platform mobile framework that renders React component trees into genuine iOS (UIKit/SwiftUI) and Android (View) native UI widgets."
+what: "Framework that renders React components to real iOS and Android native views instead of a web view."
 why: "Shares TypeScript business logic and React component patterns across iOS and Android while preserving native scrolling, gestures, and platform look-and-feel."
 problem: "Building and maintaining two separate Swift and Kotlin codebases doubles feature engineering cost, while WebView wrappers often feel sluggish on mobile."
 relations:

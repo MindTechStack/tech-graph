@@ -4,7 +4,7 @@ name: "Insomnia"
 kind: tool
 status: planned
 tags: [insomnia, api-client, rest, graphql, kong]
-what: "A streamlined desktop API design and testing platform by Kong supporting REST, GraphQL, gRPC, and OpenAPI specifications."
+what: "Kong's desktop API client for REST, GraphQL and gRPC, with OpenAPI design support."
 why: "Offers a clean, distraction-free UI with first-class GraphQL schema auto-completion, environment templating, and native OpenAPI design linting."
 problem: "Bloated API tools with complex collaboration features introduce significant visual clutter and slow down straightforward request inspection."
 relations:

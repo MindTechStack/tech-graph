@@ -4,7 +4,7 @@ name: "Bruno"
 kind: tool
 status: planned
 tags: [bruno, api-client, git-friendly, rest, offline-first]
-what: "A fast, open-source, offline-first API client that stores collections directly in your filesystem as plain-text Bru markup files."
+what: "Open-source, offline API client that stores collections as plain-text `.bru` files in the repository."
 why: "Enables versioning of API collections directly in Git alongside application source code without cloud accounts, vendor lock-in, or secret sync issues."
 problem: "Cloud-first API clients force company API secrets and proprietary schemas into third-party cloud workspaces, risking data breaches and subscription paywalls."
 relations:

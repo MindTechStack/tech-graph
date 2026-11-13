@@ -4,7 +4,7 @@ name: "Winston"
 kind: library
 status: planned
 tags: [logging, loggers, transports, formatted-logs, nodejs]
-what: "Feature-rich, multi-transport logging library for Node.js supporting custom log levels, complex formatting pipelines, and simultaneous output targets."
+what: "Node.js logging library with custom levels, composable formats and several transports at once."
 why: "Enables routing log messages to multiple destinations simultaneously (console, rotating files, MongoDB, HTTP endpoints) with customizable timestamp and color formats."
 problem: "Directing error logs to a critical error tracker while sending general audit trails to rotating files requires building custom multi-stream routing logic."
 relations:
