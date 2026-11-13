@@ -39,8 +39,8 @@ export function ErrorPanel({ graph }: ErrorPanelProps) {
     return (
       <div className="error-banner" role="alert">
         <span>
-          <Icon name="alert" /> Content validation detected <strong>{errorCount}</strong>{" "}
-          {errorCount === 1 ? "error" : "errors"}
+          Content validation found{" "}
+          <span className="error-banner__count">{countOf(errorCount, "error")}</span>
           {warningCount > 0 ? ` and ${countOf(warningCount, "warning")}` : ""}.
         </span>
         <button
@@ -48,7 +48,7 @@ export function ErrorPanel({ graph }: ErrorPanelProps) {
           className="error-banner__btn"
           onClick={() => setIsErrorPanelOpen(true)}
         >
-          Inspect Diagnostics
+          Show diagnostics
         </button>
       </div>
     );
@@ -69,7 +69,7 @@ export function ErrorPanel({ graph }: ErrorPanelProps) {
       <div className="error-panel">
         <header className="error-panel__header">
           <div>
-            <h2 className="error-panel__title">Content Validation Diagnostics</h2>
+            <h2 className="error-panel__title">Content validation</h2>
             <p className="error-panel__subtitle">
               {countOf(errorCount, "error")} · {countOf(warningCount, "warning")} ·{" "}
               {countOf(graph.nodes.length, "valid node")} loaded
@@ -78,7 +78,7 @@ export function ErrorPanel({ graph }: ErrorPanelProps) {
           <button
             ref={closeButtonRef}
             type="button"
-            className="detail-panel__close-btn"
+            className="detail-panel__icon-btn"
             onClick={() => setIsErrorPanelOpen(false)}
             aria-label="Close diagnostics"
           >
@@ -89,16 +89,11 @@ export function ErrorPanel({ graph }: ErrorPanelProps) {
         <div className="error-panel__body">
           {totalCount === 0 ? (
             <div className="error-panel__clean">
-              <span className="error-panel__clean-icon">
-                <Icon name="check" size={20} />
-              </span>
-              <div>
-                <strong>All content files are valid!</strong>
-                <p>
-                  0 schema errors, 0 broken relations, and 0 orphan nodes across{" "}
-                  {graph.nodes.length} cards.
-                </p>
-              </div>
+              <p className="error-panel__clean-count">0 issues</p>
+              <p>
+                No schema errors, broken relations or orphan nodes across {graph.nodes.length}{" "}
+                cards.
+              </p>
             </div>
           ) : (
             <div className="error-panel__list">
@@ -107,19 +102,12 @@ export function ErrorPanel({ graph }: ErrorPanelProps) {
                 const existingNode = diag.nodeId ? graph.nodesById.get(diag.nodeId) : undefined;
 
                 return (
-                  <div
-                    key={`${diag.filePath}-${diag.code}-${idx}`}
-                    className={`error-panel__item ${
-                      isError ? "error-panel__item--error" : "error-panel__item--warning"
-                    }`}
-                  >
+                  <div key={`${diag.filePath}-${diag.code}-${idx}`} className="error-panel__item">
                     <div className="error-panel__item-top">
                       <span
-                        className={`error-panel__badge ${
-                          isError ? "error-panel__badge--error" : "error-panel__badge--warning"
-                        }`}
+                        className={`error-panel__badge ${isError ? "error-panel__badge--error" : ""}`}
                       >
-                        {diag.severity.toUpperCase()}
+                        {diag.severity}
                       </span>
                       <code className="error-panel__code">{diag.code}</code>
                       <code className="error-panel__path">{diag.filePath}</code>
@@ -132,7 +120,7 @@ export function ErrorPanel({ graph }: ErrorPanelProps) {
                             setIsErrorPanelOpen(false);
                           }}
                         >
-                          Jump to {existingNode.name} ↗
+                          Open {existingNode.name}
                         </button>
                       ) : null}
                     </div>

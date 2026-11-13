@@ -1,7 +1,6 @@
 import {
   Background,
   BackgroundVariant,
-  Controls,
   type EdgeMouseHandler,
   MarkerType,
   type NodeMouseHandler,
@@ -30,6 +29,7 @@ import {
   computeGraphLayout,
   type PositionedGraph,
 } from "../layout/elk";
+import { distanceBetween, edgeLabelPlate, type Rect, rectsOverlap, unionOf } from "../layout/rect";
 import { useAppState } from "../state/useAppState";
 import { GroupNode } from "./GroupNode";
 import { Icon } from "./Icon";
@@ -40,10 +40,23 @@ const NODE_TYPES: NodeTypes = {
   categoryGroup: GroupNode,
 };
 
-const OVERVIEW_MIN_ZOOM = 0.4;
+const EDGE_INK = {
+  rest: "rgba(17, 17, 17, 0.3)",
+  dimmed: "rgba(17, 17, 17, 0.1)",
+  highlighted: "#1f3bd6",
+  label: "#5c5c58",
+  labelHighlighted: "#111111",
+  plate: "#f6f6f3",
+} as const;
+
+const MODULE_PITCH = 80;
+const LIFTED_NODE_Z = 20;
+const LABELLED_FOCUS_MAX_DEGREE = 6;
+
+const OVERVIEW_MIN_ZOOM = 0.2;
 const FAR_VIEW_ZOOM = 0.75;
 const FOCUS_ZOOM = 1.15;
-const FIT_INSET = { top: 72, right: 72, bottom: 32, left: 32 };
+const FIT_PADDING = 48;
 
 const NODE_KEYBOARD_HINT = "Press Enter or Space to open its card.";
 const ARIA_LABEL_CONFIG = {
@@ -101,8 +114,8 @@ function overviewViewport(
   paneHeight: number,
   rightInset: number,
 ) {
-  const availableWidth = paneWidth - FIT_INSET.left - rightInset;
-  const availableHeight = paneHeight - FIT_INSET.top - FIT_INSET.bottom;
+  const availableWidth = paneWidth - FIT_PADDING * 2 - rightInset;
+  const availableHeight = paneHeight - FIT_PADDING * 2;
   const zoom = Math.min(
     1,
     Math.max(
@@ -113,8 +126,8 @@ function overviewViewport(
   const slackX = Math.max(0, availableWidth - bounds.width * zoom);
   const slackY = Math.max(0, availableHeight - bounds.height * zoom);
   return {
-    x: FIT_INSET.left + slackX / 2 - bounds.x * zoom,
-    y: FIT_INSET.top + slackY / 2 - bounds.y * zoom,
+    x: FIT_PADDING + slackX / 2 - bounds.x * zoom,
+    y: FIT_PADDING + slackY / 2 - bounds.y * zoom,
     zoom,
   };
 }
@@ -150,7 +163,10 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
   } = useAppState();
 
   const store = useStoreApi<AppFlowNode, AppFlowEdge>();
-  const { setViewport, setCenter, getViewport } = useReactFlow<AppFlowNode, AppFlowEdge>();
+  const { setViewport, setCenter, getViewport, zoomIn, zoomOut } = useReactFlow<
+    AppFlowNode,
+    AppFlowEdge
+  >();
   const isFarView = useStore((state) => state.transform[2] < FAR_VIEW_ZOOM);
   const [positioned, setPositioned] = useState<PositionedGraph | null>(null);
   const [hoveredEdgeId, setHoveredEdgeId] = useState<string | null>(null);
@@ -224,6 +240,73 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
     [positioned, syncPaneSize, setCenter],
   );
 
+  const focusNeighbourhood = useCallback(
+    (nodeId: string, duration: number): boolean => {
+      const pane = syncPaneSize();
+      if (!pane || !positioned) {
+        return false;
+      }
+      const neighbourIds = new Set<string>([nodeId]);
+      for (const edge of positioned.edges) {
+        if (edge.source === nodeId) {
+          neighbourIds.add(edge.target);
+        }
+        if (edge.target === nodeId) {
+          neighbourIds.add(edge.source);
+        }
+      }
+      const focusBox = flowBox(positioned.nodes, nodeId);
+      if (!focusBox) {
+        return false;
+      }
+      neighbourIds.delete(nodeId);
+      const neighbourBoxes = [...neighbourIds]
+        .map((id) => flowBox(positioned.nodes, id))
+        .filter((box) => box !== null)
+        .sort((a, b) => distanceBetween(focusBox, a) - distanceBetween(focusBox, b));
+
+      const availableWidth = pane.offsetWidth - detailPanelOverlap(pane) - FIT_PADDING * 2;
+      const availableHeight = pane.offsetHeight - FIT_PADDING * 2;
+      const zoomToFit = (bounds: Rect) =>
+        Math.min(availableWidth / bounds.width, availableHeight / bounds.height);
+
+      let shown: Rect = focusBox;
+      for (const box of neighbourBoxes) {
+        const grown = unionOf(shown, box);
+        if (zoomToFit(grown) < FAR_VIEW_ZOOM) {
+          break;
+        }
+        shown = grown;
+      }
+
+      const zoom = Math.min(FOCUS_ZOOM, zoomToFit(shown));
+      void setViewport(
+        {
+          x: FIT_PADDING + (availableWidth - shown.width * zoom) / 2 - shown.x * zoom,
+          y: FIT_PADDING + (availableHeight - shown.height * zoom) / 2 - shown.y * zoom,
+          zoom,
+        },
+        { duration },
+      );
+      return true;
+    },
+    [positioned, syncPaneSize, setViewport],
+  );
+
+  const fitOverview = useCallback(
+    (duration: number) => {
+      const pane = syncPaneSize();
+      const bounds = positioned ? layoutBounds(positioned.nodes) : null;
+      if (pane && bounds) {
+        void setViewport(
+          overviewViewport(bounds, pane.offsetWidth, pane.offsetHeight, detailPanelOverlap(pane)),
+          { duration },
+        );
+      }
+    },
+    [positioned, syncPaneSize, setViewport],
+  );
+
   const isNodeOutOfView = useCallback(
     (nodeId: string): boolean => {
       const pane = syncPaneSize();
@@ -251,18 +334,10 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
         ? focusRequest
         : null;
 
-    if (pendingFocus && centreOnNode(pendingFocus.nodeId, FOCUS_ZOOM, motionDuration(340))) {
+    if (pendingFocus && focusNeighbourhood(pendingFocus.nodeId, motionDuration(340))) {
       handledFocusSeqRef.current = pendingFocus.seq;
     } else if (fittedLayoutRef.current !== positioned) {
-      const pane = syncPaneSize();
-      const bounds = layoutBounds(positioned.nodes);
-      if (pane && bounds) {
-        const rightInset = FIT_INSET.right + detailPanelOverlap(pane);
-        void setViewport(
-          overviewViewport(bounds, pane.offsetWidth, pane.offsetHeight, rightInset),
-          { duration: motionDuration(260) },
-        );
-      }
+      fitOverview(motionDuration(260));
     } else if (
       selectedNodeId &&
       selectedNodeId !== revealedNodeIdRef.current &&
@@ -277,8 +352,8 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
     isLayoutPending,
     focusRequest,
     selectedNodeId,
-    setViewport,
-    syncPaneSize,
+    fitOverview,
+    focusNeighbourhood,
     centreOnNode,
     isNodeOutOfView,
     getViewport,
@@ -302,6 +377,34 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
     return set;
   }, [activeFocusNodeId, positioned]);
 
+  const labelledFocusEdgeIds = useMemo(() => {
+    const labelled = new Set<string>();
+    if (!positioned || !connectedNodeIds || connectedNodeIds.size - 1 > LABELLED_FOCUS_MAX_DEGREE) {
+      return labelled;
+    }
+    const placed: Rect[] = positioned.nodes
+      .filter((node) => node.type === "tech")
+      .map((node) => flowBox(positioned.nodes, node.id))
+      .filter((box) => box !== null);
+    for (const edge of positioned.edges) {
+      if (edge.source !== activeFocusNodeId && edge.target !== activeFocusNodeId) {
+        continue;
+      }
+      const source = flowBox(positioned.nodes, edge.source);
+      const target = flowBox(positioned.nodes, edge.target);
+      const text = edge.data?.rawLabel;
+      if (!source || !target || !text) {
+        continue;
+      }
+      const plate = edgeLabelPlate(source, target, text);
+      if (placed.every((obstacle) => !rectsOverlap(plate, obstacle))) {
+        labelled.add(edge.id);
+        placed.push(plate);
+      }
+    }
+    return labelled;
+  }, [positioned, connectedNodeIds, activeFocusNodeId]);
+
   const displayNodes = useMemo<AppFlowNode[]>(() => {
     if (!positioned) {
       return [];
@@ -312,13 +415,19 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
       }
       const isSelected = node.id === selectedNodeId;
       const isDimmed = connectedNodeIds !== null && !connectedNodeIds.has(node.id);
+      const isLifted = connectedNodeIds !== null && !isDimmed;
 
-      if (node.data.isSelected === isSelected && node.data.isDimmed === isDimmed) {
+      if (
+        node.data.isSelected === isSelected &&
+        node.data.isDimmed === isDimmed &&
+        (node.zIndex === LIFTED_NODE_Z) === isLifted
+      ) {
         return node;
       }
 
       return {
         ...node,
+        zIndex: isLifted ? LIFTED_NODE_Z : undefined,
         data: {
           ...node.data,
           isSelected,
@@ -340,36 +449,34 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
       const isHighlighted = isConnectedToFocus || isHoveredEdge;
       const isDimmed = activeFocusNodeId !== null && !isConnectedToFocus && !isHoveredEdge;
 
-      const showLabel = showAllEdgeLabels || isHighlighted;
+      const showLabel = showAllEdgeLabels || isHoveredEdge || labelledFocusEdgeIds.has(edge.id);
       const strokeColor = isHighlighted
-        ? "#60a5fa"
+        ? EDGE_INK.highlighted
         : isDimmed
-          ? "rgba(100, 116, 139, 0.22)"
-          : "rgba(148, 163, 184, 0.55)";
+          ? EDGE_INK.dimmed
+          : EDGE_INK.rest;
 
       return {
         ...edge,
         hidden: isFarView && !isHighlighted,
         label: showLabel ? edge.data?.rawLabel : undefined,
         className: isHighlighted ? "is-highlighted" : undefined,
-        zIndex: isHighlighted ? 10 : 0,
+        zIndex: 0,
         style: {
           stroke: strokeColor,
-          strokeWidth: isHighlighted ? 2.2 : 1.5,
+          strokeWidth: isHighlighted ? 2 : 1,
         },
         labelStyle: {
-          fill: isHighlighted ? "#e2e8f0" : "#94a3b8",
+          fill: isHighlighted ? EDGE_INK.labelHighlighted : EDGE_INK.label,
           fontFamily: "var(--font-mono)",
           fontSize: 11,
           fontWeight: 400,
         },
         labelBgStyle: {
-          fill: "rgba(15, 17, 23, 0.88)",
-          stroke: isHighlighted ? "#3b82f6" : "#2a2f3d",
-          strokeWidth: 1,
+          fill: EDGE_INK.plate,
         },
-        labelBgPadding: [6, 3] as [number, number],
-        labelBgBorderRadius: 4,
+        labelBgPadding: [4, 2] as [number, number],
+        labelBgBorderRadius: 0,
         markerEnd: {
           type: MarkerType.ArrowClosed,
           width: 16,
@@ -378,7 +485,14 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
         },
       };
     });
-  }, [positioned, activeFocusNodeId, hoveredEdgeId, showAllEdgeLabels, isFarView]);
+  }, [
+    positioned,
+    activeFocusNodeId,
+    labelledFocusEdgeIds,
+    hoveredEdgeId,
+    showAllEdgeLabels,
+    isFarView,
+  ]);
 
   const onNodeClick = useCallback<NodeMouseHandler<AppFlowNode>>(
     (_event, node) => {
@@ -437,74 +551,104 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
       className={isFarView ? "graph-canvas graph-canvas--far" : "graph-canvas"}
       onKeyDown={onCanvasKeyDown}
     >
-      <ReactFlow
-        nodes={displayNodes}
-        edges={displayEdges}
-        nodeTypes={NODE_TYPES}
-        edgesFocusable={false}
-        ariaLabelConfig={ARIA_LABEL_CONFIG}
-        onNodeClick={onNodeClick}
-        onNodeMouseEnter={onNodeMouseEnter}
-        onNodeMouseLeave={onNodeMouseLeave}
-        onEdgeMouseEnter={onEdgeMouseEnter}
-        onEdgeMouseLeave={onEdgeMouseLeave}
-        onPaneClick={onPaneClick}
-        minZoom={0.15}
-        maxZoom={2}
-        colorMode="dark"
-        proOptions={{ hideAttribution: true }}
-      >
-        <Background variant={BackgroundVariant.Dots} gap={22} size={1.2} color="#262b38" />
-        <Controls position="bottom-right" showInteractive={false} />
+      <div className="graph-canvas__pane">
+        <ReactFlow
+          nodes={displayNodes}
+          edges={displayEdges}
+          nodeTypes={NODE_TYPES}
+          edgesFocusable={false}
+          ariaLabelConfig={ARIA_LABEL_CONFIG}
+          onNodeClick={onNodeClick}
+          onNodeMouseEnter={onNodeMouseEnter}
+          onNodeMouseLeave={onNodeMouseLeave}
+          onEdgeMouseEnter={onEdgeMouseEnter}
+          onEdgeMouseLeave={onEdgeMouseLeave}
+          onPaneClick={onPaneClick}
+          minZoom={0.15}
+          maxZoom={2}
+          colorMode="light"
+          proOptions={{ hideAttribution: true }}
+        >
+          <Background
+            variant={BackgroundVariant.Lines}
+            gap={MODULE_PITCH}
+            lineWidth={1}
+            color="rgba(17, 17, 17, 0.05)"
+          />
 
-        <Panel position="top-left" className="graph-canvas__info-pill">
-          <span>
-            Showing <strong>{primaryCount}</strong> {pluralWord(primaryCount, "node")}
-            {ghostCount > 0 ? (
-              <>
-                {" "}
-                + <strong>{ghostCount}</strong> from other maps
-              </>
-            ) : null}{" "}
-            · <strong>{slice.edges.length}</strong> {pluralWord(slice.edges.length, "relation")}
-          </span>
-          {hasActiveFilters ? (
-            <button
-              type="button"
-              className="graph-canvas__pill-btn"
-              onClick={resetFilters}
-              title="Reset active filters"
-            >
-              Clear filters <Icon name="close" size={12} />
-            </button>
-          ) : null}
-          {isLayoutPending ? <span className="graph-canvas__layout-badge">Layouting…</span> : null}
-        </Panel>
-
-        {hasLayoutFailed ? (
-          <Panel position="top-center" className="graph-canvas__empty" role="alert">
-            <p>Couldn't arrange the nodes on this map.</p>
-            <button type="button" className="graph-canvas__empty-btn" onClick={retryLayout}>
-              Try again
-            </button>
-          </Panel>
-        ) : null}
-
-        {!isLayoutPending && slice.nodes.length === 0 ? (
-          <Panel position="top-center" className="graph-canvas__empty">
-            <p>
-              {hasActiveFilters
-                ? "No nodes match the current filters on this map."
-                : "This map has no nodes yet."}
-            </p>
-            {hasActiveFilters ? (
-              <button type="button" className="graph-canvas__empty-btn" onClick={resetFilters}>
-                Clear filters
+          {hasLayoutFailed ? (
+            <Panel position="top-center" className="graph-canvas__empty" role="alert">
+              <p>Couldn't arrange the nodes on this map.</p>
+              <button type="button" className="graph-canvas__empty-btn" onClick={retryLayout}>
+                Try again
               </button>
-            ) : null}
-          </Panel>
+            </Panel>
+          ) : null}
+
+          {!isLayoutPending && slice.nodes.length === 0 ? (
+            <Panel position="top-center" className="graph-canvas__empty">
+              <p>
+                {hasActiveFilters
+                  ? "No nodes match the current filters on this map."
+                  : "This map has no nodes yet."}
+              </p>
+              {hasActiveFilters ? (
+                <button type="button" className="graph-canvas__empty-btn" onClick={resetFilters}>
+                  Clear filters
+                </button>
+              ) : null}
+            </Panel>
+          ) : null}
+        </ReactFlow>
+      </div>
+
+      <footer className="graph-canvas__status">
+        <div className="graph-canvas__zoom" role="group" aria-label="Zoom">
+          <button
+            type="button"
+            className="graph-canvas__zoom-btn"
+            onClick={() => void zoomOut({ duration: motionDuration(160) })}
+            aria-label="Zoom out"
+            title="Zoom out"
+          >
+            <Icon name="minus" />
+          </button>
+          <button
+            type="button"
+            className="graph-canvas__zoom-btn"
+            onClick={() => void zoomIn({ duration: motionDuration(160) })}
+            aria-label="Zoom in"
+            title="Zoom in"
+          >
+            <Icon name="plus" />
+          </button>
+          <button
+            type="button"
+            className="graph-canvas__zoom-btn"
+            onClick={() => fitOverview(motionDuration(260))}
+            aria-label="Fit the whole map in view"
+            title="Fit map"
+          >
+            <Icon name="fit" />
+          </button>
+        </div>
+        <span className="graph-canvas__counts">
+          <strong>{primaryCount}</strong> {pluralWord(primaryCount, "node")}
+          {ghostCount > 0 ? (
+            <>
+              {" "}
+              + <strong>{ghostCount}</strong> from other maps
+            </>
+          ) : null}{" "}
+          · <strong>{slice.edges.length}</strong> {pluralWord(slice.edges.length, "relation")}
+        </span>
+        {isLayoutPending ? <span className="graph-canvas__layout-badge">Layouting…</span> : null}
+        {hasActiveFilters ? (
+          <button type="button" className="graph-canvas__status-btn" onClick={resetFilters}>
+            Clear filters <Icon name="close" size={12} />
+          </button>
         ) : null}
-      </ReactFlow>
+      </footer>
     </div>
   );
 }

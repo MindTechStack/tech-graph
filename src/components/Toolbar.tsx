@@ -1,14 +1,16 @@
 import { useMemo } from "react";
 import { CORE_SCOPE_LABEL, isNodeDirectlyInMap, type KnowledgeGraph } from "../content/graph";
-import { NODE_STATUSES } from "../content/schema";
 import { type ActiveMapTab, useAppState } from "../state/useAppState";
 import { Icon } from "./Icon";
-import { STATUS_META } from "./TechNode";
 
 const SEARCH_SHORTCUT =
   typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.userAgent)
     ? "⌘ K"
     : "Ctrl K";
+
+function countLabel(count: number, noun: string): string {
+  return `${count} ${count === 1 ? noun : `${noun}s`}`;
+}
 
 export interface ToolbarProps {
   readonly graph: KnowledgeGraph;
@@ -69,22 +71,20 @@ export function Toolbar({ graph }: ToolbarProps) {
           onClick={toggleSidebar}
           title={isSidebarOpen ? "Hide filters sidebar" : "Show filters sidebar"}
           aria-label="Toggle filters sidebar"
+          aria-expanded={isSidebarOpen}
         >
           <Icon name="menu" />
           <span className="toolbar__btn-label">Filters</span>
-          {hasActiveFilters ? <span className="toolbar__filter-dot" /> : null}
+          {hasActiveFilters ? (
+            <span className="toolbar__filter-dot" role="img" aria-label="Filters active" />
+          ) : null}
         </button>
 
         <div className="toolbar__brand">
-          <span className="toolbar__logo">
-            <Icon name="graph" size={20} />
-          </span>
-          <div>
-            <h1 className="toolbar__title">Tech Graph</h1>
-            <p className="toolbar__subtitle">
-              {graph.nodes.length} nodes · {graph.edges.length} relations
-            </p>
-          </div>
+          <h1 className="toolbar__title">Tech Graph</h1>
+          <p className="toolbar__subtitle">
+            {graph.nodes.length} nodes · {graph.edges.length} relations
+          </p>
         </div>
       </div>
 
@@ -114,7 +114,7 @@ export function Toolbar({ graph }: ToolbarProps) {
           title={`Search nodes (${SEARCH_SHORTCUT})`}
         >
           <Icon name="search" />
-          <span>Search…</span>
+          <span>Search</span>
           <kbd className="toolbar__kbd">{SEARCH_SHORTCUT}</kbd>
         </button>
 
@@ -139,51 +139,29 @@ export function Toolbar({ graph }: ToolbarProps) {
 
         <button
           type="button"
-          className={`toolbar__toggle ${showAllEdgeLabels ? "toolbar__toggle--active" : ""}`}
+          className="toolbar__toggle"
+          aria-pressed={showAllEdgeLabels}
           onClick={toggleShowAllEdgeLabels}
-          title="Toggle between showing edge labels on hover/selection vs always"
+          title="Show edge labels always, or only on hover and selection"
         >
-          Labels: {showAllEdgeLabels ? "Always" : "Hover"}
+          Labels{" "}
+          <span className="toolbar__toggle-value">{showAllEdgeLabels ? "always" : "hover"}</span>
         </button>
 
-        <button
-          type="button"
-          className={`toolbar__diag-btn ${
-            errorCount > 0
-              ? "toolbar__diag-btn--error"
+        {import.meta.env.DEV ? (
+          <button
+            type="button"
+            className={`toolbar__diag-btn ${errorCount > 0 ? "toolbar__diag-btn--error" : ""}`}
+            onClick={() => setIsErrorPanelOpen(true)}
+            title="Open content validation diagnostics"
+          >
+            {errorCount > 0
+              ? countLabel(errorCount, "error")
               : warningCount > 0
-                ? "toolbar__diag-btn--warning"
-                : "toolbar__diag-btn--ok"
-          }`}
-          onClick={() => setIsErrorPanelOpen(true)}
-          title="Open content validation diagnostics"
-        >
-          <Icon name={errorCount + warningCount > 0 ? "alert" : "check"} />
-          {errorCount > 0
-            ? `${errorCount} err`
-            : warningCount > 0
-              ? `${warningCount} warn`
-              : "Valid"}
-        </button>
-
-        <div className="toolbar__legend" aria-label="Status legend">
-          {NODE_STATUSES.map((status) => {
-            const meta = STATUS_META[status];
-            return (
-              <span key={status} className="toolbar__legend-item">
-                <span
-                  className="toolbar__legend-dot"
-                  style={{
-                    backgroundColor: status === "planned" ? "transparent" : meta.color,
-                    borderColor: meta.color,
-                    borderStyle: meta.borderStyle,
-                  }}
-                />
-                {meta.label}
-              </span>
-            );
-          })}
-        </div>
+                ? countLabel(warningCount, "warning")
+                : "0 issues"}
+          </button>
+        ) : null}
       </div>
     </header>
   );

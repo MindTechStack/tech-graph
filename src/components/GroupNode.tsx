@@ -11,25 +11,17 @@ export interface GroupNodeFlowData extends Record<string, unknown> {
 
 export type GroupFlowNode = Node<GroupNodeFlowData, "categoryGroup">;
 
+const TINT_FIELD_ALPHA_HEX = "4d";
+
 function GroupNodeComponent({ data }: NodeProps<GroupFlowNode>) {
   const { label, color, nodeCount, isGhostGroup } = data;
 
   return (
     <div
       className={`group-node ${isGhostGroup ? "group-node--ghost" : ""}`}
-      style={{
-        borderColor: `${color}66`,
-        backgroundColor: `${color}12`,
-      }}
+      style={isGhostGroup ? undefined : { backgroundColor: `${color}${TINT_FIELD_ALPHA_HEX}` }}
     >
-      <div
-        className="group-node__header"
-        style={{
-          borderBottomColor: `${color}3d`,
-          backgroundColor: `${color}21`,
-        }}
-      >
-        <span className="group-node__dot" style={{ backgroundColor: color }} />
+      <div className="group-node__header">
         <span className="group-node__title">{label}</span>
         <span className="group-node__count">{nodeCount}</span>
       </div>

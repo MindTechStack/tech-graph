@@ -9,8 +9,7 @@ import type { KnowledgeGraph } from "../content/graph";
 import type { TechNodeData } from "../content/parse";
 import { useAppState } from "../state/useAppState";
 import { InlineCodeText } from "./DetailPanel";
-import { Icon } from "./Icon";
-import { STATUS_META } from "./TechNode";
+import { StatusSwatch } from "./TechNode";
 
 export interface SearchModalProps {
   readonly graph: KnowledgeGraph;
@@ -172,9 +171,6 @@ export function SearchModal({ graph }: SearchModalProps) {
     >
       <div className="search-modal">
         <div className="search-modal__input-row">
-          <span className="search-modal__icon">
-            <Icon name="search" size={20} />
-          </span>
           <input
             ref={inputRef}
             type="text"
@@ -216,8 +212,7 @@ export function SearchModal({ graph }: SearchModalProps) {
           ) : (
             results.map((node, idx) => {
               const isHighlighted = idx === activeIndex;
-              const statusMeta = STATUS_META[node.status];
-              const categoryConfig = graph.categoriesByMap.get(node.map)?.get(node.category);
+              const mapName = graph.mapsById.get(node.map)?.name ?? node.map;
 
               return (
                 <button
@@ -231,44 +226,19 @@ export function SearchModal({ graph }: SearchModalProps) {
                   onMouseMove={() => setActiveIndex(idx)}
                   onClick={() => handleSelect(node)}
                 >
-                  <div className="search-modal__item-top">
-                    <span className="search-modal__item-title">
-                      <Icon name={node.kind} />
-                      <strong>{node.name}</strong>
-                      <code className="search-modal__item-id">{node.id}</code>
-                    </span>
-
-                    <div className="search-modal__item-badges">
-                      <span className="search-modal__map-badge">
-                        {graph.mapsById.get(node.map)?.name ?? node.map} /{" "}
-                        {categoryConfig?.name ?? node.category}
-                      </span>
-                      <span
-                        className="search-modal__status-badge"
-                        style={{
-                          color: statusMeta.color,
-                          backgroundColor: statusMeta.bg,
-                          borderColor: statusMeta.color,
-                        }}
-                      >
-                        {statusMeta.label}
-                      </span>
-                    </div>
-                  </div>
-
-                  <p className="search-modal__item-what">
+                  <span className="search-modal__item-title">{node.name}</span>
+                  <span className="search-modal__item-what">
                     <InlineCodeText text={node.what} />
-                  </p>
-
-                  {node.tags.length > 0 ? (
-                    <div className="search-modal__item-tags">
-                      {node.tags.map((tag) => (
-                        <span key={tag} className="search-modal__tag">
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
-                  ) : null}
+                  </span>
+                  <span className="search-modal__item-meta">
+                    <StatusSwatch status={node.status} />
+                    {mapName.toLowerCase()} · {node.kind} · {node.status}
+                    {node.tags.length > 0 ? (
+                      <span className="search-modal__item-tags">
+                        {node.tags.map((tag) => `#${tag}`).join(" ")}
+                      </span>
+                    ) : null}
+                  </span>
                 </button>
               );
             })
@@ -282,13 +252,13 @@ export function SearchModal({ graph }: SearchModalProps) {
 
         <footer className="search-modal__footer">
           <span>
-            <kbd>↑</kbd> <kbd>↓</kbd> to navigate
+            <kbd>↑ ↓</kbd> move
           </span>
           <span>
-            <kbd>Enter</kbd> to select & focus
+            <kbd>Enter</kbd> open
           </span>
           <span>
-            <kbd>Esc</kbd> to close
+            <kbd>Esc</kbd> close
           </span>
         </footer>
       </div>

@@ -1,8 +1,7 @@
 import { Handle, type Node, type NodeProps, Position } from "@xyflow/react";
-import { type CSSProperties, memo } from "react";
+import { memo } from "react";
 import type { TechNodeData } from "../content/parse";
 import type { NodeStatus } from "../content/schema";
-import { Icon } from "./Icon";
 
 export interface TechNodeFlowData extends Record<string, unknown> {
   readonly tech: TechNodeData;
@@ -17,56 +16,32 @@ export interface TechNodeFlowData extends Record<string, unknown> {
 export type TechFlowNode = Node<TechNodeFlowData, "tech">;
 
 export const STATUS_META: Readonly<
-  Record<
-    NodeStatus,
-    {
-      readonly label: string;
-      readonly color: string;
-      readonly bg: string;
-      readonly borderStyle: "solid" | "dashed";
-    }
-  >
+  Record<NodeStatus, { readonly label: string; readonly definition: string }>
 > = {
-  work: {
-    label: "Work",
-    color: "#3b82f6",
-    bg: "rgba(59, 130, 246, 0.16)",
-    borderStyle: "solid",
-  },
-  practiced: {
-    label: "Practiced",
-    color: "#a855f7",
-    bg: "rgba(168, 85, 247, 0.16)",
-    borderStyle: "solid",
-  },
-  learned: {
-    label: "Learned",
-    color: "#22c55e",
-    bg: "rgba(34, 197, 94, 0.16)",
-    borderStyle: "solid",
-  },
-  learning: {
-    label: "Learning",
-    color: "#f59e0b",
-    bg: "rgba(245, 158, 11, 0.18)",
-    borderStyle: "solid",
-  },
-  planned: {
-    label: "Planned",
-    color: "#64748b",
-    bg: "rgba(100, 116, 139, 0.14)",
-    borderStyle: "dashed",
-  },
+  work: { label: "Work", definition: "Used in commercial projects" },
+  practiced: { label: "Practiced", definition: "Built in personal projects" },
+  learned: { label: "Learned", definition: "Completed in a course" },
+  learning: { label: "Learning", definition: "Studying now, open questions" },
+  planned: { label: "Planned", definition: "Next on the study list" },
 };
 
+export function StatusSwatch({ status }: { readonly status: NodeStatus }) {
+  return (
+    <span
+      className={`status-swatch status-swatch--${status}`}
+      role="img"
+      aria-label={STATUS_META[status].label}
+      title={STATUS_META[status].definition}
+    />
+  );
+}
+
 function TechNodeComponent({ data }: NodeProps<TechFlowNode>) {
-  const { tech, isGhost, categoryName, homeMapName, categoryColor, isSelected, isDimmed } = data;
-  const statusMeta = STATUS_META[tech.status];
+  const { tech, isGhost, homeMapName, categoryColor, isSelected, isDimmed } = data;
 
   const classNames = [
     "tech-node",
-    `tech-node--status-${tech.status}`,
-    isGhost ? "tech-node--ghost" : "",
+    isGhost ? "tech-node--ghost" : `tech-node--status-${tech.status}`,
     isSelected ? "tech-node--selected" : "",
     isDimmed ? "tech-node--dimmed" : "",
   ]
@@ -76,11 +51,10 @@ function TechNodeComponent({ data }: NodeProps<TechFlowNode>) {
   return (
     <div
       className={classNames}
-      style={{ "--status-color": statusMeta.color } as CSSProperties}
       title={
         isGhost
           ? `${tech.name} — open it on the ${homeMapName} map`
-          : `${tech.name} (${statusMeta.label}) — ${tech.what.replaceAll("`", "")}`
+          : `${tech.name} (${STATUS_META[tech.status].label}) — ${tech.what.replaceAll("`", "")}`
       }
     >
       <Handle
@@ -90,27 +64,14 @@ function TechNodeComponent({ data }: NodeProps<TechFlowNode>) {
         isConnectable={false}
       />
 
-      <div className="tech-node__category-bar" style={{ backgroundColor: categoryColor }} />
+      <span className="tech-node__band" style={{ backgroundColor: categoryColor }} />
 
-      <div className="tech-node__body">
-        <div className="tech-node__header">
-          <span className="tech-node__icon">
-            <Icon name={tech.kind} />
-          </span>
-          <span className="tech-node__title">{tech.name}</span>
-        </div>
-
-        <div className="tech-node__meta">
-          {isGhost ? (
-            <span className="tech-node__ghost-badge">↗ {homeMapName}</span>
-          ) : (
-            <span className="tech-node__category-label" style={{ color: categoryColor }}>
-              {categoryName}
-            </span>
-          )}
-          <span className="tech-node__status">{tech.status}</span>
-        </div>
-      </div>
+      <span className="tech-node__body">
+        <span className="tech-node__title">{tech.name}</span>
+        <span className="tech-node__meta">
+          {isGhost ? `↗ ${homeMapName.toLowerCase()}` : `${tech.kind} · ${tech.status}`}
+        </span>
+      </span>
 
       <Handle
         type="source"

@@ -9,7 +9,7 @@ import {
 import { NODE_KINDS, NODE_STATUSES, type NodeKind, type NodeStatus } from "../content/schema";
 import { useAppState } from "../state/useAppState";
 import { Icon } from "./Icon";
-import { STATUS_META } from "./TechNode";
+import { STATUS_META, StatusSwatch } from "./TechNode";
 
 export interface SidebarProps {
   readonly graph: KnowledgeGraph;
@@ -34,6 +34,10 @@ export function Sidebar({ graph }: SidebarProps) {
     filters,
     hasActiveFilters,
     isSidebarOpen,
+    layoutMode,
+    showAllEdgeLabels,
+    setLayoutMode,
+    toggleShowAllEdgeLabels,
     toggleCategoryFilter,
     toggleStatusFilter,
     toggleKindFilter,
@@ -128,86 +132,50 @@ export function Sidebar({ graph }: SidebarProps) {
   const totalNodes = mapNodes.length;
   const completedNodes = statusCounts.work + statusCounts.practiced + statusCounts.learned;
   const completionPct = totalNodes > 0 ? Math.round((completedNodes / totalNodes) * 100) : 0;
+  const scopeName =
+    activeMap === "all"
+      ? "All maps"
+      : activeMap === "core"
+        ? CORE_SCOPE_LABEL
+        : (graph.mapsById.get(activeMap)?.name ?? activeMap);
 
   return (
     <aside className="sidebar" aria-label="Filters and progress">
       <div className="sidebar__header">
-        <div>
-          <h2 className="sidebar__title">Filters & Progress</h2>
-          <p className="sidebar__subtitle">
-            {activeMap === "all"
-              ? "All Maps"
-              : activeMap === "core"
-                ? CORE_SCOPE_LABEL
-                : (graph.mapsById.get(activeMap)?.name ?? activeMap)}
-          </p>
-        </div>
-
-        <div className="sidebar__header-actions">
-          {hasActiveFilters ? (
-            <button
-              type="button"
-              className="sidebar__reset-btn"
-              onClick={resetFilters}
-              title="Clear all active filters"
-            >
-              Reset
-            </button>
-          ) : null}
+        <h2 className="sidebar__title">{scopeName}</h2>
+        {hasActiveFilters ? (
           <button
             type="button"
-            className="sidebar__collapse-btn"
-            onClick={toggleSidebar}
-            title="Collapse sidebar"
-            aria-label="Collapse sidebar"
+            className="sidebar__reset-btn"
+            onClick={resetFilters}
+            title="Clear all active filters"
           >
-            ◀
+            Reset
           </button>
-        </div>
+        ) : null}
+        <button
+          type="button"
+          className="sidebar__collapse-btn"
+          onClick={toggleSidebar}
+          title="Collapse sidebar"
+          aria-label="Collapse sidebar"
+        >
+          <Icon name="collapse" />
+        </button>
       </div>
 
       <div className="sidebar__scroll">
-        {/* Progress Summary */}
-        <section className="sidebar__section">
-          <div className="sidebar__progress-header">
-            <span className="sidebar__section-title">Progress</span>
-            <span className="sidebar__progress-summary">
-              <strong>{completedNodes}</strong> / {totalNodes} ({completionPct}%)
-            </span>
-          </div>
-
-          <div className="sidebar__progress-bar" aria-label="Status distribution">
-            {NODE_STATUSES.map((status) => {
-              const count = statusCounts[status];
-              if (count === 0 || totalNodes === 0) {
-                return null;
-              }
-              const widthPct = (count / totalNodes) * 100;
-              return (
-                <div
-                  key={status}
-                  className="sidebar__progress-segment"
-                  style={{
-                    width: `${widthPct}%`,
-                    backgroundColor: STATUS_META[status].color,
-                  }}
-                  title={`${STATUS_META[status].label}: ${count}`}
-                />
-              );
-            })}
-          </div>
-        </section>
-
-        {/* Status Filters + Legend */}
-        <section className="sidebar__section">
+        <section className="sidebar__section" aria-labelledby="sidebar-status">
           <div className="sidebar__section-header">
-            <span className="sidebar__section-title">Status</span>
+            <h3 id="sidebar-status" className="sidebar__section-title">
+              Status
+            </h3>
             {filters.statuses.size > 0 ? (
               <span className="sidebar__active-count">{filters.statuses.size} active</span>
             ) : null}
           </div>
 
-          <div className="sidebar__status-list">
+          <div className="sidebar__rows">
             {NODE_STATUSES.map((status) => {
               const meta = STATUS_META[status];
               const isSelected = filters.statuses.has(status);
@@ -216,20 +184,16 @@ export function Sidebar({ graph }: SidebarProps) {
                 <button
                   key={status}
                   type="button"
-                  className={`sidebar__filter-row ${isSelected ? "sidebar__filter-row--active" : ""}`}
+                  className={`sidebar__filter-row sidebar__filter-row--status ${isSelected ? "sidebar__filter-row--active" : ""}`}
                   onClick={() => toggleStatusFilter(status)}
                   aria-pressed={isSelected}
                   disabled={count === 0 && !isSelected}
                 >
-                  <span
-                    className="sidebar__status-dot"
-                    style={{
-                      backgroundColor: status === "planned" ? "transparent" : meta.color,
-                      borderColor: meta.color,
-                      borderStyle: meta.borderStyle,
-                    }}
-                  />
-                  <span className="sidebar__filter-label">{meta.label}</span>
+                  <StatusSwatch status={status} />
+                  <span className="sidebar__filter-label">
+                    {meta.label}
+                    <span className="sidebar__status-definition">{meta.definition}</span>
+                  </span>
                   <span className="sidebar__filter-count">{count}</span>
                 </button>
               );
@@ -237,16 +201,17 @@ export function Sidebar({ graph }: SidebarProps) {
           </div>
         </section>
 
-        {/* Category Filters + Progress */}
-        <section className="sidebar__section">
+        <section className="sidebar__section" aria-labelledby="sidebar-categories">
           <div className="sidebar__section-header">
-            <span className="sidebar__section-title">Categories</span>
+            <h3 id="sidebar-categories" className="sidebar__section-title">
+              Categories
+            </h3>
             {filters.categories.size > 0 ? (
               <span className="sidebar__active-count">{filters.categories.size} active</span>
             ) : null}
           </div>
 
-          <div className="sidebar__category-list">
+          <div className="sidebar__rows">
             {categoryStats.map((cat) => {
               const isSelected = filters.categories.has(cat.key);
               const pct = cat.total > 0 ? Math.round((cat.completed / cat.total) * 100) : 0;
@@ -254,46 +219,39 @@ export function Sidebar({ graph }: SidebarProps) {
                 <button
                   key={cat.key}
                   type="button"
-                  className={`sidebar__category-item ${isSelected ? "sidebar__category-item--active" : ""}`}
+                  className={`sidebar__filter-row sidebar__filter-row--category ${isSelected ? "sidebar__filter-row--active" : ""}`}
                   onClick={() => toggleCategoryFilter(cat.key)}
                   aria-pressed={isSelected}
                   disabled={cat.total === 0 && !isSelected}
                 >
-                  <div className="sidebar__category-top">
+                  <span className="sidebar__swatch" style={{ backgroundColor: cat.color }} />
+                  <span className="sidebar__filter-label">{cat.label}</span>
+                  <span className="sidebar__filter-count">
+                    {cat.completed}/{cat.total}
+                  </span>
+                  <span className="sidebar__mini-bar" aria-hidden="true">
                     <span
-                      className="sidebar__category-dot"
-                      style={{ backgroundColor: cat.color }}
+                      className="sidebar__mini-fill"
+                      style={{ width: `${pct}%`, backgroundColor: cat.color }}
                     />
-                    <span className="sidebar__category-name">{cat.label}</span>
-                    <span className="sidebar__filter-count">
-                      {cat.completed}/{cat.total}
-                    </span>
-                  </div>
-                  <div className="sidebar__category-mini-bar">
-                    <div
-                      className="sidebar__category-mini-fill"
-                      style={{
-                        width: `${pct}%`,
-                        backgroundColor: cat.color,
-                      }}
-                    />
-                  </div>
+                  </span>
                 </button>
               );
             })}
           </div>
         </section>
 
-        {/* Kind Filters */}
-        <section className="sidebar__section">
+        <section className="sidebar__section" aria-labelledby="sidebar-kinds">
           <div className="sidebar__section-header">
-            <span className="sidebar__section-title">Node Kind</span>
+            <h3 id="sidebar-kinds" className="sidebar__section-title">
+              Kinds
+            </h3>
             {filters.kinds.size > 0 ? (
               <span className="sidebar__active-count">{filters.kinds.size} active</span>
             ) : null}
           </div>
 
-          <div className="sidebar__kind-chips">
+          <div className="sidebar__rows">
             {NODE_KINDS.map((kind) => {
               const isSelected = filters.kinds.has(kind);
               const count = kindCounts[kind];
@@ -301,23 +259,19 @@ export function Sidebar({ graph }: SidebarProps) {
                 <button
                   key={kind}
                   type="button"
-                  className={`sidebar__kind-chip ${isSelected ? "sidebar__kind-chip--active" : ""}`}
+                  className={`sidebar__filter-row ${isSelected ? "sidebar__filter-row--active" : ""}`}
                   onClick={() => toggleKindFilter(kind)}
                   aria-pressed={isSelected}
                   disabled={count === 0 && !isSelected}
                 >
-                  <Icon name={kind} />
-                  <span>{kind}</span>
-                  <span className="sidebar__chip-count">{count}</span>
+                  <span className="sidebar__filter-label sidebar__filter-label--mono">{kind}</span>
+                  <span className="sidebar__filter-count">{count}</span>
                 </button>
               );
             })}
           </div>
-        </section>
 
-        {/* Cross-map Ghost Nodes Toggle */}
-        {!isCrossMapScope(activeMap) ? (
-          <section className="sidebar__section">
+          {!isCrossMapScope(activeMap) ? (
             <label className="sidebar__checkbox-label">
               <input
                 type="checkbox"
@@ -326,8 +280,82 @@ export function Sidebar({ graph }: SidebarProps) {
               />
               <span>Show external ghost nodes</span>
             </label>
-          </section>
-        ) : null}
+          ) : null}
+        </section>
+
+        <section
+          className="sidebar__section sidebar__section--compact-only"
+          aria-labelledby="sidebar-view"
+        >
+          <div className="sidebar__section-header">
+            <h3 id="sidebar-view" className="sidebar__section-title">
+              View
+            </h3>
+          </div>
+          <div className="sidebar__rows">
+            {(
+              [
+                ["layers", "Layers"],
+                ["network", "Network"],
+              ] as const
+            ).map(([mode, label]) => (
+              <button
+                key={mode}
+                type="button"
+                className={`sidebar__filter-row sidebar__filter-row--phone-only ${layoutMode === mode ? "sidebar__filter-row--active" : ""}`}
+                aria-pressed={layoutMode === mode}
+                onClick={() => setLayoutMode(mode)}
+              >
+                <span className="sidebar__filter-label">{label}</span>
+              </button>
+            ))}
+            <button
+              type="button"
+              className={`sidebar__filter-row ${showAllEdgeLabels ? "sidebar__filter-row--active" : ""}`}
+              aria-pressed={showAllEdgeLabels}
+              onClick={toggleShowAllEdgeLabels}
+            >
+              <span className="sidebar__filter-label">Always show edge labels</span>
+            </button>
+          </div>
+        </section>
+
+        <section className="sidebar__section" aria-labelledby="sidebar-progress">
+          <div className="sidebar__section-header">
+            <h3 id="sidebar-progress" className="sidebar__section-title">
+              Progress
+            </h3>
+            <span className="sidebar__progress-summary">
+              {completedNodes}/{totalNodes} · {completionPct}%
+            </span>
+          </div>
+
+          <div className="sidebar__progress-bar" role="img" aria-label="Status distribution">
+            {NODE_STATUSES.map((status) => {
+              const count = statusCounts[status];
+              if (count === 0 || totalNodes === 0) {
+                return null;
+              }
+              return (
+                <span
+                  key={status}
+                  className={`sidebar__progress-segment status-fill--${status}`}
+                  style={{ flexGrow: count }}
+                  title={`${STATUS_META[status].label}: ${count}`}
+                />
+              );
+            })}
+          </div>
+
+          <dl className="sidebar__progress-legend">
+            {NODE_STATUSES.map((status) => (
+              <div key={status} className="sidebar__progress-item">
+                <dt>{status}</dt>
+                <dd>{statusCounts[status]}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
       </div>
     </aside>
   );

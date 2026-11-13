@@ -1,549 +1,324 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-12T08:27:17.528Z",
+  "generatedAt": "2026-11-13T14:14:57.116233Z",
   "title": "Design System: Tech Graph",
   "extensions": {
     "colorMeta": {
-      "margin-navy": {
+      "paper": {
         "role": "neutral",
-        "displayName": "Margin Navy",
-        "canonical": "#0b0e14",
+        "displayName": "Register Paper",
+        "canonical": "#f6f6f3",
         "tonalRamp": [
-          "oklch(15.0% 0.004 264.1)",
-          "oklch(25.0% 0.006 264.1)",
-          "oklch(35.0% 0.008 264.1)",
-          "oklch(45.0% 0.010 264.1)",
-          "oklch(58.0% 0.013 264.1)",
-          "oklch(70.0% 0.011 264.1)",
-          "oklch(82.0% 0.009 264.1)",
-          "oklch(95.0% 0.006 264.1)"
+          "#0b0b0b",
+          "#252524",
+          "#424240",
+          "#61615f",
+          "#828280",
+          "#a5a5a3",
+          "#c9c9c8",
+          "#eeeeee"
         ]
       },
-      "panel-navy": {
+      "paper-sunk": {
         "role": "neutral",
-        "displayName": "Panel Navy",
-        "canonical": "#131722",
+        "displayName": "Sunk Paper",
+        "canonical": "#ecece8",
         "tonalRamp": [
-          "oklch(15.0% 0.006 268.9)",
-          "oklch(25.0% 0.010 268.9)",
-          "oklch(35.0% 0.014 268.9)",
-          "oklch(45.0% 0.017 268.9)",
-          "oklch(58.0% 0.022 268.9)",
-          "oklch(70.0% 0.019 268.9)",
-          "oklch(82.0% 0.015 268.9)",
-          "oklch(95.0% 0.010 268.9)"
+          "#0b0b0b",
+          "#252524",
+          "#42423f",
+          "#61615e",
+          "#82827f",
+          "#a5a5a2",
+          "#c9c9c7",
+          "#eeeeed"
         ]
       },
-      "card-navy": {
+      "ink": {
         "role": "neutral",
-        "displayName": "Card Navy",
-        "canonical": "#161b28",
+        "displayName": "Press Ink",
+        "canonical": "#111111",
         "tonalRamp": [
-          "oklch(15.0% 0.007 268.0)",
-          "oklch(25.0% 0.012 268.0)",
-          "oklch(35.0% 0.016 268.0)",
-          "oklch(45.0% 0.020 268.0)",
-          "oklch(58.0% 0.026 268.0)",
-          "oklch(70.0% 0.022 268.0)",
-          "oklch(82.0% 0.017 268.0)",
-          "oklch(95.0% 0.012 268.0)"
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
         ]
       },
-      "raised-navy": {
+      "ink-2": {
         "role": "neutral",
-        "displayName": "Raised Navy",
-        "canonical": "#1a2030",
+        "displayName": "Second Ink",
+        "canonical": "#5c5c58",
         "tonalRamp": [
-          "oklch(15.0% 0.009 268.2)",
-          "oklch(25.0% 0.014 268.2)",
-          "oklch(35.0% 0.019 268.2)",
-          "oklch(45.0% 0.024 268.2)",
-          "oklch(58.0% 0.031 268.2)",
-          "oklch(70.0% 0.027 268.2)",
-          "oklch(82.0% 0.021 268.2)",
-          "oklch(95.0% 0.014 268.2)"
-        ]
-      },
-      "node-surface": {
-        "role": "neutral",
-        "displayName": "Node Surface",
-        "canonical": "#141925",
-        "tonalRamp": [
-          "oklch(15.0% 0.007 266.8)",
-          "oklch(25.0% 0.011 266.8)",
-          "oklch(35.0% 0.015 266.8)",
-          "oklch(45.0% 0.019 266.8)",
-          "oklch(58.0% 0.024 266.8)",
-          "oklch(70.0% 0.021 266.8)",
-          "oklch(82.0% 0.016 266.8)",
-          "oklch(95.0% 0.011 266.8)"
-        ]
-      },
-      "code-well": {
-        "role": "neutral",
-        "displayName": "Code Well",
-        "canonical": "#0a0d14",
-        "tonalRamp": [
-          "oklch(15.0% 0.004 266.6)",
-          "oklch(25.0% 0.007 266.6)",
-          "oklch(35.0% 0.009 266.6)",
-          "oklch(45.0% 0.012 266.6)",
-          "oklch(58.0% 0.015 266.6)",
-          "oklch(70.0% 0.013 266.6)",
-          "oklch(82.0% 0.010 266.6)",
-          "oklch(95.0% 0.007 266.6)"
-        ]
-      },
-      "border-navy": {
-        "role": "neutral",
-        "displayName": "Border Navy",
-        "canonical": "#262e42",
-        "tonalRamp": [
-          "oklch(15.0% 0.011 267.3)",
-          "oklch(25.0% 0.017 267.3)",
-          "oklch(35.0% 0.023 267.3)",
-          "oklch(45.0% 0.029 267.3)",
-          "oklch(58.0% 0.037 267.3)",
-          "oklch(70.0% 0.032 267.3)",
-          "oklch(82.0% 0.025 267.3)",
-          "oklch(95.0% 0.017 267.3)"
-        ]
-      },
-      "border-strong": {
-        "role": "neutral",
-        "displayName": "Border Strong",
-        "canonical": "#3b4764",
-        "tonalRamp": [
-          "oklch(15.0% 0.014 266.8)",
-          "oklch(25.0% 0.023 266.8)",
-          "oklch(35.0% 0.031 266.8)",
-          "oklch(45.0% 0.039 266.8)",
-          "oklch(58.0% 0.050 266.8)",
-          "oklch(70.0% 0.043 266.8)",
-          "oklch(82.0% 0.033 266.8)",
-          "oklch(95.0% 0.023 266.8)"
-        ]
-      },
-      "border-subtle": {
-        "role": "neutral",
-        "displayName": "Border Subtle",
-        "canonical": "rgba(148, 163, 184, 0.14)"
-      },
-      "slate-wash": {
-        "role": "neutral",
-        "displayName": "Slate Wash",
-        "canonical": "rgba(148, 163, 184, 0.12)"
-      },
-      "ink-primary": {
-        "role": "neutral",
-        "displayName": "Ink Primary",
-        "canonical": "#e6edf3",
-        "tonalRamp": [
-          "oklch(15.0% 0.003 243.7)",
-          "oklch(25.0% 0.005 243.7)",
-          "oklch(35.0% 0.007 243.7)",
-          "oklch(45.0% 0.008 243.7)",
-          "oklch(58.0% 0.011 243.7)",
-          "oklch(70.0% 0.009 243.7)",
-          "oklch(82.0% 0.007 243.7)",
-          "oklch(95.0% 0.005 243.7)"
-        ]
-      },
-      "ink-heading": {
-        "role": "neutral",
-        "displayName": "Ink Heading",
-        "canonical": "#f8fafc",
-        "tonalRamp": [
-          "oklch(15.0% 0.001 247.9)",
-          "oklch(25.0% 0.002 247.9)",
-          "oklch(35.0% 0.002 247.9)",
-          "oklch(45.0% 0.003 247.9)",
-          "oklch(58.0% 0.003 247.9)",
-          "oklch(70.0% 0.003 247.9)",
-          "oklch(82.0% 0.002 247.9)",
-          "oklch(95.0% 0.002 247.9)"
-        ]
-      },
-      "ink-label": {
-        "role": "neutral",
-        "displayName": "Ink Label",
-        "canonical": "#e2e8f0",
-        "tonalRamp": [
-          "oklch(15.0% 0.004 255.5)",
-          "oklch(25.0% 0.006 255.5)",
-          "oklch(35.0% 0.008 255.5)",
-          "oklch(45.0% 0.010 255.5)",
-          "oklch(58.0% 0.012 255.5)",
-          "oklch(70.0% 0.011 255.5)",
-          "oklch(82.0% 0.008 255.5)",
-          "oklch(95.0% 0.006 255.5)"
-        ]
-      },
-      "ink-prose": {
-        "role": "neutral",
-        "displayName": "Ink Prose",
-        "canonical": "#cbd5e1",
-        "tonalRamp": [
-          "oklch(15.0% 0.006 252.9)",
-          "oklch(25.0% 0.009 252.9)",
-          "oklch(35.0% 0.012 252.9)",
-          "oklch(45.0% 0.015 252.9)",
-          "oklch(58.0% 0.019 252.9)",
-          "oklch(70.0% 0.017 252.9)",
-          "oklch(82.0% 0.013 252.9)",
-          "oklch(95.0% 0.009 252.9)"
-        ]
-      },
-      "ink-secondary": {
-        "role": "neutral",
-        "displayName": "Ink Secondary",
-        "canonical": "#94a3b8",
-        "tonalRamp": [
-          "oklch(15.0% 0.010 256.8)",
-          "oklch(25.0% 0.015 256.8)",
-          "oklch(35.0% 0.021 256.8)",
-          "oklch(45.0% 0.027 256.8)",
-          "oklch(58.0% 0.034 256.8)",
-          "oklch(70.0% 0.029 256.8)",
-          "oklch(82.0% 0.023 256.8)",
-          "oklch(95.0% 0.015 256.8)"
+          "#0b0b0a",
+          "#252523",
+          "#42423f",
+          "#61615d",
+          "#83837e",
+          "#a5a5a2",
+          "#c9c9c7",
+          "#eeeeed"
         ]
       },
       "ink-muted": {
         "role": "neutral",
-        "displayName": "Ink Muted",
-        "canonical": "#7c8aa0",
+        "displayName": "Muted Ink",
+        "canonical": "#63635d",
         "tonalRamp": [
-          "oklch(15.0% 0.011 257.4)",
-          "oklch(25.0% 0.018 257.4)",
-          "oklch(35.0% 0.024 257.4)",
-          "oklch(45.0% 0.031 257.4)",
-          "oklch(58.0% 0.039 257.4)",
-          "oklch(70.0% 0.034 257.4)",
-          "oklch(82.0% 0.026 257.4)",
-          "oklch(95.0% 0.018 257.4)"
+          "#0b0b0a",
+          "#252522",
+          "#42423e",
+          "#62625c",
+          "#83837c",
+          "#a5a5a0",
+          "#c9c9c6",
+          "#eeeeed"
         ]
       },
-      "annotation-blue": {
-        "role": "primary",
-        "displayName": "Annotation Blue",
-        "canonical": "#3b82f6",
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline Grey",
+        "canonical": "#d6d6d1",
         "tonalRamp": [
-          "oklch(15.0% 0.053 259.8)",
-          "oklch(25.0% 0.083 259.8)",
-          "oklch(35.0% 0.113 259.8)",
-          "oklch(45.0% 0.143 259.8)",
-          "oklch(58.0% 0.182 259.8)",
-          "oklch(70.0% 0.158 259.8)",
-          "oklch(82.0% 0.122 259.8)",
-          "oklch(95.0% 0.083 259.8)"
+          "#0b0b0a",
+          "#252523",
+          "#42423f",
+          "#61615d",
+          "#83837e",
+          "#a5a5a1",
+          "#c9c9c7",
+          "#eeeeed"
         ]
       },
-      "annotation-blue-deep": {
-        "role": "primary",
-        "displayName": "Annotation Blue Deep",
-        "canonical": "#2563eb",
+      "rule": {
+        "role": "neutral",
+        "displayName": "Heavy Rule",
+        "canonical": "#111111",
         "tonalRamp": [
-          "oklch(15.0% 0.060 262.9)",
-          "oklch(25.0% 0.095 262.9)",
-          "oklch(35.0% 0.129 262.9)",
-          "oklch(45.0% 0.164 262.9)",
-          "oklch(58.0% 0.208 262.9)",
-          "oklch(70.0% 0.181 262.9)",
-          "oklch(82.0% 0.139 262.9)",
-          "oklch(95.0% 0.095 262.9)"
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
         ]
       },
-      "annotation-blue-bright": {
-        "role": "primary",
-        "displayName": "Annotation Blue Bright",
-        "canonical": "#60a5fa",
+      "grid-line": {
+        "role": "neutral",
+        "displayName": "Module Grid Line",
+        "canonical": "rgba(17, 17, 17, 0.05)",
         "tonalRamp": [
-          "oklch(15.0% 0.040 254.6)",
-          "oklch(25.0% 0.063 254.6)",
-          "oklch(35.0% 0.086 254.6)",
-          "oklch(45.0% 0.109 254.6)",
-          "oklch(58.0% 0.139 254.6)",
-          "oklch(70.0% 0.120 254.6)",
-          "oklch(82.0% 0.093 254.6)",
-          "oklch(95.0% 0.063 254.6)"
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
         ]
       },
-      "annotation-blue-light": {
+      "accent": {
         "role": "primary",
-        "displayName": "Annotation Blue Light",
-        "canonical": "#93c5fd",
+        "displayName": "Signal Ultramarine",
+        "canonical": "#1f3bd6",
         "tonalRamp": [
-          "oklch(15.0% 0.027 251.8)",
-          "oklch(25.0% 0.042 251.8)",
-          "oklch(35.0% 0.057 251.8)",
-          "oklch(45.0% 0.073 251.8)",
-          "oklch(58.0% 0.093 251.8)",
-          "oklch(70.0% 0.080 251.8)",
-          "oklch(82.0% 0.062 251.8)",
-          "oklch(95.0% 0.042 251.8)"
+          "#030823",
+          "#0a1a61",
+          "#162da6",
+          "#2749e3",
+          "#4370ff",
+          "#6e9cff",
+          "#a4c7ff",
+          "#ddeeff"
         ]
       },
-      "annotation-wash": {
+      "accent-wash": {
         "role": "primary",
-        "displayName": "Annotation Wash",
-        "canonical": "rgba(59, 130, 246, 0.14)"
+        "displayName": "Ultramarine Wash",
+        "canonical": "rgba(31, 59, 214, 0.08)",
+        "tonalRamp": [
+          "#030823",
+          "#0a1a61",
+          "#162da6",
+          "#2749e3",
+          "#4370ff",
+          "#6e9cff",
+          "#a4c7ff",
+          "#ddeeff"
+        ]
       },
-      "on-annotation": {
-        "role": "primary",
-        "displayName": "On Annotation",
+      "on-accent": {
+        "role": "neutral",
+        "displayName": "White on Ultramarine",
         "canonical": "#ffffff",
         "tonalRamp": [
-          "oklch(15.0% 0.000 0.0)",
-          "oklch(25.0% 0.000 0.0)",
-          "oklch(35.0% 0.000 0.0)",
-          "oklch(45.0% 0.000 0.0)",
-          "oklch(58.0% 0.000 0.0)",
-          "oklch(70.0% 0.000 0.0)",
-          "oklch(82.0% 0.000 0.0)",
-          "oklch(95.0% 0.000 0.0)"
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
         ]
       },
-      "status-work": {
+      "on-ink": {
+        "role": "neutral",
+        "displayName": "Paper on Ink",
+        "canonical": "#f6f6f3",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252524",
+          "#424240",
+          "#61615f",
+          "#828280",
+          "#a5a5a3",
+          "#c9c9c8",
+          "#eeeeee"
+        ]
+      },
+      "error": {
+        "role": "error",
+        "displayName": "Validation Red",
+        "canonical": "#c4271b",
+        "tonalRamp": [
+          "#1b0302",
+          "#4c0301",
+          "#820000",
+          "#b61208",
+          "#df4434",
+          "#f97968",
+          "#ffb0a2",
+          "#ffe3dc"
+        ]
+      },
+      "status-work-fill": {
         "role": "status",
-        "displayName": "Status Work",
-        "canonical": "#3b82f6",
+        "displayName": "Work: Solid Ink",
+        "canonical": "#111111",
         "tonalRamp": [
-          "oklch(15.0% 0.053 259.8)",
-          "oklch(25.0% 0.083 259.8)",
-          "oklch(35.0% 0.113 259.8)",
-          "oklch(45.0% 0.143 259.8)",
-          "oklch(58.0% 0.182 259.8)",
-          "oklch(70.0% 0.158 259.8)",
-          "oklch(82.0% 0.122 259.8)",
-          "oklch(95.0% 0.083 259.8)"
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
         ]
       },
-      "status-practiced": {
+      "status-practiced-fill": {
         "role": "status",
-        "displayName": "Status Practiced",
-        "canonical": "#a855f7",
+        "displayName": "Practiced: Second Ink",
+        "canonical": "#5c5c58",
         "tonalRamp": [
-          "oklch(15.0% 0.065 303.9)",
-          "oklch(25.0% 0.102 303.9)",
-          "oklch(35.0% 0.140 303.9)",
-          "oklch(45.0% 0.177 303.9)",
-          "oklch(58.0% 0.225 303.9)",
-          "oklch(70.0% 0.195 303.9)",
-          "oklch(82.0% 0.151 303.9)",
-          "oklch(95.0% 0.102 303.9)"
+          "#0b0b0a",
+          "#252523",
+          "#42423f",
+          "#61615d",
+          "#83837e",
+          "#a5a5a2",
+          "#c9c9c7",
+          "#eeeeed"
         ]
       },
-      "status-learned": {
+      "status-learned-fill": {
         "role": "status",
-        "displayName": "Status Learned",
-        "canonical": "#22c55e",
+        "displayName": "Learned: Outlined Paper",
+        "canonical": "#f6f6f3",
         "tonalRamp": [
-          "oklch(15.0% 0.054 149.6)",
-          "oklch(25.0% 0.084 149.6)",
-          "oklch(35.0% 0.115 149.6)",
-          "oklch(45.0% 0.146 149.6)",
-          "oklch(58.0% 0.186 149.6)",
-          "oklch(70.0% 0.161 149.6)",
-          "oklch(82.0% 0.124 149.6)",
-          "oklch(95.0% 0.084 149.6)"
+          "#0b0b0b",
+          "#252524",
+          "#424240",
+          "#61615f",
+          "#828280",
+          "#a5a5a3",
+          "#c9c9c8",
+          "#eeeeee"
         ]
       },
-      "status-learning": {
+      "status-learning-fill": {
         "role": "status",
-        "displayName": "Status Learning",
-        "canonical": "#f59e0b",
+        "displayName": "Learning: Ticked Paper",
+        "canonical": "#f6f6f3",
         "tonalRamp": [
-          "oklch(15.0% 0.046 70.1)",
-          "oklch(25.0% 0.072 70.1)",
-          "oklch(35.0% 0.099 70.1)",
-          "oklch(45.0% 0.125 70.1)",
-          "oklch(58.0% 0.159 70.1)",
-          "oklch(70.0% 0.138 70.1)",
-          "oklch(82.0% 0.107 70.1)",
-          "oklch(95.0% 0.072 70.1)"
+          "#0b0b0b",
+          "#252524",
+          "#424240",
+          "#61615f",
+          "#828280",
+          "#a5a5a3",
+          "#c9c9c8",
+          "#eeeeee"
         ]
       },
-      "status-planned": {
+      "status-planned-fill": {
         "role": "status",
-        "displayName": "Status Planned",
-        "canonical": "#64748b",
+        "displayName": "Planned: Dashed Paper",
+        "canonical": "#f6f6f3",
         "tonalRamp": [
-          "oklch(15.0% 0.011 257.4)",
-          "oklch(25.0% 0.018 257.4)",
-          "oklch(35.0% 0.024 257.4)",
-          "oklch(45.0% 0.031 257.4)",
-          "oklch(58.0% 0.039 257.4)",
-          "oklch(70.0% 0.034 257.4)",
-          "oklch(82.0% 0.026 257.4)",
-          "oklch(95.0% 0.018 257.4)"
-        ]
-      },
-      "error-red": {
-        "role": "feedback",
-        "displayName": "Error Red",
-        "canonical": "#ef4444",
-        "tonalRamp": [
-          "oklch(15.0% 0.058 25.3)",
-          "oklch(25.0% 0.091 25.3)",
-          "oklch(35.0% 0.125 25.3)",
-          "oklch(45.0% 0.158 25.3)",
-          "oklch(58.0% 0.201 25.3)",
-          "oklch(70.0% 0.175 25.3)",
-          "oklch(82.0% 0.135 25.3)",
-          "oklch(95.0% 0.091 25.3)"
-        ]
-      },
-      "error-text": {
-        "role": "feedback",
-        "displayName": "Error Text",
-        "canonical": "#f87171",
-        "tonalRamp": [
-          "oklch(15.0% 0.047 22.2)",
-          "oklch(25.0% 0.073 22.2)",
-          "oklch(35.0% 0.100 22.2)",
-          "oklch(45.0% 0.126 22.2)",
-          "oklch(58.0% 0.161 22.2)",
-          "oklch(70.0% 0.140 22.2)",
-          "oklch(82.0% 0.108 22.2)",
-          "oklch(95.0% 0.073 22.2)"
-        ]
-      },
-      "warning-text": {
-        "role": "feedback",
-        "displayName": "Warning Text",
-        "canonical": "#fbbf24",
-        "tonalRamp": [
-          "oklch(15.0% 0.046 84.4)",
-          "oklch(25.0% 0.072 84.4)",
-          "oklch(35.0% 0.099 84.4)",
-          "oklch(45.0% 0.125 84.4)",
-          "oklch(58.0% 0.159 84.4)",
-          "oklch(70.0% 0.138 84.4)",
-          "oklch(82.0% 0.107 84.4)",
-          "oklch(95.0% 0.072 84.4)"
-        ]
-      },
-      "success-text": {
-        "role": "feedback",
-        "displayName": "Success Text",
-        "canonical": "#4ade80",
-        "tonalRamp": [
-          "oklch(15.0% 0.051 151.7)",
-          "oklch(25.0% 0.080 151.7)",
-          "oklch(35.0% 0.109 151.7)",
-          "oklch(45.0% 0.138 151.7)",
-          "oklch(58.0% 0.176 151.7)",
-          "oklch(70.0% 0.153 151.7)",
-          "oklch(82.0% 0.118 151.7)",
-          "oklch(95.0% 0.080 151.7)"
+          "#0b0b0b",
+          "#252524",
+          "#424240",
+          "#61615f",
+          "#828280",
+          "#a5a5a3",
+          "#c9c9c8",
+          "#eeeeee"
         ]
       }
     },
     "typographyMeta": {
-      "headline": {
-        "displayName": "Headline",
-        "purpose": "Node name at the top of the detail panel; the largest type in the app."
+      "display": {
+        "displayName": "Display",
+        "purpose": "The node name at the top of the entry; flush left, wraps, never truncates."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "The Tech Graph wordmark and modal titles."
+        "purpose": "Modal titles and the map name in the sidebar head."
       },
-      "node-title": {
-        "displayName": "Node Title",
-        "purpose": "Technology names on the canvas and in search results; truncates, never wraps."
+      "name": {
+        "displayName": "Name",
+        "purpose": "Node names on the canvas and in search results."
       },
-      "body": {
-        "displayName": "Body",
-        "purpose": "Trio text and the Markdown body of a card."
-      },
-      "input": {
-        "displayName": "Input",
-        "purpose": "The search field, the only text input."
+      "prose": {
+        "displayName": "Prose",
+        "purpose": "What / why / problem, the Markdown body and key points."
       },
       "control": {
         "displayName": "Control",
-        "purpose": "Buttons, tabs, filter rows, relation rows and links."
+        "purpose": "Tabs, toggles, filter rows, relation names, buttons, the author role and the résumé link."
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Uppercase Ink Muted section titles and trio labels."
-      },
-      "badge": {
-        "displayName": "Badge",
-        "purpose": "Status pills, map chips and counts."
+        "purpose": "Hanging-column labels, sidebar section heads and the author name."
       },
       "mono": {
         "displayName": "Mono",
+        "purpose": "Relation verbs, ids, kinds, status values, tags, counts and kbd hints."
+      },
+      "mono-code": {
+        "displayName": "Mono Code",
         "purpose": "Code blocks and inline code."
       },
       "mono-sm": {
         "displayName": "Mono Sm",
-        "purpose": "Node ids, tags, kbd hints and validation messages."
+        "purpose": "The kind · status line on a canvas node, edge labels and the résumé format mark."
       }
     },
-    "shadows": [
-      {
-        "name": "node-rest",
-        "value": "0 4px 14px rgba(0, 0, 0, 0.35)",
-        "purpose": "Every graph node, so pins sit above the map."
-      },
-      {
-        "name": "node-selected",
-        "value": "0 0 0 2px <status colour>, 0 8px 24px rgba(0, 0, 0, 0.55)",
-        "purpose": "Selected node: status-coloured ring plus a deeper lift."
-      },
-      {
-        "name": "panel-edge",
-        "value": "-8px 0 28px rgba(0, 0, 0, 0.45)",
-        "purpose": "Detail panel's left edge."
-      },
-      {
-        "name": "panel-overlay",
-        "value": "8px 0 28px rgba(0, 0, 0, 0.55)",
-        "purpose": "Sidebar when it overlays the canvas at 1024px and below."
-      },
-      {
-        "name": "modal",
-        "value": "0 24px 56px rgba(0, 0, 0, 0.65)",
-        "purpose": "Search modal and error panel, both edged in Border Strong."
-      },
-      {
-        "name": "banner",
-        "value": "0 12px 32px rgba(0, 0, 0, 0.55)",
-        "purpose": "Floating error banner."
-      },
-      {
-        "name": "segment",
-        "value": "0 1px 2px rgba(0, 0, 0, 0.35)",
-        "purpose": "Active Layers/Network segment; the only shadow inside a control."
-      }
-    ],
+    "shadows": [],
     "motion": [
       {
-        "name": "ease-control",
-        "value": "0.15s ease",
-        "purpose": "Buttons, tabs, search trigger, node hover lift and shadow."
-      },
-      {
-        "name": "ease-row",
-        "value": "0.12s ease",
-        "purpose": "Sidebar filter rows and kind chips."
-      },
-      {
-        "name": "ease-relation",
-        "value": "0.14s ease",
-        "purpose": "Relation and link rows in the detail panel."
-      },
-      {
-        "name": "ease-dim",
-        "value": "0.18s ease",
-        "purpose": "Node opacity when dimmed or restored."
-      },
-      {
-        "name": "ease-progress",
-        "value": "0.25s ease",
-        "purpose": "Progress bar segment widths."
+        "name": "ease-state",
+        "value": "120ms ease-out",
+        "purpose": "Every transition: colour and opacity only. Instant under prefers-reduced-motion."
       }
     ],
     "breakpoints": [
@@ -567,151 +342,141 @@
   },
   "components": [
     {
+      "name": "Author Bar",
+      "kind": "custom",
+      "refersTo": "author-bar",
+      "description": "The register's colophon above the toolbar: name, verbatim role, résumé link flush right.",
+      "html": "<div class=\"ds-author\"><span class=\"ds-author__name\">Maksym Matsydulskas</span><span class=\"ds-author__role\">Senior Front-End Engineer · TypeScript</span><a class=\"ds-author__resume\" href=\"#\">Résumé <span class=\"ds-author__fmt\">PDF</span></a></div>",
+      "css": ".ds-author { display: flex; align-items: baseline; gap: 4px 12px; flex-wrap: wrap; min-height: 32px; padding: 6px 16px; box-sizing: border-box; background: #f6f6f3; border-bottom: 1px solid #d6d6d1; } .ds-author__name { font: 600 13px/20px \"Host Grotesk Variable\", \"Helvetica Neue\", Arial, sans-serif; color: #111111; } .ds-author__role { font: 500 13px/16px \"Host Grotesk Variable\", \"Helvetica Neue\", Arial, sans-serif; color: #5c5c58; } .ds-author__resume { margin-left: auto; font: 500 13px/16px \"Host Grotesk Variable\", \"Helvetica Neue\", Arial, sans-serif; color: #1f3bd6; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; transition: color 120ms ease-out; } .ds-author__resume:hover { color: #111111; } .ds-author__resume:focus-visible { outline: 2px solid #1f3bd6; outline-offset: 2px; } .ds-author__fmt { font: 400 11px/16px \"Geist Mono Variable\", ui-monospace, Menlo, Consolas, monospace; color: #63635d; }"
+    },
+    {
       "name": "Map Tabs",
       "kind": "nav",
       "refersTo": "map-tab",
-      "description": "Toolbar rail for switching maps; the current map is the one solid blue element in the chrome. On touch screens each tab grows to 44px.",
-      "html": "<nav class=\"ds-tabs\" aria-label=\"Knowledge maps\"><button class=\"ds-tab ds-tab--active\" aria-current=\"page\">Frontend <span class=\"ds-tab-count\">65</span></button><button class=\"ds-tab\">Backend <span class=\"ds-tab-count\">72</span></button><button class=\"ds-tab\">Web Fundamentals <span class=\"ds-tab-count\">14</span></button><button class=\"ds-tab\">DevOps <span class=\"ds-tab-count\">12</span></button><button class=\"ds-tab\">All <span class=\"ds-tab-count\">158</span></button></nav>",
-      "css": ".ds-tabs { display: inline-flex; align-items: center; gap: 4px; padding: 3px; border-radius: 10px; background: var(--bg-primary, #0b0e14); border: 1px solid var(--border-color, #262e42); font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Inter, Roboto, sans-serif; } .ds-tab { display: inline-flex; white-space: nowrap; align-items: center; gap: 6px; padding: 5px 11px; border: none; border-radius: 7px; background: transparent; color: var(--text-secondary, #94a3b8); font: inherit; font-size: 12.5px; font-weight: 500; cursor: pointer; transition: all 0.15s ease; } .ds-tab:hover { color: var(--text-primary, #e6edf3); background: rgba(255, 255, 255, 0.04); } .ds-tab:focus-visible { outline: 2px solid var(--accent-color, #3b82f6); outline-offset: 2px; } .ds-tab--active { background: var(--accent-color, #3b82f6); color: #ffffff; } .ds-tab--active:hover { background: #2563eb; color: #ffffff; } .ds-tab-count { font-size: 10.5px; padding: 1px 6px; border-radius: 999px; background: rgba(255, 255, 255, 0.14); }"
+      "description": "Plain-text map tabs with mono counts; the active tab is ink with a 2px accent underline on the toolbar hairline.",
+      "html": "<nav class=\"ds-tabs\"><button class=\"ds-tab ds-tab--active\">Frontend <span class=\"ds-tab__n\">65</span></button><button class=\"ds-tab\">Backend <span class=\"ds-tab__n\">75</span></button><button class=\"ds-tab\">DevOps <span class=\"ds-tab__n\">14</span></button></nav>",
+      "css": ".ds-tabs { display: flex; gap: 16px; padding: 0 16px; background: #f6f6f3; border-bottom: 1px solid #d6d6d1; } .ds-tab { font: 500 13px/16px \"Host Grotesk Variable\", \"Helvetica Neue\", Arial, sans-serif; color: #5c5c58; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 16px 0 14px; cursor: pointer; transition: color 120ms ease-out; } .ds-tab:hover { color: #1f3bd6; } .ds-tab:focus-visible { outline: 2px solid #1f3bd6; outline-offset: 2px; } .ds-tab--active { color: #111111; border-bottom-color: #1f3bd6; } .ds-tab__n { margin-left: 4px; font: 400 12px/16px \"Geist Mono Variable\", ui-monospace, Menlo, Consolas, monospace; color: #63635d; font-variant-numeric: tabular-nums; }"
     },
     {
-      "name": "Ghost Button",
+      "name": "Default Button",
       "kind": "button",
-      "refersTo": "button-ghost",
-      "description": "Default toolbar and panel control, including Reset and Clear filters; toggles to a blue wash when active.",
-      "html": "<div class=\"ds-row\"><button class=\"ds-btn-ghost\">Clear filters ✕</button><button class=\"ds-btn-ghost ds-btn-ghost--active\" aria-pressed=\"true\">Labels: Always</button></div>",
-      "css": ".ds-row { display: flex; gap: 8px; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Inter, Roboto, sans-serif; } .ds-btn-ghost { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border-color, #262e42); background: var(--bg-primary, #0b0e14); color: var(--text-secondary, #94a3b8); font: inherit; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s ease; } .ds-btn-ghost:hover { color: var(--text-primary, #e6edf3); border-color: var(--border-strong, #3b4764); } .ds-btn-ghost:focus-visible { outline: 2px solid var(--accent-color, #3b82f6); outline-offset: 2px; } .ds-btn-ghost--active { border-color: var(--accent-color, #3b82f6); color: #93c5fd; background: rgba(59, 130, 246, 0.12); } .ds-btn-ghost--active:hover { border-color: var(--accent-color, #3b82f6); color: #93c5fd; }"
+      "refersTo": "button-default",
+      "description": "Control-size ink text in a 1px ink frame; frame and text turn accent on hover.",
+      "html": "<button class=\"ds-btn\">Redraw map</button>",
+      "css": ".ds-btn { font: 500 13px/16px \"Host Grotesk Variable\", \"Helvetica Neue\", Arial, sans-serif; color: #111111; background: #f6f6f3; border: 1px solid #111111; border-radius: 0; padding: 4px 12px; cursor: pointer; transition: color 120ms ease-out, border-color 120ms ease-out; } .ds-btn:hover { color: #1f3bd6; border-color: #1f3bd6; } .ds-btn:focus-visible { outline: 2px solid #1f3bd6; outline-offset: 2px; }"
     },
     {
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Solid Annotation Blue for the one action that resolves a state, such as clearing filters from the empty canvas.",
-      "html": "<button class=\"ds-btn-primary\">Clear filters</button>",
-      "css": ".ds-btn-primary { padding: 6px 12px; border: none; border-radius: 7px; background: var(--accent-color, #3b82f6); color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Inter, Roboto, sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.15s ease; } .ds-btn-primary:hover { background: #2563eb; } .ds-btn-primary:focus-visible { outline: 2px solid var(--accent-color, #3b82f6); outline-offset: 2px; }"
+      "description": "Accent fill with white text and no frame; used at most once per context.",
+      "html": "<button class=\"ds-btn-primary\">Reset filters</button>",
+      "css": ".ds-btn-primary { font: 500 13px/16px \"Host Grotesk Variable\", \"Helvetica Neue\", Arial, sans-serif; color: #ffffff; background: #1f3bd6; border: 0; border-radius: 0; padding: 5px 13px; cursor: pointer; transition: opacity 120ms ease-out; } .ds-btn-primary:hover { opacity: 0.88; } .ds-btn-primary:focus-visible { outline: 2px solid #1f3bd6; outline-offset: 2px; }"
     },
     {
       "name": "Search Field",
       "kind": "input",
-      "refersTo": "input-search",
-      "description": "Header row of the Ctrl+K / ⌘K search modal: a borderless input on Margin Navy with a mono kbd hint. A query starting with # matches tag prefixes.",
-      "html": "<label class=\"ds-search\"><span aria-hidden=\"true\">🔍</span><input class=\"ds-search-input\" aria-label=\"Search nodes\" placeholder=\"Name, #tag, or description…\" /><kbd class=\"ds-kbd\">Esc</kbd></label>",
-      "css": ".ds-search { display: flex; align-items: center; gap: 10px; width: 600px; max-width: 100%; padding: 12px 16px; background: var(--bg-primary, #0b0e14); border: 1px solid var(--border-strong, #3b4764); border-radius: 12px; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Inter, Roboto, sans-serif; } .ds-search-input { flex: 1; min-width: 0; background: transparent; border: none; outline: none; color: var(--text-primary, #e6edf3); font: inherit; font-size: 14.5px; caret-color: var(--accent-color, #3b82f6); } .ds-search-input::placeholder { color: var(--text-muted, #7c8aa0); } .ds-kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 11px; padding: 2px 6px; border-radius: 4px; background: var(--bg-elevated, #1a2030); border: 1px solid var(--border-color, #262e42); color: var(--text-muted, #7c8aa0); }"
+      "refersTo": "modal-search",
+      "description": "Borderless Title-size input in the sheet head with a mono Esc hint and a 2px rule beneath.",
+      "html": "<div class=\"ds-search\"><input class=\"ds-search__input\" placeholder=\"Search nodes, tags, what…\"><kbd class=\"ds-search__kbd\">Esc</kbd></div>",
+      "css": ".ds-search { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #f6f6f3; border-bottom: 2px solid #111111; } .ds-search:focus-within { border-bottom-color: #1f3bd6; } .ds-search__input { flex: 1; font: 600 20px/24px \"Host Grotesk Variable\", \"Helvetica Neue\", Arial, sans-serif; letter-spacing: -0.015em; color: #111111; background: none; border: 0; outline: none; caret-color: #1f3bd6; } .ds-search__input::placeholder { color: #63635d; } .ds-search__kbd { font: 400 12px/16px \"Geist Mono Variable\", ui-monospace, Menlo, Consolas, monospace; color: #63635d; }"
     },
     {
-      "name": "Kind Filter Chips",
-      "kind": "chip",
-      "refersTo": "chip-filter",
-      "description": "Sidebar filter by node kind: emoji, name and muted count. Active chips take the blue wash; a kind with no nodes on the map is disabled at 45% opacity.",
-      "html": "<div class=\"ds-chips\"><button class=\"ds-chip ds-chip--active\" aria-pressed=\"true\"><span aria-hidden=\"true\">📦</span> library <span class=\"ds-chip-count\">24</span></button><button class=\"ds-chip\" aria-pressed=\"false\"><span aria-hidden=\"true\">🏗️</span> framework <span class=\"ds-chip-count\">10</span></button><button class=\"ds-chip\" aria-pressed=\"false\"><span aria-hidden=\"true\">💡</span> concept <span class=\"ds-chip-count\">12</span></button><button class=\"ds-chip\" aria-pressed=\"false\" disabled><span aria-hidden=\"true\">⚙️</span> platform <span class=\"ds-chip-count\">0</span></button></div>",
-      "css": ".ds-chips { display: flex; flex-wrap: wrap; gap: 5px; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Inter, Roboto, sans-serif; } .ds-chip { display: inline-flex; align-items: center; gap: 5px; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border-color, #262e42); background: var(--bg-primary, #0b0e14); color: var(--text-secondary, #94a3b8); font: inherit; font-size: 11.5px; cursor: pointer; transition: all 0.12s ease; } .ds-chip:hover:not(:disabled) { border-color: var(--border-strong, #3b4764); color: var(--text-primary, #e6edf3); } .ds-chip:focus-visible { outline: 2px solid var(--accent-color, #3b82f6); outline-offset: 2px; } .ds-chip--active { background: rgba(59, 130, 246, 0.15); border-color: var(--accent-color, #3b82f6); color: #93c5fd; } .ds-chip:disabled { opacity: 0.45; cursor: default; } .ds-chip-count { font-size: 11px; color: var(--text-muted, #7c8aa0); }"
-    },
-    {
-      "name": "Status Badges",
-      "kind": "chip",
-      "refersTo": "status-badge",
-      "description": "The five learning statuses as pills: the hue for text and border over its own 14–18% tint; Planned is the only dashed one.",
-      "html": "<div class=\"ds-badges\"><span class=\"ds-status ds-status--work\">Work</span><span class=\"ds-status ds-status--practiced\">Practiced</span><span class=\"ds-status ds-status--learned\">Learned</span><span class=\"ds-status ds-status--learning\">Learning</span><span class=\"ds-status ds-status--planned\">Planned</span></div>",
-      "css": ".ds-badges { display: flex; flex-wrap: wrap; gap: 6px; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Inter, Roboto, sans-serif; } .ds-status { padding: 1px 6px; border-radius: 999px; border: 1px solid; font-size: 11px; font-weight: 600; } .ds-status--work { color: #3b82f6; border-color: #3b82f6; background: rgba(59, 130, 246, 0.16); } .ds-status--practiced { color: #a855f7; border-color: #a855f7; background: rgba(168, 85, 247, 0.16); } .ds-status--learned { color: #22c55e; border-color: #22c55e; background: rgba(34, 197, 94, 0.16); } .ds-status--learning { color: #f59e0b; border-color: #f59e0b; background: rgba(245, 158, 11, 0.18); } .ds-status--planned { color: #64748b; border-color: #64748b; border-style: dashed; background: rgba(100, 116, 139, 0.14); }"
+      "name": "Status Legend Row",
+      "kind": "custom",
+      "refersTo": "status-legend-row",
+      "description": "Sidebar status filter that doubles as the legend: ramp swatch, name, one-line definition, mono count.",
+      "html": "<div class=\"ds-legend\"><button class=\"ds-lrow ds-lrow--active\"><span class=\"ds-sw ds-sw--work\"></span><span class=\"ds-lrow__txt\">Work<span class=\"ds-lrow__def\">Used in commercial projects</span></span><span class=\"ds-lrow__n\">52</span></button><button class=\"ds-lrow\"><span class=\"ds-sw ds-sw--learning\"></span><span class=\"ds-lrow__txt\">Learning<span class=\"ds-lrow__def\">Studying now, open questions</span></span><span class=\"ds-lrow__n\">8</span></button><button class=\"ds-lrow\"><span class=\"ds-sw ds-sw--planned\"></span><span class=\"ds-lrow__txt\">Planned<span class=\"ds-lrow__def\">Next on the study list</span></span><span class=\"ds-lrow__n\">25</span></button></div>",
+      "css": ".ds-legend { width: 240px; background: #f6f6f3; } .ds-lrow { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 44px; padding: 4px 16px 4px 14px; box-sizing: border-box; background: none; border: 0; border-left: 2px solid transparent; border-top: 1px solid #d6d6d1; text-align: left; cursor: pointer; font: 500 13px/16px \"Host Grotesk Variable\", \"Helvetica Neue\", Arial, sans-serif; color: #111111; transition: color 120ms ease-out; } .ds-lrow:hover { color: #1f3bd6; } .ds-lrow:focus-visible { outline: 2px solid #1f3bd6; outline-offset: -2px; } .ds-lrow--active { color: #1f3bd6; border-left-color: #1f3bd6; } .ds-lrow__txt { flex: 1; display: flex; flex-direction: column; gap: 2px; } .ds-lrow__def { font: 400 12px/16px \"Host Grotesk Variable\", \"Helvetica Neue\", Arial, sans-serif; color: #63635d; } .ds-lrow__n { font: 400 12px/16px \"Geist Mono Variable\", ui-monospace, Menlo, Consolas, monospace; color: #63635d; font-variant-numeric: tabular-nums; } .ds-sw { width: 8px; height: 8px; flex-shrink: 0; box-sizing: border-box; } .ds-sw--work { background: #111111; } .ds-sw--learning { border: 1px solid #111111; border-right: 3px solid #1f3bd6; } .ds-sw--planned { border: 1px dashed #63635d; }"
     },
     {
       "name": "Tech Node",
       "kind": "custom",
       "refersTo": "tech-node",
-      "description": "The pin on the map: status-coloured border, atlas-tint category bar on the left, kind emoji, name, category label and status pill. A ghost node is dashed and names its home map. Below 75% zoom it drops to the name alone on a status tint.",
-      "html": "<div class=\"ds-nodes\"><div class=\"ds-node\" tabindex=\"0\" style=\"border-color:#22c55e\"><div class=\"ds-node-bar\" style=\"background:#ddbf95\"></div><div class=\"ds-node-body\"><div class=\"ds-node-head\"><span aria-hidden=\"true\">📦</span><span class=\"ds-node-title\">Sequelize</span></div><div class=\"ds-node-meta\"><span class=\"ds-node-category\" style=\"color:#ddbf95\">Databases &amp; ORM</span><span class=\"ds-node-status\" style=\"color:#22c55e;border-color:#22c55e;background:rgba(34,197,94,0.16)\">Learned</span></div></div></div><div class=\"ds-node ds-node--ghost\" tabindex=\"0\" style=\"border-color:#3b82f6\"><div class=\"ds-node-bar\" style=\"background:#a8c7ee\"></div><div class=\"ds-node-body\"><div class=\"ds-node-head\"><span aria-hidden=\"true\">🔤</span><span class=\"ds-node-title\">TypeScript</span></div><div class=\"ds-node-meta\"><span class=\"ds-node-ghost\">↗ Frontend</span><span class=\"ds-node-status\" style=\"color:#3b82f6;border-color:#3b82f6;background:rgba(59,130,246,0.16)\">Work</span></div></div></div></div>",
-      "css": ".ds-nodes { display: flex; flex-wrap: wrap; gap: 16px; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Inter, Roboto, sans-serif; } .ds-node { display: flex; width: 220px; height: 68px; border-radius: 10px; border: 1.8px solid; background: #141925; color: var(--text-primary, #e6edf3); overflow: hidden; cursor: pointer; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35); transition: opacity 0.18s ease, transform 0.15s ease, box-shadow 0.15s ease; } .ds-node:hover { transform: translateY(-1px); } .ds-node:focus-visible { outline: 2px solid var(--accent-color, #3b82f6); outline-offset: 3px; } .ds-node--ghost { border-style: dashed; opacity: 0.68; background: rgba(20, 25, 37, 0.72); } .ds-node--ghost:hover { opacity: 0.95; } .ds-node-bar { width: 5px; flex-shrink: 0; } .ds-node-body { flex: 1; min-width: 0; padding: 9px 11px; display: flex; flex-direction: column; justify-content: space-between; } .ds-node-head { display: flex; align-items: center; gap: 6px; font-size: 14px; } .ds-node-title { font-size: 13.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .ds-node-meta { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 11px; font-weight: 500; } .ds-node-category { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .ds-node-status { flex-shrink: 0; padding: 1px 6px; border-radius: 999px; border: 1px solid; font-size: 11px; font-weight: 600; } .ds-node-ghost { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 1px 6px; border-radius: 4px; background: rgba(148, 163, 184, 0.16); color: #cbd5e1; font-weight: 600; font-size: 11px; }"
-    },
-    {
-      "name": "Category Group",
-      "kind": "card",
-      "refersTo": "category-group",
-      "description": "Layers-mode frame for one category: border, header band and fill in its atlas tint at about 40%, 13% and 7% alpha. Ghost groups are dashed slate and titled with the home map's name.",
-      "html": "<div class=\"ds-groups\"><div class=\"ds-group\" style=\"border-color:#ddbf9566;background-color:#ddbf9512\"><div class=\"ds-group-head\" style=\"border-bottom-color:#ddbf953d;background-color:#ddbf9521\"><span class=\"ds-group-dot\" style=\"background:#ddbf95\"></span><span class=\"ds-group-title\">Databases &amp; ORM</span><span class=\"ds-group-count\">10</span></div></div><div class=\"ds-group ds-group--ghost\" style=\"border-color:#64748b66;background-color:#64748b12\"><div class=\"ds-group-head\" style=\"border-bottom-color:#64748b3d;background-color:#64748b21\"><span class=\"ds-group-dot\" style=\"background:#64748b\"></span><span class=\"ds-group-title\">↗ Frontend</span><span class=\"ds-group-count\">3</span></div></div></div>",
-      "css": ".ds-groups { display: flex; flex-wrap: wrap; gap: 16px; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Inter, Roboto, sans-serif; } .ds-group { width: 260px; height: 120px; border-radius: 14px; border: 1.5px solid; } .ds-group--ghost { border-style: dashed; } .ds-group-head { display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-bottom: 1px solid; border-top-left-radius: 12px; border-top-right-radius: 12px; } .ds-group-dot { width: 8px; height: 8px; border-radius: 50%; } .ds-group-title { font-size: 12px; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase; color: #e2e8f0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .ds-group-count { margin-left: auto; font-size: 11px; color: var(--text-secondary, #94a3b8); background: rgba(15, 23, 42, 0.6); padding: 1px 7px; border-radius: 999px; }"
-    },
-    {
-      "name": "Trio Card",
-      "kind": "card",
-      "refersTo": "card-trio",
-      "description": "What it is / Why use it / Problem it solves at the top of a node's card; the heart of the reading experience. Backticks in the text render as inline-code chips.",
-      "html": "<div class=\"ds-trio\"><div class=\"ds-trio-card ds-trio-card--what\"><h3 class=\"ds-trio-label\">What it is</h3><p class=\"ds-trio-text\">Progressive JavaScript framework built on fine-grained Proxy-based reactivity and Single-File Components (<code class=\"ds-code\">.vue</code>).</p></div><div class=\"ds-trio-card ds-trio-card--why\"><h3 class=\"ds-trio-label\">Why use it</h3><p class=\"ds-trio-text\">Tracks reactive dependencies automatically at runtime so only the exact components and DOM bindings that depend on changed state re-render.</p></div><div class=\"ds-trio-card ds-trio-card--problem\"><h3 class=\"ds-trio-label\">Problem it solves</h3><p class=\"ds-trio-text\">Managing manual render optimizations or scattering HTML, CSS, and state logic across separate files slows down feature development in complex SPAs.</p></div></div>",
-      "css": ".ds-trio { display: flex; flex-direction: column; gap: 10px; width: 398px; max-width: 100%; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Inter, Roboto, sans-serif; } .ds-trio-card { padding: 11px 13px; border-radius: 9px; background: var(--bg-card, #161b28); border: 1px solid var(--border-color, #262e42); border-left-width: 3px; } .ds-trio-card--what { border-left-color: #3b82f6; } .ds-trio-card--why { border-left-color: #22c55e; } .ds-trio-card--problem { border-left-color: #f59e0b; } .ds-trio-label { margin: 0 0 4px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted, #7c8aa0); } .ds-trio-text { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-primary, #e6edf3); } .ds-code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12px; padding: 1px 4px; border-radius: 4px; background: rgba(148, 163, 184, 0.12); color: #93c5fd; }"
+      "description": "224x64 square block; name first, mono kind · status beneath; fill follows the ink density ramp and a 6px category tint band runs down the left edge.",
+      "html": "<div class=\"ds-nodes\"><div class=\"ds-node ds-node--work\" tabindex=\"0\"><span class=\"ds-node__name\">Vue 3</span><span class=\"ds-node__meta\">framework · work</span></div><div class=\"ds-node ds-node--learning\" tabindex=\"0\"><span class=\"ds-node__name\">NestJS</span><span class=\"ds-node__meta\">framework · learning</span></div><div class=\"ds-node ds-node--planned\" tabindex=\"0\"><span class=\"ds-node__name\">Kafka</span><span class=\"ds-node__meta\">service · planned</span></div></div>",
+      "css": ".ds-nodes { display: flex; flex-wrap: wrap; gap: 16px; padding: 16px; background: #f6f6f3; } .ds-node { position: relative; width: 224px; height: 64px; box-sizing: border-box; padding: 12px 16px 12px 18px; display: flex; flex-direction: column; justify-content: center; border-left: 6px solid #75b5cf; cursor: pointer; transition: opacity 120ms ease-out; } .ds-node:hover { outline: 1px solid #1f3bd6; outline-offset: 2px; } .ds-node:focus-visible { outline: 2px solid #1f3bd6; outline-offset: 4px; } .ds-node__meta { font: 400 11px/16px \"Geist Mono Variable\", ui-monospace, Menlo, Consolas, monospace; opacity: 0.7; } .ds-node__name { font: 600 15px/20px \"Host Grotesk Variable\", \"Helvetica Neue\", Arial, sans-serif; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .ds-node--work { background: #111111; color: #f6f6f3; } .ds-node--learning { background: #f6f6f3; color: #111111; border-top: 1px solid #111111; border-right: 1px solid #111111; border-bottom: 1px solid #111111; } .ds-node--learning::after { content: \"\"; position: absolute; top: 0; right: 0; bottom: 0; width: 4px; background: #1f3bd6; } .ds-node--planned { background: #f6f6f3; color: #5c5c58; border-top: 1px dashed #63635d; border-right: 1px dashed #63635d; border-bottom: 1px dashed #63635d; }"
     },
     {
       "name": "Relation Row",
       "kind": "custom",
-      "refersTo": "relation-item",
-      "description": "Clickable relation in a node's card: outgoing rows lead with the verb, backlinks end with it; the target shows kind emoji, name, a map-name chip when it lives on another map, and a status dot. Six rows per direction, the rest behind a native disclosure.",
-      "html": "<div class=\"ds-relation-group\"><div class=\"ds-relations\"><button class=\"ds-relation\"><span class=\"ds-relation-verb\">runs on →</span><span class=\"ds-relation-target\"><span aria-hidden=\"true\">⚙️</span><span class=\"ds-relation-name\">Node.js</span><span class=\"ds-relation-dot\" role=\"img\" aria-label=\"Learned\" style=\"background:#22c55e\"></span></span></button><button class=\"ds-relation\"><span class=\"ds-relation-verb\">typed with →</span><span class=\"ds-relation-target\"><span aria-hidden=\"true\">🔤</span><span class=\"ds-relation-name\">TypeScript</span><span class=\"ds-relation-map\">Frontend</span><span class=\"ds-relation-dot\" role=\"img\" aria-label=\"Work\" style=\"background:#3b82f6\"></span></span></button><button class=\"ds-relation\"><span class=\"ds-relation-target\"><span aria-hidden=\"true\">📦</span><span class=\"ds-relation-name\">Drizzle ORM</span><span class=\"ds-relation-dot\" role=\"img\" aria-label=\"Practiced\" style=\"background:#a855f7\"></span></span><span class=\"ds-relation-verb\">→ alternative to</span></button></div><details class=\"ds-relation-more\"><summary>3 more</summary></details></div>",
-      "css": ".ds-relation-group { display: flex; flex-direction: column; gap: 6px; width: 398px; max-width: 100%; font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Inter, Roboto, sans-serif; } .ds-relations { display: flex; flex-direction: column; gap: 5px; } .ds-relation { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border-color, #262e42); background: var(--bg-card, #161b28); color: var(--text-primary, #e6edf3); font: inherit; font-size: 12.5px; text-align: left; cursor: pointer; transition: all 0.14s ease; } .ds-relation:hover { border-color: #3b82f6; background: rgba(59, 130, 246, 0.1); } .ds-relation:focus-visible { outline: 2px solid var(--accent-color, #3b82f6); outline-offset: 2px; } .ds-relation-target { display: inline-flex; align-items: center; gap: 6px; min-width: 0; } .ds-relation-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .ds-relation-map { font-size: 11px; padding: 1px 5px; border-radius: 4px; background: rgba(148, 163, 184, 0.16); color: #cbd5e1; white-space: nowrap; } .ds-relation-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; } .ds-relation-verb { font-size: 11.5px; color: var(--text-secondary, #94a3b8); font-style: italic; flex-shrink: 0; } .ds-relation-more > summary { padding: 6px 10px; border-radius: 8px; color: var(--text-secondary, #94a3b8); font-size: 12px; font-weight: 500; cursor: pointer; transition: color 0.14s ease, background-color 0.14s ease; } .ds-relation-more > summary:hover { color: var(--text-primary, #e6edf3); background: rgba(255, 255, 255, 0.04); }"
+      "refersTo": "relation-row",
+      "description": "Ruled connection row in the entry: mono verb in Ink Muted, name at Control size, map when it differs, hairline between rows.",
+      "html": "<div class=\"ds-rels\"><a class=\"ds-rel\" href=\"#\"><span class=\"ds-rel__verb\">built on</span><span class=\"ds-rel__name\">Node.js</span><span class=\"ds-rel__map\"></span></a><a class=\"ds-rel\" href=\"#\"><span class=\"ds-rel__verb\">alternative to</span><span class=\"ds-rel__name\">Express</span><span class=\"ds-rel__map\">backend</span></a></div>",
+      "css": ".ds-rels { background: #f6f6f3; } .ds-rel { display: grid; grid-template-columns: 112px 1fr auto; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid #d6d6d1; text-decoration: none; color: #111111; } .ds-rel .ds-rel__name { transition: color 120ms ease-out; } .ds-rel:hover .ds-rel__name { color: #1f3bd6; } .ds-rel:focus-visible { outline: 2px solid #1f3bd6; outline-offset: 2px; } .ds-rel__verb, .ds-rel__map { font: 400 12px/16px \"Geist Mono Variable\", ui-monospace, Menlo, Consolas, monospace; color: #63635d; } .ds-rel__name { font: 500 13px/16px \"Host Grotesk Variable\", \"Helvetica Neue\", Arial, sans-serif; }"
     }
   ],
   "narrative": {
-    "northStar": "The Annotated Map",
-    "overview": "The graph is the map and the cards are the margin notes. The canvas gives you the territory: categories as tinted regions, technologies as labelled pins, relations as roads. The detail panel is where you stop and read what you wrote. Reading matters as much as navigating, so the card's what / why / problem trio and its code example get the calmest, most legible treatment in the app.\n\nThe mood is calm and focused, precise and honest, and a little friendly. It is calm because the chrome stays in slate and navy and only content carries saturated colour. It is precise because every hue, border style and opacity encodes a fact about a node: its status, its category, whether it lives on another map. It is friendly because of the soft corners, emoji kind icons and small hover lifts, so that a recruiter opening a shared link meets something approachable rather than an IDE.\n\nDensity is high but not cramped. Small type (11–13px), tight 4–12px gaps and three docked panes make a laptop screen hold a whole map. The canvas sits on a quiet dot grid, and everything floats over it at clearly separated depths.",
+    "northStar": "The Ruled Register",
+    "overview": "**Creative North Star: \"The Ruled Register\"**\n\nTech Graph is laid out like a Swiss technical register: a printed sheet of entries on a module grid, ruled with hairlines and set in one grotesque, with a monospace face for identifiers. The canvas is the register's index plate, showing every entry as a block on the grid, filled with as much ink as the author has earned. The detail panel is the entry itself, a ruled information sheet with a hanging label column on the left and the text in the column beside it.\n\nThe mood is exact, plain and confident. Hierarchy comes from size, weight, position and rule weight, never from boxes or tone. Colour is rationed: black ink on white paper, one ultramarine accent for *where you are and what you picked*, and the twelve atlas tints for *which category a node belongs to*. Everything else is ink.\n\nThe register is still dense, because a laptop must hold a whole map. It gets there through alignment rather than shrinking: every pane, node and row snaps to the same 4px baseline and 80px module, so a dense screen still reads as one calm sheet.",
     "keyCharacteristics": [
-      "Dark-only, built on four navy steps from Margin Navy to Raised Navy.",
-      "Saturated colour only where it states a fact: the five statuses, selection and validation results. Categories speak in soft atlas tints, so vivid colour on the map always means status.",
-      "Dashed lines mean distance: a node you haven't touched yet, or one whose home is another map.",
-      "Monospace marks identifiers: ids, tags, keyboard hints, code.",
-      "Soft, tactile controls: rounded corners at every scale, visible hover feedback, small lifts."
+      "Light paper only. One ground, with no tonal stacking of panes.",
+      "Sections are separated by hairlines and whitespace, never by cards, fills or shadows.",
+      "Status is shown by the amount of ink, not by hue: solid, grey, outlined, ticked, dashed.",
+      "Category is the only other colour, as flat atlas-tint fields and bands.",
+      "Square corners everywhere. Nothing floats on a shadow.",
+      "Mono marks identifiers: relation verbs, ids, kinds, status values, tags, counts and code."
     ],
     "rules": [
       {
-        "name": "The Facts-Only Colour Rule",
-        "body": "Saturated colour appears only where it encodes a fact: a status, the current selection, or a validation result. Categories use atlas tints, and everything else is navy and slate.",
+        "name": "The One Accent Rule",
+        "body": "Ultramarine means \"here\" or \"chosen\". If a second saturated hue appears outside the error state, something has drifted.",
         "section": "colors"
       },
       {
-        "name": "The Ink-and-Region Rule",
-        "body": "Status is vivid ink; category is a pastel region. Never give a category a saturated hue, and never draw a status in a tint. If a viewer can't tell which channel a colour belongs to at a glance, one of them has drifted.",
+        "name": "The Ink-Is-Experience Rule",
+        "body": "The more ink a node carries, the deeper the author's experience. Never fill a node for emphasis, decoration or hover.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tint-Is-Territory Rule",
+        "body": "Atlas tints are fields that say \"this belongs to category X\". They are never text, lines, status or state.",
         "section": "colors"
       },
       {
         "name": "The Dashed-Means-Distance Rule",
-        "body": "A dashed border means the node is not yours yet (`planned`) or lives on another map (ghost node or ghost group). Nothing else is dashed.",
+        "body": "A dashed line means not yours yet (`planned`) or living on another map (ghost node or ghost group). Nothing else is dashed.",
         "section": "colors"
       },
       {
-        "name": "The Mono-for-Identifiers Rule",
-        "body": "Anything the user could type or paste (an id, a tag, a shortcut, a code sample, a validation message) is set in mono. Names and prose never are.",
+        "name": "The Mono-for-Values Rule",
+        "body": "If it appears literally in a node's frontmatter or could be typed (`built on`, `nestjs`, `framework`, `learning`, `#orm`, Ctrl K), it is mono. Names and sentences never are.",
         "section": "typography"
       },
       {
-        "name": "The Quiet Label Rule",
-        "body": "Uppercase is reserved for small Ink Muted section labels and canvas group titles. Never uppercase a name, a button or a sentence.",
+        "name": "The No-Shouting Rule",
+        "body": "Nothing is uppercase or letter-spaced. Hierarchy is size, weight and position.",
         "section": "typography"
       },
       {
-        "name": "The Float-Only Shadow Rule",
-        "body": "If it's docked, it's flat. A shadow says \"this is above the map\": nodes, the detail panel, overlaid panes, modals, banners. Cards inside a panel never cast one.",
-        "section": "elevation"
-      },
-      {
-        "name": "The Translucent Overlay Rule",
-        "body": "Anything laid directly over the canvas (info pill, empty state, modal backdrop) is navy at 72–94% opacity with a 4–8px backdrop blur, so the map stays faintly visible underneath.",
+        "name": "The Flat Sheet Rule",
+        "body": "If something needs to read as \"on top\", give it a Rule frame and an opaque paper fill. Never use a shadow.",
         "section": "elevation"
       }
     ],
     "dos": [
-      "**Do** encode status through the node's border colour, its pill badge and its legend dot together, using the five fixed status tokens.",
-      "**Do** use a category's hue only as a mark: the 5px node bar, its label text, its dot and its group frame tints.",
-      "**Do** show active and selected controls with Annotation Wash, an Annotation Blue border and Annotation Blue Light text. Reserve solid Annotation Blue for the current map tab and primary buttons.",
-      "**Do** separate docked surfaces by navy tone and 1px Border Navy lines, and give a shadow only to things that float (see The Float-Only Shadow Rule).",
-      "**Do** set ids, tags, keyboard hints, code and validation messages in the mono stack.",
-      "**Do** keep transitions short and eased (120–250ms) and limit movement to the 1px node lift. Under `prefers-reduced-motion` every transition, animation and viewport move is instant.",
-      "**Do** show keyboard focus as a 2px Annotation Blue outline at a 2px offset on `:focus-visible`. A focused node takes the outline at a 3px offset (6px wide at a 6px offset in the far view) and returns to full opacity even when dimmed. Enter or Space on a focused node opens its card.",
-      "**Do** give every new rounded element a corner from the existing scale (4/6/7/8/9/10/12/14/pill), stepping up with its size."
+      "**Do** align every pane, node and row to the 4px baseline and the 80px module.",
+      "**Do** separate sections with a hairline and 24–32px of space, and open major sections with a 2px Rule.",
+      "**Do** show status with the ink density ramp *and* the literal mono value, together.",
+      "**Do** use atlas tints only as fields: node bands, group regions, swatches and category progress bars.",
+      "**Do** keep the accent for place, selection, focus, links, the primary action and the `learning` tick.",
+      "**Do** set every frontmatter value (ids, verbs, kinds, statuses, tags) in Geist Mono.",
+      "**Do** make every transition colour or opacity only, 120ms, and instant under `prefers-reduced-motion`.",
+      "**Do** define every status in words where it is shown as a legend; ink density alone is not a definition.",
+      "**Do** gate author tooling (validation count, error panel, error banner) behind development builds."
     ],
     "donts": [
-      "**Don't** use a status hue for decoration or for a meaning other than its status. Status colours state facts about the author's experience.",
-      "**Don't** use a dashed border for anything except planned nodes and ghost nodes or groups (see The Dashed-Means-Distance Rule).",
-      "**Don't** put a shadow on cards or rows inside a docked panel.",
-      "**Don't** fill large surfaces with Annotation Blue or any saturated hue. The error banner is the only full-colour surface.",
-      "**Don't** make new design decisions that depend on the emoji icons; they are placeholders for an SVG set.",
-      "**Don't** hard-code new category colours in CSS or components. They belong in `content/maps.yaml` and come from the twelve atlas tints.",
-      "**Don't** give a category a saturated hue or a status hue, even a near one (see The Ink-and-Region Rule)."
+      "**Don't** put a section, relation, link or error item in a card, a tinted box or a bordered container (see the Anti-reference).",
+      "**Don't** round a corner, cast a shadow, lift on hover or blur a backdrop.",
+      "**Don't** add a second saturated hue. Error red is the only exception, and only for validation errors.",
+      "**Don't** fill a node for any reason other than its status.",
+      "**Don't** use a tint as text, as an outline or for a status.",
+      "**Don't** uppercase or letter-space anything.",
+      "**Don't** use emoji or pill badges, or chips for tags, kinds or statuses.",
+      "**Don't** hard-code category colours in CSS. They live in `content/maps.yaml`.",
+      "**Don't** let the author bar grow into a hero, a card or a contact block. It is one 32px line.",
+      "**Don't** put a mono line, kicker or eyebrow above a heading or a node name. The name leads; values follow.",
+      "**Don't** let an edge label sit on a node title. If it cannot clear every node, it waits for hover."
     ]
   }
 }

@@ -19,8 +19,8 @@ export interface PositionedGraph {
   readonly edges: readonly AppFlowEdge[];
 }
 
-export const TECH_NODE_WIDTH = 220;
-export const TECH_NODE_HEIGHT = 68;
+export const TECH_NODE_WIDTH = 224;
+export const TECH_NODE_HEIGHT = 64;
 
 const elk = new ELK();
 const layoutCache = new Map<string, PositionedGraph>();
@@ -148,12 +148,12 @@ function createFlowEdges(slice: MapGraphSlice): AppFlowEdge[] {
     source: edge.source,
     target: edge.target,
     label: edge.label,
-    type: "default",
+    type: "straight",
     markerEnd: {
       type: MarkerType.ArrowClosed,
       width: 16,
       height: 16,
-      color: "#64748b",
+      color: "rgba(17, 17, 17, 0.3)",
     },
     data: {
       rawLabel: edge.label,
@@ -201,9 +201,9 @@ export async function computeGraphLayout(
       layoutOptions: {
         "elk.algorithm": "layered",
         "elk.direction": "RIGHT",
-        "elk.padding": "[top=54,left=20,bottom=20,right=20]",
-        "elk.spacing.nodeNode": "28",
-        "elk.layered.spacing.nodeNodeBetweenLayers": "48",
+        "elk.padding": "[top=48,left=16,bottom=16,right=16]",
+        "elk.spacing.nodeNode": "16",
+        "elk.layered.spacing.nodeNodeBetweenLayers": "96",
       },
       children: bucket.items.map((item) => ({
         id: item.node.id,
@@ -222,8 +222,8 @@ export async function computeGraphLayout(
       layoutOptions: {
         "elk.algorithm": "rectpacking",
         "elk.aspectRatio": "1.5",
-        "elk.spacing.nodeNode": "48",
-        "elk.padding": "[top=24,left=24,bottom=24,right=24]",
+        "elk.spacing.nodeNode": "32",
+        "elk.padding": "[top=32,left=32,bottom=32,right=32]",
       },
       children: elkGroupChildren,
     };
@@ -240,8 +240,8 @@ export async function computeGraphLayout(
         continue;
       }
 
-      const groupWidth = Math.max(elkGroup.width ?? 260, TECH_NODE_WIDTH + 40);
-      const groupHeight = Math.max(elkGroup.height ?? 140, TECH_NODE_HEIGHT + 74);
+      const groupWidth = Math.max(elkGroup.width ?? 256, TECH_NODE_WIDTH + 32);
+      const groupHeight = Math.max(elkGroup.height ?? 128, TECH_NODE_HEIGHT + 64);
 
       groupNodes.push({
         id: bucket.groupId,
@@ -275,8 +275,8 @@ export async function computeGraphLayout(
             graph,
             sliceNode,
             {
-              x: Math.round(elkChild.x ?? 20),
-              y: Math.round(elkChild.y ?? 54),
+              x: Math.round(elkChild.x ?? 16),
+              y: Math.round(elkChild.y ?? 48),
             },
             bucket.groupId,
           ),
@@ -293,7 +293,7 @@ export async function computeGraphLayout(
         "elk.algorithm": "force",
         "elk.force.iterations": "60",
         "elk.spacing.nodeNode": "96",
-        "elk.spacing.componentComponent": "110",
+        "elk.spacing.componentComponent": "112",
         "elk.padding": "[top=32,left=32,bottom=32,right=32]",
       },
       children: slice.nodes.map((sn) => ({
@@ -311,8 +311,8 @@ export async function computeGraphLayout(
       y: Math.round(child.y ?? idx * 12),
     }));
 
-    const minSepX = TECH_NODE_WIDTH + 24;
-    const minSepY = TECH_NODE_HEIGHT + 20;
+    const minSepX = TECH_NODE_WIDTH + 32;
+    const minSepY = TECH_NODE_HEIGHT + 16;
     for (let iter = 0; iter < 80; iter++) {
       let moved = false;
       for (let i = 0; i < pts.length; i++) {

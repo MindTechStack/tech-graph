@@ -85,6 +85,15 @@ grid:
   column: "64px"
   gutter: "16px"
 components:
+  author-bar:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    typography: "{typography.label}"
+    height: "32px"
+    padding: "0 16px"
+  author-bar-resume:
+    textColor: "{colors.accent}"
+    typography: "{typography.control}"
   toolbar:
     backgroundColor: "{colors.paper}"
     height: "48px"
@@ -106,6 +115,10 @@ components:
   filter-row-active:
     textColor: "{colors.accent}"
     leftRule: "2px {colors.accent}"
+  status-legend-row:
+    textColor: "{colors.ink}"
+    typography: "{typography.control}"
+    height: "44px"
   relation-row:
     typography: "{typography.control}"
     divider: "1px {colors.hairline}"
@@ -208,6 +221,7 @@ A category name is always set in ink beside its swatch. Tint text and tint outli
 ### Feedback
 - **Error** (`error`, `#c4271b`): validation errors only, in the error panel, on the toolbar's validation count and in error rows. It is a system state, not a second accent.
 - Warnings and a clean result are ink with a mono count (`3 warnings`, `0 issues`). Amber and green are retired.
+- All of this is **author tooling and exists only in development builds**. A production visitor never sees a validation count, the error panel or the error banner, so the error red never reaches them. Content problems are caught by `npm run validate` before deploy, not shown to readers.
 
 ### Code
 The code is monochrome with one accent: keywords in ink at 600 weight, strings and numbers in accent, functions and everything else in ink, and comments in Ink Muted.
@@ -255,7 +269,8 @@ The code is monochrome with one accent: keywords in ink at 600 weight, strings a
 
 ### Workspace
 A full-viewport sheet with no page scroll:
-- **Toolbar:** 48px, one row, with a hairline underneath. Wordmark "Tech Graph" (Name size, 700) and the mono counts at the left, the map tabs, then on the right search, the Layers/Network toggle, the edge-label toggle and the validation count. The status legend moves out of the toolbar into the sidebar.
+- **Author bar:** 32px, one row above the toolbar, with a hairline underneath. It says whose register this is: the author's name, their role, and a link to the résumé PDF flush right. It is the only line on the sheet that speaks about a person rather than the map.
+- **Toolbar:** 48px, one row, with a hairline underneath. Wordmark "Tech Graph" (Name size, 700) at the left, with its mono counts beside it only above 1600px. Then the map tabs, which scroll in their own strip and fade out at its right end rather than pushing the controls. On the right: search (its `Ctrl K` hint hides at 1360px and below), the Layers/Network toggle, the edge-label toggle (moved into the sidebar at 1024px and below) and, in development builds only, the validation count. The status legend lives in the sidebar, not the toolbar.
 - **Sidebar:** 3 modules (240px), on the left, with a hairline on its right edge.
 - **Canvas:** fills the space between the panes. Paper with the module grid drawn in Grid Line.
 - **Detail panel (the entry):** 6 modules (464px), on the right, with a hairline on its left edge. At 1360px and below it is 5 modules (384px) and the sidebar stays 240px.
@@ -263,7 +278,7 @@ A full-viewport sheet with no page scroll:
 
 ### The entry (detail panel)
 The panel is laid out on two columns: a **hanging column** of 1 module (64px) for labels, a 16px gutter, and a **content column** for everything else.
-- **Head:** a mono line `framework · learning · nestjs`, then the Display name, then the category swatch, category name and map name on one line. A 2px Rule closes the head.
+- **Head:** the Display name first, with the centre and close buttons at its right. Then the category swatch, category name and map link on one line. Then a mono line `framework · learning · nestjs`. A 2px Rule closes the head. Nothing sits above the name: a mono line over a heading reads as an eyebrow and is not used.
 - **Body sections**, in order: What, Why, Problem, Example, Key points, Connections, Links, Tags. Each section is a row: its label sits in the hanging column on the first baseline of its content, and a full-width hairline sits above it. There are no boxes and no stripes.
 - **Example:** the code field spans the content column and bleeds to the panel's right edge.
 - **Connections:** a ruled table. Each row has three columns: a mono verb in Ink Muted, the name at Control size, then the map (mono, only when it differs from the current map). Outgoing rows read "verb → name" and backlinks read "name ← verb". There is a hairline between rows. The first six rows of each direction are shown, and the rest sit behind a native `<details>` ("6 more", mono).
@@ -271,16 +286,17 @@ The panel is laid out on two columns: a **hanging column** of 1 module (64px) fo
 
 ### The canvas
 - Nodes are **224 × 64**, so a node plus its gutter fills exactly 3 × 1 modules. ELK spacing is set in multiples of 16, so in Layers mode nodes sit on the grid at 100% zoom.
+- **Focus camera:** opening a node by deep link, search or a relation fits the node plus as many of its nearest neighbours as fit at 75% zoom or closer, inside the canvas area the entry leaves visible. The camera never drops into the far view to fit more; neighbours that do not fit stay off-screen, and their highlighted edges lead toward them.
 - **Layers mode:** category groups are flat tint fields packed in `maps.yaml` order. Each group has a header line inside the field, flush left: the category name in ink at Control 600 and a mono count. There is no outline and no corner radius. Ghost groups have no fill and a 1px dashed Ink Muted outline, and are titled "↗ <map name>".
 - **Network mode:** the same nodes float free over the grid.
 - **Far view** (below 75% zoom): nodes show the name only, at 26 canvas px. The ink density ramp keeps status readable at that distance. Group titles grow to 26px and the counts hide.
 - Overlays on the canvas (the info line, the empty state) are paper blocks with a 1px Rule frame. They are opaque, unblurred and have no shadow.
 
 ### Search and error panel
-Both are **sheets**, top-aligned at 9vh, on a backdrop of paper at 80% with no blur. Search is 624px wide (8 modules − 16), the error panel 704px. Both have a 1px Rule frame and no shadow. A search result is a ruled row: the name (Name size), its `what` in Prose 13/20 in Ink 2, then a mono line `map · kind · status`. The keyboard-active row gets Accent Wash and a 2px accent rule on its left.
+Both are **sheets**, top-aligned at 9vh, on a backdrop of paper at 80% with no blur. Search is 624px wide (8 modules − 16), the error panel 704px. Both have a 1px Rule frame and no shadow. A search result is a ruled row: the name (Name size), its `what` in Prose 13/20 in Ink 2, then a mono line `map · kind · status` led by the status swatch and followed by the tags. The keyboard-active row gets Accent Wash and a 2px accent rule on its left.
 
 ### Phones
-The reading layout is kept. The entry takes the full screen and the hanging column collapses: each label sits above its content and the hairlines remain. Content is capped at 680px. The toolbar keeps two rows (filters button, wordmark and search, then a swipeable map-tab strip). Touch devices get 44px hit areas on rows and buttons.
+The reading layout is kept. The entry takes the full screen and the hanging column collapses: each label sits above its content and the hairlines remain. Content is capped at 680px. The author bar keeps its hairline and wraps to two lines: the name with the résumé link flush right, then the role beneath. It takes the top safe-area inset, so the toolbar below it does not. The toolbar keeps two rows (filters button, wordmark and search, then a swipeable map-tab strip). Touch devices get 44px hit areas on rows and buttons.
 
 ## Elevation & Depth
 
@@ -307,28 +323,38 @@ Every corner is square, and there are no circles: status, category and legend ma
 - **Icon / close:** borderless. On hover the glyph turns accent.
 - **Map tabs:** plain text with a mono count. The active tab is ink text with a 2px accent underline flush with the toolbar's bottom hairline.
 - **Layers / Network:** two words separated by a hairline. The active word is ink with a 2px **ink** underline (a view setting, not a place, so it is not accent).
-- **Validation count:** mono text. Ink when clean or only warnings, Error red with errors.
+- **Validation count:** mono text. Ink when clean or only warnings, Error red with errors. Rendered in development builds only; production omits it entirely rather than hiding it.
 - **Transitions:** colour and opacity only, 120ms ease-out. Nothing moves.
 
+### Author bar
+The register's colophon: plain, set flush left on the sheet, never a banner.
+- **Name:** Label (600, 13/20) in Ink.
+- **Role:** Control size in Ink 2, copied verbatim from the résumé headline. Never paraphrased into a bigger claim.
+- **Résumé link:** Control size in Accent, underlined 1px at a 3px offset, flush right, opening the PDF in a new tab. A mono-small `PDF` in Ink Muted follows the word so the format is stated, not guessed. On hover the text turns Ink. On touch devices the hit area grows to 44px tall through padding the bar absorbs, so the bar stays 32px.
+- Nothing else lives here: no avatar, no photo, no contact icons, no availability badge.
+
 ### Sidebar
-Sections in order: Status (the legend is now a filter), Categories, Kinds, Progress. They are separated by hairlines and 24px of space, and each has a sentence-case Label head.
-- **Filter row:** a 32px row with a swatch (the status ramp square or the category tint square), the name at Control size, and a right-aligned tabular mono count. Hover turns the name accent. Active means accent text plus a 2px accent rule at the row's left edge. A row with a zero count shows at 40% opacity and has no hover.
-- **Kinds:** rows, not chips. The kind value is set in mono (`framework`).
+The head is the current map name at Title size, with Reset (only when filters are active) and a collapse glyph. Sections in order: Status (the legend is now a filter), Categories, Kinds, View (compact widths only), Progress. They are separated by hairlines and 24px of space, and each has a sentence-case Label head.
+- **Filter row:** a 32px row with a swatch (the status ramp square or the category tint square), the name at Control size, and a right-aligned tabular mono count. Hover turns the name accent. Active means accent text plus a 2px accent rule at the row's left edge. A row with a zero count is disabled and has no hover: its swatch, count and bar drop to 40% opacity and its name turns Ink Muted, but a status definition stays at full Ink Muted so the legend still reads.
+- **Status legend rows:** the Status section is also the legend, so each of its rows defines its status. A status row is 44px: the swatch, the status name at Control size, and beneath it a one-line definition in the grotesque at 12/16 (400) in Ink Muted, then the mono count. The definitions are fixed and honest: `work` Used in commercial projects, `practiced` Built in personal projects, `learned` Completed in a course, `learning` Studying now, open questions, `planned` Next on the study list. Wherever a status mark appears without room for its definition, the definition rides along as the element's title.
+- **Category rows** wrap a long name to a second line instead of truncating it. On cross-map scopes the name reads `Frontend · Languages & Platform`.
+- **Kinds:** rows, not chips. The kind value is set in mono (`framework`). The ghost-node checkbox sits under them.
+- **View** (1024px and below, where the toolbar drops these controls): an "Always show edge labels" row, plus Layers and Network rows at phone width. Same filter-row styling; active is accent.
 - **Progress:** a 4px bar on a hairline track, divided by the five status treatments (ink, ink-2, outlined, ticked, dashed), with mono counts beneath. Per-category bars use the category tint on a hairline track.
 
 ### Tech Node (signature)
 A 224 × 64 block with square corners. The fill and edge follow the ink density ramp, and a 6px category band runs down the left edge.
-- **Line 1:** mono small `kind · status` (for example `framework · work`) at 70% of the text colour.
-- **Line 2:** the name at Name size, truncated with an ellipsis.
+- **Line 1:** the name at Name size, truncated with an ellipsis.
+- **Line 2:** mono small `kind · status` (for example `framework · work`) at 70% of the text colour.
 - **Hover:** a 1px accent outline at a 2px offset.
-- **Selected:** a 2px accent outline at a 2px offset. The node's own fill never changes.
-- **Ghost:** a paper fill, a 1px dashed Ink Muted edge, and line 1 reads `↗ backend`.
+- **Selected:** a 2px accent outline at a 2px offset. The node's own fill never changes. While a node is selected or hovered, it and its neighbours lift above the edge layer, so no relation line crosses a name.
+- **Ghost:** a paper fill, a 1px dashed Ink Muted edge, and line 2 reads `↗ backend`.
 - **Dimmed:** 20% opacity over 120ms.
 - **Focus-visible:** the same 2px accent outline at a 4px offset (8px wide in the far view). Enter or Space opens the entry.
 - Connection handles are hidden until hover.
 
 ### Edges
-Straight or orthogonal 1px ink lines at 30% opacity. They drop to 10% when dimmed. The selected node's relations become 2px accent lines at 100%. Edge labels are Mono Small on an opaque paper plate with no frame, shown on hover or selection, or always when the toggle is on. Edges are never dashed and never animated.
+Straight or orthogonal 1px ink lines at 30% opacity. They drop to 10% when dimmed. The selected node's relations become 2px accent lines at 100%. Edge labels are Mono Small on an opaque paper plate with no frame. A hovered edge always shows its label. On selection, a relation's label shows only when the selected node has six relations or fewer and the plate clears every node box and every plate already placed; anything else waits for hover, because the Connections table lists every relation anyway. The toggle shows all labels. Edges are never dashed and never animated.
 
 ### Inputs
 - **Search field:** borderless inside the sheet's head, at Title size, with a mono `Esc` hint at the right. A 2px Rule sits under the field. A query starting with `#` matches tags only.
@@ -350,6 +376,8 @@ There are none. Emoji are removed: a kind is its mono value, and the logo is the
 - **Do** keep the accent for place, selection, focus, links, the primary action and the `learning` tick.
 - **Do** set every frontmatter value (ids, verbs, kinds, statuses, tags) in Geist Mono.
 - **Do** make every transition colour or opacity only, 120ms, and instant under `prefers-reduced-motion`.
+- **Do** define every status in words where it is shown as a legend; ink density alone is not a definition.
+- **Do** gate author tooling (validation count, error panel, error banner) behind development builds.
 
 ### Don't:
 - **Don't** put a section, relation, link or error item in a card, a tinted box or a bordered container (see the Anti-reference).
@@ -360,3 +388,6 @@ There are none. Emoji are removed: a kind is its mono value, and the logo is the
 - **Don't** uppercase or letter-space anything.
 - **Don't** use emoji or pill badges, or chips for tags, kinds or statuses.
 - **Don't** hard-code category colours in CSS. They live in `content/maps.yaml`.
+- **Don't** let the author bar grow into a hero, a card or a contact block. It is one 32px line.
+- **Don't** put a mono line, kicker or eyebrow above a heading or a node name. The name leads; values follow.
+- **Don't** let an edge label sit on a node title. If it cannot clear every node, it waits for hover.
