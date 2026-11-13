@@ -83,6 +83,7 @@ spacing:
 grid:
   module: "80px"
   column: "64px"
+  hanging-column: "80px"
   gutter: "16px"
 components:
   author-bar:
@@ -277,11 +278,11 @@ A full-viewport sheet with no page scroll:
 - At 1024px and below the panes overlay the canvas, separated from it by a 1px Rule line instead of a shadow. The sidebar starts closed.
 
 ### The entry (detail panel)
-The panel is laid out on two columns: a **hanging column** of 1 module (64px) for labels, a 16px gutter, and a **content column** for everything else.
+The panel is laid out on two columns: a **hanging column** of one module pitch (80px) for labels, so "Connections" sets on one line, a 16px gutter, and a **content column** for everything else.
 - **Head:** the Display name first, with the centre and close buttons at its right. Then the category swatch, category name and map link on one line. Then the status line: the status swatch, the mono value `learned` in Ink, and its definition in Ink Muted at Control size (`learned · completed in a course`). Then a mono line `framework · nestjs`. A 2px Rule closes the head. Nothing sits above the name: a mono line over a heading reads as an eyebrow and is not used.
 - **Body sections**, in order: What, Why, Problem, Example, Key points, Connections, Links, Tags. Each section is a row: its label sits in the hanging column on the first baseline of its content, and a full-width hairline sits above it. There are no boxes and no stripes.
 - **Example:** the code field spans the content column and bleeds to the panel's right edge.
-- **Connections:** a ruled table. Each row has three columns: a mono verb in Ink Muted, the name at Control size, then the map (mono, only when it differs from the current map). Outgoing rows read "verb → name" and backlinks read "name ← verb". There is a hairline between rows. The first six rows of each direction are shown, and the rest sit behind a native `<details>` ("6 more", mono).
+- **Connections:** a ruled table. Each row has two columns: a mono verb in Ink Muted and the name at Control size; when the related node lives on another map, the map name sits under the name in mono Ink Muted. Outgoing rows read "verb → name" and backlinks read "name ← verb". Each direction is its own grid shared by all its rows (CSS subgrid): the verb column fits its longest verb up to 40% of the column and wraps beyond that, the name takes the rest and wraps instead of truncating, so every row aligns. There is a hairline between rows. The first six rows of each direction are shown; a mono toggle button below reads "+ 32 more" and, once open, "− show fewer", with `aria-expanded`.
 - **Tags:** inline mono words (`#orm #sql`), separated by spaces. No chips.
 
 ### The canvas
@@ -289,7 +290,7 @@ The panel is laid out on two columns: a **hanging column** of 1 module (64px) fo
 - **Focus camera:** opening a node by deep link, search or a relation fits the node plus as many of its nearest neighbours as fit at 75% zoom or closer, inside the canvas area the entry leaves visible. The camera never drops into the far view to fit more; neighbours that do not fit stay off-screen, and their highlighted edges lead toward them.
 - **Layers mode:** category groups are flat tint fields packed in `maps.yaml` order. Each group has a header line inside the field, flush left: the category name in ink at Control 600 and a mono count. There is no outline and no corner radius. Ghost groups have no fill and a 1px dashed Ink Muted outline, and are titled "↗ <map name>".
 - **Network mode:** the same nodes float free over the grid.
-- **Far view** (below 75% zoom): nodes show the name only, at 26 canvas px. The ink density ramp keeps status readable at that distance. Group titles grow to 26px and the counts hide. Edges stay drawn at 10% ink so the structure still reads; edge labels hide.
+- **Far view** (below 75% zoom): nodes show the name only, at 26 canvas px. The ink density ramp keeps status readable at that distance. Group titles grow to 26px and the counts hide. Every group is at least as wide as its title at 26px (estimated at 15px per character, plus padding), so titles never truncate. Group headers sit in a layer above the edges, on an opaque plate of the group's tint mixed into Paper, so no relation line crosses a group title. Edges stay drawn at 10% ink so the structure still reads; edge labels hide.
 - Overlays on the canvas (the info line, the empty state) are paper blocks with a 1px Rule frame. They are opaque, unblurred and have no shadow.
 
 ### Search and error panel
@@ -342,7 +343,7 @@ The head is the current map name at Title size, with Reset (only when filters ar
 - **Category rows** wrap a long name to a second line instead of truncating it. On cross-map scopes the name reads `Frontend · Languages & Platform`.
 - **Kinds:** rows, not chips. The kind value is set in mono (`framework`). The ghost-node checkbox, labelled "Show linked nodes from other maps", sits under them.
 - **View** (1024px and below, where the toolbar drops these controls): an "Always show edge labels" row, plus "Grouped by category" and "Free layout" rows at phone width. Same filter-row styling; active is accent.
-- **Progress:** a 4px bar on a hairline track, divided by the five status treatments (ink, ink-2, outlined, ticked, dashed), with a plain breakdown beneath: a mono count plus a phrase per non-empty status (`48 at work`, `7 in projects`, `61 from a course`, `8 learning now`, `9 planned`). No percentage or "done" total: it would count a course as equal to commercial use. Per-category bars are the same 4px status split under each category row, whose count is a plain total (`14`, never `14/14`); the row's swatch carries the category tint.
+- **Progress:** a 4px bar on a hairline track, divided by the five status treatments (ink, ink-2, outlined, ticked, dashed), with a plain breakdown beneath: a mono count plus a phrase per non-empty status (`48 at work`, `7 in projects`, `61 from a course`, `8 learning now`, `9 planned`). No percentage or "done" total: it would count a course as equal to commercial use. Per-category bars are the same 4px status split under each category row, whose count is a plain total (`14`, never `14/14`); the row's swatch carries the category tint. A category bar's length is proportional to its node count against the largest category in view, so a one-node category shows a short stub, not a full-width solid bar.
 
 ### Tech Node (signature)
 A 224 × 64 block with square corners. The fill and edge follow the ink density ramp, and a 6px category band runs down the left edge.

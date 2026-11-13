@@ -22,6 +22,15 @@ export interface PositionedGraph {
 export const TECH_NODE_WIDTH = 224;
 export const TECH_NODE_HEIGHT = 64;
 
+const GROUP_PADDING_X = 16;
+const GROUP_MIN_HEIGHT = TECH_NODE_HEIGHT + 64;
+const FAR_TITLE_CHAR_WIDTH = 15;
+
+export function groupMinWidth(label: string): number {
+  const titleWidth = Math.ceil(label.length * FAR_TITLE_CHAR_WIDTH) + 2 * GROUP_PADDING_X;
+  return Math.max(TECH_NODE_WIDTH + 2 * GROUP_PADDING_X, titleWidth);
+}
+
 const elk = new ELK();
 const layoutCache = new Map<string, PositionedGraph>();
 
@@ -204,6 +213,8 @@ export async function computeGraphLayout(
         "elk.padding": "[top=48,left=16,bottom=16,right=16]",
         "elk.spacing.nodeNode": "16",
         "elk.layered.spacing.nodeNodeBetweenLayers": "96",
+        "elk.nodeSize.constraints": "MINIMUM_SIZE",
+        "elk.nodeSize.minimum": `(${groupMinWidth(bucket.label)}, ${GROUP_MIN_HEIGHT})`,
       },
       children: bucket.items.map((item) => ({
         id: item.node.id,
@@ -240,8 +251,8 @@ export async function computeGraphLayout(
         continue;
       }
 
-      const groupWidth = Math.max(elkGroup.width ?? 256, TECH_NODE_WIDTH + 32);
-      const groupHeight = Math.max(elkGroup.height ?? 128, TECH_NODE_HEIGHT + 64);
+      const groupWidth = Math.max(elkGroup.width ?? 0, groupMinWidth(bucket.label));
+      const groupHeight = Math.max(elkGroup.height ?? 0, GROUP_MIN_HEIGHT);
 
       groupNodes.push({
         id: bucket.groupId,

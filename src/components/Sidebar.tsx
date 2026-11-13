@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { type CSSProperties, useMemo } from "react";
 import {
   CORE_SCOPE_LABEL,
   getNodeCategoryKey,
@@ -132,6 +132,8 @@ export function Sidebar({ graph }: SidebarProps) {
     });
   }, [activeMap, graph.maps, graph.mapsById, mapNodes]);
 
+  const largestCategoryTotal = Math.max(0, ...categoryStats.map((cat) => cat.total));
+
   if (!isSidebarOpen) {
     return null;
   }
@@ -224,6 +226,7 @@ export function Sidebar({ graph }: SidebarProps) {
           <div className="sidebar__rows">
             {categoryStats.map((cat) => {
               const isSelected = filters.categories.has(cat.key);
+              const share = largestCategoryTotal > 0 ? cat.total / largestCategoryTotal : 1;
               return (
                 <button
                   key={cat.key}
@@ -236,7 +239,11 @@ export function Sidebar({ graph }: SidebarProps) {
                   <span className="sidebar__swatch" style={{ backgroundColor: cat.color }} />
                   <span className="sidebar__filter-label">{cat.label}</span>
                   <span className="sidebar__filter-count">{cat.total}</span>
-                  <span className="sidebar__mini-bar" aria-hidden="true">
+                  <span
+                    className="sidebar__mini-bar"
+                    style={{ "--category-share": share } as CSSProperties}
+                    aria-hidden="true"
+                  >
                     {statusSegments(cat.statusCounts)}
                   </span>
                 </button>

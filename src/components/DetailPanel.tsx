@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useMemo, useRef } from "react";
+import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
@@ -45,13 +45,14 @@ interface RelationTableProps {
 
 function RelationTable({ direction, rows, homeMap, graph }: RelationTableProps) {
   const { navigateToNode, setHoveredNodeId } = useAppState();
+  const [isExpanded, setIsExpanded] = useState(false);
 
   if (rows.length === 0) {
     return null;
   }
 
-  const visibleRows = rows.slice(0, VISIBLE_RELATION_ROWS);
-  const hiddenRows = rows.slice(VISIBLE_RELATION_ROWS);
+  const hiddenCount = rows.length - VISIBLE_RELATION_ROWS;
+  const shownRows = isExpanded ? rows : rows.slice(0, VISIBLE_RELATION_ROWS);
 
   const renderRow = (row: RelationRowData) => {
     const verb = (
@@ -63,6 +64,11 @@ function RelationTable({ direction, rows, homeMap, graph }: RelationTableProps) 
       <span className="relation-row__name">
         <StatusSwatch status={row.node.status} />
         <span className="relation-row__name-text">{row.node.name}</span>
+        {row.node.map !== homeMap ? (
+          <span className="relation-row__map">
+            {graph.mapsById.get(row.node.map)?.name ?? row.node.map}
+          </span>
+        ) : null}
       </span>
     );
     return (
@@ -76,28 +82,27 @@ function RelationTable({ direction, rows, homeMap, graph }: RelationTableProps) 
         >
           {direction === "outgoing" ? verb : name}
           {direction === "outgoing" ? name : verb}
-          <span className="relation-row__map">
-            {row.node.map !== homeMap
-              ? (graph.mapsById.get(row.node.map)?.name ?? row.node.map)
-              : ""}
-          </span>
         </button>
       </li>
     );
   };
 
   return (
-    <div className="relation-table">
+    <div className={`relation-table relation-table--${direction}`}>
       <p className="relation-table__caption">
         {direction === "outgoing" ? "Outgoing" : "Backlinks"}{" "}
         <span className="detail-panel__count">{rows.length}</span>
       </p>
-      <ul className="relation-table__rows">{visibleRows.map(renderRow)}</ul>
-      {hiddenRows.length > 0 ? (
-        <details className="relation-table__more">
-          <summary>{hiddenRows.length} more</summary>
-          <ul className="relation-table__rows">{hiddenRows.map(renderRow)}</ul>
-        </details>
+      <ul className="relation-table__rows">{shownRows.map(renderRow)}</ul>
+      {hiddenCount > 0 ? (
+        <button
+          type="button"
+          className="relation-table__toggle"
+          aria-expanded={isExpanded}
+          onClick={() => setIsExpanded((expanded) => !expanded)}
+        >
+          {isExpanded ? "− show fewer" : `+ ${hiddenCount} more`}
+        </button>
       ) : null}
     </div>
   );

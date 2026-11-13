@@ -1,7 +1,13 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { getMapGraphSlice } from "../content/graph";
 import { loadGraphFromFs } from "../content/load-fs";
-import { clearLayoutCache, computeGraphLayout, TECH_NODE_HEIGHT, TECH_NODE_WIDTH } from "./elk";
+import {
+  clearLayoutCache,
+  computeGraphLayout,
+  groupMinWidth,
+  TECH_NODE_HEIGHT,
+  TECH_NODE_WIDTH,
+} from "./elk";
 
 describe("ELK layout engine (src/layout/elk.ts)", () => {
   beforeEach(() => {
@@ -35,6 +41,33 @@ describe("ELK layout engine (src/layout/elk.ts)", () => {
         const overlapX = Math.abs(a.position.x - b.position.x) < TECH_NODE_WIDTH;
         const overlapY = Math.abs(a.position.y - b.position.y) < TECH_NODE_HEIGHT;
         expect(overlapX && overlapY).toBe(false);
+      }
+    }
+  });
+
+  it("sizes every group to fit its far-view title without overlapping other groups", async () => {
+    const graph = await loadGraphFromFs(process.cwd());
+    const positioned = await computeGraphLayout(graph, getMapGraphSlice(graph, "all"), "layers");
+    const boxes = positioned.nodes
+      .filter((n) => n.type === "categoryGroup")
+      .map((n) => ({
+        label: n.data.label,
+        x: n.position.x,
+        y: n.position.y,
+        width: Number(n.style?.width),
+        height: Number(n.style?.height),
+      }));
+
+    for (const box of boxes) {
+      expect(box.width).toBeGreaterThanOrEqual(groupMinWidth(box.label));
+    }
+    for (let i = 0; i < boxes.length; i++) {
+      for (let j = i + 1; j < boxes.length; j++) {
+        const a = boxes[i]!;
+        const b = boxes[j]!;
+        const overlapX = a.x < b.x + b.width && b.x < a.x + a.width;
+        const overlapY = a.y < b.y + b.height && b.y < a.y + a.height;
+        expect(overlapX && overlapY, `${a.label} overlaps ${b.label}`).toBe(false);
       }
     }
   });

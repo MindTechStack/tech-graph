@@ -31,7 +31,7 @@ import {
 } from "../layout/elk";
 import { distanceBetween, edgeLabelPlate, type Rect, rectsOverlap, unionOf } from "../layout/rect";
 import { useAppState } from "../state/useAppState";
-import { GroupNode } from "./GroupNode";
+import { type GroupFlowNode, GroupHeaders, GroupNode } from "./GroupNode";
 import { Icon } from "./Icon";
 import { TechNode } from "./TechNode";
 
@@ -575,6 +575,14 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
     setSelectedNodeId(null);
   }, [setSelectedNodeId]);
 
+  const groupNodes = useMemo(
+    () =>
+      (positioned?.nodes ?? []).filter(
+        (node): node is GroupFlowNode => node.type === "categoryGroup",
+      ),
+    [positioned],
+  );
+
   const ghostCount = useMemo(() => slice.nodes.filter((n) => n.isGhost).length, [slice.nodes]);
   const primaryCount = slice.nodes.length - ghostCount;
 
@@ -607,6 +615,8 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
             lineWidth={1}
             color="rgba(17, 17, 17, 0.05)"
           />
+
+          <GroupHeaders groups={groupNodes} />
 
           {hasLayoutFailed ? (
             <Panel position="top-center" className="graph-canvas__empty" role="alert">

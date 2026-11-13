@@ -1,4 +1,4 @@
-import { type Node, type NodeProps } from "@xyflow/react";
+import { type Node, type NodeProps, ViewportPortal } from "@xyflow/react";
 import { memo } from "react";
 
 export interface GroupNodeFlowData extends Record<string, unknown> {
@@ -11,22 +11,47 @@ export interface GroupNodeFlowData extends Record<string, unknown> {
 
 export type GroupFlowNode = Node<GroupNodeFlowData, "categoryGroup">;
 
-const TINT_FIELD_ALPHA_HEX = "4d";
+const TINT_FIELD_PERCENT = 30;
+
+function tintField(color: string): string {
+  return `color-mix(in srgb, ${color} ${TINT_FIELD_PERCENT}%, transparent)`;
+}
+
+function tintPlate(color: string): string {
+  return `color-mix(in srgb, ${color} ${TINT_FIELD_PERCENT}%, var(--paper))`;
+}
 
 function GroupNodeComponent({ data }: NodeProps<GroupFlowNode>) {
-  const { label, color, nodeCount, isGhostGroup } = data;
+  const { color, isGhostGroup } = data;
 
   return (
     <div
       className={`group-node ${isGhostGroup ? "group-node--ghost" : ""}`}
-      style={isGhostGroup ? undefined : { backgroundColor: `${color}${TINT_FIELD_ALPHA_HEX}` }}
-    >
-      <div className="group-node__header">
-        <span className="group-node__title">{label}</span>
-        <span className="group-node__count">{nodeCount}</span>
-      </div>
-    </div>
+      style={isGhostGroup ? undefined : { backgroundColor: tintField(color) }}
+    />
   );
 }
 
 export const GroupNode = memo(GroupNodeComponent);
+
+export function GroupHeaders({ groups }: { readonly groups: readonly GroupFlowNode[] }) {
+  return (
+    <ViewportPortal>
+      {groups.map(({ id, position, style, data }) => (
+        <div
+          key={id}
+          className="group-node__header"
+          style={{ left: position.x, top: position.y, width: style?.width }}
+        >
+          <span
+            className="group-node__plate"
+            style={data.isGhostGroup ? undefined : { backgroundColor: tintPlate(data.color) }}
+          >
+            <span className="group-node__title">{data.label}</span>
+            <span className="group-node__count">{data.nodeCount}</span>
+          </span>
+        </div>
+      ))}
+    </ViewportPortal>
+  );
+}
