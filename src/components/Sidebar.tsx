@@ -16,6 +16,12 @@ export interface SidebarProps {
   readonly graph: KnowledgeGraph;
 }
 
+interface CategoryGroup {
+  readonly mapId: string;
+  readonly mapName: string | null;
+  readonly items: readonly CategoryStatItem[];
+}
+
 interface CategoryStatItem {
   readonly key: string;
   readonly id: string;
@@ -94,10 +100,11 @@ export function Sidebar({ graph }: SidebarProps) {
     return counts;
   }, [mapNodes]);
 
-  const categoryStats = useMemo<readonly CategoryStatItem[]>(() => {
+  const categoryGroups = useMemo<readonly CategoryGroup[]>(() => {
     if (isCrossMapScope(activeMap)) {
-      const items: CategoryStatItem[] = [];
+      const groups: CategoryGroup[] = [];
       for (const mapCfg of graph.maps) {
+        const items: CategoryStatItem[] = [];
         for (const cat of mapCfg.categories) {
           const key = `${mapCfg.id}:${cat.id}`;
           const matching = mapNodes.filter((n) => n.map === mapCfg.id && n.category === cat.id);
@@ -107,14 +114,17 @@ export function Sidebar({ graph }: SidebarProps) {
           items.push({
             key,
             id: cat.id,
-            label: `${mapCfg.name} · ${cat.name}`,
+            label: cat.name,
             color: cat.color,
             total: matching.length,
             statusCounts: countByStatus(matching),
           });
         }
+        if (items.length > 0) {
+          groups.push({ mapId: mapCfg.id, mapName: mapCfg.name, items });
+        }
       }
-      return items;
+      return groups;
     }
 
     const mapCfg = graph.mapsById.get(activeMap);
@@ -122,7 +132,7 @@ export function Sidebar({ graph }: SidebarProps) {
       return [];
     }
 
-    return mapCfg.categories.map((cat) => {
+    const items = mapCfg.categories.map((cat) => {
       const key = cat.id;
       const matching = mapNodes.filter((n) => getNodeCategoryKey(n, activeMap) === key);
       return {
@@ -134,9 +144,13 @@ export function Sidebar({ graph }: SidebarProps) {
         statusCounts: countByStatus(matching),
       };
     });
+    return [{ mapId: mapCfg.id, mapName: null, items }];
   }, [activeMap, graph.maps, graph.mapsById, mapNodes]);
 
-  const largestCategoryTotal = Math.max(0, ...categoryStats.map((cat) => cat.total));
+  const largestCategoryTotal = Math.max(
+    0,
+    ...categoryGroups.flatMap((group) => group.items.map((cat) => cat.total)),
+  );
 
   if (!isSidebarOpen) {
     return null;
@@ -243,33 +257,48 @@ export function Sidebar({ graph }: SidebarProps) {
             ) : null}
           </div>
 
-          <div className="sidebar__rows">
-            {categoryStats.map((cat) => {
-              const isSelected = filters.categories.has(cat.key);
-              const share = largestCategoryTotal > 0 ? cat.total / largestCategoryTotal : 1;
-              return (
-                <button
-                  key={cat.key}
-                  type="button"
-                  className={`sidebar__filter-row sidebar__filter-row--category ${isSelected ? "sidebar__filter-row--active" : ""}`}
-                  onClick={() => toggleCategoryFilter(cat.key)}
-                  aria-pressed={isSelected}
-                  disabled={cat.total === 0 && !isSelected}
-                >
-                  <span className="sidebar__swatch" style={{ backgroundColor: cat.color }} />
-                  <span className="sidebar__filter-label">{cat.label}</span>
-                  <span className="sidebar__filter-count">{cat.total}</span>
-                  <span
-                    className="sidebar__mini-bar"
-                    style={{ "--category-share": share } as CSSProperties}
-                    aria-hidden="true"
-                  >
-                    {statusSegments(cat.statusCounts)}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
+          {categoryGroups.map((group) => {
+            const headId = `sidebar-categories-${group.mapId}`;
+            return (
+              <div
+                key={group.mapId}
+                className="sidebar__rows"
+                role={group.mapName ? "group" : undefined}
+                aria-labelledby={group.mapName ? headId : undefined}
+              >
+                {group.mapName ? (
+                  <h4 id={headId} className="sidebar__group-title">
+                    {group.mapName}
+                  </h4>
+                ) : null}
+                {group.items.map((cat) => {
+                  const isSelected = filters.categories.has(cat.key);
+                  const share = largestCategoryTotal > 0 ? cat.total / largestCategoryTotal : 1;
+                  return (
+                    <button
+                      key={cat.key}
+                      type="button"
+                      className={`sidebar__filter-row sidebar__filter-row--category ${isSelected ? "sidebar__filter-row--active" : ""}`}
+                      onClick={() => toggleCategoryFilter(cat.key)}
+                      aria-pressed={isSelected}
+                      disabled={cat.total === 0 && !isSelected}
+                    >
+                      <span className="sidebar__swatch" style={{ backgroundColor: cat.color }} />
+                      <span className="sidebar__filter-label">{cat.label}</span>
+                      <span className="sidebar__filter-count">{cat.total}</span>
+                      <span
+                        className="sidebar__mini-bar"
+                        style={{ "--category-share": share } as CSSProperties}
+                        aria-hidden="true"
+                      >
+                        {statusSegments(cat.statusCounts)}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            );
+          })}
         </section>
 
         <section className="sidebar__section" aria-labelledby="sidebar-kinds">

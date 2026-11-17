@@ -3,6 +3,7 @@ import { CORE_SCOPE_LABEL, isNodeDirectlyInMap, type KnowledgeGraph } from "../c
 import { type ActiveMapTab, useAppState } from "../state/useAppState";
 import { Icon } from "./Icon";
 import { useIsPhoneCardOpen } from "./PhoneIndex";
+import { useOverflowEdges } from "./useOverflowEdges";
 
 const SEARCH_SHORTCUT =
   typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.userAgent)
@@ -65,27 +66,7 @@ export function Toolbar({ graph }: ToolbarProps) {
 
   const tabStripRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    const strip = tabStripRef.current;
-    if (!strip) {
-      return;
-    }
-    const markHiddenEdges = () => {
-      strip.dataset.hiddenStart = String(strip.scrollLeft > 1);
-      strip.dataset.hiddenEnd = String(
-        strip.scrollLeft + strip.clientWidth < strip.scrollWidth - 1,
-      );
-    };
-    markHiddenEdges();
-    void document.fonts.ready.then(markHiddenEdges);
-    strip.addEventListener("scroll", markHiddenEdges, { passive: true });
-    const resizeObserver = new ResizeObserver(markHiddenEdges);
-    resizeObserver.observe(strip);
-    return () => {
-      strip.removeEventListener("scroll", markHiddenEdges);
-      resizeObserver.disconnect();
-    };
-  }, []);
+  useOverflowEdges(tabStripRef);
 
   useEffect(() => {
     const revealActiveTab = () =>
@@ -125,7 +106,7 @@ export function Toolbar({ graph }: ToolbarProps) {
         </div>
       </div>
 
-      <nav ref={tabStripRef} className="toolbar__tabs" aria-label="Knowledge maps">
+      <nav ref={tabStripRef} className="toolbar__tabs overflow-fade" aria-label="Knowledge maps">
         {mapTabs.map((tab) => {
           const isActive = activeMap === tab.id;
           return (

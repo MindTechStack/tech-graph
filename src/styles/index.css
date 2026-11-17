@@ -381,23 +381,26 @@ body,
   overflow-x: auto;
   scrollbar-width: none;
   scroll-padding-inline: 24px;
-  --tabs-fade-start: 0px;
-  --tabs-fade-end: 0px;
+}
+
+.overflow-fade {
+  --fade-start: 0px;
+  --fade-end: 0px;
   mask-image: linear-gradient(
     to right,
     transparent,
-    #000 var(--tabs-fade-start),
-    #000 calc(100% - var(--tabs-fade-end)),
+    #000 var(--fade-start),
+    #000 calc(100% - var(--fade-end)),
     transparent
   );
 }
 
-.toolbar__tabs[data-hidden-start="true"] {
-  --tabs-fade-start: 24px;
+.overflow-fade[data-hidden-start="true"] {
+  --fade-start: 24px;
 }
 
-.toolbar__tabs[data-hidden-end="true"] {
-  --tabs-fade-end: 24px;
+.overflow-fade[data-hidden-end="true"] {
+  --fade-end: 24px;
 }
 
 .toolbar__tabs::-webkit-scrollbar {
@@ -632,6 +635,16 @@ body,
 .sidebar__rows {
   display: flex;
   flex-direction: column;
+}
+
+.sidebar__group-title {
+  font: var(--type-control);
+  padding: 4px 16px;
+  color: var(--ink-2);
+}
+
+.sidebar__rows + .sidebar__rows .sidebar__group-title {
+  padding-top: 16px;
 }
 
 .sidebar__filter-row {
@@ -1030,7 +1043,9 @@ body,
   background: var(--paper);
   color: var(--ink);
   cursor: pointer;
-  transition: opacity var(--ease-state);
+  transition:
+    background-color var(--ease-state),
+    border-color var(--ease-state);
 }
 
 .tech-node--status-work {
@@ -1090,7 +1105,6 @@ body,
 .react-flow__node:focus-visible .tech-node {
   outline: 2px solid var(--accent);
   outline-offset: 4px;
-  opacity: 1;
 }
 
 .graph-canvas--far .react-flow__node:focus-visible .tech-node {
@@ -1098,13 +1112,32 @@ body,
   outline-offset: 8px;
 }
 
-.tech-node--dimmed {
+.react-flow__node:not(:focus-visible) .tech-node--dimmed {
+  border-color: color-mix(in srgb, var(--ink) 35%, var(--paper));
+}
+
+.react-flow__node:not(:focus-visible) .tech-node--dimmed.tech-node--status-planned,
+.react-flow__node:not(:focus-visible) .tech-node--dimmed.tech-node--ghost {
+  border-color: color-mix(in srgb, var(--ink-muted) 35%, var(--paper));
+}
+
+.react-flow__node:not(:focus-visible) .tech-node--dimmed.tech-node--status-work {
+  background: color-mix(in srgb, var(--ink) 80%, var(--paper));
+}
+
+.react-flow__node:not(:focus-visible) .tech-node--dimmed.tech-node--status-practiced {
+  background: color-mix(in srgb, var(--ink-2) 60%, var(--paper));
+}
+
+.react-flow__node:not(:focus-visible) .tech-node--dimmed :is(.tech-node__band, .tech-node__body),
+.react-flow__node:not(:focus-visible) .tech-node--dimmed::after {
   opacity: 0.35;
 }
 
 .tech-node__band {
   width: 6px;
   flex-shrink: 0;
+  transition: opacity var(--ease-state);
 }
 
 .tech-node__body {
@@ -1114,6 +1147,7 @@ body,
   flex: 1;
   min-width: 0;
   padding: 0 16px 0 14px;
+  transition: opacity var(--ease-state);
 }
 
 .tech-node__meta {
@@ -1446,8 +1480,13 @@ body,
 
 .detail-panel__markdown pre {
   margin-right: -24px;
-  padding: 12px 16px;
+  padding: 12px 0;
   background: var(--paper-sunk);
+}
+
+.detail-panel__code-scroller {
+  display: block;
+  padding: 0 16px;
   overflow-x: auto;
 }
 

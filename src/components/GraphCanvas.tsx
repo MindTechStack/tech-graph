@@ -45,6 +45,7 @@ const NODE_TYPES: NodeTypes = {
 const EDGE_INK = {
   rest: "rgba(17, 17, 17, 0.3)",
   dimmed: "rgba(17, 17, 17, 0.1)",
+  offScreen: "rgba(17, 17, 17, 0.16)",
   highlighted: "#1f3bd6",
   label: "#5c5c58",
   labelHighlighted: "#111111",
@@ -538,9 +539,11 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
       const showLabel = showAllEdgeLabels || isHoveredEdge || labelledFocusEdgeIds.has(edge.id);
       const strokeColor = isHighlighted
         ? EDGE_INK.highlighted
-        : isDimmed
-          ? EDGE_INK.dimmed
-          : EDGE_INK.rest;
+        : leadsOffScreen
+          ? EDGE_INK.offScreen
+          : isDimmed
+            ? EDGE_INK.dimmed
+            : EDGE_INK.rest;
 
       return {
         ...edge,

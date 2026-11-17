@@ -9,13 +9,26 @@ import { ErrorBoundary } from "./ErrorBoundary";
 import { Icon } from "./Icon";
 import { useIsPhoneLayout } from "./PhoneIndex";
 import { STATUS_META, StatusSwatch } from "./TechNode";
+import { useOverflowEdges } from "./useOverflowEdges";
 
 export interface DetailPanelProps {
   readonly graph: KnowledgeGraph;
 }
 
 const VISIBLE_RELATION_ROWS = 6;
-const MARKDOWN_COMPONENTS = { h2: "h3" } as const;
+function CodeBlock({ children }: { readonly children?: ReactNode }) {
+  const scrollerRef = useRef<HTMLSpanElement>(null);
+  useOverflowEdges(scrollerRef);
+  return (
+    <pre>
+      <span ref={scrollerRef} className="detail-panel__code-scroller overflow-fade">
+        {children}
+      </span>
+    </pre>
+  );
+}
+
+const MARKDOWN_COMPONENTS = { h2: "h3", pre: CodeBlock } as const;
 const SITE_NAME = "Tech Graph";
 const DEFAULT_TITLE = `${SITE_NAME} — Interactive Knowledge Map`;
 
