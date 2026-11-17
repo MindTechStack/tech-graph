@@ -2,13 +2,13 @@ import { describe, expect, it } from "vitest";
 import type { TechNodeData } from "../content/parse";
 import { scoreNodeMatch } from "./SearchModal";
 
-function node(name: string, tags: readonly string[]) {
+function node(name: string, tags: readonly string[], what = "") {
   return {
     id: name.toLowerCase(),
     name,
     map: "backend",
     category: "database",
-    what: "",
+    what,
     tags,
   } as unknown as TechNodeData;
 }
@@ -31,5 +31,13 @@ describe("scoreNodeMatch", () => {
     const score = (n: TechNodeData) => scoreNodeMatch(n, "orm", "backend");
     expect(score(drizzle)).toBeGreaterThan(score(prisma));
     expect(score(prisma)).toBeGreaterThan(score(hookForm));
+  });
+
+  it("ignores mid-word tag hits", () => {
+    const fastify = node("Fastify", ["performance"]);
+    const multer = node("Multer", ["form-data"]);
+
+    expect(scoreNodeMatch(fastify, "orm", "backend")).toBe(0);
+    expect(scoreNodeMatch(multer, "data", "backend")).toBeGreaterThan(0);
   });
 });

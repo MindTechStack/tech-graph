@@ -1701,6 +1701,17 @@ body,
   overflow-y: auto;
 }
 
+.search-modal__section-head {
+  font: var(--type-label);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 16px 24px 8px;
+  border-bottom: 2px solid var(--rule);
+  background: var(--paper);
+  color: var(--ink);
+}
+
 .search-modal__empty {
   font: var(--type-prose-sm);
   padding: 24px;

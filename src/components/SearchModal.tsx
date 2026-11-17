@@ -5,7 +5,7 @@ import {
   useRef,
   useState,
 } from "react";
-import type { KnowledgeGraph } from "../content/graph";
+import { CORE_SCOPE_LABEL, type KnowledgeGraph } from "../content/graph";
 import type { TechNodeData } from "../content/parse";
 import { useAppState } from "../state/useAppState";
 import { NodeRowContent } from "./NodeRow";
@@ -19,8 +19,56 @@ interface ScoredNode {
   readonly score: number;
 }
 
+interface ResultSection {
+  readonly title: string | null;
+  readonly nodes: readonly TechNodeData[];
+}
+
 const MAX_RESULTS = 25;
 const RESULTS_ID = "search-results";
+const RECENT_KEY = "tech-graph:recent-nodes";
+const RECENT_LIMIT = 5;
+
+function readRecentIds(): readonly string[] {
+  try {
+    const stored: unknown = JSON.parse(localStorage.getItem(RECENT_KEY) ?? "[]");
+    return Array.isArray(stored) ? stored.filter((id): id is string => typeof id === "string") : [];
+  } catch {
+    return [];
+  }
+}
+
+function useRecentNodeIds(selectedNodeId: string | null): readonly string[] {
+  const [recentIds, setRecentIds] = useState(readRecentIds);
+
+  useEffect(() => {
+    if (selectedNodeId) {
+      setRecentIds((prev) =>
+        [selectedNodeId, ...prev.filter((id) => id !== selectedNodeId)].slice(0, RECENT_LIMIT),
+      );
+    }
+  }, [selectedNodeId]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(RECENT_KEY, JSON.stringify(recentIds));
+    } catch {}
+  }, [recentIds]);
+
+  return recentIds;
+}
+
+function buildSuggestions(graph: KnowledgeGraph, recentIds: readonly string[]): ResultSection[] {
+  const recent = recentIds.flatMap((id) => graph.nodesById.get(id) ?? []);
+  const recentIdSet = new Set(recent.map((node) => node.id));
+  const mainStack = graph.nodes
+    .filter((node) => node.core && !recentIdSet.has(node.id))
+    .toSorted((a, b) => a.name.localeCompare(b.name));
+  return [
+    { title: "Recently opened", nodes: recent },
+    { title: CORE_SCOPE_LABEL, nodes: mainStack },
+  ].filter((section) => section.nodes.length > 0);
+}
 
 function optionId(node: TechNodeData): string {
   return `search-option-${node.id}`;
@@ -40,7 +88,7 @@ export function scoreNodeMatch(node: TechNodeData, rawQuery: string, activeMap: 
   const inActiveMapBonus = activeMap === "all" || node.map === activeMap ? 5 : 0;
 
   if (!q) {
-    return 10 + inActiveMapBonus;
+    return 0;
   }
 
   if (q.startsWith("#")) {
@@ -70,9 +118,6 @@ export function scoreNodeMatch(node: TechNodeData, rawQuery: string, activeMap: 
   if (nameLower.includes(q) || idLower.includes(q)) {
     return 45 + inActiveMapBonus;
   }
-  if (tagsLower.some((t) => t.includes(q))) {
-    return 40 + inActiveMapBonus;
-  }
   if (catLower.includes(q)) {
     return 35 + inActiveMapBonus;
   }
@@ -87,7 +132,9 @@ export function scoreNodeMatch(node: TechNodeData, rawQuery: string, activeMap: 
 }
 
 export function SearchModal({ graph }: SearchModalProps) {
-  const { isSearchOpen, setIsSearchOpen, activeMap, navigateToNode } = useAppState();
+  const { isSearchOpen, setIsSearchOpen, activeMap, navigateToNode, selectedNodeId } =
+    useAppState();
+  const recentIds = useRecentNodeIds(selectedNodeId);
   const [query, setQuery] = useState<string>("");
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -110,7 +157,12 @@ export function SearchModal({ graph }: SearchModalProps) {
     };
   }, [isSearchOpen]);
 
-  const { results, matchCount } = useMemo(() => {
+  const { sections, results, matchCount } = useMemo(() => {
+    if (!query.trim()) {
+      const suggestions = buildSuggestions(graph, recentIds);
+      const suggested = suggestions.flatMap((section) => section.nodes);
+      return { sections: suggestions, results: suggested, matchCount: suggested.length };
+    }
     const scored: ScoredNode[] = [];
     for (const node of graph.nodes) {
       const score = scoreNodeMatch(node, query, activeMap);
@@ -119,11 +171,13 @@ export function SearchModal({ graph }: SearchModalProps) {
       }
     }
     scored.sort((a, b) => b.score - a.score || a.node.name.localeCompare(b.node.name));
+    const matches = scored.slice(0, MAX_RESULTS).map((item) => item.node);
     return {
-      results: scored.slice(0, MAX_RESULTS).map((item) => item.node),
+      sections: [{ title: null, nodes: matches }],
+      results: matches,
       matchCount: scored.length,
     };
-  }, [graph.nodes, query, activeMap]);
+  }, [graph, query, activeMap, recentIds]);
 
   useEffect(() => {
     setActiveIndex(0);
@@ -140,6 +194,48 @@ export function SearchModal({ graph }: SearchModalProps) {
   if (!isSearchOpen) {
     return null;
   }
+
+  const renderOption = (node: TechNodeData, idx: number) => {
+    const isHighlighted = idx === activeIndex;
+    const mapName = graph.mapsById.get(node.map)?.name ?? node.map;
+
+    return (
+      <button
+        key={node.id}
+        id={optionId(node)}
+        type="button"
+        role="option"
+        tabIndex={-1}
+        aria-selected={isHighlighted}
+        className={`node-row ${isHighlighted ? "node-row--active" : ""}`}
+        onMouseMove={() => setActiveIndex(idx)}
+        onClick={() => handleSelect(node)}
+      >
+        <NodeRowContent node={node} mapName={mapName} showTags />
+      </button>
+    );
+  };
+
+  const renderSections = () => {
+    let offset = 0;
+    return sections.map((section) => {
+      const start = offset;
+      offset += section.nodes.length;
+      const options = section.nodes.map((node, i) => renderOption(node, start + i));
+      if (!section.title) {
+        return options;
+      }
+      const headId = `${RESULTS_ID}-${start}`;
+      return (
+        <div key={section.title} role="group" aria-labelledby={headId}>
+          <div id={headId} role="presentation" className="search-modal__section-head">
+            {section.title}
+          </div>
+          {options}
+        </div>
+      );
+    });
+  };
 
   const handleSelect = (node: TechNodeData) => {
     navigateToNode(node);
@@ -228,26 +324,7 @@ export function SearchModal({ graph }: SearchModalProps) {
               )}
             </div>
           ) : (
-            results.map((node, idx) => {
-              const isHighlighted = idx === activeIndex;
-              const mapName = graph.mapsById.get(node.map)?.name ?? node.map;
-
-              return (
-                <button
-                  key={node.id}
-                  id={optionId(node)}
-                  type="button"
-                  role="option"
-                  tabIndex={-1}
-                  aria-selected={isHighlighted}
-                  className={`node-row ${isHighlighted ? "node-row--active" : ""}`}
-                  onMouseMove={() => setActiveIndex(idx)}
-                  onClick={() => handleSelect(node)}
-                >
-                  <NodeRowContent node={node} mapName={mapName} showTags />
-                </button>
-              );
-            })
+            renderSections()
           )}
           {matchCount > results.length ? (
             <p className="search-modal__more">
