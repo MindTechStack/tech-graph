@@ -64,7 +64,7 @@ const FAR_TITLE_PX = 26;
 const MIN_READABLE_TITLE_PX = 12;
 const OVERVIEW_MIN_ZOOM = MIN_READABLE_TITLE_PX / FAR_TITLE_PX;
 const FAR_VIEW_ZOOM = 0.75;
-const FOCUS_ZOOM = 1.15;
+const FOCUS_MAX_ZOOM = 1;
 const HUB_FOCUS_ZOOM = 0.85;
 const FIT_PADDING = 48;
 
@@ -86,6 +86,14 @@ function detailPanelOverlap(pane: HTMLElement): number {
   const paneBox = pane.getBoundingClientRect();
   const overlap = paneBox.right - panel.getBoundingClientRect().left;
   return overlap > 0 && overlap < paneBox.width ? overlap : 0;
+}
+
+function inkKeyInset(pane: HTMLElement): number {
+  const key = pane.querySelector(".ink-key");
+  if (!key) {
+    return 0;
+  }
+  return Math.max(0, pane.getBoundingClientRect().bottom - key.getBoundingClientRect().top);
 }
 
 function flowBox(nodes: readonly AppFlowNode[], nodeId: string) {
@@ -322,20 +330,20 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
         .sort((a, b) => distanceBetween(focusBox, a) - distanceBetween(focusBox, b));
 
       const availableWidth = pane.offsetWidth - detailPanelOverlap(pane) - FIT_PADDING * 2;
-      const availableHeight = pane.offsetHeight - FIT_PADDING * 2;
+      const availableHeight = pane.offsetHeight - FIT_PADDING * 2 - inkKeyInset(pane);
       const zoomToFit = (bounds: Rect) =>
         Math.min(availableWidth / bounds.width, availableHeight / bounds.height);
 
       let shown: Rect = focusBox;
       for (const box of neighbourBoxes) {
         const grown = unionOf(shown, box);
-        if (zoomToFit(grown) < FAR_VIEW_ZOOM) {
+        if (zoomToFit(grown) < OVERVIEW_MIN_ZOOM) {
           break;
         }
         shown = grown;
       }
 
-      const maxZoom = neighbourBoxes.length >= HUB_MIN_DEGREE ? HUB_FOCUS_ZOOM : FOCUS_ZOOM;
+      const maxZoom = neighbourBoxes.length >= HUB_MIN_DEGREE ? HUB_FOCUS_ZOOM : FOCUS_MAX_ZOOM;
       const zoom = Math.min(maxZoom, zoomToFit(shown));
       void setViewport(
         {
@@ -356,7 +364,12 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
       const bounds = positioned ? layoutBounds(positioned.nodes) : null;
       if (pane && bounds) {
         void setViewport(
-          overviewViewport(bounds, pane.offsetWidth, pane.offsetHeight, detailPanelOverlap(pane)),
+          overviewViewport(
+            bounds,
+            pane.offsetWidth,
+            pane.offsetHeight - inkKeyInset(pane),
+            detailPanelOverlap(pane),
+          ),
           { duration },
         );
       }
