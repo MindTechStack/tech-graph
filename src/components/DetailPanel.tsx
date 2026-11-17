@@ -2,9 +2,10 @@ import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
-import type { KnowledgeGraph } from "../content/graph";
+import { CORE_SCOPE_LABEL, type KnowledgeGraph, type MapScope } from "../content/graph";
 import type { TechNodeData } from "../content/parse";
 import { useAppState } from "../state/useAppState";
+import { AUTHOR_NAME, ResumeLink } from "./Author";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { Icon } from "./Icon";
 import { useIsPhoneLayout } from "./PhoneIndex";
@@ -168,8 +169,28 @@ function useCardFocus(node: TechNodeData | null) {
   return titleRef;
 }
 
+function phoneCloseDestination(
+  graph: KnowledgeGraph,
+  activeMap: MapScope,
+  isMapShown: boolean,
+): string {
+  if (activeMap === "all") {
+    return isMapShown ? "All maps" : "All topics";
+  }
+  const scopeName =
+    activeMap === "core" ? CORE_SCOPE_LABEL : (graph.mapsById.get(activeMap)?.name ?? activeMap);
+  return `${scopeName} ${isMapShown ? "map" : "topics"}`;
+}
+
 export function DetailPanel({ graph }: DetailPanelProps) {
-  const { selectedNodeId, setSelectedNodeId, requestCenterNode, setActiveMap } = useAppState();
+  const {
+    activeMap,
+    isPhoneMapShown,
+    selectedNodeId,
+    setSelectedNodeId,
+    requestCenterNode,
+    setActiveMap,
+  } = useAppState();
 
   const node = useMemo(
     () => (selectedNodeId ? (graph.nodesById.get(selectedNodeId) ?? null) : null),
@@ -230,15 +251,28 @@ export function DetailPanel({ graph }: DetailPanelProps) {
             >
               <Icon name="target" />
             </button>
-            <button
-              type="button"
-              className="detail-panel__icon-btn"
-              onClick={() => setSelectedNodeId(null)}
-              aria-label="Close detail panel"
-              title="Close (Esc)"
-            >
-              <Icon name="close" />
-            </button>
+            {isPhoneLayout ? (
+              <button
+                type="button"
+                className="detail-panel__icon-btn detail-panel__close-btn"
+                onClick={() => setSelectedNodeId(null)}
+              >
+                <span className="detail-panel__close-label">
+                  {phoneCloseDestination(graph, activeMap, isPhoneMapShown)}
+                </span>
+                <Icon name="close" />
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="detail-panel__icon-btn"
+                onClick={() => setSelectedNodeId(null)}
+                aria-label="Close detail panel"
+                title="Close (Esc)"
+              >
+                <Icon name="close" />
+              </button>
+            )}
           </div>
 
           <p className="detail-panel__place">
@@ -367,6 +401,16 @@ export function DetailPanel({ graph }: DetailPanelProps) {
             <EntryRow label="Tags">
               <p className="detail-panel__tags">{node.tags.map((tag) => `#${tag}`).join(" ")}</p>
             </EntryRow>
+          ) : null}
+
+          {isPhoneLayout ? (
+            <footer className="detail-panel__byline">
+              <span className="author-bar__name">{AUTHOR_NAME}</span>
+              <span className="detail-panel__place-sep" aria-hidden="true">
+                ·
+              </span>
+              <ResumeLink />
+            </footer>
           ) : null}
         </div>
       </section>

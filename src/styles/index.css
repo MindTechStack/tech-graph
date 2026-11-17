@@ -1628,6 +1628,34 @@ body,
   text-wrap: pretty;
 }
 
+.detail-panel__icon-btn.detail-panel__close-btn {
+  width: auto;
+  gap: 8px;
+  margin-left: auto;
+  padding-inline: 8px;
+}
+
+.detail-panel__close-label {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.detail-panel__byline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  margin-top: 24px;
+  padding-top: 12px;
+  border-top: 2px solid var(--rule);
+}
+
+.detail-panel__byline .author-bar__resume {
+  margin-left: 0;
+}
+
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -2256,7 +2284,13 @@ body,
     display: none;
   }
 
+  .detail-panel__top-row {
+    flex-wrap: wrap-reverse;
+    align-items: flex-end;
+  }
+
   .detail-panel__title {
+    flex-basis: max-content;
     font-size: 28px;
     line-height: 32px;
   }

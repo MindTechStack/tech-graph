@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import resumeUrl from "../content/Maksym_Matsydulskas_Resume.pdf?url";
+import { AUTHOR_NAME, ResumeLink } from "./components/Author";
 import { DetailPanel } from "./components/DetailPanel";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { ErrorPanel } from "./components/ErrorPanel";
@@ -76,11 +76,9 @@ function AuthorBar() {
 
   return (
     <div className="author-bar" inert={isCovered}>
-      <span className="author-bar__name">Maksym Matsydulskas</span>
+      <span className="author-bar__name">{AUTHOR_NAME}</span>
       <span className="author-bar__role">Senior Front-End Engineer · TypeScript</span>
-      <a className="author-bar__resume" href={resumeUrl} target="_blank" rel="noopener">
-        Résumé <span className="author-bar__format">PDF</span>
-      </a>
+      <ResumeLink />
     </div>
   );
 }
