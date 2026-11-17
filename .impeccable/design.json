@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-17T12:56:37.310647Z",
+  "generatedAt": "2026-11-17T14:11:18.759410Z",
   "title": "Design System: Tech Graph",
   "extensions": {
     "colorMeta": {
@@ -124,6 +124,51 @@
           "#eeeeee"
         ]
       },
+      "edge-ink": {
+        "role": "neutral",
+        "displayName": "Relation Ink",
+        "canonical": "rgba(17, 17, 17, 0.3)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "edge-ink-dimmed": {
+        "role": "neutral",
+        "displayName": "Faded Relation Ink",
+        "canonical": "rgba(17, 17, 17, 0.1)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "edge-ink-off-screen": {
+        "role": "neutral",
+        "displayName": "Off-screen Relation Ink",
+        "canonical": "rgba(17, 17, 17, 0.16)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
       "accent": {
         "role": "primary",
         "displayName": "Signal Ultramarine",
@@ -181,6 +226,21 @@
           "#828280",
           "#a5a5a3",
           "#c9c9c8",
+          "#eeeeee"
+        ]
+      },
+      "on-ink-2": {
+        "role": "neutral",
+        "displayName": "White on Ink 2",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
           "#eeeeee"
         ]
       },

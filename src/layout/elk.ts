@@ -196,7 +196,7 @@ function createFlowEdges(slice: MapGraphSlice, nodes: readonly AppFlowNode[]): A
         type: MarkerType.ArrowClosed,
         width: 16,
         height: 16,
-        color: "rgba(17, 17, 17, 0.3)",
+        color: "var(--edge-ink)",
       },
       data: {
         rawLabel: edge.label,

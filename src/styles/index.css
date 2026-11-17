@@ -10,10 +10,14 @@
   --hairline: #d6d6d1;
   --rule: #111111;
   --grid-line: rgba(17, 17, 17, 0.05);
+  --edge-ink: color-mix(in srgb, var(--ink) 30%, transparent);
+  --edge-ink-dimmed: color-mix(in srgb, var(--ink) 10%, transparent);
+  --edge-ink-off-screen: color-mix(in srgb, var(--ink) 16%, transparent);
   --accent: #1f3bd6;
   --accent-wash: rgba(31, 59, 214, 0.08);
   --on-accent: #ffffff;
   --on-ink: #f6f6f3;
+  --on-ink-2: #ffffff;
   --scrim: rgba(246, 246, 243, 0.8);
   --error: #c4271b;
 
@@ -1025,11 +1029,11 @@ body,
 
 .tech-node--status-practiced {
   background: var(--ink-2);
-  color: #ffffff;
+  color: var(--on-ink-2);
 }
 
 .tech-node--status-practiced .tech-node__meta {
-  color: color-mix(in srgb, #ffffff 85%, var(--ink-2));
+  color: color-mix(in srgb, var(--on-ink-2) 85%, var(--ink-2));
 }
 
 .tech-node--status-learned,
@@ -1113,7 +1117,7 @@ body,
 .react-flow__node:not(:focus-visible)
   .tech-node--dimmed.tech-node--status-practiced
   :is(.tech-node__title, .tech-node__meta) {
-  color: color-mix(in srgb, #ffffff 90%, var(--ink-2));
+  color: color-mix(in srgb, var(--on-ink-2) 90%, var(--ink-2));
 }
 
 .tech-node__band {

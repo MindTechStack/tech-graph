@@ -10,10 +10,14 @@ colors:
   hairline: "#d6d6d1"
   rule: "#111111"
   grid-line: "rgba(17, 17, 17, 0.05)"
+  edge-ink: "rgba(17, 17, 17, 0.3)"
+  edge-ink-dimmed: "rgba(17, 17, 17, 0.1)"
+  edge-ink-off-screen: "rgba(17, 17, 17, 0.16)"
   accent: "#1f3bd6"
   accent-wash: "rgba(31, 59, 214, 0.08)"
   on-accent: "#ffffff"
   on-ink: "#f6f6f3"
+  on-ink-2: "#ffffff"
   error: "#c4271b"
   status-work-fill: "#111111"
   status-practiced-fill: "#5c5c58"
@@ -186,6 +190,8 @@ Colour strategy: **Restrained.** Ink on paper, one accent, and a content-owned c
 - **Hairline** (`hairline`): the 1px rule between rows, sections and panes.
 - **Rule** (`rule`, ink): the 2px rule that opens a major section, and the frame of a modal.
 - **Grid Line** (`grid-line`): the module grid drawn on the canvas, at 5% ink.
+- **Edge Ink** (`edge-ink`, 30% ink), **Edge Ink Dimmed** (`edge-ink-dimmed`, 10%) and **Edge Ink Off-screen** (`edge-ink-off-screen`, 16%): relation lines and their arrowheads at rest, dimmed, and leading off-screen from a hub. Each is mixed from Ink, so it follows the ink.
+- **On Ink 2** (`on-ink-2`, white): text on the `practiced` fill, 6.7:1.
 
 ### Accent: Signal Ultramarine
 - **Accent** (`accent`, `#1f3bd6`, 7.3:1 on paper, 7.9:1 for white on it): the one saturated colour. It marks *place and selection*: the active map tab underline, active filter rows, the selected node's outline, the selected node's edges, the focus ring, the active search result, links, and the primary action.

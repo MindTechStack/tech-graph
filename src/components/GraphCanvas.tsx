@@ -43,13 +43,13 @@ const NODE_TYPES: NodeTypes = {
 };
 
 const EDGE_INK = {
-  rest: "rgba(17, 17, 17, 0.3)",
-  dimmed: "rgba(17, 17, 17, 0.1)",
-  offScreen: "rgba(17, 17, 17, 0.16)",
-  highlighted: "#1f3bd6",
-  label: "#5c5c58",
-  labelHighlighted: "#111111",
-  plate: "#f6f6f3",
+  rest: "var(--edge-ink)",
+  dimmed: "var(--edge-ink-dimmed)",
+  offScreen: "var(--edge-ink-off-screen)",
+  highlighted: "var(--accent)",
+  label: "var(--ink-2)",
+  labelHighlighted: "var(--ink)",
+  plate: "var(--paper)",
 } as const;
 
 const MODULE_PITCH = 80;
@@ -683,7 +683,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
             variant={BackgroundVariant.Lines}
             gap={MODULE_PITCH}
             lineWidth={1}
-            color="rgba(17, 17, 17, 0.05)"
+            color="var(--grid-line)"
           />
 
           <GroupHeaders groups={groupNodes} />
