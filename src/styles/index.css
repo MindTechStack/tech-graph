@@ -894,6 +894,10 @@ body,
   color: var(--ink-2);
 }
 
+.graph-canvas__status--loading {
+  padding-left: 16px;
+}
+
 .ink-key {
   display: flex;
   align-items: flex-start;

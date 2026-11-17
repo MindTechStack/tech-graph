@@ -7,6 +7,22 @@ import "@fontsource-variable/geist-mono";
 import "@xyflow/react/dist/style.css";
 import "./styles/index.css";
 
+const STALE_CHUNK_RELOAD_KEY = "tech-graph:reloaded-for-stale-chunk";
+
+function reloadOnceForStaleChunk(): void {
+  try {
+    if (sessionStorage.getItem(STALE_CHUNK_RELOAD_KEY)) {
+      return;
+    }
+    sessionStorage.setItem(STALE_CHUNK_RELOAD_KEY, "1");
+  } catch {
+    return;
+  }
+  window.location.reload();
+}
+
+window.addEventListener("vite:preloadError", reloadOnceForStaleChunk);
+
 const rootElement = document.getElementById("root");
 if (!rootElement) {
   throw new Error("Root element #root not found");

@@ -19,6 +19,17 @@ const GraphCanvas = lazy(() =>
   import("./components/GraphCanvas").then(({ GraphCanvas }) => ({ default: GraphCanvas })),
 );
 
+function GraphCanvasLoading() {
+  return (
+    <div className="graph-canvas">
+      <div className="graph-canvas__pane" />
+      <footer className="graph-canvas__status graph-canvas__status--loading">
+        <span className="graph-canvas__layout-badge">Arranging…</span>
+      </footer>
+    </div>
+  );
+}
+
 function useIsCoveredByOverlay(): boolean {
   const { isSearchOpen, isErrorPanelOpen } = useAppState();
   return useIsPhoneCardOpen() || isSearchOpen || isErrorPanelOpen;
@@ -123,7 +134,7 @@ function Workspace({ graph }: { readonly graph: KnowledgeGraph }) {
               </div>
             )}
           >
-            <Suspense fallback={null}>
+            <Suspense fallback={<GraphCanvasLoading />}>
               <GraphCanvas graph={graph} />
             </Suspense>
           </ErrorBoundary>
