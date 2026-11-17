@@ -11,6 +11,7 @@ export interface TechNodeFlowData extends Record<string, unknown> {
   readonly categoryColor: string;
   readonly isSelected: boolean;
   readonly isDimmed: boolean;
+  readonly isFilteredOut: boolean;
 }
 
 export type TechFlowNode = Node<TechNodeFlowData, "tech">;
@@ -23,13 +24,14 @@ const HANDLE_SIDES = [
 ] as const;
 
 function TechNodeComponent({ data }: NodeProps<TechFlowNode>) {
-  const { tech, isGhost, homeMapName, categoryColor, isSelected, isDimmed } = data;
+  const { tech, isGhost, homeMapName, categoryColor, isSelected, isDimmed, isFilteredOut } = data;
 
   const classNames = [
     "tech-node",
     isGhost ? "tech-node--ghost" : `tech-node--status-${tech.status}`,
     isSelected ? "tech-node--selected" : "",
     isDimmed ? "tech-node--dimmed" : "",
+    isFilteredOut ? "tech-node--filtered-out" : "",
   ]
     .filter(Boolean)
     .join(" ");

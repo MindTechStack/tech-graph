@@ -121,7 +121,7 @@ export function AppStateProvider({
     () => isCardOpen && isSidebarWide() && isCanvasTightBesideCard(),
   );
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(
-    () => isSidebarWide() && !isSidebarAutoCollapsed,
+    () => isSidebarWide() && !isSidebarAutoCollapsed && initialFromUrl.activeMap !== "core",
   );
   const [wasCardOpen, setWasCardOpen] = useState<boolean>(isCardOpen);
   if (isCardOpen !== wasCardOpen) {

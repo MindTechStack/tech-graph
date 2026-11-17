@@ -140,6 +140,7 @@ function createTechFlowNode(
       categoryColor: categoryConfig?.color ?? NEUTRAL_CATEGORY_COLOR,
       isSelected: false,
       isDimmed: false,
+      isFilteredOut: false,
     },
   };
 }
@@ -305,6 +306,7 @@ export async function computeGraphLayout(
         color: bucket.color,
         nodeCount: bucket.items.length,
         isGhostGroup: bucket.isGhostGroup,
+        isFilteredOut: false,
       },
     });
 

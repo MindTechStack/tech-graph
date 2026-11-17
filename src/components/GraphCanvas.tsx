@@ -21,7 +21,12 @@ import {
   useRef,
   useState,
 } from "react";
-import { buildFilterSignature, getMapGraphSlice, type KnowledgeGraph } from "../content/graph";
+import {
+  buildFilterSignature,
+  CORE_SCOPE_LABEL,
+  getMapGraphSlice,
+  type KnowledgeGraph,
+} from "../content/graph";
 import { NODE_STATUSES } from "../content/vocabulary";
 import {
   type AppFlowEdge,
@@ -166,7 +171,7 @@ function readInkKeyDismissed(): boolean {
   }
 }
 
-function InkKey() {
+function InkKey({ caption }: { readonly caption: string | null }) {
   const [isDismissed, setIsDismissed] = useState(readInkKeyDismissed);
   if (isDismissed) {
     return null;
@@ -179,16 +184,19 @@ function InkKey() {
   };
   return (
     <Panel position="bottom-left" className="ink-key">
-      <p className="ink-key__line">
-        <span>More ink, more experience:</span>
-        {NODE_STATUSES.map((status) => (
-          <span key={status} className="ink-key__value">
-            <StatusSwatch status={status} />
-            {status}
-          </span>
-        ))}
-        <span>Dashed also means another map.</span>
-      </p>
+      <div className="ink-key__body">
+        {caption ? <p className="ink-key__caption">{caption}</p> : null}
+        <p className="ink-key__line">
+          <span>More ink, more experience:</span>
+          {NODE_STATUSES.map((status) => (
+            <span key={status} className="ink-key__value">
+              <StatusSwatch status={status} />
+              {status}
+            </span>
+          ))}
+          <span>Dashed also means another map.</span>
+        </p>
+      </div>
       <button
         type="button"
         className="ink-key__close"
@@ -235,14 +243,27 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
   const fittedLayoutRef = useRef<PositionedGraph | null>(null);
   const revealedNodeIdRef = useRef<string | null>(null);
 
-  const filterSignature = useMemo(() => buildFilterSignature(filters), [filters]);
+  const coreCaption = useMemo(() => {
+    const coreCount = graph.nodes.filter((node) => node.core).length;
+    return `${CORE_SCOPE_LABEL}: the ${coreCount} technologies I build with. Open any block for what, why and a working example.`;
+  }, [graph]);
+  const { includeGhosts } = filters;
+  const layoutSignature = useMemo(() => buildFilterSignature({ includeGhosts }), [includeGhosts]);
+  const layoutSlice = useMemo(
+    () => getMapGraphSlice(graph, activeMap, { includeGhosts }),
+    [graph, activeMap, includeGhosts],
+  );
   const slice = useMemo(
     () => getMapGraphSlice(graph, activeMap, filters),
     [graph, activeMap, filters],
   );
+  const matchingNodeIds = useMemo(
+    () => (hasActiveFilters ? new Set(slice.nodes.map(({ node }) => node.id)) : null),
+    [hasActiveFilters, slice],
+  );
   const layoutKey = useMemo(
-    () => buildLayoutCacheKey(slice, filterSignature),
-    [slice, filterSignature],
+    () => buildLayoutCacheKey(layoutSlice, layoutSignature),
+    [layoutSlice, layoutSignature],
   );
   const hasLayoutFailed = failedLayoutKey === layoutKey;
   const isLayoutPending = !hasLayoutFailed && positioned?.cacheKey !== layoutKey;
@@ -250,7 +271,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
   useEffect(() => {
     let cancelled = false;
 
-    computeGraphLayout(graph, slice, filterSignature)
+    computeGraphLayout(graph, layoutSlice, layoutSignature)
       .then((result) => {
         if (!cancelled) {
           setPositioned(result);
@@ -267,7 +288,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
     return () => {
       cancelled = true;
     };
-  }, [graph, slice, filterSignature, layoutKey, layoutAttempt]);
+  }, [graph, layoutSlice, layoutSignature, layoutKey, layoutAttempt]);
 
   const retryLayout = useCallback(() => {
     setFailedLayoutKey(null);
@@ -496,21 +517,37 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
     return labelled;
   }, [positioned, connectedNodeIds, activeFocusNodeId]);
 
+  const groupIdsWithMatches = useMemo(() => {
+    if (!positioned || !matchingNodeIds) {
+      return null;
+    }
+    return new Set(
+      positioned.nodes
+        .filter((node) => node.type === "tech" && matchingNodeIds.has(node.id))
+        .map((node) => node.parentId),
+    );
+  }, [positioned, matchingNodeIds]);
+
   const displayNodes = useMemo<AppFlowNode[]>(() => {
     if (!positioned) {
       return [];
     }
     return positioned.nodes.map((node) => {
       if (node.type !== "tech") {
-        return node;
+        const isFilteredOut = groupIdsWithMatches !== null && !groupIdsWithMatches.has(node.id);
+        return node.data.isFilteredOut === isFilteredOut
+          ? node
+          : { ...node, data: { ...node.data, isFilteredOut } };
       }
       const isSelected = node.id === selectedNodeId;
       const isDimmed = connectedNodeIds !== null && !connectedNodeIds.has(node.id);
+      const isFilteredOut = matchingNodeIds !== null && !matchingNodeIds.has(node.id);
       const zIndex = connectedNodeIds !== null && !isDimmed ? LIFTED_NODE_Z : RESTING_NODE_Z;
 
       if (
         node.data.isSelected === isSelected &&
         node.data.isDimmed === isDimmed &&
+        node.data.isFilteredOut === isFilteredOut &&
         node.zIndex === zIndex
       ) {
         return node;
@@ -523,10 +560,11 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
           ...node.data,
           isSelected,
           isDimmed,
+          isFilteredOut,
         },
       };
     });
-  }, [positioned, selectedNodeId, connectedNodeIds]);
+  }, [positioned, selectedNodeId, connectedNodeIds, matchingNodeIds, groupIdsWithMatches]);
 
   const displayEdges = useMemo<AppFlowEdge[]>(() => {
     if (!positioned) {
@@ -541,8 +579,13 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
         isConnectedToFocus && isHubFocus && !onScreenNeighbourIds.has(otherEnd);
       const isHoveredEdge = edge.id === hoveredEdgeId;
       const isHighlighted = (isConnectedToFocus && !leadsOffScreen) || isHoveredEdge;
+      const touchesFilteredOut =
+        matchingNodeIds !== null &&
+        (!matchingNodeIds.has(edge.source) || !matchingNodeIds.has(edge.target));
       const isDimmed =
-        !isHighlighted && !leadsOffScreen && (activeFocusNodeId !== null || isFarView);
+        !isHighlighted &&
+        !leadsOffScreen &&
+        (activeFocusNodeId !== null || isFarView || touchesFilteredOut);
 
       const showLabel = showAllEdgeLabels || isHoveredEdge || labelledFocusEdgeIds.has(edge.id);
       const strokeColor = isHighlighted
@@ -591,6 +634,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
     hoveredEdgeId,
     showAllEdgeLabels,
     isFarView,
+    matchingNodeIds,
   ]);
 
   const onNodeClick = useCallback<NodeMouseHandler<AppFlowNode>>(
@@ -643,11 +687,8 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
   }, [setSelectedNodeId]);
 
   const groupNodes = useMemo(
-    () =>
-      (positioned?.nodes ?? []).filter(
-        (node): node is GroupFlowNode => node.type === "categoryGroup",
-      ),
-    [positioned],
+    () => displayNodes.filter((node): node is GroupFlowNode => node.type === "categoryGroup"),
+    [displayNodes],
   );
 
   const ghostCount = useMemo(() => slice.nodes.filter((n) => n.isGhost).length, [slice.nodes]);
@@ -688,7 +729,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
 
           <GroupHeaders groups={groupNodes} />
 
-          <InkKey />
+          <InkKey caption={activeMap === "core" ? coreCaption : null} />
 
           {hasLayoutFailed ? (
             <Panel position="top-center" className="graph-canvas__empty" role="alert">

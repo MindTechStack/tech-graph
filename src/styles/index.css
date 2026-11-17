@@ -914,6 +914,17 @@ body,
   color: var(--ink);
 }
 
+.ink-key__body {
+  display: grid;
+  row-gap: 4px;
+  min-width: 0;
+}
+
+.ink-key__caption {
+  font: var(--type-control);
+  padding-block: 2px;
+}
+
 .ink-key__line {
   font: var(--type-note);
   display: flex;
@@ -1049,6 +1060,7 @@ body,
   bottom: 0;
   width: 4px;
   background: var(--accent);
+  transition: opacity var(--ease-state);
 }
 
 .tech-node--status-planned,
@@ -1120,6 +1132,31 @@ body,
   color: color-mix(in srgb, var(--on-ink-2) 90%, var(--ink-2));
 }
 
+.react-flow__node:not(:focus-visible) .tech-node.tech-node--filtered-out {
+  background: var(--paper);
+  border-color: color-mix(in srgb, var(--ink-muted) 35%, var(--paper));
+}
+
+.react-flow__node:not(:focus-visible)
+  .tech-node.tech-node--filtered-out:is(.tech-node--status-work, .tech-node--status-practiced) {
+  border: 1px solid color-mix(in srgb, var(--ink-muted) 35%, var(--paper));
+}
+
+.react-flow__node:not(:focus-visible) .tech-node.tech-node--filtered-out .tech-node__band,
+.react-flow__node:not(:focus-visible) .tech-node.tech-node--filtered-out::after {
+  opacity: 0.3;
+}
+
+.react-flow__node:not(:focus-visible)
+  .tech-node.tech-node--filtered-out
+  :is(.tech-node__title, .tech-node__meta) {
+  color: color-mix(in srgb, var(--ink) 60%, var(--paper));
+}
+
+.group-node__header--filtered-out .group-node__title {
+  color: var(--ink-2);
+}
+
 .tech-node__band {
   width: 6px;
   flex-shrink: 0;
@@ -1173,6 +1210,7 @@ body,
   width: 100%;
   height: 100%;
   pointer-events: none;
+  transition: background-color var(--ease-state);
 }
 
 .group-node--ghost {
@@ -1194,12 +1232,14 @@ body,
   min-width: 0;
   padding: 0 4px;
   background: var(--paper);
+  transition: background-color var(--ease-state);
 }
 
 .group-node__title {
   font: var(--type-control);
   font-weight: 600;
   color: var(--ink);
+  transition: color var(--ease-state);
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -1209,6 +1249,10 @@ body,
 .group-node__count {
   font: var(--type-mono);
   color: var(--ink-2);
+}
+
+.react-flow__edge-path {
+  transition: stroke var(--ease-state);
 }
 
 .react-flow__edge.is-dimmed,

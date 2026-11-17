@@ -7,27 +7,31 @@ export interface GroupNodeFlowData extends Record<string, unknown> {
   readonly color: string;
   readonly nodeCount: number;
   readonly isGhostGroup?: boolean;
+  readonly isFilteredOut: boolean;
 }
 
 export type GroupFlowNode = Node<GroupNodeFlowData, "categoryGroup">;
 
-const TINT_FIELD_PERCENT = 30;
+const TINT_PERCENT = 30;
+const FILTERED_OUT_TINT_PERCENT = 10;
 
-function tintField(color: string): string {
-  return `color-mix(in srgb, ${color} ${TINT_FIELD_PERCENT}%, transparent)`;
+function tintPercent(data: GroupNodeFlowData): number {
+  return data.isFilteredOut ? FILTERED_OUT_TINT_PERCENT : TINT_PERCENT;
 }
 
-function tintPlate(color: string): string {
-  return `color-mix(in srgb, ${color} ${TINT_FIELD_PERCENT}%, var(--paper))`;
+function tintField(data: GroupNodeFlowData): string {
+  return `color-mix(in srgb, ${data.color} ${tintPercent(data)}%, transparent)`;
+}
+
+function tintPlate(data: GroupNodeFlowData): string {
+  return `color-mix(in srgb, ${data.color} ${tintPercent(data)}%, var(--paper))`;
 }
 
 function GroupNodeComponent({ data }: NodeProps<GroupFlowNode>) {
-  const { color, isGhostGroup } = data;
-
   return (
     <div
-      className={`group-node ${isGhostGroup ? "group-node--ghost" : ""}`}
-      style={isGhostGroup ? undefined : { backgroundColor: tintField(color) }}
+      className={`group-node ${data.isGhostGroup ? "group-node--ghost" : ""}`}
+      style={data.isGhostGroup ? undefined : { backgroundColor: tintField(data) }}
     />
   );
 }
@@ -40,12 +44,12 @@ export function GroupHeaders({ groups }: { readonly groups: readonly GroupFlowNo
       {groups.map(({ id, position, style, data }) => (
         <div
           key={id}
-          className="group-node__header"
+          className={`group-node__header ${data.isFilteredOut ? "group-node__header--filtered-out" : ""}`}
           style={{ left: position.x, top: position.y, width: style?.width }}
         >
           <span
             className="group-node__plate"
-            style={data.isGhostGroup ? undefined : { backgroundColor: tintPlate(data.color) }}
+            style={data.isGhostGroup ? undefined : { backgroundColor: tintPlate(data) }}
           >
             <span className="group-node__title">{data.label}</span>
             <span className="group-node__count">{data.nodeCount}</span>
