@@ -1,6 +1,7 @@
 ---
 id: node-typescript
 name: "Node.js + TypeScript (tsc, ts-node/tsx)"
+short: Node.js + TypeScript
 kind: concept
 status: learned
 tags: [typescript, compiler, transpilation, tsx, type-safety]

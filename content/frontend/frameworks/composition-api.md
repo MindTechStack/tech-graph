@@ -1,6 +1,7 @@
 ---
 id: composition-api
 name: Vue Composition API & Composables
+short: Composition API
 kind: concept
 status: work
 tags: [vue, composables, reactivity, ref, computed, watch]

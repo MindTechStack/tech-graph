@@ -1,6 +1,7 @@
 ---
 id: cloudflare
 name: "Cloudflare (Workers / Pages)"
+short: Cloudflare
 kind: platform
 status: planned
 tags: [cloudflare, edge, serverless, cdn, workers, pages]

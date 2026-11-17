@@ -1,6 +1,7 @@
 ---
 id: example-node
 name: Example Technology
+short: Example Tech
 kind: library
 status: learned
 tags: [example, template]

@@ -1,6 +1,7 @@
 ---
 id: error-handling
 name: "Error Handling (sync, async, global)"
+short: Error Handling
 kind: concept
 status: learned
 tags: [errors, exception-handling, middleware, express, reliability]

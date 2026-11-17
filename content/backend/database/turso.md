@@ -1,6 +1,7 @@
 ---
 id: turso
 name: "Turso / libSQL (SQLite)"
+short: Turso / libSQL
 kind: service
 status: practiced
 tags: [turso, libsql, sqlite, edge, serverless, database]

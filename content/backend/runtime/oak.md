@@ -1,6 +1,7 @@
 ---
 id: oak
 name: "Oak (Deno web framework)"
+short: Oak
 kind: framework
 status: learned
 tags: [deno, oak, web-framework, middleware, router]

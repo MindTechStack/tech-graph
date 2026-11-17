@@ -1,24 +1,18 @@
 import { useEffect, useRef } from "react";
 import { isNodeDirectlyInMap, type KnowledgeGraph } from "../content/graph";
 import { MAP_IDS } from "../content/schema";
-import type { ActiveMapTab, LayoutMode } from "./useAppState";
+import type { ActiveMapTab } from "./useAppState";
 
 export interface ParsedUrlState {
   readonly activeMap: ActiveMapTab;
   readonly selectedNodeId: string | null;
-  readonly layoutMode: LayoutMode;
   readonly unknownNodeId?: string;
 }
 
 const VALID_MAPS = new Set<string>([...MAP_IDS, "all", "core"]);
-const VALID_MODES = new Set<string>(["grouped", "network"]);
 
 export function isValidActiveMap(value: string): value is ActiveMapTab {
   return VALID_MAPS.has(value);
-}
-
-export function isValidLayoutMode(value: string): value is LayoutMode {
-  return VALID_MODES.has(value);
 }
 
 function decodeSegment(segment: string): string {
@@ -47,30 +41,21 @@ export function resolveDeepLink(parsed: ParsedUrlState, graph: KnowledgeGraph): 
  * Parses URL hashes like:
  * - `#/backend`
  * - `#/backend/express`
- * - `#/backend/express?view=network`
  */
 export function parseUrlHash(
   rawHash: string,
-  defaults: {
-    readonly defaultMap?: ActiveMapTab;
-    readonly defaultMode?: LayoutMode;
-  } = {},
+  defaults: { readonly defaultMap?: ActiveMapTab } = {},
 ): ParsedUrlState {
   const fallbackMap: ActiveMapTab = defaults.defaultMap ?? "backend";
-  const fallbackMode: LayoutMode = defaults.defaultMode ?? "grouped";
 
   const trimmed = rawHash.trim();
   const withoutHash = trimmed.startsWith("#") ? trimmed.slice(1) : trimmed;
 
   if (!withoutHash || withoutHash === "/") {
-    return {
-      activeMap: fallbackMap,
-      selectedNodeId: null,
-      layoutMode: fallbackMode,
-    };
+    return { activeMap: fallbackMap, selectedNodeId: null };
   }
 
-  const [pathPart = "", queryPart = ""] = withoutHash.split("?");
+  const [pathPart = ""] = withoutHash.split("?");
   const segments = pathPart
     .split("/")
     .map((s) => decodeSegment(s.trim()))
@@ -82,34 +67,16 @@ export function parseUrlHash(
   const rawNodeId = segments[1] ?? "";
   const selectedNodeId = rawNodeId.length > 0 ? rawNodeId : null;
 
-  let layoutMode: LayoutMode = fallbackMode;
-  if (queryPart) {
-    const params = new URLSearchParams(queryPart);
-    const modeParam = params.get("view");
-    if (modeParam && isValidLayoutMode(modeParam)) {
-      layoutMode = modeParam;
-    }
-  }
-
-  return {
-    activeMap,
-    selectedNodeId,
-    layoutMode,
-  };
+  return { activeMap, selectedNodeId };
 }
 
 /**
- * Formats state into `#/<map>[/<nodeId>]`, plus `?view=network` for the author-only network view
+ * Formats state into `#/<map>[/<nodeId>]`
  */
-export function formatUrlHash(
-  activeMap: ActiveMapTab,
-  selectedNodeId: string | null,
-  layoutMode: LayoutMode,
-): string {
-  const path = selectedNodeId
+export function formatUrlHash(activeMap: ActiveMapTab, selectedNodeId: string | null): string {
+  return selectedNodeId
     ? `#/${encodeURIComponent(activeMap)}/${encodeURIComponent(selectedNodeId)}`
     : `#/${encodeURIComponent(activeMap)}`;
-  return layoutMode === "network" ? `${path}?view=network` : path;
 }
 
 export type HashUpdate = "none" | "replace" | "push";
@@ -119,21 +86,18 @@ export function planHashUpdate(
   state: ParsedUrlState,
   parseHash: (rawHash: string) => ParsedUrlState,
 ): HashUpdate {
-  if (currentHash === formatUrlHash(state.activeMap, state.selectedNodeId, state.layoutMode)) {
+  if (currentHash === formatUrlHash(state.activeMap, state.selectedNodeId)) {
     return "none";
   }
   const current = parseHash(currentHash);
   const urlAlreadyShowsState =
-    current.activeMap === state.activeMap &&
-    current.selectedNodeId === state.selectedNodeId &&
-    current.layoutMode === state.layoutMode;
+    current.activeMap === state.activeMap && current.selectedNodeId === state.selectedNodeId;
   return urlAlreadyShowsState ? "replace" : "push";
 }
 
 export interface UseUrlSyncOptions {
   readonly activeMap: ActiveMapTab;
   readonly selectedNodeId: string | null;
-  readonly layoutMode: LayoutMode;
   readonly parseHash: (rawHash: string) => ParsedUrlState;
   readonly onUrlStateChange: (next: ParsedUrlState) => void;
 }
@@ -144,7 +108,6 @@ export interface UseUrlSyncOptions {
 export function useUrlSync({
   activeMap,
   selectedNodeId,
-  layoutMode,
   parseHash,
   onUrlStateChange,
 }: UseUrlSyncOptions): void {
@@ -175,16 +138,16 @@ export function useUrlSync({
       return;
     }
 
-    const state = { activeMap, selectedNodeId, layoutMode };
+    const state = { activeMap, selectedNodeId };
     const update = planHashUpdate(window.location.hash, state, latestParseRef.current);
     if (update === "none") {
       return;
     }
-    const nextHash = formatUrlHash(activeMap, selectedNodeId, layoutMode);
+    const nextHash = formatUrlHash(activeMap, selectedNodeId);
     if (update === "push") {
       window.history.pushState(null, "", nextHash);
     } else {
       window.history.replaceState(null, "", nextHash);
     }
-  }, [activeMap, selectedNodeId, layoutMode]);
+  }, [activeMap, selectedNodeId]);
 }

@@ -8,11 +8,10 @@ import {
   type MapGraphSlice,
   type MapSliceNode,
 } from "../content/graph";
-import type { LayoutMode } from "../state/useAppState";
 import type { Rect } from "./rect";
 
 export type AppFlowNode = GroupFlowNode | TechFlowNode;
-export type AppFlowEdge = Edge<{ readonly rawLabel: string }>;
+export type AppFlowEdge = Edge<{ readonly rawLabel: string; readonly isWithinGroup: boolean }>;
 
 export interface PositionedGraph {
   readonly cacheKey: string;
@@ -39,11 +38,7 @@ export function clearLayoutCache(): void {
   layoutCache.clear();
 }
 
-export function buildLayoutCacheKey(
-  slice: MapGraphSlice,
-  mode: LayoutMode,
-  filterSignature: string = "",
-): string {
+export function buildLayoutCacheKey(slice: MapGraphSlice, filterSignature: string = ""): string {
   const nodeKey = slice.nodes
     .map((n) => `${n.node.id}:${n.isGhost ? "g" : "p"}`)
     .sort()
@@ -52,7 +47,7 @@ export function buildLayoutCacheKey(
     .map((e) => e.id)
     .sort()
     .join(",");
-  return `${slice.mapId}|${mode}|${filterSignature}|N:${nodeKey}|E:${edgeKey}`;
+  return `${slice.mapId}|${filterSignature}|N:${nodeKey}|E:${edgeKey}`;
 }
 
 interface GroupBucket {
@@ -120,7 +115,7 @@ function createTechFlowNode(
   graph: KnowledgeGraph,
   sliceNode: MapSliceNode,
   position: { readonly x: number; readonly y: number },
-  parentId?: string,
+  parentId: string,
 ): TechFlowNode {
   const { node, isGhost, categoryConfig } = sliceNode;
   const categoryName = categoryConfig?.name ?? node.category;
@@ -134,12 +129,8 @@ function createTechFlowNode(
     position,
     width: TECH_NODE_WIDTH,
     height: TECH_NODE_HEIGHT,
-    ...(parentId
-      ? {
-          parentId,
-          extent: "parent" as const,
-        }
-      : {}),
+    parentId,
+    extent: "parent",
     data: {
       tech: node,
       isGhost,
@@ -186,6 +177,7 @@ function absoluteBoxes(nodes: readonly AppFlowNode[]): ReadonlyMap<string, Rect>
 
 function createFlowEdges(slice: MapGraphSlice, nodes: readonly AppFlowNode[]): AppFlowEdge[] {
   const boxes = absoluteBoxes(nodes);
+  const parentById = new Map(nodes.map((node) => [node.id, node.parentId]));
   return slice.edges.map((edge) => {
     const source = boxes.get(edge.source);
     const target = boxes.get(edge.target);
@@ -207,6 +199,7 @@ function createFlowEdges(slice: MapGraphSlice, nodes: readonly AppFlowNode[]): A
       },
       data: {
         rawLabel: edge.label,
+        isWithinGroup: parentById.get(edge.source) === parentById.get(edge.target),
       },
     };
   });
@@ -215,10 +208,9 @@ function createFlowEdges(slice: MapGraphSlice, nodes: readonly AppFlowNode[]): A
 export async function computeGraphLayout(
   graph: KnowledgeGraph,
   slice: MapGraphSlice,
-  mode: LayoutMode,
   filterSignature: string = "",
 ): Promise<PositionedGraph> {
-  const cacheKey = buildLayoutCacheKey(slice, mode, filterSignature);
+  const cacheKey = buildLayoutCacheKey(slice, filterSignature);
   const cached = layoutCache.get(cacheKey);
   if (cached) {
     return cached;
@@ -236,175 +228,106 @@ export async function computeGraphLayout(
     targets: [e.target],
   }));
 
-  let positionedNodes: AppFlowNode[];
+  const buckets = buildGroupBuckets(graph, slice);
+  const sliceNodeById = new Map<string, MapSliceNode>(slice.nodes.map((sn) => [sn.node.id, sn]));
+  const groupIdByNodeId = new Map<string, string>(
+    buckets.flatMap((bucket) =>
+      bucket.items.map((item) => [item.node.id, bucket.groupId] as const),
+    ),
+  );
 
-  if (mode === "grouped") {
-    const buckets = buildGroupBuckets(graph, slice);
-    const sliceNodeById = new Map<string, MapSliceNode>(slice.nodes.map((sn) => [sn.node.id, sn]));
-    const groupIdByNodeId = new Map<string, string>(
-      buckets.flatMap((bucket) =>
-        bucket.items.map((item) => [item.node.id, bucket.groupId] as const),
-      ),
-    );
+  const elkGroupChildren: ElkNode[] = buckets.map((bucket) => ({
+    id: bucket.groupId,
+    layoutOptions: {
+      "elk.algorithm": "layered",
+      "elk.direction": "RIGHT",
+      "elk.padding": "[top=48,left=16,bottom=16,right=16]",
+      "elk.spacing.nodeNode": "16",
+      "elk.layered.spacing.nodeNodeBetweenLayers": "96",
+      "elk.nodeSize.constraints": "MINIMUM_SIZE",
+      "elk.nodeSize.minimum": `(${groupMinWidth(bucket.label)}, ${GROUP_MIN_HEIGHT})`,
+    },
+    children: bucket.items.map((item) => ({
+      id: item.node.id,
+      width: TECH_NODE_WIDTH,
+      height: TECH_NODE_HEIGHT,
+    })),
+    edges: elkEdges.filter(
+      (edge) =>
+        groupIdByNodeId.get(edge.sources[0]!) === bucket.groupId &&
+        groupIdByNodeId.get(edge.targets[0]!) === bucket.groupId,
+    ),
+  }));
 
-    const elkGroupChildren: ElkNode[] = buckets.map((bucket) => ({
+  const rootElkGraph: ElkNode = {
+    id: "root",
+    layoutOptions: {
+      "elk.algorithm": "rectpacking",
+      "elk.aspectRatio": "1.5",
+      "elk.spacing.nodeNode": "32",
+      "elk.padding": "[top=32,left=32,bottom=32,right=32]",
+    },
+    children: elkGroupChildren,
+  };
+
+  const laidOut = await elk.layout(rootElkGraph);
+  const groupNodes: GroupFlowNode[] = [];
+  const childNodes: TechFlowNode[] = [];
+
+  const bucketById = new Map<string, GroupBucket>(buckets.map((b) => [b.groupId, b]));
+
+  for (const elkGroup of laidOut.children ?? []) {
+    const bucket = bucketById.get(elkGroup.id);
+    if (!bucket) {
+      continue;
+    }
+
+    const groupWidth = Math.max(elkGroup.width ?? 0, groupMinWidth(bucket.label));
+    const groupHeight = Math.max(elkGroup.height ?? 0, GROUP_MIN_HEIGHT);
+
+    groupNodes.push({
       id: bucket.groupId,
-      layoutOptions: {
-        "elk.algorithm": "layered",
-        "elk.direction": "RIGHT",
-        "elk.padding": "[top=48,left=16,bottom=16,right=16]",
-        "elk.spacing.nodeNode": "16",
-        "elk.layered.spacing.nodeNodeBetweenLayers": "96",
-        "elk.nodeSize.constraints": "MINIMUM_SIZE",
-        "elk.nodeSize.minimum": `(${groupMinWidth(bucket.label)}, ${GROUP_MIN_HEIGHT})`,
+      type: "categoryGroup",
+      position: {
+        x: Math.round(elkGroup.x ?? 0),
+        y: Math.round(elkGroup.y ?? 0),
       },
-      children: bucket.items.map((item) => ({
-        id: item.node.id,
-        width: TECH_NODE_WIDTH,
-        height: TECH_NODE_HEIGHT,
-      })),
-      edges: elkEdges.filter(
-        (edge) =>
-          groupIdByNodeId.get(edge.sources[0]!) === bucket.groupId &&
-          groupIdByNodeId.get(edge.targets[0]!) === bucket.groupId,
-      ),
-    }));
-
-    const rootElkGraph: ElkNode = {
-      id: "root",
-      layoutOptions: {
-        "elk.algorithm": "rectpacking",
-        "elk.aspectRatio": "1.5",
-        "elk.spacing.nodeNode": "32",
-        "elk.padding": "[top=32,left=32,bottom=32,right=32]",
+      style: {
+        width: groupWidth,
+        height: groupHeight,
       },
-      children: elkGroupChildren,
-    };
+      draggable: false,
+      selectable: false,
+      focusable: false,
+      data: {
+        label: bucket.label,
+        color: bucket.color,
+        nodeCount: bucket.items.length,
+        isGhostGroup: bucket.isGhostGroup,
+      },
+    });
 
-    const laidOut = await elk.layout(rootElkGraph);
-    const groupNodes: GroupFlowNode[] = [];
-    const childNodes: TechFlowNode[] = [];
-
-    const bucketById = new Map<string, GroupBucket>(buckets.map((b) => [b.groupId, b]));
-
-    for (const elkGroup of laidOut.children ?? []) {
-      const bucket = bucketById.get(elkGroup.id);
-      if (!bucket) {
+    for (const elkChild of elkGroup.children ?? []) {
+      const sliceNode = sliceNodeById.get(elkChild.id);
+      if (!sliceNode) {
         continue;
       }
-
-      const groupWidth = Math.max(elkGroup.width ?? 0, groupMinWidth(bucket.label));
-      const groupHeight = Math.max(elkGroup.height ?? 0, GROUP_MIN_HEIGHT);
-
-      groupNodes.push({
-        id: bucket.groupId,
-        type: "categoryGroup",
-        position: {
-          x: Math.round(elkGroup.x ?? 0),
-          y: Math.round(elkGroup.y ?? 0),
-        },
-        style: {
-          width: groupWidth,
-          height: groupHeight,
-        },
-        draggable: false,
-        selectable: false,
-        focusable: false,
-        data: {
-          label: bucket.label,
-          color: bucket.color,
-          nodeCount: bucket.items.length,
-          isGhostGroup: bucket.isGhostGroup,
-        },
-      });
-
-      for (const elkChild of elkGroup.children ?? []) {
-        const sliceNode = sliceNodeById.get(elkChild.id);
-        if (!sliceNode) {
-          continue;
-        }
-        childNodes.push(
-          createTechFlowNode(
-            graph,
-            sliceNode,
-            {
-              x: Math.round(elkChild.x ?? 16),
-              y: Math.round(elkChild.y ?? 48),
-            },
-            bucket.groupId,
-          ),
-        );
-      }
+      childNodes.push(
+        createTechFlowNode(
+          graph,
+          sliceNode,
+          {
+            x: Math.round(elkChild.x ?? 16),
+            y: Math.round(elkChild.y ?? 48),
+          },
+          bucket.groupId,
+        ),
+      );
     }
-
-    // Parent group nodes MUST precede child nodes in React Flow
-    positionedNodes = [...groupNodes, ...childNodes];
-  } else {
-    const rootElkGraph: ElkNode = {
-      id: "root",
-      layoutOptions: {
-        "elk.algorithm": "force",
-        "elk.force.iterations": "60",
-        "elk.spacing.nodeNode": "96",
-        "elk.spacing.componentComponent": "112",
-        "elk.padding": "[top=32,left=32,bottom=32,right=32]",
-      },
-      children: slice.nodes.map((sn) => ({
-        id: sn.node.id,
-        width: TECH_NODE_WIDTH,
-        height: TECH_NODE_HEIGHT,
-      })),
-      edges: elkEdges,
-    };
-
-    const laidOut = await elk.layout(rootElkGraph);
-    const pts = (laidOut.children ?? []).map((child, idx) => ({
-      id: child.id,
-      x: Math.round(child.x ?? idx * 12),
-      y: Math.round(child.y ?? idx * 12),
-    }));
-
-    const minSepX = TECH_NODE_WIDTH + 32;
-    const minSepY = TECH_NODE_HEIGHT + 16;
-    for (let iter = 0; iter < 80; iter++) {
-      let moved = false;
-      for (let i = 0; i < pts.length; i++) {
-        for (let j = i + 1; j < pts.length; j++) {
-          const a = pts[i]!;
-          const b = pts[j]!;
-          const dx = b.x - a.x;
-          const dy = b.y - a.y;
-          const ox = minSepX - Math.abs(dx);
-          const oy = minSepY - Math.abs(dy);
-          if (ox > 0 && oy > 0) {
-            moved = true;
-            if (ox / minSepX < oy / minSepY) {
-              const push = Math.ceil(ox / 2) + 1;
-              const dir = dx >= 0 ? 1 : -1;
-              a.x -= dir * push;
-              b.x += dir * push;
-            } else {
-              const push = Math.ceil(oy / 2) + 1;
-              const dir = dy >= 0 ? 1 : -1;
-              a.y -= dir * push;
-              b.y += dir * push;
-            }
-          }
-        }
-      }
-      if (!moved) {
-        break;
-      }
-    }
-
-    const posById = new Map<string, { readonly x: number; readonly y: number }>(
-      pts.map((pt) => [pt.id, { x: pt.x, y: pt.y }]),
-    );
-
-    positionedNodes = slice.nodes.map((sn) =>
-      createTechFlowNode(graph, sn, posById.get(sn.node.id) ?? { x: 0, y: 0 }),
-    );
   }
+
+  // Parent group nodes MUST precede child nodes in React Flow
+  const positionedNodes: AppFlowNode[] = [...groupNodes, ...childNodes];
 
   const result: PositionedGraph = {
     cacheKey,

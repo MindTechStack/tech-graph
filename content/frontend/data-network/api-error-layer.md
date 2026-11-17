@@ -1,6 +1,7 @@
 ---
 id: api-error-layer
 name: Centralized API & Error Layer
+short: "API & Error Layer"
 kind: concept
 status: work
 tags: [architecture, error-handling, http, interceptors, client]

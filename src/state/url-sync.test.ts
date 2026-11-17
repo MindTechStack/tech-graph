@@ -9,44 +9,22 @@ function graphWith(nodes: ReadonlyArray<Pick<TechNodeData, "id" | "map" | "alsoI
 
 describe("url-sync", () => {
   it("parses empty or root hash using defaults", () => {
-    expect(parseUrlHash("")).toEqual({
-      activeMap: "backend",
-      selectedNodeId: null,
-      layoutMode: "grouped",
-    });
-
-    expect(parseUrlHash("#/")).toEqual({
-      activeMap: "backend",
-      selectedNodeId: null,
-      layoutMode: "grouped",
-    });
+    expect(parseUrlHash("")).toEqual({ activeMap: "backend", selectedNodeId: null });
+    expect(parseUrlHash("#/")).toEqual({ activeMap: "backend", selectedNodeId: null });
   });
 
-  it("parses map, nodeId, and layoutMode from hash", () => {
+  it("parses map and nodeId from hash, ignoring old query params", () => {
     expect(parseUrlHash("#/backend/express?view=network")).toEqual({
       activeMap: "backend",
       selectedNodeId: "express",
-      layoutMode: "network",
     });
-
-    expect(parseUrlHash("#/frontend?view=grouped")).toEqual({
-      activeMap: "frontend",
-      selectedNodeId: null,
-      layoutMode: "grouped",
-    });
-
-    expect(parseUrlHash("#/all/docker")).toEqual({
-      activeMap: "all",
-      selectedNodeId: "docker",
-      layoutMode: "grouped",
-    });
+    expect(parseUrlHash("#/all/docker")).toEqual({ activeMap: "all", selectedNodeId: "docker" });
   });
 
-  it("falls back to defaults on invalid map or mode", () => {
-    expect(parseUrlHash("#/unknown-map/express?view=invalid")).toEqual({
+  it("falls back to the default map on an invalid map", () => {
+    expect(parseUrlHash("#/unknown-map/express")).toEqual({
       activeMap: "backend",
       selectedNodeId: "express",
-      layoutMode: "grouped",
     });
   });
 
@@ -60,7 +38,7 @@ describe("url-sync", () => {
       { id: "docker", map: "devops", alsoIn: ["backend"] },
     ]);
     const link = (activeMap: "frontend" | "backend" | "all", selectedNodeId: string) =>
-      resolveDeepLink({ activeMap, selectedNodeId, layoutMode: "grouped" }, graph);
+      resolveDeepLink({ activeMap, selectedNodeId }, graph);
 
     expect(link("backend", "vue").activeMap).toBe("frontend");
     expect(link("backend", "docker").activeMap).toBe("backend");
@@ -71,18 +49,18 @@ describe("url-sync", () => {
   });
 
   it("formats URL hash symmetrically", () => {
-    expect(formatUrlHash("backend", "express", "grouped")).toBe("#/backend/express");
-    expect(formatUrlHash("frontend", null, "network")).toBe("#/frontend?view=network");
+    expect(formatUrlHash("backend", "express")).toBe("#/backend/express");
+    expect(formatUrlHash("frontend", null)).toBe("#/frontend");
   });
 
   it("pushes history only when the state moved away from the URL", () => {
     const parse = (hash: string) => parseUrlHash(hash, { defaultMap: "frontend" });
     const at = (selectedNodeId: string | null) =>
-      ({ activeMap: "frontend", selectedNodeId, layoutMode: "grouped" }) as const;
+      ({ activeMap: "frontend", selectedNodeId }) as const;
 
     expect(planHashUpdate("#/frontend/vue", at("vue"), parse)).toBe("none");
     expect(planHashUpdate("", at(null), parse)).toBe("replace");
-    expect(planHashUpdate("#/frontend/vue?view=grouped", at("vue"), parse)).toBe("replace");
+    expect(planHashUpdate("#/frontend/vue?view=network", at("vue"), parse)).toBe("replace");
     expect(planHashUpdate("#/frontend/vue", at("react"), parse)).toBe("push");
     expect(planHashUpdate("#/frontend/vue", at(null), parse)).toBe("push");
   });

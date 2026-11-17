@@ -1,6 +1,7 @@
 ---
 id: node-debugging
 name: "Debugging Node (VS Code debugger, inspect)"
+short: Debugging Node
 kind: concept
 status: learned
 tags: [debugging, inspector, vs-code, breakpoints, diagnostics]

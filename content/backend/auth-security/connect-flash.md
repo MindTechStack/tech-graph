@@ -1,6 +1,7 @@
 ---
 id: connect-flash
 name: "connect-flash (flash messages)"
+short: connect-flash
 kind: library
 status: learned
 tags: [connect-flash, flash-messages, express, sessions, notifications]

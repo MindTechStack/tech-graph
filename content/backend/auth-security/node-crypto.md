@@ -1,6 +1,7 @@
 ---
 id: node-crypto
 name: "Node crypto (reset tokens)"
+short: Node crypto
 kind: library
 status: learned
 tags: [node-crypto, cryptography, reset-tokens, random-bytes, hashing]

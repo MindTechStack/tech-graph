@@ -21,7 +21,6 @@ export interface ToolbarProps {
 export function Toolbar({ graph }: ToolbarProps) {
   const {
     activeMap,
-    layoutMode,
     showAllEdgeLabels,
     hasActiveFilters,
     isSidebarOpen,
@@ -29,7 +28,6 @@ export function Toolbar({ graph }: ToolbarProps) {
     isErrorPanelOpen,
     isPhoneMapShown,
     setActiveMap,
-    setLayoutMode,
     toggleShowAllEdgeLabels,
     setIsSearchOpen,
     toggleSidebar,
@@ -147,27 +145,6 @@ export function Toolbar({ graph }: ToolbarProps) {
           <span>Search</span>
           <kbd className="toolbar__kbd">{SEARCH_SHORTCUT}</kbd>
         </button>
-
-        {import.meta.env.DEV ? (
-          <div className="toolbar__segmented" role="group" aria-label="Arrange nodes">
-            <button
-              type="button"
-              className={`toolbar__segment ${layoutMode === "grouped" ? "toolbar__segment--active" : ""}`}
-              aria-pressed={layoutMode === "grouped"}
-              onClick={() => setLayoutMode("grouped")}
-            >
-              Grouped
-            </button>
-            <button
-              type="button"
-              className={`toolbar__segment ${layoutMode === "network" ? "toolbar__segment--active" : ""}`}
-              aria-pressed={layoutMode === "network"}
-              onClick={() => setLayoutMode("network")}
-            >
-              Network
-            </button>
-          </div>
-        ) : null}
 
         <button
           type="button"

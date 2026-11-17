@@ -30,11 +30,11 @@ Not a generic roadmap. It is one developer's own map: every node carries a truth
 ## Capabilities and Constraints
 
 - **Maps:** Frontend, Backend, Web Fundamentals, DevOps, AI, and All (overview). Each map has ordered, coloured categories defined in `content/maps.yaml`.
-- **Nodes:** one Markdown file per node at `content/<map>/<category>/<id>.md`; frontmatter holds metadata and relations, the body holds `## Example` and `## Key points`. Template: `content/_TEMPLATE.md`. Registry and contract: `NODES.md`.
+- **Nodes:** one Markdown file per node at `content/<map>/<category>/<id>.md`; frontmatter holds metadata and relations (plus an optional `short` canvas label of up to 20 characters for long names), the body holds `## Example` and `## Key points`. Template: `content/_TEMPLATE.md`. Registry and contract: `NODES.md`.
 - **Kinds:** language, framework, library, tool, service, concept, platform.
 - **Statuses:** `work` (commercial use), `practiced` (personal projects), `learned` (course), `learning` (in progress / open questions), `planned`.
 - **Relations:** labelled edges from a fixed vocabulary (`runs on`, `built on`, `alternative to`, `ORM for`, `replaced by`…); backlinks are derived. A node lives in one home map; links from other maps show it as a **ghost node** that jumps to its home map. `alsoIn` makes a node a full member of several maps.
-- **Views:** Grouped (category atlas: groups packed in category order, ELK layered inside each; the only view visitors see) and Network (free graph, ELK stress; author-only, toggle in dev builds or `?view=network`). Filters by category, status and kind; search across name, tags and `what`; neighbour highlighting; edge labels on hover/selection or always; per-map and per-category progress counts; in-app error panel for invalid content.
+- **View:** one canvas, the category atlas: groups packed in category order, ELK layered inside each. Filters by category, status and kind; search across name, tags and `what`; neighbour highlighting; edge labels on hover/selection or always; per-map and per-category progress counts; in-app error panel for invalid content.
 - **Content rules:** content is English (planning docs are Russian). Validation via Effect Schema; `npm run validate` fails on broken relations, duplicate ids, unknown categories and self-links.
 - **Undecided:** deploy URL/domain (Cloudflare via Alchemy, task E8); whether showcase visitors need any framing beyond the app itself; README (task T7.1) and CI (task T7.3) not written yet.
 

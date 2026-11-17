@@ -78,7 +78,7 @@ function TechNodeComponent({ data }: NodeProps<TechFlowNode>) {
       <span className="tech-node__band" style={{ backgroundColor: categoryColor }} />
 
       <span className="tech-node__body">
-        <span className="tech-node__title">{tech.name}</span>
+        <span className="tech-node__title">{tech.short ?? tech.name}</span>
         <span className="tech-node__meta">
           {isGhost ? `↗ ${homeMapName.toLowerCase()}` : `${tech.kind} · ${tech.status}`}
         </span>

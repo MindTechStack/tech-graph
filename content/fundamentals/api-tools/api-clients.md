@@ -1,6 +1,7 @@
 ---
 id: api-clients
 name: "API Clients: comparison"
+short: API Clients
 kind: concept
 status: learning
 tags: [api-clients, http, rest, postman, testing, openapi]

@@ -1,6 +1,7 @@
 ---
 id: rbac
 name: "Role-Based Access Control"
+short: RBAC
 kind: concept
 status: work
 tags: [rbac, authorization, permissions, security, roles, access-control]

@@ -28,6 +28,23 @@ describe("Effect Schema validation (schema.ts)", () => {
     }
   });
 
+  it("accepts a short canvas label and rejects one too long for a node", () => {
+    const withShort = (short: string) =>
+      validateFrontmatter({
+        id: "express-graphql",
+        name: "GraphQL server (express-graphql / graphql-http)",
+        short,
+        kind: "library",
+        status: "learned",
+        what: "a",
+        why: "b",
+        problem: "c",
+      });
+
+    expect(withShort("GraphQL server").ok).toBe(true);
+    expect(withShort("GraphQL server (express-graphql)").ok).toBe(false);
+  });
+
   it("rejects non-kebab id, invalid kind/status, and invalid URLs with readable errors", () => {
     const badId = validateFrontmatter({
       id: "Not_Kebab",

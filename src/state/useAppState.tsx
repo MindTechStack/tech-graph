@@ -13,7 +13,6 @@ import type { NodeKind, NodeStatus } from "../content/schema";
 import { type ParsedUrlState, parseUrlHash, useUrlSync } from "./url-sync";
 
 export type ActiveMapTab = MapScope;
-export type LayoutMode = "grouped" | "network";
 
 export interface FocusRequest {
   readonly nodeId: string;
@@ -22,7 +21,6 @@ export interface FocusRequest {
 
 export interface AppStateValue {
   readonly activeMap: ActiveMapTab;
-  readonly layoutMode: LayoutMode;
   readonly selectedNodeId: string | null;
   readonly hoveredNodeId: string | null;
   readonly showAllEdgeLabels: boolean;
@@ -35,7 +33,6 @@ export interface AppStateValue {
   readonly isPhoneMapShown: boolean;
   readonly unknownNodeId: string | null;
   readonly setActiveMap: (map: ActiveMapTab) => void;
-  readonly setLayoutMode: (mode: LayoutMode) => void;
   readonly setSelectedNodeId: (nodeId: string | null) => void;
   readonly setHoveredNodeId: (nodeId: string | null) => void;
   readonly toggleShowAllEdgeLabels: () => void;
@@ -59,7 +56,6 @@ const AppStateContext = createContext<AppStateValue | null>(null);
 export interface AppStateProviderProps {
   readonly children: ReactNode;
   readonly initialMap?: ActiveMapTab;
-  readonly initialMode?: LayoutMode;
   readonly hasInitialErrors?: boolean;
   readonly resolveUrlState?: (parsed: ParsedUrlState) => ParsedUrlState;
 }
@@ -85,34 +81,25 @@ function toggleSetItem<T>(set: ReadonlySet<T>, item: T): ReadonlySet<T> {
 export function AppStateProvider({
   children,
   initialMap = "backend",
-  initialMode = "grouped",
   hasInitialErrors = false,
   resolveUrlState,
 }: AppStateProviderProps) {
   const parseHash = useCallback(
     (rawHash: string) => {
-      const parsed = parseUrlHash(rawHash, {
-        defaultMap: initialMap,
-        defaultMode: initialMode,
-      });
+      const parsed = parseUrlHash(rawHash, { defaultMap: initialMap });
       return resolveUrlState ? resolveUrlState(parsed) : parsed;
     },
-    [initialMap, initialMode, resolveUrlState],
+    [initialMap, resolveUrlState],
   );
 
   const initialFromUrl = useMemo<ParsedUrlState>(() => {
     if (typeof window === "undefined") {
-      return {
-        activeMap: initialMap,
-        selectedNodeId: null,
-        layoutMode: initialMode,
-      };
+      return { activeMap: initialMap, selectedNodeId: null };
     }
     return parseHash(window.location.hash);
-  }, [initialMap, initialMode, parseHash]);
+  }, [initialMap, parseHash]);
 
   const [activeMap, setActiveMapState] = useState<ActiveMapTab>(initialFromUrl.activeMap);
-  const [layoutMode, setLayoutMode] = useState<LayoutMode>(initialFromUrl.layoutMode);
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(
     initialFromUrl.selectedNodeId,
   );
@@ -168,7 +155,6 @@ export function AppStateProvider({
         }
         return next.activeMap;
       });
-      setLayoutMode(next.layoutMode);
       setSelectedNodeId(next.selectedNodeId);
       setUnknownNodeId(next.unknownNodeId ?? null);
       if (next.selectedNodeId) {
@@ -181,7 +167,6 @@ export function AppStateProvider({
   useUrlSync({
     activeMap,
     selectedNodeId,
-    layoutMode,
     parseHash,
     onUrlStateChange: handleUrlStateChange,
   });
@@ -323,7 +308,6 @@ export function AppStateProvider({
   const value = useMemo<AppStateValue>(
     () => ({
       activeMap,
-      layoutMode,
       selectedNodeId,
       hoveredNodeId,
       showAllEdgeLabels,
@@ -336,7 +320,6 @@ export function AppStateProvider({
       isPhoneMapShown,
       unknownNodeId,
       setActiveMap,
-      setLayoutMode,
       setSelectedNodeId,
       setHoveredNodeId,
       toggleShowAllEdgeLabels,
@@ -356,7 +339,6 @@ export function AppStateProvider({
     }),
     [
       activeMap,
-      layoutMode,
       selectedNodeId,
       hoveredNodeId,
       showAllEdgeLabels,

@@ -1,6 +1,7 @@
 ---
 id: pdfkit
 name: "PDFKit (file generation)"
+short: PDFKit
 kind: library
 status: learned
 tags: [pdf, document-generation, streaming, invoices, nodejs]

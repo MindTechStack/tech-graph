@@ -1,6 +1,7 @@
 ---
 id: mcp
 name: "MCP (Model Context Protocol)"
+short: MCP
 kind: concept
 status: work
 tags: [ai, mcp, protocol, tools, json-rpc, agents]

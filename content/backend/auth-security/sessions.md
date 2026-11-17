@@ -1,6 +1,7 @@
 ---
 id: sessions
 name: "Sessions (express-session)"
+short: Sessions
 kind: concept
 status: learned
 tags: [sessions, express-session, cookies, authentication, state]

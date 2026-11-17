@@ -1,6 +1,7 @@
 ---
 id: bcrypt
 name: "bcrypt (password hashing)"
+short: bcrypt
 kind: library
 status: learned
 tags: [bcrypt, password-hashing, security, cryptography, salts]

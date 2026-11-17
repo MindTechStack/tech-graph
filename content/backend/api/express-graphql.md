@@ -1,6 +1,7 @@
 ---
 id: express-graphql
 name: "GraphQL server (express-graphql / graphql-http)"
+short: GraphQL server
 kind: library
 status: learned
 tags: [graphql, express, middleware, api, graphiql]

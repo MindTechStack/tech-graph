@@ -18,7 +18,7 @@ describe("ELK layout engine (src/layout/elk.ts)", () => {
   it("lays out compound category groups and tech nodes in grouped mode without overlap", async () => {
     const graph = await loadGraphFromFs(process.cwd());
     const backendSlice = getMapGraphSlice(graph, "backend");
-    const positioned = await computeGraphLayout(graph, backendSlice, "grouped");
+    const positioned = await computeGraphLayout(graph, backendSlice);
 
     const groups = positioned.nodes.filter((n) => n.type === "categoryGroup");
     const techNodes = positioned.nodes.filter((n) => n.type === "tech");
@@ -48,7 +48,7 @@ describe("ELK layout engine (src/layout/elk.ts)", () => {
 
   it("sizes every group to fit its far-view title without overlapping other groups", async () => {
     const graph = await loadGraphFromFs(process.cwd());
-    const positioned = await computeGraphLayout(graph, getMapGraphSlice(graph, "all"), "grouped");
+    const positioned = await computeGraphLayout(graph, getMapGraphSlice(graph, "all"));
     const boxes = positioned.nodes
       .filter((n) => n.type === "categoryGroup")
       .map((n) => ({
@@ -73,25 +73,19 @@ describe("ELK layout engine (src/layout/elk.ts)", () => {
     }
   });
 
-  it("lays out flat graph in network (stress) mode without node overlaps and caches result", async () => {
+  it("caches layouts and marks which edges stay inside one group", async () => {
     const graph = await loadGraphFromFs(process.cwd());
     const allSlice = getMapGraphSlice(graph, "all");
 
-    const firstRun = await computeGraphLayout(graph, allSlice, "network");
-    const secondRun = await computeGraphLayout(graph, allSlice, "network");
+    const firstRun = await computeGraphLayout(graph, allSlice);
+    expect(await computeGraphLayout(graph, allSlice)).toBe(firstRun);
 
-    // Cache hit returns the exact same object reference
-    expect(secondRun).toBe(firstRun);
-    expect(firstRun.nodes.every((n) => n.type === "tech")).toBe(true);
-
-    for (let i = 0; i < firstRun.nodes.length; i++) {
-      for (let j = i + 1; j < firstRun.nodes.length; j++) {
-        const a = firstRun.nodes[i]!;
-        const b = firstRun.nodes[j]!;
-        const overlapX = Math.abs(a.position.x - b.position.x) < TECH_NODE_WIDTH;
-        const overlapY = Math.abs(a.position.y - b.position.y) < TECH_NODE_HEIGHT;
-        expect(overlapX && overlapY).toBe(false);
-      }
+    const parentOf = new Map(firstRun.nodes.map((n) => [n.id, n.parentId]));
+    const withinGroup = firstRun.edges.filter((e) => e.data?.isWithinGroup);
+    expect(withinGroup.length).toBeGreaterThan(0);
+    expect(withinGroup.length).toBeLessThan(firstRun.edges.length);
+    for (const edge of firstRun.edges) {
+      expect(edge.data?.isWithinGroup).toBe(parentOf.get(edge.source) === parentOf.get(edge.target));
     }
   });
 });

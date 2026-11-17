@@ -1,6 +1,7 @@
 ---
 id: express-validator
 name: "express-validator (validation & sanitization)"
+short: express-validator
 kind: library
 status: learned
 tags: [validation, sanitization, express, middleware, security]

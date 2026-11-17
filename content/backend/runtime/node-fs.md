@@ -1,6 +1,7 @@
 ---
 id: node-fs
 name: "File System & Path (fs, fs/promises, path)"
+short: "File System & Path"
 kind: library
 status: learned
 tags: [file-system, path, io, asynchronous, promises]

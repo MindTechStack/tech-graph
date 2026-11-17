@@ -1,6 +1,7 @@
 ---
 id: env-variables
 name: "Environment Variables (dotenv)"
+short: Env Variables
 kind: concept
 status: learned
 tags: [configuration, secrets, dotenv, environment, twelve-factor]

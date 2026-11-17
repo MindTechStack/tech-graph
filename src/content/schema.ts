@@ -63,9 +63,18 @@ export const LinkSchema = Schema.Struct({
 });
 export type NodeLink = typeof LinkSchema.Type;
 
+export const SHORT_NAME_MAX_LENGTH = 20;
+
 export const NodeFrontmatterSchema = Schema.Struct({
   id: KebabIdSchema,
   name: NonEmptyTrimmedStringSchema,
+  short: Schema.optional(
+    NonEmptyTrimmedStringSchema.check(
+      Schema.isMaxLength(SHORT_NAME_MAX_LENGTH, {
+        message: `Expected a canvas label of at most ${SHORT_NAME_MAX_LENGTH} characters`,
+      }),
+    ),
+  ),
   kind: NodeKindSchema,
   status: NodeStatusSchema,
   core: Schema.Boolean.pipe(Schema.withDecodingDefault(Effect.succeed(false))),

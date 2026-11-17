@@ -62,9 +62,7 @@ export function Sidebar({ graph }: SidebarProps) {
     filters,
     hasActiveFilters,
     isSidebarOpen,
-    layoutMode,
     showAllEdgeLabels,
-    setLayoutMode,
     toggleShowAllEdgeLabels,
     toggleCategoryFilter,
     toggleStatusFilter,
@@ -353,23 +351,6 @@ export function Sidebar({ graph }: SidebarProps) {
             </h3>
           </div>
           <div className="sidebar__rows">
-            {(import.meta.env.DEV
-              ? ([
-                  ["grouped", "Grouped"],
-                  ["network", "Network"],
-                ] as const)
-              : []
-            ).map(([mode, label]) => (
-              <button
-                key={mode}
-                type="button"
-                className={`sidebar__filter-row sidebar__filter-row--phone-only ${layoutMode === mode ? "sidebar__filter-row--active" : ""}`}
-                aria-pressed={layoutMode === mode}
-                onClick={() => setLayoutMode(mode)}
-              >
-                <span className="sidebar__filter-label">{label}</span>
-              </button>
-            ))}
             <button
               type="button"
               className={`sidebar__filter-row ${showAllEdgeLabels ? "sidebar__filter-row--active" : ""}`}

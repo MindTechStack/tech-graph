@@ -1,6 +1,7 @@
 ---
 id: code-splitting
 name: "Code Splitting & Bundle Optimization"
+short: Code Splitting
 kind: concept
 status: work
 tags: [bundle-size, dynamic-import, chunking, tree-shaking, performance]

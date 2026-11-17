@@ -138,7 +138,6 @@ export function App() {
   return (
     <AppStateProvider
       initialMap="core"
-      initialMode="grouped"
       hasInitialErrors={import.meta.env.DEV && graph.errors.length > 0}
       resolveUrlState={resolveUrlState}
     >

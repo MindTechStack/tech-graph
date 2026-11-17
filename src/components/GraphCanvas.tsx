@@ -111,18 +111,14 @@ function flowBox(nodes: readonly AppFlowNode[], nodeId: string) {
 }
 
 function layoutBounds(nodes: readonly AppFlowNode[]) {
-  const topLevel = nodes.filter((n) => !n.parentId);
-  if (topLevel.length === 0) {
+  const groups = nodes.filter((n) => n.type === "categoryGroup");
+  if (groups.length === 0) {
     return null;
   }
-  const minX = Math.min(...topLevel.map((n) => n.position.x));
-  const minY = Math.min(...topLevel.map((n) => n.position.y));
-  const maxX = Math.max(
-    ...topLevel.map((n) => n.position.x + (n.width ?? Number(n.style?.width ?? 0))),
-  );
-  const maxY = Math.max(
-    ...topLevel.map((n) => n.position.y + (n.height ?? Number(n.style?.height ?? 0))),
-  );
+  const minX = Math.min(...groups.map((n) => n.position.x));
+  const minY = Math.min(...groups.map((n) => n.position.y));
+  const maxX = Math.max(...groups.map((n) => n.position.x + Number(n.style?.width)));
+  const maxY = Math.max(...groups.map((n) => n.position.y + Number(n.style?.height)));
   return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
 }
 
@@ -213,7 +209,6 @@ export interface GraphCanvasProps {
 function GraphCanvasInner({ graph }: GraphCanvasProps) {
   const {
     activeMap,
-    layoutMode,
     selectedNodeId,
     hoveredNodeId,
     showAllEdgeLabels,
@@ -246,8 +241,8 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
     [graph, activeMap, filters],
   );
   const layoutKey = useMemo(
-    () => buildLayoutCacheKey(slice, layoutMode, filterSignature),
-    [slice, layoutMode, filterSignature],
+    () => buildLayoutCacheKey(slice, filterSignature),
+    [slice, filterSignature],
   );
   const hasLayoutFailed = failedLayoutKey === layoutKey;
   const isLayoutPending = !hasLayoutFailed && positioned?.cacheKey !== layoutKey;
@@ -255,7 +250,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
   useEffect(() => {
     let cancelled = false;
 
-    computeGraphLayout(graph, slice, layoutMode, filterSignature)
+    computeGraphLayout(graph, slice, filterSignature)
       .then((result) => {
         if (!cancelled) {
           setPositioned(result);
@@ -272,7 +267,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
     return () => {
       cancelled = true;
     };
-  }, [graph, slice, layoutMode, filterSignature, layoutKey, layoutAttempt]);
+  }, [graph, slice, filterSignature, layoutKey, layoutAttempt]);
 
   const retryLayout = useCallback(() => {
     setFailedLayoutKey(null);
@@ -560,6 +555,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
 
       return {
         ...edge,
+        hidden: isFarView && !edge.data?.isWithinGroup && !isHighlighted,
         label: showLabel ? edge.data?.rawLabel : undefined,
         className: isHighlighted ? "is-highlighted" : isDimmed ? "is-dimmed" : undefined,
         zIndex: isHighlighted ? HIGHLIGHTED_EDGE_Z : RESTING_EDGE_Z,

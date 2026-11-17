@@ -1,6 +1,7 @@
 ---
 id: http-files
 name: ".http files (VS Code REST Client)"
+short: ".http files"
 kind: tool
 status: planned
 tags: [http-files, rest-client, vscode, api-testing, git]

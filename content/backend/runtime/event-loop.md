@@ -1,6 +1,7 @@
 ---
 id: event-loop
 name: "Event Loop & Non-blocking I/O"
+short: Event Loop
 kind: concept
 status: learned
 tags: [event-loop, concurrency, libuv, asynchronous, non-blocking]

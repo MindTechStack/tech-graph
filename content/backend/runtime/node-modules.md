@@ -1,6 +1,7 @@
 ---
 id: node-modules
 name: "Modules (CommonJS vs ES Modules)"
+short: CommonJS vs ESM
 kind: concept
 status: learned
 tags: [modules, commonjs, esm, imports, modularity]

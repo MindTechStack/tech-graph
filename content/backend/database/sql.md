@@ -1,6 +1,7 @@
 ---
 id: sql
 name: "SQL (relational databases)"
+short: SQL
 kind: concept
 status: learned
 tags: [sql, relational, database, acid, queries]

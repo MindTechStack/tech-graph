@@ -1,6 +1,7 @@
 ---
 id: rendering-strategies
 name: "Rendering: CSR / SSR / SSG / Islands"
+short: Rendering Strategies
 kind: concept
 status: learning
 tags: [rendering, csr, ssr, ssg, islands, performance]

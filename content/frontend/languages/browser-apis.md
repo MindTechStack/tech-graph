@@ -1,6 +1,7 @@
 ---
 id: browser-apis
 name: Browser APIs (DOM, Storage, Events)
+short: Browser APIs
 kind: concept
 status: work
 tags: [dom, web-storage, events, observers, abort-controller]
