@@ -4,6 +4,7 @@ import type { CategoryConfig, MapConfig, MapId, MapsFile, NodeKind, NodeStatus }
 export type MapScope = MapId | "all" | "core";
 
 export const CORE_SCOPE_LABEL = "Main stack";
+export const NEUTRAL_CATEGORY_COLOR = "var(--ink-muted)";
 
 export function isCrossMapScope(scope: MapScope): scope is "all" | "core" {
   return scope === "all" || scope === "core";

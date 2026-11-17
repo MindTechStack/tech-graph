@@ -13,7 +13,6 @@ import {
   useStore,
   useStoreApi,
 } from "@xyflow/react";
-import "@xyflow/react/dist/style.css";
 import {
   type KeyboardEvent as ReactKeyboardEvent,
   useCallback,
@@ -665,6 +664,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
           edges={displayEdges}
           nodeTypes={NODE_TYPES}
           edgesFocusable={false}
+          nodesDraggable={false}
           zIndexMode="manual"
           connectionMode={ConnectionMode.Loose}
           ariaLabelConfig={ARIA_LABEL_CONFIG}

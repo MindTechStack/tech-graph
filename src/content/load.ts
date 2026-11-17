@@ -1,4 +1,4 @@
-import { buildKnowledgeGraph, type KnowledgeGraph } from "./graph";
+import { buildKnowledgeGraph, type KnowledgeGraph, NEUTRAL_CATEGORY_COLOR } from "./graph";
 import {
   type ContentDiagnostic,
   parseMapsYaml,
@@ -25,7 +25,7 @@ const FALLBACK_MAPS_FILE: MapsFile = {
           id: "general",
           name: "General",
           description: "Fallback category",
-          color: "#94a3b8",
+          color: NEUTRAL_CATEGORY_COLOR,
           order: 1,
         },
       ],

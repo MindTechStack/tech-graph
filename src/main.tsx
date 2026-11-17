@@ -4,6 +4,7 @@ import { App } from "./App";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import "@fontsource-variable/host-grotesk";
 import "@fontsource-variable/geist-mono";
+import "@xyflow/react/dist/style.css";
 import "./styles/index.css";
 
 const rootElement = document.getElementById("root");

@@ -8,6 +8,7 @@ import {
   type KnowledgeGraph,
   type MapGraphSlice,
   type MapSliceNode,
+  NEUTRAL_CATEGORY_COLOR,
 } from "../content/graph";
 import type { Rect } from "./rect";
 
@@ -77,7 +78,7 @@ function buildGroupBuckets(graph: KnowledgeGraph, slice: MapGraphSlice): readonl
         bucket = {
           groupId,
           label: `↗ ${homeMapConfig?.name ?? node.map}`,
-          color: "#63635d",
+          color: NEUTRAL_CATEGORY_COLOR,
           order: 1000 + (homeMapConfig?.order ?? 99),
           isGhostGroup: true,
           items: [],
@@ -94,7 +95,7 @@ function buildGroupBuckets(graph: KnowledgeGraph, slice: MapGraphSlice): readonl
     const label = spansMaps
       ? `${mapConfig?.name ?? node.map} · ${categoryConfig?.name ?? node.category}`
       : (categoryConfig?.name ?? node.category);
-    const color = categoryConfig?.color ?? "#94a3b8";
+    const color = categoryConfig?.color ?? NEUTRAL_CATEGORY_COLOR;
     const order = (mapConfig?.order ?? 1) * 100 + (categoryConfig?.order ?? 1);
 
     let bucket = buckets.get(groupKey);
@@ -140,7 +141,7 @@ function createTechFlowNode(
       isGhost,
       categoryName,
       homeMapName,
-      categoryColor: categoryConfig?.color ?? "#94a3b8",
+      categoryColor: categoryConfig?.color ?? NEUTRAL_CATEGORY_COLOR,
       isSelected: false,
       isDimmed: false,
     },

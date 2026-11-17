@@ -1,6 +1,6 @@
 :root {
   color-scheme: light;
-  accent-color: #1f3bd6;
+  accent-color: var(--accent);
 
   --paper: #f6f6f3;
   --paper-sunk: #ecece8;
@@ -85,7 +85,7 @@ body,
 }
 
 ::selection {
-  background: rgba(31, 59, 214, 0.18);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
   color: var(--ink);
 }
 
@@ -1088,12 +1088,28 @@ body,
 }
 
 .react-flow__node:not(:focus-visible) .tech-node--dimmed.tech-node--status-practiced {
-  background: color-mix(in srgb, var(--ink-2) 60%, var(--paper));
+  background: color-mix(in srgb, var(--ink-2) 90%, var(--paper));
 }
 
-.react-flow__node:not(:focus-visible) .tech-node--dimmed :is(.tech-node__band, .tech-node__body),
+.react-flow__node:not(:focus-visible) .tech-node--dimmed .tech-node__band,
 .react-flow__node:not(:focus-visible) .tech-node--dimmed::after {
   opacity: 0.5;
+}
+
+.react-flow__node:not(:focus-visible) .tech-node--dimmed :is(.tech-node__title, .tech-node__meta) {
+  color: color-mix(in srgb, var(--ink) 60%, var(--paper));
+}
+
+.react-flow__node:not(:focus-visible)
+  .tech-node--dimmed.tech-node--status-work
+  :is(.tech-node__title, .tech-node__meta) {
+  color: color-mix(in srgb, var(--on-ink) 70%, var(--ink));
+}
+
+.react-flow__node:not(:focus-visible)
+  .tech-node--dimmed.tech-node--status-practiced
+  :is(.tech-node__title, .tech-node__meta) {
+  color: color-mix(in srgb, #ffffff 90%, var(--ink-2));
 }
 
 .tech-node__band {
@@ -1109,12 +1125,12 @@ body,
   flex: 1;
   min-width: 0;
   padding: 0 16px 0 14px;
-  transition: opacity var(--ease-state);
 }
 
 .tech-node__meta {
   font: var(--type-mono-sm);
   color: var(--ink-muted);
+  transition: color var(--ease-state);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1122,6 +1138,7 @@ body,
 
 .tech-node__title {
   font: var(--type-name);
+  transition: color var(--ease-state);
   letter-spacing: -0.01em;
   white-space: nowrap;
   overflow: hidden;
@@ -1189,6 +1206,13 @@ body,
 .react-flow__edge.is-dimmed,
 .react-flow__edge.is-dimmed .react-flow__edge-textwrapper {
   pointer-events: none;
+}
+
+@media (hover: none) {
+  .react-flow__edge,
+  .react-flow__edge .react-flow__edge-textwrapper {
+    pointer-events: none;
+  }
 }
 
 .graph-canvas--far .tech-node__meta,
