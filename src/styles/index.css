@@ -429,6 +429,10 @@ body,
   color: var(--accent);
 }
 
+.toolbar__tab:focus-visible {
+  outline-offset: -2px;
+}
+
 .toolbar__tab--active {
   color: var(--ink);
   border-bottom-color: var(--accent);
@@ -1089,7 +1093,7 @@ body,
 
 .react-flow__node:not(:focus-visible) .tech-node--dimmed :is(.tech-node__band, .tech-node__body),
 .react-flow__node:not(:focus-visible) .tech-node--dimmed::after {
-  opacity: 0.35;
+  opacity: 0.5;
 }
 
 .tech-node__band {
@@ -1313,6 +1317,17 @@ body,
 
 .detail-panel__map-link:hover {
   text-decoration-color: currentColor;
+}
+
+.detail-panel__place .detail-panel__map-link {
+  padding-block: calc((44px - 1lh) / 2);
+  margin-block: calc((1lh - 44px) / 2);
+}
+
+.detail-panel__top-row .detail-panel__icon-btn {
+  width: 44px;
+  height: 44px;
+  margin-block: -6px;
 }
 
 .detail-panel__scroll {

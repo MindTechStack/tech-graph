@@ -348,7 +348,7 @@ A 224 × 64 block with square corners. The fill and edge follow the ink density 
 - **Hover:** a 1px accent outline at a 2px offset.
 - **Selected:** a 2px accent outline at a 2px offset. The node's own fill never changes. While a node is selected or hovered, it and its neighbours lift above the edge layer, so no relation line crosses a name.
 - **Ghost:** a paper fill, a 1px dashed Ink Muted edge, and line 2 reads `↗ backend`.
-- **Dimmed:** the name, meta line, band and `learning` tick drop to 35% opacity over 120ms, so names still read as context. The fill steps toward paper without leaving its rank on the ramp: `work` mixes 80% ink into paper, `practiced` 60% Ink 2, and outlines fade to 35%. A dimmed node never looks lighter than an undimmed node of a lower status.
+- **Dimmed:** the name, meta line, band and `learning` tick drop to 50% opacity over 120ms, so names still read as context. The fill steps toward paper without leaving its rank on the ramp: `work` mixes 80% ink into paper, `practiced` 60% Ink 2, and outlines fade to 35%. A dimmed node never looks lighter than an undimmed node of a lower status.
 - **Focus-visible:** the same 2px accent outline at a 4px offset (8px wide in the far view). Enter or Space opens the entry.
 - Connection handles are hidden until hover.
 

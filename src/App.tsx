@@ -21,7 +21,7 @@ function useIsCoveredByOverlay(): boolean {
   return useIsPhoneCardOpen() || isSearchOpen || isErrorPanelOpen;
 }
 
-function SkipLink() {
+function SkipLink({ children }: { readonly children: string }) {
   const isCovered = useIsCoveredByOverlay();
 
   return (
@@ -31,7 +31,7 @@ function SkipLink() {
       inert={isCovered}
       onClick={() => document.getElementById(MAIN_ID)?.focus()}
     >
-      Skip to content
+      {children}
     </button>
   );
 }
@@ -98,7 +98,10 @@ function Workspace({ graph }: { readonly graph: KnowledgeGraph }) {
   return (
     <div className="app-workspace" inert={isSearchOpen || isErrorPanelOpen}>
       {isSidebarOpen ? (
-        <div className="sidebar-scrim" aria-hidden="true" onClick={toggleSidebar} />
+        <>
+          <div className="sidebar-scrim" aria-hidden="true" onClick={toggleSidebar} />
+          <SkipLink>Skip filters</SkipLink>
+        </>
       ) : null}
       <Sidebar graph={graph} />
       <main id={MAIN_ID} className="app-main" tabIndex={-1} inert={isPhoneCardOpen}>
@@ -140,7 +143,7 @@ export function App() {
       resolveUrlState={resolveUrlState}
     >
       <div className="app-shell">
-        <SkipLink />
+        <SkipLink>Skip to content</SkipLink>
         <AuthorBar />
         <Toolbar graph={graph} />
         <Workspace graph={graph} />
