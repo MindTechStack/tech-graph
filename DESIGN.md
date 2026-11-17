@@ -104,9 +104,6 @@ components:
   map-tab-active:
     textColor: "{colors.ink}"
     underline: "2px {colors.accent}"
-  view-toggle-active:
-    textColor: "{colors.ink}"
-    underline: "2px {colors.ink}"
   sidebar:
     backgroundColor: "{colors.paper}"
     width: "240px"
