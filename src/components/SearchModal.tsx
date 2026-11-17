@@ -171,6 +171,14 @@ export function SearchModal({ graph }: SearchModalProps) {
       }
     }
     scored.sort((a, b) => b.score - a.score || a.node.name.localeCompare(b.node.name));
+    if (scored.length === 0) {
+      const suggestions = buildSuggestions(graph, recentIds);
+      return {
+        sections: suggestions,
+        results: suggestions.flatMap((section) => section.nodes),
+        matchCount: 0,
+      };
+    }
     const matches = scored.slice(0, MAX_RESULTS).map((item) => item.node);
     return {
       sections: [{ title: null, nodes: matches }],
@@ -179,9 +187,11 @@ export function SearchModal({ graph }: SearchModalProps) {
     };
   }, [graph, query, activeMap, recentIds]);
 
+  const hasNoMatches = query.trim() !== "" && matchCount === 0;
+
   useEffect(() => {
-    setActiveIndex(0);
-  }, [query]);
+    setActiveIndex(hasNoMatches ? -1 : 0);
+  }, [query, hasNoMatches]);
 
   const activeOptionId = results[activeIndex] ? optionId(results[activeIndex]) : undefined;
 
@@ -258,7 +268,7 @@ export function SearchModal({ graph }: SearchModalProps) {
     if (event.key === "ArrowUp") {
       event.preventDefault();
       if (results.length > 0) {
-        setActiveIndex((prev) => (prev - 1 + results.length) % results.length);
+        setActiveIndex((prev) => (prev <= 0 ? results.length : prev) - 1);
       }
       return;
     }
@@ -313,18 +323,28 @@ export function SearchModal({ graph }: SearchModalProps) {
         </div>
 
         <div className="search-modal__results" id={RESULTS_ID} role="listbox">
-          {results.length === 0 ? (
+          {hasNoMatches ? (
             <div className="search-modal__empty">
-              {query.trim() ? (
-                <>
-                  No nodes match <strong>"{query.trim()}"</strong>. Try part of a name or a tag.
-                </>
-              ) : (
-                "No nodes loaded."
-              )}
+              <p>
+                No nodes match <strong>"{query.trim()}"</strong>. Try part of a name or a #tag
+                {results.length > 0 ? ", or open one of the topics below" : ""}.
+              </p>
+              <button
+                type="button"
+                className="search-modal__clear"
+                onClick={() => {
+                  setQuery("");
+                  inputRef.current?.focus();
+                }}
+              >
+                Clear search
+              </button>
             </div>
-          ) : (
+          ) : null}
+          {results.length > 0 ? (
             renderSections()
+          ) : query.trim() ? null : (
+            <div className="search-modal__empty">No nodes loaded.</div>
           )}
           {matchCount > results.length ? (
             <p className="search-modal__more">

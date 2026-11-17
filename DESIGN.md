@@ -246,7 +246,7 @@ The code is monochrome with one accent: keywords in ink at 600 weight, strings a
 - **Name** (600, 15/20, −0.01em): node names on the canvas and in search results. Truncates with an ellipsis on the canvas.
 - **Prose** (400, 15/24): what / why / problem, the Markdown body and key points. In the entry's content column, lines run about 55–62 characters.
 - **Control** (500, 13/16): tabs, toggles, filter rows, relation names, buttons.
-- **Label** (600, 13/20, sentence case): the hanging-column labels ("What", "Why", "Problem", "Example", "Connections") and sidebar section heads. Labels are not uppercase and not tracked.
+- **Label** (600, 13/20, sentence case): the hanging-column labels ("What", "Why", "Problem", "Example", "Connections") and sidebar section heads. Labels are not uppercase and not tracked. These `h3` elements are labels, not headings that must outsize the text: their rank comes from weight, the hanging column and the hairline above them, so they stay at 13px beside 15px Prose and the 80px column keeps "Connections" on one line.
 - **Mono** (400, 12/16): relation verbs, ids, kinds, status values, tags, counts and kbd hints. Counts use tabular figures.
 - **Mono Code** (400, 12.5/20): code blocks and inline code.
 - **Mono Small** (400, 11/16): the kind · status line on a canvas node and edge labels.
