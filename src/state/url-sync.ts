@@ -7,6 +7,7 @@ export interface ParsedUrlState {
   readonly activeMap: ActiveMapTab;
   readonly selectedNodeId: string | null;
   readonly layoutMode: LayoutMode;
+  readonly unknownNodeId?: string;
 }
 
 const VALID_MAPS = new Set<string>([...MAP_IDS, "all", "core"]);
@@ -34,7 +35,7 @@ export function resolveDeepLink(parsed: ParsedUrlState, graph: KnowledgeGraph): 
   }
   const node = graph.nodesById.get(parsed.selectedNodeId);
   if (!node) {
-    return { ...parsed, selectedNodeId: null };
+    return { ...parsed, selectedNodeId: null, unknownNodeId: parsed.selectedNodeId };
   }
   if (isNodeDirectlyInMap(node, parsed.activeMap)) {
     return parsed;

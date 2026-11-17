@@ -22,6 +22,11 @@ export function useIsPhoneLayout(): boolean {
   );
 }
 
+export function useIsPhoneCardOpen(): boolean {
+  const { selectedNodeId } = useAppState();
+  return useIsPhoneLayout() && selectedNodeId !== null;
+}
+
 function StatusKey() {
   return (
     <details className="phone-index__key">

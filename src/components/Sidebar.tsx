@@ -9,6 +9,7 @@ import {
 import { NODE_KINDS, NODE_STATUSES, type NodeKind, type NodeStatus } from "../content/schema";
 import { useAppState } from "../state/useAppState";
 import { Icon } from "./Icon";
+import { useIsPhoneCardOpen } from "./PhoneIndex";
 import { STATUS_META, StatusSwatch } from "./TechNode";
 
 export interface SidebarProps {
@@ -66,6 +67,7 @@ export function Sidebar({ graph }: SidebarProps) {
     resetFilters,
     toggleSidebar,
   } = useAppState();
+  const isPhoneCardOpen = useIsPhoneCardOpen();
 
   const mapNodes = useMemo(
     () => graph.nodes.filter((node) => isNodeDirectlyInMap(node, activeMap)),
@@ -149,7 +151,12 @@ export function Sidebar({ graph }: SidebarProps) {
         : (graph.mapsById.get(activeMap)?.name ?? activeMap);
 
   return (
-    <aside id="filters-sidebar" className="sidebar" aria-label="Filters and progress">
+    <aside
+      id="filters-sidebar"
+      className="sidebar"
+      aria-label="Filters and progress"
+      inert={isPhoneCardOpen}
+    >
       <div className="sidebar__header">
         <h2 className="sidebar__title">{scopeName}</h2>
         {hasActiveFilters ? (

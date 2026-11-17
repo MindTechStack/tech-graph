@@ -33,6 +33,7 @@ export interface AppStateValue {
   readonly isSidebarOpen: boolean;
   readonly isErrorPanelOpen: boolean;
   readonly isPhoneMapShown: boolean;
+  readonly unknownNodeId: string | null;
   readonly setActiveMap: (map: ActiveMapTab) => void;
   readonly setLayoutMode: (mode: LayoutMode) => void;
   readonly setSelectedNodeId: (nodeId: string | null) => void;
@@ -50,6 +51,7 @@ export interface AppStateValue {
   readonly toggleSidebar: () => void;
   readonly setIsErrorPanelOpen: (open: boolean) => void;
   readonly setIsPhoneMapShown: (shown: boolean) => void;
+  readonly dismissUnknownNode: () => void;
 }
 
 const AppStateContext = createContext<AppStateValue | null>(null);
@@ -124,6 +126,9 @@ export function AppStateProvider({
   );
   const [isErrorPanelOpen, setIsErrorPanelOpen] = useState<boolean>(hasInitialErrors);
   const [isPhoneMapShown, setIsPhoneMapShown] = useState<boolean>(false);
+  const [unknownNodeId, setUnknownNodeId] = useState<string | null>(
+    initialFromUrl.unknownNodeId ?? null,
+  );
 
   const requestCenterNode = useCallback((nodeId: string) => {
     setFocusRequest((prev) => ({
@@ -142,6 +147,7 @@ export function AppStateProvider({
       });
       setLayoutMode(next.layoutMode);
       setSelectedNodeId(next.selectedNodeId);
+      setUnknownNodeId(next.unknownNodeId ?? null);
       if (next.selectedNodeId) {
         requestCenterNode(next.selectedNodeId);
       }
@@ -275,6 +281,8 @@ export function AppStateProvider({
     setIsSidebarOpen((prev) => !prev);
   }, []);
 
+  const dismissUnknownNode = useCallback(() => setUnknownNodeId(null), []);
+
   const filters = useMemo<Required<GraphFilterCriteria>>(
     () => ({
       categories,
@@ -302,6 +310,7 @@ export function AppStateProvider({
       isSidebarOpen,
       isErrorPanelOpen,
       isPhoneMapShown,
+      unknownNodeId,
       setActiveMap,
       setLayoutMode,
       setSelectedNodeId,
@@ -319,6 +328,7 @@ export function AppStateProvider({
       toggleSidebar,
       setIsErrorPanelOpen,
       setIsPhoneMapShown,
+      dismissUnknownNode,
     }),
     [
       activeMap,
@@ -333,6 +343,7 @@ export function AppStateProvider({
       isSidebarOpen,
       isErrorPanelOpen,
       isPhoneMapShown,
+      unknownNodeId,
       setActiveMap,
       toggleShowAllEdgeLabels,
       toggleCategoryFilter,
@@ -343,6 +354,7 @@ export function AppStateProvider({
       navigateToNode,
       requestCenterNode,
       toggleSidebar,
+      dismissUnknownNode,
     ],
   );
 

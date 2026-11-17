@@ -66,6 +66,8 @@ describe("url-sync", () => {
     expect(link("backend", "docker").activeMap).toBe("backend");
     expect(link("all", "vue").activeMap).toBe("all");
     expect(link("frontend", "renamed-node").selectedNodeId).toBeNull();
+    expect(link("frontend", "renamed-node").unknownNodeId).toBe("renamed-node");
+    expect(link("frontend", "vue").unknownNodeId).toBeUndefined();
   });
 
   it("formats URL hash symmetrically", () => {

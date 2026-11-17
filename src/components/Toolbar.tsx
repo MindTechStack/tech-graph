@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { CORE_SCOPE_LABEL, isNodeDirectlyInMap, type KnowledgeGraph } from "../content/graph";
 import { type ActiveMapTab, useAppState } from "../state/useAppState";
 import { Icon } from "./Icon";
+import { useIsPhoneCardOpen } from "./PhoneIndex";
 
 const SEARCH_SHORTCUT =
   typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.userAgent)
@@ -34,6 +35,7 @@ export function Toolbar({ graph }: ToolbarProps) {
     setIsErrorPanelOpen,
     setIsPhoneMapShown,
   } = useAppState();
+  const isPhoneCardOpen = useIsPhoneCardOpen();
 
   const mapTabs = useMemo(() => {
     const items: Array<{
@@ -98,7 +100,7 @@ export function Toolbar({ graph }: ToolbarProps) {
   const warningCount = graph.warnings.length;
 
   return (
-    <header className="toolbar" inert={isSearchOpen || isErrorPanelOpen}>
+    <header className="toolbar" inert={isSearchOpen || isErrorPanelOpen || isPhoneCardOpen}>
       <div className="toolbar__left">
         <button
           id="filters-toggle"

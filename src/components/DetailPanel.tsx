@@ -7,6 +7,7 @@ import type { TechNodeData } from "../content/parse";
 import { useAppState } from "../state/useAppState";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { Icon } from "./Icon";
+import { useIsPhoneLayout } from "./PhoneIndex";
 import { STATUS_META, StatusSwatch } from "./TechNode";
 
 export interface DetailPanelProps {
@@ -162,6 +163,7 @@ export function DetailPanel({ graph }: DetailPanelProps) {
     [graph.nodesById, selectedNodeId],
   );
   const titleRef = useCardFocus(node);
+  const isPhoneLayout = useIsPhoneLayout();
 
   const notice = (
     <p className="visually-hidden" role="status">
@@ -195,7 +197,12 @@ export function DetailPanel({ graph }: DetailPanelProps) {
   return (
     <>
       {notice}
-      <aside className="detail-panel" aria-label={`Details for ${node.name}`}>
+      <section
+        className="detail-panel"
+        role={isPhoneLayout ? "dialog" : "complementary"}
+        aria-modal={isPhoneLayout || undefined}
+        aria-label={`Details for ${node.name}`}
+      >
         <header className="detail-panel__header">
           <div className="detail-panel__top-row">
             <h2 ref={titleRef} className="detail-panel__title" tabIndex={-1}>
@@ -349,7 +356,7 @@ export function DetailPanel({ graph }: DetailPanelProps) {
             </EntryRow>
           ) : null}
         </div>
-      </aside>
+      </section>
     </>
   );
 }
