@@ -318,11 +318,26 @@ body,
   gap: 20px;
   min-width: 0;
   margin-bottom: -1px;
-  padding-right: 24px;
   overflow-x: auto;
   scrollbar-width: none;
-  scroll-padding-inline-end: 24px;
-  mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
+  scroll-padding-inline: 24px;
+  --tabs-fade-start: 0px;
+  --tabs-fade-end: 0px;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 var(--tabs-fade-start),
+    #000 calc(100% - var(--tabs-fade-end)),
+    transparent
+  );
+}
+
+.toolbar__tabs[data-hidden-start="true"] {
+  --tabs-fade-start: 24px;
+}
+
+.toolbar__tabs[data-hidden-end="true"] {
+  --tabs-fade-end: 24px;
 }
 
 .toolbar__tabs::-webkit-scrollbar {
@@ -1464,6 +1479,7 @@ body,
   font: var(--type-mono);
   color: var(--ink-2);
   word-spacing: 4px;
+  text-wrap: pretty;
 }
 
 .modal-backdrop {
@@ -1899,16 +1915,17 @@ body,
     width: auto;
   }
 
-  .toolbar__kbd {
+  .toolbar__kbd,
+  .toolbar__toggle {
     display: none;
+  }
+
+  .sidebar__section--compact-only {
+    display: block;
   }
 }
 
 @media (max-width: 1024px) {
-  .sidebar__section--compact-only {
-    display: block;
-  }
-
   .sidebar {
     position: absolute;
     top: 0;
@@ -1928,10 +1945,6 @@ body,
 
   .toolbar {
     gap: 16px;
-  }
-
-  .toolbar__toggle {
-    display: none;
   }
 }
 

@@ -1,6 +1,7 @@
 import {
   Background,
   BackgroundVariant,
+  ConnectionMode,
   type EdgeMouseHandler,
   MarkerType,
   type NodeMouseHandler,
@@ -50,13 +51,19 @@ const EDGE_INK = {
 } as const;
 
 const MODULE_PITCH = 80;
+const RESTING_EDGE_Z = 1;
+const RESTING_NODE_Z = 2;
+const HIGHLIGHTED_EDGE_Z = 19;
 const LIFTED_NODE_Z = 20;
 const LABELLED_FOCUS_MAX_DEGREE = 6;
 const HUB_MIN_DEGREE = 9;
 
-const OVERVIEW_MIN_ZOOM = 0.2;
+const FAR_TITLE_PX = 26;
+const MIN_READABLE_TITLE_PX = 12;
+const OVERVIEW_MIN_ZOOM = MIN_READABLE_TITLE_PX / FAR_TITLE_PX;
 const FAR_VIEW_ZOOM = 0.75;
 const FOCUS_ZOOM = 1.15;
+const HUB_FOCUS_ZOOM = 0.85;
 const FIT_PADDING = 48;
 
 const NODE_KEYBOARD_HINT = "Press Enter or Space to open its card.";
@@ -280,7 +287,8 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
         shown = grown;
       }
 
-      const zoom = Math.min(FOCUS_ZOOM, zoomToFit(shown));
+      const maxZoom = neighbourBoxes.length >= HUB_MIN_DEGREE ? HUB_FOCUS_ZOOM : FOCUS_ZOOM;
+      const zoom = Math.min(maxZoom, zoomToFit(shown));
       void setViewport(
         {
           x: FIT_PADDING + (availableWidth - shown.width * zoom) / 2 - shown.x * zoom,
@@ -442,19 +450,19 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
       }
       const isSelected = node.id === selectedNodeId;
       const isDimmed = connectedNodeIds !== null && !connectedNodeIds.has(node.id);
-      const isLifted = connectedNodeIds !== null && !isDimmed;
+      const zIndex = connectedNodeIds !== null && !isDimmed ? LIFTED_NODE_Z : RESTING_NODE_Z;
 
       if (
         node.data.isSelected === isSelected &&
         node.data.isDimmed === isDimmed &&
-        (node.zIndex === LIFTED_NODE_Z) === isLifted
+        node.zIndex === zIndex
       ) {
         return node;
       }
 
       return {
         ...node,
-        zIndex: isLifted ? LIFTED_NODE_Z : undefined,
+        zIndex,
         data: {
           ...node.data,
           isSelected,
@@ -491,7 +499,7 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
         ...edge,
         label: showLabel ? edge.data?.rawLabel : undefined,
         className: isHighlighted ? "is-highlighted" : isDimmed ? "is-dimmed" : undefined,
-        zIndex: isHighlighted ? 1 : 0,
+        zIndex: isHighlighted ? HIGHLIGHTED_EDGE_Z : RESTING_EDGE_Z,
         style: {
           stroke: strokeColor,
           strokeWidth: isHighlighted ? 2 : 1,
@@ -597,6 +605,8 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
           edges={displayEdges}
           nodeTypes={NODE_TYPES}
           edgesFocusable={false}
+          zIndexMode="manual"
+          connectionMode={ConnectionMode.Loose}
           ariaLabelConfig={ARIA_LABEL_CONFIG}
           onNodeClick={onNodeClick}
           onNodeMouseEnter={onNodeMouseEnter}

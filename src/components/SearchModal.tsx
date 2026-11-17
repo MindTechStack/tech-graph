@@ -26,6 +26,15 @@ function optionId(node: TechNodeData): string {
   return `search-option-${node.id}`;
 }
 
+function matchesAtWordStart(text: string, query: string): boolean {
+  for (let index = text.indexOf(query); index !== -1; index = text.indexOf(query, index + 1)) {
+    if (index === 0 || !/[a-z0-9]/.test(text.charAt(index - 1))) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export function scoreNodeMatch(node: TechNodeData, rawQuery: string, activeMap: string): number {
   const q = rawQuery.trim().toLowerCase();
   const inActiveMapBonus = activeMap === "all" || node.map === activeMap ? 5 : 0;
@@ -50,14 +59,25 @@ export function scoreNodeMatch(node: TechNodeData, rawQuery: string, activeMap: 
   if (nameLower.startsWith(q) || idLower.startsWith(q)) {
     return 80 + inActiveMapBonus;
   }
-  if (nameLower.includes(q) || idLower.includes(q)) {
-    return 65 + inActiveMapBonus;
+  const tagsLower = node.tags.map((t) => t.toLowerCase());
+
+  if (matchesAtWordStart(nameLower, q) || matchesAtWordStart(idLower, q)) {
+    return 70 + inActiveMapBonus;
   }
-  if (node.tags.some((t) => t.toLowerCase().includes(q))) {
-    return 50 + inActiveMapBonus;
+  if (tagsLower.some((t) => matchesAtWordStart(t, q))) {
+    return 60 + inActiveMapBonus;
+  }
+  if (nameLower.includes(q) || idLower.includes(q)) {
+    return 45 + inActiveMapBonus;
+  }
+  if (tagsLower.some((t) => t.includes(q))) {
+    return 40 + inActiveMapBonus;
   }
   if (catLower.includes(q)) {
-    return 40 + inActiveMapBonus;
+    return 35 + inActiveMapBonus;
+  }
+  if (matchesAtWordStart(whatLower, q)) {
+    return 32 + inActiveMapBonus;
   }
   if (whatLower.includes(q)) {
     return 30 + inActiveMapBonus;

@@ -47,6 +47,13 @@ export function StatusSwatch({ status }: { readonly status: NodeStatus }) {
   );
 }
 
+const HANDLE_SIDES = [
+  ["top", Position.Top],
+  ["right", Position.Right],
+  ["bottom", Position.Bottom],
+  ["left", Position.Left],
+] as const;
+
 function TechNodeComponent({ data }: NodeProps<TechFlowNode>) {
   const { tech, isGhost, homeMapName, categoryColor, isSelected, isDimmed } = data;
 
@@ -68,13 +75,6 @@ function TechNodeComponent({ data }: NodeProps<TechFlowNode>) {
           : `${tech.name} (${STATUS_META[tech.status].label}) — ${tech.what.replaceAll("`", "")}`
       }
     >
-      <Handle
-        type="target"
-        position={Position.Left}
-        className="tech-node__handle"
-        isConnectable={false}
-      />
-
       <span className="tech-node__band" style={{ backgroundColor: categoryColor }} />
 
       <span className="tech-node__body">
@@ -84,12 +84,16 @@ function TechNodeComponent({ data }: NodeProps<TechFlowNode>) {
         </span>
       </span>
 
-      <Handle
-        type="source"
-        position={Position.Right}
-        className="tech-node__handle"
-        isConnectable={false}
-      />
+      {HANDLE_SIDES.map(([id, position]) => (
+        <Handle
+          key={id}
+          id={id}
+          type="source"
+          position={position}
+          className="tech-node__handle"
+          isConnectable={false}
+        />
+      ))}
     </div>
   );
 }

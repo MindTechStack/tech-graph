@@ -213,7 +213,7 @@ Category colours stay in `content/maps.yaml` as the twelve atlas tints (OKLCH L 
 
 On paper the tints are only 1.6–2.1:1, so they become **fields, never ink**:
 - the 6px band down a node's left edge (8–10:1 against an ink node);
-- the Layers-mode group region, a flat tint field at about 30% alpha;
+- the Grouped-view category region, a flat tint field at about 30% alpha;
 - the 8px square swatch beside a category name in the sidebar, legend and card;
 - the per-category mini progress bar.
 
@@ -222,7 +222,7 @@ A category name is always set in ink beside its swatch. Tint text and tint outli
 ### Feedback
 - **Error** (`error`, `#c4271b`): validation errors only, in the error panel, on the toolbar's validation count and in error rows. It is a system state, not a second accent.
 - Warnings and a clean result are ink with a mono count (`3 warnings`, `0 issues`). Amber and green are retired.
-- All of this is **author tooling and exists only in development builds**. A production visitor never sees a validation count, the error panel or the error banner, so the error red never reaches them. Content problems are caught by `npm run validate` before deploy, not shown to readers.
+- All of this is **author tooling and exists only in development builds**, together with the Grouped/Network toggle (see Views). A production visitor never sees a validation count, the error panel or the error banner, so the error red never reaches them. Content problems are caught by `npm run validate` before deploy, not shown to readers.
 
 ### Code
 The code is monochrome with one accent: keywords in ink at 600 weight, strings and numbers in accent, functions and everything else in ink, and comments in Ink Muted.
@@ -271,7 +271,7 @@ The code is monochrome with one accent: keywords in ink at 600 weight, strings a
 ### Workspace
 A full-viewport sheet with no page scroll:
 - **Author bar:** 32px, one row above the toolbar, with a hairline underneath. It says whose register this is: the author's name, their role, and a link to the résumé PDF flush right. It is the only line on the sheet that speaks about a person rather than the map.
-- **Toolbar:** 48px, one row, with a hairline underneath. Wordmark "Tech Graph" (Name size, 700) at the left, with its mono counts beside it only above 1600px. Then the map tabs, which scroll in their own strip and fade out at its right end rather than pushing the controls. On the right: search (its `Ctrl K` hint hides at 1360px and below), the Layers/Network toggle, the edge-label toggle (moved into the sidebar at 1024px and below) and, in development builds only, the validation count. The status legend lives in the sidebar, not the toolbar.
+- **Toolbar:** 48px, one row, with a hairline underneath. Wordmark "Tech Graph" (Name size, 700) at the left, with its mono counts beside it only above 1600px. Then the map tabs, which scroll in their own strip rather than pushing the controls; the strip fades out 24px only at an end where tabs are actually hidden, so a tab is never hard-cut and a strip that fits has no fade. On the right: search (its `Ctrl K` hint hides at 1360px and below), in development builds the Grouped/Network toggle, the edge-label toggle (moved into the sidebar's View section at 1360px and below, so every map tab fits at 1280px) and, in development builds only, the validation count. The status legend lives in the sidebar, not the toolbar.
 - **Sidebar:** 3 modules (240px), on the left, with a hairline on its right edge.
 - **Canvas:** fills the space between the panes. Paper with the module grid drawn in Grid Line.
 - **Detail panel (the entry):** 6 modules (464px), on the right, with a hairline on its left edge. At 1360px and below it is 5 modules (384px) and the sidebar stays 240px.
@@ -286,11 +286,11 @@ The panel is laid out on two columns: a **hanging column** of one module pitch (
 - **Tags:** inline mono words (`#orm #sql`), separated by spaces. No chips.
 
 ### The canvas
-- Nodes are **224 × 64**, so a node plus its gutter fills exactly 3 × 1 modules. ELK spacing is set in multiples of 16, so in Layers mode nodes sit on the grid at 100% zoom.
+- Nodes are **224 × 64**, so a node plus its gutter fills exactly 3 × 1 modules. ELK spacing is set in multiples of 16, so in the Grouped view nodes sit on the grid at 100% zoom.
 - **Focus camera:** opening a node by deep link, search or a relation fits the node plus as many of its nearest neighbours as fit at 75% zoom or closer, inside the canvas area the entry leaves visible. The camera never drops into the far view to fit more; neighbours that do not fit stay off-screen, and their highlighted edges lead toward them.
-- **Layers mode:** category groups are flat tint fields packed in `maps.yaml` order. Each group has a header line inside the field, flush left: the category name in ink at Control 600 and a mono count. There is no outline and no corner radius. Ghost groups have no fill and a 1px dashed Ink Muted outline, and are titled "↗ <map name>".
-- **Network mode:** the same nodes float free over the grid.
-- **Far view** (below 75% zoom): nodes show the name only, at 26 canvas px. The ink density ramp keeps status readable at that distance. Group titles grow to 26px and the counts hide. Every group is at least as wide as its title at 26px (estimated at 15px per character, plus padding), so titles never truncate. Group headers sit in a layer above the edges, on an opaque plate of the group's tint mixed into Paper, so no relation line crosses a group title. Edges stay drawn at 10% ink so the structure still reads; edge labels hide.
+- **Grouped view** (the default and the only view a visitor sees): category groups are flat tint fields packed in `maps.yaml` order. Each group has a header line inside the field, flush left: the category name in ink at Control 600 and a mono count. There is no outline and no corner radius. Ghost groups have no fill and a 1px dashed Ink Muted outline, and are titled "↗ <map name>".
+- **Network view** (author-only): the same nodes float free over the grid. It is reached through the toolbar toggle in development builds, or with `?view=network` on any link (`#/backend/express?view=network`). The Grouped view adds nothing to the URL. One vocabulary everywhere: UI, this file, the URL and the code (`LayoutMode = "grouped" | "network"`) all say Grouped and Network.
+- **Far view** (below 75% zoom): nodes show the name only, at 26 canvas px. The overview fit never zooms out past 12/26 (about 46%), so names are at least 12px on screen; a map larger than that opens at its top-left and pans, and zooming out further is left to the reader. The ink density ramp keeps status readable at that distance. Group titles grow to 26px and the counts hide. Every group is at least as wide as its title at 26px (estimated at 15px per character, plus padding), so titles never truncate. Group headers sit in a layer above the edges, on an opaque plate of the group's tint mixed into Paper, so no relation line crosses a group title. Edges stay drawn at 10% ink so the structure still reads; edge labels hide.
 - Overlays on the canvas (the info line, the empty state) are paper blocks with a 1px Rule frame. They are opaque, unblurred and have no shadow.
 
 ### Search and error panel
@@ -325,7 +325,7 @@ Every corner is square, and there are no circles: status, category and legend ma
 - **Primary:** an accent fill with white text and no frame. Used once per context at most (for example "Reset filters" in the empty state).
 - **Icon / close:** borderless. On hover the glyph turns accent.
 - **Map tabs:** plain text with a mono count. The active tab is ink text with a 2px accent underline flush with the toolbar's bottom hairline.
-- **Grouped / Free** (the `layers` and `network` layout modes): two words separated by a hairline. The active word is ink with a 2px **ink** underline (a view setting, not a place, so it is not accent).
+- **Grouped / Network** (development builds only): two words separated by a hairline. The active word is ink with a 2px **ink** underline (a view setting, not a place, so it is not accent).
 - **Validation count:** mono text. Ink when clean or only warnings, Error red with errors. Rendered in development builds only; production omits it entirely rather than hiding it.
 - **Transitions:** colour and opacity only, 120ms ease-out. Nothing moves.
 
@@ -342,7 +342,7 @@ The head is the current map name at Title size, with Reset (only when filters ar
 - **Status legend rows:** the Status section is also the legend, so each of its rows defines its status. A status row is 44px: the swatch, the status name at Control size, and beneath it a one-line definition in the grotesque at 12/16 (400) in Ink Muted, then the mono count. The definitions are fixed and honest: `work` Used in commercial projects, `practiced` Built in personal projects, `learned` Completed in a course, `learning` Studying now, open questions, `planned` Next on the study list. Wherever a status mark appears without room for its definition, the definition rides along as the element's title.
 - **Category rows** wrap a long name to a second line instead of truncating it. On cross-map scopes the name reads `Frontend · Languages & Platform`.
 - **Kinds:** rows, not chips. The kind value is set in mono (`framework`). The ghost-node checkbox, labelled "Show linked nodes from other maps", sits under them.
-- **View** (1024px and below, where the toolbar drops these controls): an "Always show edge labels" row, plus "Grouped by category" and "Free layout" rows at phone width. Same filter-row styling; active is accent.
+- **View** (1024px and below, where the toolbar drops these controls): an "Always show edge labels" row, plus "Grouped" and "Network" rows at phone width in development builds. Same filter-row styling; active is accent.
 - **Progress:** a 4px bar on a hairline track, divided by the five status treatments (ink, ink-2, outlined, ticked, dashed), with a plain breakdown beneath: a mono count plus a phrase per non-empty status (`48 at work`, `7 in projects`, `61 from a course`, `8 learning now`, `9 planned`). No percentage or "done" total: it would count a course as equal to commercial use. Per-category bars are the same 4px status split under each category row, whose count is a plain total (`14`, never `14/14`); the row's swatch carries the category tint. A category bar's length is proportional to its node count against the largest category in view, so a one-node category shows a short stub, not a full-width solid bar.
 
 ### Tech Node (signature)
@@ -380,7 +380,7 @@ There are none. Emoji are removed: a kind is its mono value, and the logo is the
 - **Do** set every frontmatter value (ids, verbs, kinds, statuses, tags) in Geist Mono.
 - **Do** make every transition colour or opacity only, 120ms, and instant under `prefers-reduced-motion`.
 - **Do** define every status in words where it is shown as a legend; ink density alone is not a definition.
-- **Do** gate author tooling (validation count, error panel, error banner) behind development builds.
+- **Do** gate author tooling (validation count, error panel, error banner, Grouped/Network toggle) behind development builds.
 
 ### Don't:
 - **Don't** put a section, relation, link or error item in a card, a tinted box or a bordered container (see the Anti-reference).

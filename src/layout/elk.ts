@@ -9,6 +9,7 @@ import {
   type MapSliceNode,
 } from "../content/graph";
 import type { LayoutMode } from "../state/useAppState";
+import type { Rect } from "./rect";
 
 export type AppFlowNode = GroupFlowNode | TechFlowNode;
 export type AppFlowEdge = Edge<{ readonly rawLabel: string }>;
@@ -77,7 +78,7 @@ function buildGroupBuckets(graph: KnowledgeGraph, slice: MapGraphSlice): readonl
         bucket = {
           groupId,
           label: `↗ ${homeMapConfig?.name ?? node.map}`,
-          color: "#64748b",
+          color: "#63635d",
           order: 1000 + (homeMapConfig?.order ?? 99),
           isGhostGroup: true,
           items: [],
@@ -92,7 +93,7 @@ function buildGroupBuckets(graph: KnowledgeGraph, slice: MapGraphSlice): readonl
     const spansMaps = isCrossMapScope(slice.mapId);
     const groupKey = spansMaps ? `group--${node.map}--${node.category}` : `group--${node.category}`;
     const label = spansMaps
-      ? `${mapConfig?.name ?? node.map} / ${categoryConfig?.name ?? node.category}`
+      ? `${mapConfig?.name ?? node.map} · ${categoryConfig?.name ?? node.category}`
       : (categoryConfig?.name ?? node.category);
     const color = categoryConfig?.color ?? "#94a3b8";
     const order = (mapConfig?.order ?? 1) * 100 + (categoryConfig?.order ?? 1);
@@ -151,23 +152,64 @@ function createTechFlowNode(
   };
 }
 
-function createFlowEdges(slice: MapGraphSlice): AppFlowEdge[] {
-  return slice.edges.map((edge) => ({
-    id: edge.id,
-    source: edge.source,
-    target: edge.target,
-    label: edge.label,
-    type: "straight",
-    markerEnd: {
-      type: MarkerType.ArrowClosed,
-      width: 16,
-      height: 16,
-      color: "rgba(17, 17, 17, 0.3)",
-    },
-    data: {
-      rawLabel: edge.label,
-    },
-  }));
+export type NodeSide = "top" | "right" | "bottom" | "left";
+
+export function facingSides(source: Rect, target: Rect): readonly [NodeSide, NodeSide] {
+  const gapX = Math.max(target.x - (source.x + source.width), source.x - (target.x + target.width));
+  const gapY = Math.max(
+    target.y - (source.y + source.height),
+    source.y - (target.y + target.height),
+  );
+  if (gapX >= gapY) {
+    return target.x >= source.x ? ["right", "left"] : ["left", "right"];
+  }
+  return target.y >= source.y ? ["bottom", "top"] : ["top", "bottom"];
+}
+
+function absoluteBoxes(nodes: readonly AppFlowNode[]): ReadonlyMap<string, Rect> {
+  const byId = new Map(nodes.map((node) => [node.id, node]));
+  return new Map(
+    nodes.map((node) => {
+      const parent = node.parentId ? byId.get(node.parentId) : undefined;
+      return [
+        node.id,
+        {
+          x: node.position.x + (parent?.position.x ?? 0),
+          y: node.position.y + (parent?.position.y ?? 0),
+          width: node.width ?? 0,
+          height: node.height ?? 0,
+        },
+      ];
+    }),
+  );
+}
+
+function createFlowEdges(slice: MapGraphSlice, nodes: readonly AppFlowNode[]): AppFlowEdge[] {
+  const boxes = absoluteBoxes(nodes);
+  return slice.edges.map((edge) => {
+    const source = boxes.get(edge.source);
+    const target = boxes.get(edge.target);
+    const [sourceHandle, targetHandle] =
+      source && target ? facingSides(source, target) : (["right", "left"] as const);
+    return {
+      id: edge.id,
+      source: edge.source,
+      target: edge.target,
+      sourceHandle,
+      targetHandle,
+      label: edge.label,
+      type: "straight",
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        width: 16,
+        height: 16,
+        color: "rgba(17, 17, 17, 0.3)",
+      },
+      data: {
+        rawLabel: edge.label,
+      },
+    };
+  });
 }
 
 export async function computeGraphLayout(
@@ -196,7 +238,7 @@ export async function computeGraphLayout(
 
   let positionedNodes: AppFlowNode[];
 
-  if (mode === "layers") {
+  if (mode === "grouped") {
     const buckets = buildGroupBuckets(graph, slice);
     const sliceNodeById = new Map<string, MapSliceNode>(slice.nodes.map((sn) => [sn.node.id, sn]));
     const groupIdByNodeId = new Map<string, string>(
@@ -367,7 +409,7 @@ export async function computeGraphLayout(
   const result: PositionedGraph = {
     cacheKey,
     nodes: positionedNodes,
-    edges: createFlowEdges(slice),
+    edges: createFlowEdges(slice, positionedNodes),
   };
 
   layoutCache.set(cacheKey, result);

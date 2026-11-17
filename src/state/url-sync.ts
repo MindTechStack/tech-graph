@@ -10,7 +10,7 @@ export interface ParsedUrlState {
 }
 
 const VALID_MAPS = new Set<string>([...MAP_IDS, "all", "core"]);
-const VALID_MODES = new Set<string>(["layers", "network"]);
+const VALID_MODES = new Set<string>(["grouped", "network"]);
 
 export function isValidActiveMap(value: string): value is ActiveMapTab {
   return VALID_MAPS.has(value);
@@ -46,8 +46,7 @@ export function resolveDeepLink(parsed: ParsedUrlState, graph: KnowledgeGraph): 
  * Parses URL hashes like:
  * - `#/backend`
  * - `#/backend/express`
- * - `#/backend/express?mode=network`
- * - `#/all?mode=layers`
+ * - `#/backend/express?view=network`
  */
 export function parseUrlHash(
   rawHash: string,
@@ -57,7 +56,7 @@ export function parseUrlHash(
   } = {},
 ): ParsedUrlState {
   const fallbackMap: ActiveMapTab = defaults.defaultMap ?? "backend";
-  const fallbackMode: LayoutMode = defaults.defaultMode ?? "layers";
+  const fallbackMode: LayoutMode = defaults.defaultMode ?? "grouped";
 
   const trimmed = rawHash.trim();
   const withoutHash = trimmed.startsWith("#") ? trimmed.slice(1) : trimmed;
@@ -85,7 +84,7 @@ export function parseUrlHash(
   let layoutMode: LayoutMode = fallbackMode;
   if (queryPart) {
     const params = new URLSearchParams(queryPart);
-    const modeParam = params.get("mode");
+    const modeParam = params.get("view");
     if (modeParam && isValidLayoutMode(modeParam)) {
       layoutMode = modeParam;
     }
@@ -99,7 +98,7 @@ export function parseUrlHash(
 }
 
 /**
- * Formats state into `#/<map>[/<nodeId>]?mode=<layoutMode>`
+ * Formats state into `#/<map>[/<nodeId>]`, plus `?view=network` for the author-only network view
  */
 export function formatUrlHash(
   activeMap: ActiveMapTab,
@@ -109,7 +108,7 @@ export function formatUrlHash(
   const path = selectedNodeId
     ? `#/${encodeURIComponent(activeMap)}/${encodeURIComponent(selectedNodeId)}`
     : `#/${encodeURIComponent(activeMap)}`;
-  return `${path}?mode=${encodeURIComponent(layoutMode)}`;
+  return layoutMode === "network" ? `${path}?view=network` : path;
 }
 
 export type HashUpdate = "none" | "replace" | "push";

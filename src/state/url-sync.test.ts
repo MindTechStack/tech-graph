@@ -12,41 +12,41 @@ describe("url-sync", () => {
     expect(parseUrlHash("")).toEqual({
       activeMap: "backend",
       selectedNodeId: null,
-      layoutMode: "layers",
+      layoutMode: "grouped",
     });
 
     expect(parseUrlHash("#/")).toEqual({
       activeMap: "backend",
       selectedNodeId: null,
-      layoutMode: "layers",
+      layoutMode: "grouped",
     });
   });
 
   it("parses map, nodeId, and layoutMode from hash", () => {
-    expect(parseUrlHash("#/backend/express?mode=network")).toEqual({
+    expect(parseUrlHash("#/backend/express?view=network")).toEqual({
       activeMap: "backend",
       selectedNodeId: "express",
       layoutMode: "network",
     });
 
-    expect(parseUrlHash("#/frontend?mode=layers")).toEqual({
+    expect(parseUrlHash("#/frontend?view=grouped")).toEqual({
       activeMap: "frontend",
       selectedNodeId: null,
-      layoutMode: "layers",
+      layoutMode: "grouped",
     });
 
     expect(parseUrlHash("#/all/docker")).toEqual({
       activeMap: "all",
       selectedNodeId: "docker",
-      layoutMode: "layers",
+      layoutMode: "grouped",
     });
   });
 
   it("falls back to defaults on invalid map or mode", () => {
-    expect(parseUrlHash("#/unknown-map/express?mode=invalid")).toEqual({
+    expect(parseUrlHash("#/unknown-map/express?view=invalid")).toEqual({
       activeMap: "backend",
       selectedNodeId: "express",
-      layoutMode: "layers",
+      layoutMode: "grouped",
     });
   });
 
@@ -60,7 +60,7 @@ describe("url-sync", () => {
       { id: "docker", map: "devops", alsoIn: ["backend"] },
     ]);
     const link = (activeMap: "frontend" | "backend" | "all", selectedNodeId: string) =>
-      resolveDeepLink({ activeMap, selectedNodeId, layoutMode: "layers" }, graph);
+      resolveDeepLink({ activeMap, selectedNodeId, layoutMode: "grouped" }, graph);
 
     expect(link("backend", "vue").activeMap).toBe("frontend");
     expect(link("backend", "docker").activeMap).toBe("backend");
@@ -69,19 +69,19 @@ describe("url-sync", () => {
   });
 
   it("formats URL hash symmetrically", () => {
-    expect(formatUrlHash("backend", "express", "layers")).toBe("#/backend/express?mode=layers");
-    expect(formatUrlHash("frontend", null, "network")).toBe("#/frontend?mode=network");
+    expect(formatUrlHash("backend", "express", "grouped")).toBe("#/backend/express");
+    expect(formatUrlHash("frontend", null, "network")).toBe("#/frontend?view=network");
   });
 
   it("pushes history only when the state moved away from the URL", () => {
     const parse = (hash: string) => parseUrlHash(hash, { defaultMap: "frontend" });
     const at = (selectedNodeId: string | null) =>
-      ({ activeMap: "frontend", selectedNodeId, layoutMode: "layers" }) as const;
+      ({ activeMap: "frontend", selectedNodeId, layoutMode: "grouped" }) as const;
 
-    expect(planHashUpdate("#/frontend/vue?mode=layers", at("vue"), parse)).toBe("none");
+    expect(planHashUpdate("#/frontend/vue", at("vue"), parse)).toBe("none");
     expect(planHashUpdate("", at(null), parse)).toBe("replace");
-    expect(planHashUpdate("#/frontend/vue", at("vue"), parse)).toBe("replace");
-    expect(planHashUpdate("#/frontend/vue?mode=layers", at("react"), parse)).toBe("push");
-    expect(planHashUpdate("#/frontend/vue?mode=layers", at(null), parse)).toBe("push");
+    expect(planHashUpdate("#/frontend/vue?view=grouped", at("vue"), parse)).toBe("replace");
+    expect(planHashUpdate("#/frontend/vue", at("react"), parse)).toBe("push");
+    expect(planHashUpdate("#/frontend/vue", at(null), parse)).toBe("push");
   });
 });

@@ -304,11 +304,12 @@ export function Sidebar({ graph }: SidebarProps) {
             </h3>
           </div>
           <div className="sidebar__rows">
-            {(
-              [
-                ["layers", "Grouped by category"],
-                ["network", "Free layout"],
-              ] as const
+            {(import.meta.env.DEV
+              ? ([
+                  ["grouped", "Grouped"],
+                  ["network", "Network"],
+                ] as const)
+              : []
             ).map(([mode, label]) => (
               <button
                 key={mode}

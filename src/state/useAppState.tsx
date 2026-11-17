@@ -13,7 +13,7 @@ import type { NodeKind, NodeStatus } from "../content/schema";
 import { type ParsedUrlState, parseUrlHash, useUrlSync } from "./url-sync";
 
 export type ActiveMapTab = MapScope;
-export type LayoutMode = "layers" | "network";
+export type LayoutMode = "grouped" | "network";
 
 export interface FocusRequest {
   readonly nodeId: string;
@@ -75,7 +75,7 @@ function toggleSetItem<T>(set: ReadonlySet<T>, item: T): ReadonlySet<T> {
 export function AppStateProvider({
   children,
   initialMap = "backend",
-  initialMode = "layers",
+  initialMode = "grouped",
   hasInitialErrors = false,
   resolveUrlState,
 }: AppStateProviderProps) {

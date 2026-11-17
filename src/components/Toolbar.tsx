@@ -64,6 +64,28 @@ export function Toolbar({ graph }: ToolbarProps) {
   const tabStripRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    const strip = tabStripRef.current;
+    if (!strip) {
+      return;
+    }
+    const markHiddenEdges = () => {
+      strip.dataset.hiddenStart = String(strip.scrollLeft > 1);
+      strip.dataset.hiddenEnd = String(
+        strip.scrollLeft + strip.clientWidth < strip.scrollWidth - 1,
+      );
+    };
+    markHiddenEdges();
+    void document.fonts.ready.then(markHiddenEdges);
+    strip.addEventListener("scroll", markHiddenEdges, { passive: true });
+    const resizeObserver = new ResizeObserver(markHiddenEdges);
+    resizeObserver.observe(strip);
+    return () => {
+      strip.removeEventListener("scroll", markHiddenEdges);
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
     const revealActiveTab = () =>
       tabStripRef.current
         ?.querySelector('[aria-current="page"]')
@@ -143,24 +165,26 @@ export function Toolbar({ graph }: ToolbarProps) {
           <kbd className="toolbar__kbd">{SEARCH_SHORTCUT}</kbd>
         </button>
 
-        <div className="toolbar__segmented" role="group" aria-label="Arrange nodes">
-          <button
-            type="button"
-            className={`toolbar__segment ${layoutMode === "layers" ? "toolbar__segment--active" : ""}`}
-            aria-pressed={layoutMode === "layers"}
-            onClick={() => setLayoutMode("layers")}
-          >
-            Grouped
-          </button>
-          <button
-            type="button"
-            className={`toolbar__segment ${layoutMode === "network" ? "toolbar__segment--active" : ""}`}
-            aria-pressed={layoutMode === "network"}
-            onClick={() => setLayoutMode("network")}
-          >
-            Free
-          </button>
-        </div>
+        {import.meta.env.DEV ? (
+          <div className="toolbar__segmented" role="group" aria-label="Arrange nodes">
+            <button
+              type="button"
+              className={`toolbar__segment ${layoutMode === "grouped" ? "toolbar__segment--active" : ""}`}
+              aria-pressed={layoutMode === "grouped"}
+              onClick={() => setLayoutMode("grouped")}
+            >
+              Grouped
+            </button>
+            <button
+              type="button"
+              className={`toolbar__segment ${layoutMode === "network" ? "toolbar__segment--active" : ""}`}
+              aria-pressed={layoutMode === "network"}
+              onClick={() => setLayoutMode("network")}
+            >
+              Network
+            </button>
+          </div>
+        ) : null}
 
         <button
           type="button"

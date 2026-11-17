@@ -4,6 +4,7 @@ import { loadGraphFromFs } from "../content/load-fs";
 import {
   clearLayoutCache,
   computeGraphLayout,
+  facingSides,
   groupMinWidth,
   TECH_NODE_HEIGHT,
   TECH_NODE_WIDTH,
@@ -14,10 +15,10 @@ describe("ELK layout engine (src/layout/elk.ts)", () => {
     clearLayoutCache();
   });
 
-  it("lays out compound category groups and tech nodes in layers mode without overlap", async () => {
+  it("lays out compound category groups and tech nodes in grouped mode without overlap", async () => {
     const graph = await loadGraphFromFs(process.cwd());
     const backendSlice = getMapGraphSlice(graph, "backend");
-    const positioned = await computeGraphLayout(graph, backendSlice, "layers");
+    const positioned = await computeGraphLayout(graph, backendSlice, "grouped");
 
     const groups = positioned.nodes.filter((n) => n.type === "categoryGroup");
     const techNodes = positioned.nodes.filter((n) => n.type === "tech");
@@ -47,7 +48,7 @@ describe("ELK layout engine (src/layout/elk.ts)", () => {
 
   it("sizes every group to fit its far-view title without overlapping other groups", async () => {
     const graph = await loadGraphFromFs(process.cwd());
-    const positioned = await computeGraphLayout(graph, getMapGraphSlice(graph, "all"), "layers");
+    const positioned = await computeGraphLayout(graph, getMapGraphSlice(graph, "all"), "grouped");
     const boxes = positioned.nodes
       .filter((n) => n.type === "categoryGroup")
       .map((n) => ({
@@ -92,5 +93,16 @@ describe("ELK layout engine (src/layout/elk.ts)", () => {
         expect(overlapX && overlapY).toBe(false);
       }
     }
+  });
+});
+
+describe("facing edge sides", () => {
+  const box = (x: number, y: number) => ({ x, y, width: 224, height: 64 });
+
+  it("joins the sides that face each other", () => {
+    expect(facingSides(box(0, 0), box(400, 0))).toEqual(["right", "left"]);
+    expect(facingSides(box(400, 0), box(0, 0))).toEqual(["left", "right"]);
+    expect(facingSides(box(0, 0), box(40, 200))).toEqual(["bottom", "top"]);
+    expect(facingSides(box(40, 200), box(0, 0))).toEqual(["top", "bottom"]);
   });
 });
