@@ -1,26 +1,17 @@
 import { Effect, Result, Schema } from "effect";
+import { MAP_IDS, NODE_KINDS, NODE_SOURCES, NODE_STATUSES } from "./vocabulary";
 
-export const MAP_IDS = ["frontend", "backend", "fundamentals", "devops", "ai"] as const;
+export { MAP_IDS, NODE_KINDS, NODE_SOURCES, NODE_STATUSES };
+
 export const MapIdSchema = Schema.Literals(MAP_IDS);
 export type MapId = typeof MapIdSchema.Type;
 
-export const NODE_KINDS = [
-  "language",
-  "framework",
-  "library",
-  "tool",
-  "service",
-  "concept",
-  "platform",
-] as const;
 export const NodeKindSchema = Schema.Literals(NODE_KINDS);
 export type NodeKind = typeof NodeKindSchema.Type;
 
-export const NODE_STATUSES = ["work", "practiced", "learned", "learning", "planned"] as const;
 export const NodeStatusSchema = Schema.Literals(NODE_STATUSES);
 export type NodeStatus = typeof NodeStatusSchema.Type;
 
-export const NODE_SOURCES = ["course", "work", "personal", "self-study"] as const;
 export const NodeSourceSchema = Schema.Literals(NODE_SOURCES);
 export type NodeSource = typeof NodeSourceSchema.Type;
 

@@ -6,7 +6,8 @@ import {
   isNodeDirectlyInMap,
   type KnowledgeGraph,
 } from "../content/graph";
-import { NODE_KINDS, NODE_STATUSES, type NodeKind, type NodeStatus } from "../content/schema";
+import type { NodeKind, NodeStatus } from "../content/schema";
+import { NODE_KINDS, NODE_STATUSES } from "../content/vocabulary";
 import { useAppState } from "../state/useAppState";
 import { Icon } from "./Icon";
 import { useIsPhoneCardOpen } from "./PhoneIndex";

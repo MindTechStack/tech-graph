@@ -1,12 +1,13 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { KnowledgeGraph } from "./graph";
-import { isIgnoredContentFile, loadGraphFromRawSources } from "./load";
+import { buildGraphFromParsedContent, type KnowledgeGraph, type ParsedContent } from "./graph";
+import { isIgnoredContentFile, parseContentSources, type RawContentSources } from "./load";
 
-export async function loadGraphFromFs(rootDir: string = process.cwd()): Promise<KnowledgeGraph> {
+export async function readContentSources(
+  rootDir: string = process.cwd(),
+): Promise<RawContentSources> {
   const contentDir = path.resolve(rootDir, "content");
-  const mapsYamlFullPath = path.join(contentDir, "maps.yaml");
-  const mapsYamlContent = await fs.readFile(mapsYamlFullPath, "utf8");
+  const mapsYamlContent = await fs.readFile(path.join(contentDir, "maps.yaml"), "utf8");
 
   const markdownFiles: Record<string, string> = {};
 
@@ -27,9 +28,13 @@ export async function loadGraphFromFs(rootDir: string = process.cwd()): Promise<
 
   await walk(contentDir);
 
-  return loadGraphFromRawSources({
-    mapsYamlPath: "content/maps.yaml",
-    mapsYamlContent,
-    markdownFiles,
-  });
+  return { mapsYamlPath: "content/maps.yaml", mapsYamlContent, markdownFiles };
+}
+
+export async function parseContentFromFs(rootDir: string = process.cwd()): Promise<ParsedContent> {
+  return parseContentSources(await readContentSources(rootDir));
+}
+
+export async function loadGraphFromFs(rootDir: string = process.cwd()): Promise<KnowledgeGraph> {
+  return buildGraphFromParsedContent(await parseContentFromFs(rootDir));
 }

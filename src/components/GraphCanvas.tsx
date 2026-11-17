@@ -22,7 +22,7 @@ import {
   useState,
 } from "react";
 import { buildFilterSignature, getMapGraphSlice, type KnowledgeGraph } from "../content/graph";
-import { NODE_STATUSES } from "../content/schema";
+import { NODE_STATUSES } from "../content/vocabulary";
 import {
   type AppFlowEdge,
   type AppFlowNode,

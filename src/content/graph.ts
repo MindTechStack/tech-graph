@@ -62,6 +62,16 @@ export interface MapGraphSlice {
   readonly edges: readonly GraphEdge[];
 }
 
+export interface ParsedContent {
+  readonly mapsFile: MapsFile;
+  readonly nodes: readonly TechNodeData[];
+  readonly diagnostics: readonly ContentDiagnostic[];
+}
+
+export function buildGraphFromParsedContent(content: ParsedContent): KnowledgeGraph {
+  return buildKnowledgeGraph(content.mapsFile, content.nodes, content.diagnostics);
+}
+
 export function buildKnowledgeGraph(
   mapsFile: MapsFile,
   rawNodes: readonly TechNodeData[],

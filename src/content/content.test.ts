@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { buildKnowledgeGraph, getMapGraphSlice } from "./graph";
-import { loadGraphFromGlob, loadGraphFromRawSources } from "./load";
+import builtContent from "virtual:tech-graph-content";
+import { buildGraphFromParsedContent, buildKnowledgeGraph, getMapGraphSlice } from "./graph";
+import { loadGraphFromRawSources } from "./load";
 import { loadGraphFromFs } from "./load-fs";
 import { parseMapsYaml, parseNodeFilePath, parseNodeMarkdown } from "./parse";
 import { validateFrontmatter, validateMapsFile } from "./schema";
@@ -314,9 +315,9 @@ problem: I/O
   });
 });
 
-describe("Environment parity: Vite glob vs Node fs (load.ts)", () => {
-  it("loads identical pilot graph in both glob and fs modes with zero errors", async () => {
-    const fromGlob = loadGraphFromGlob();
+describe("Environment parity: build-time content module vs Node fs (load.ts)", () => {
+  it("loads an identical graph from the built module and from fs with zero errors", async () => {
+    const fromGlob = buildGraphFromParsedContent(builtContent);
     const fromFs = await loadGraphFromFs(process.cwd());
 
     expect(fromFs.errors).toEqual([]);

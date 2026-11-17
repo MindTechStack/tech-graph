@@ -1,6 +1,6 @@
 import { useMemo, useSyncExternalStore } from "react";
 import { isNodeDirectlyInMap, type KnowledgeGraph, matchesNodeFilters } from "../content/graph";
-import { NODE_STATUSES } from "../content/schema";
+import { NODE_STATUSES } from "../content/vocabulary";
 import { useAppState } from "../state/useAppState";
 import { Icon } from "./Icon";
 import { NodeRowContent } from "./NodeRow";

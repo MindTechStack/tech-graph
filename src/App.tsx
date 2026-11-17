@@ -8,8 +8,8 @@ import { PhoneIndex, useIsPhoneCardOpen, useIsPhoneLayout } from "./components/P
 import { SearchModal } from "./components/SearchModal";
 import { Sidebar } from "./components/Sidebar";
 import { Toolbar } from "./components/Toolbar";
-import type { KnowledgeGraph } from "./content/graph";
-import { loadGraphFromGlob } from "./content/load";
+import { buildGraphFromParsedContent, type KnowledgeGraph } from "./content/graph";
+import builtContent from "virtual:tech-graph-content";
 import { type ParsedUrlState, resolveDeepLink } from "./state/url-sync";
 import { AppStateProvider, useAppState } from "./state/useAppState";
 
@@ -146,7 +146,7 @@ function Workspace({ graph }: { readonly graph: KnowledgeGraph }) {
 }
 
 export function App() {
-  const graph = useMemo(() => loadGraphFromGlob(), []);
+  const graph = useMemo(() => buildGraphFromParsedContent(builtContent), []);
   const resolveUrlState = useCallback(
     (parsed: ParsedUrlState) => resolveDeepLink(parsed, graph),
     [graph],

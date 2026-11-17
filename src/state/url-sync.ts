@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { isNodeDirectlyInMap, type KnowledgeGraph } from "../content/graph";
-import { MAP_IDS } from "../content/schema";
+import { MAP_IDS } from "../content/vocabulary";
 import type { ActiveMapTab } from "./useAppState";
 
 export interface ParsedUrlState {

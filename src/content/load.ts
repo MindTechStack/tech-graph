@@ -1,4 +1,9 @@
-import { buildKnowledgeGraph, type KnowledgeGraph, NEUTRAL_CATEGORY_COLOR } from "./graph";
+import {
+  buildGraphFromParsedContent,
+  type KnowledgeGraph,
+  NEUTRAL_CATEGORY_COLOR,
+  type ParsedContent,
+} from "./graph";
 import {
   type ContentDiagnostic,
   parseMapsYaml,
@@ -49,6 +54,10 @@ export function normalizeContentRelativePath(filePath: string): string {
 }
 
 export function loadGraphFromRawSources(sources: RawContentSources): KnowledgeGraph {
+  return buildGraphFromParsedContent(parseContentSources(sources));
+}
+
+export function parseContentSources(sources: RawContentSources): ParsedContent {
   const diagnostics: ContentDiagnostic[] = [];
   const mapsPath = normalizeContentRelativePath(sources.mapsYamlPath);
 
@@ -80,29 +89,5 @@ export function loadGraphFromRawSources(sources: RawContentSources): KnowledgeGr
     }
   }
 
-  return buildKnowledgeGraph(mapsFile, parsedNodes, diagnostics);
-}
-
-export function loadGraphFromGlob(): KnowledgeGraph {
-  const mapsModules = import.meta.glob<string>("/content/maps.yaml", {
-    query: "?raw",
-    import: "default",
-    eager: true,
-  });
-
-  const mdModules = import.meta.glob<string>("/content/**/*.md", {
-    query: "?raw",
-    import: "default",
-    eager: true,
-  });
-
-  const mapsEntry = Object.entries(mapsModules)[0];
-  const mapsYamlPath = mapsEntry ? mapsEntry[0] : "content/maps.yaml";
-  const mapsYamlContent = mapsEntry ? mapsEntry[1] : "";
-
-  return loadGraphFromRawSources({
-    mapsYamlPath,
-    mapsYamlContent,
-    markdownFiles: mdModules,
-  });
+  return { mapsFile, nodes: parsedNodes, diagnostics };
 }
