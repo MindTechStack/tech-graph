@@ -75,6 +75,8 @@ export function Sidebar({ graph }: SidebarProps) {
   );
 
   const statusCounts = useMemo(() => countByStatus(mapNodes), [mapNodes]);
+  const allMapsStatusCounts = useMemo(() => countByStatus(graph.nodes), [graph.nodes]);
+  const isAllMapsScope = activeMap === "all";
 
   const kindCounts = useMemo(() => {
     const counts: Record<NodeKind, number> = {
@@ -210,10 +212,21 @@ export function Sidebar({ graph }: SidebarProps) {
                 >
                   <StatusSwatch status={status} />
                   <span className="sidebar__filter-label">
-                    {meta.label}
+                    <span className="sidebar__status-name">{meta.label}</span>
                     <span className="sidebar__status-definition">{meta.definition}</span>
                   </span>
-                  <span className="sidebar__filter-count">{count}</span>
+                  <span className="sidebar__filter-count">
+                    <span className="sidebar__filter-count-scope">{count}</span>
+                    {isAllMapsScope ? null : (
+                      <span
+                        className="sidebar__filter-count-all"
+                        title={`${allMapsStatusCounts[status]} across all maps`}
+                      >
+                        {" "}
+                        of {allMapsStatusCounts[status]}
+                      </span>
+                    )}
+                  </span>
                 </button>
               );
             })}

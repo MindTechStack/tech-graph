@@ -712,10 +712,51 @@ body,
   text-wrap: pretty;
 }
 
+.sidebar__filter-row--status {
+  display: grid;
+  grid-template-columns: 8px minmax(0, 1fr) auto;
+  grid-template-areas:
+    "swatch name count"
+    ". definition definition";
+  column-gap: 8px;
+  row-gap: 2px;
+  align-content: center;
+}
+
+.sidebar__filter-row--status > .status-swatch {
+  grid-area: swatch;
+  align-self: center;
+}
+
 .sidebar__filter-row--status .sidebar__filter-label {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  display: contents;
+}
+
+.sidebar__status-name {
+  grid-area: name;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar__filter-row--status .sidebar__status-definition {
+  grid-area: definition;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar__filter-row--status > .sidebar__filter-count {
+  grid-area: count;
+}
+
+.sidebar__filter-row--status:disabled > .sidebar__filter-count {
+  opacity: 1;
+}
+
+.sidebar__filter-row--status:disabled .sidebar__filter-count-scope {
+  opacity: 0.4;
 }
 
 .sidebar__status-definition {
@@ -876,6 +917,54 @@ body,
 
 .graph-canvas__layout-badge {
   color: var(--ink-2);
+}
+
+.ink-key {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  max-width: calc(100% - 32px);
+  margin: 16px;
+  padding: 7px 4px 7px 12px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  color: var(--ink);
+}
+
+.ink-key__line {
+  font: var(--type-note);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 12px;
+  row-gap: 4px;
+  min-width: 0;
+  padding-block: 2px;
+}
+
+.ink-key__value {
+  font: var(--type-mono);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ink-key__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: none;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: color var(--ease-state);
+}
+
+.ink-key__close:hover {
+  color: var(--accent);
 }
 
 .graph-canvas__empty {
@@ -2017,6 +2106,12 @@ body,
 }
 
 @media (pointer: coarse) {
+  .ink-key__close {
+    width: 44px;
+    height: 44px;
+    margin: -12px -4px -12px -12px;
+  }
+
   .author-bar__resume {
     padding: 14px 0;
     margin: -14px 0;
@@ -2070,6 +2165,10 @@ body,
 }
 
 @media (max-width: 640px), (max-height: 480px) and (pointer: coarse) {
+  .ink-key {
+    display: none;
+  }
+
   .author-bar {
     padding: max(6px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 6px
       max(12px, env(safe-area-inset-left));

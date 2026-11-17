@@ -23,6 +23,7 @@ import {
   useState,
 } from "react";
 import { buildFilterSignature, getMapGraphSlice, type KnowledgeGraph } from "../content/graph";
+import { NODE_STATUSES } from "../content/schema";
 import {
   type AppFlowEdge,
   type AppFlowNode,
@@ -34,7 +35,7 @@ import { distanceBetween, edgeLabelPlate, type Rect, rectsOverlap, unionOf } fro
 import { useAppState } from "../state/useAppState";
 import { type GroupFlowNode, GroupHeaders, GroupNode } from "./GroupNode";
 import { Icon } from "./Icon";
-import { TechNode } from "./TechNode";
+import { StatusSwatch, TechNode } from "./TechNode";
 
 const NODE_TYPES: NodeTypes = {
   tech: TechNode,
@@ -148,6 +149,52 @@ function focusedNodeId(target: EventTarget): string | undefined {
   return target instanceof HTMLElement && target.classList.contains("react-flow__node")
     ? target.dataset.id
     : undefined;
+}
+
+const INK_KEY_DISMISSED_KEY = "tech-graph:ink-key-dismissed";
+
+function readInkKeyDismissed(): boolean {
+  try {
+    return localStorage.getItem(INK_KEY_DISMISSED_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function InkKey() {
+  const [isDismissed, setIsDismissed] = useState(readInkKeyDismissed);
+  if (isDismissed) {
+    return null;
+  }
+  const dismiss = () => {
+    setIsDismissed(true);
+    try {
+      localStorage.setItem(INK_KEY_DISMISSED_KEY, "1");
+    } catch {}
+  };
+  return (
+    <Panel position="bottom-left" className="ink-key">
+      <p className="ink-key__line">
+        <span>More ink, more experience:</span>
+        {NODE_STATUSES.map((status) => (
+          <span key={status} className="ink-key__value">
+            <StatusSwatch status={status} />
+            {status}
+          </span>
+        ))}
+        <span>Dashed also means another map.</span>
+      </p>
+      <button
+        type="button"
+        className="ink-key__close"
+        onClick={dismiss}
+        aria-label="Hide the ink key"
+        title="Hide the ink key"
+      >
+        <Icon name="close" size={12} />
+      </button>
+    </Panel>
+  );
 }
 
 export interface GraphCanvasProps {
@@ -627,6 +674,8 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
           />
 
           <GroupHeaders groups={groupNodes} />
+
+          <InkKey />
 
           {hasLayoutFailed ? (
             <Panel position="top-center" className="graph-canvas__empty" role="alert">
