@@ -1,6 +1,6 @@
 import type { TechNodeData } from "../content/parse";
 import { InlineCodeText } from "./DetailPanel";
-import { STATUS_META, StatusSwatch } from "./TechNode";
+import { STATUS_META, StatusSwatch } from "./Status";
 
 export interface NodeRowContentProps {
   readonly node: TechNodeData;

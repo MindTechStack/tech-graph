@@ -1,9 +1,8 @@
-import { useCallback, useMemo } from "react";
+import { lazy, Suspense, useCallback, useMemo } from "react";
 import { AUTHOR_NAME, ResumeLink } from "./components/Author";
 import { DetailPanel } from "./components/DetailPanel";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { ErrorPanel } from "./components/ErrorPanel";
-import { GraphCanvas } from "./components/GraphCanvas";
 import { Icon } from "./components/Icon";
 import { PhoneIndex, useIsPhoneCardOpen, useIsPhoneLayout } from "./components/PhoneIndex";
 import { SearchModal } from "./components/SearchModal";
@@ -15,6 +14,10 @@ import { type ParsedUrlState, resolveDeepLink } from "./state/url-sync";
 import { AppStateProvider, useAppState } from "./state/useAppState";
 
 const MAIN_ID = "main-content";
+
+const GraphCanvas = lazy(() =>
+  import("./components/GraphCanvas").then(({ GraphCanvas }) => ({ default: GraphCanvas })),
+);
 
 function useIsCoveredByOverlay(): boolean {
   const { isSearchOpen, isErrorPanelOpen } = useAppState();
@@ -120,7 +123,9 @@ function Workspace({ graph }: { readonly graph: KnowledgeGraph }) {
               </div>
             )}
           >
-            <GraphCanvas graph={graph} />
+            <Suspense fallback={null}>
+              <GraphCanvas graph={graph} />
+            </Suspense>
           </ErrorBoundary>
         )}
       </main>

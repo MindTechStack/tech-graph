@@ -1,5 +1,6 @@
 import { type Edge, MarkerType } from "@xyflow/react";
-import ELK, { type ElkExtendedEdge, type ElkNode } from "elkjs/lib/elk.bundled.js";
+import ELK, { type ElkExtendedEdge, type ElkNode } from "elkjs/lib/elk-api.js";
+import elkWorkerUrl from "elkjs/lib/elk-worker.min.js?url";
 import type { GroupFlowNode } from "../components/GroupNode";
 import type { TechFlowNode } from "../components/TechNode";
 import {
@@ -31,7 +32,10 @@ export function groupMinWidth(label: string): number {
   return Math.max(TECH_NODE_WIDTH + 2 * GROUP_PADDING_X, titleWidth);
 }
 
-const elk = new ELK();
+const elkReady =
+  typeof Worker === "undefined"
+    ? import("elkjs/lib/elk.bundled.js").then(({ default: InThreadElk }) => new InThreadElk())
+    : Promise.resolve(new ELK({ workerUrl: elkWorkerUrl }));
 const layoutCache = new Map<string, PositionedGraph>();
 
 export function clearLayoutCache(): void {
@@ -270,7 +274,7 @@ export async function computeGraphLayout(
     children: elkGroupChildren,
   };
 
-  const laidOut = await elk.layout(rootElkGraph);
+  const laidOut = await (await elkReady).layout(rootElkGraph);
   const groupNodes: GroupFlowNode[] = [];
   const childNodes: TechFlowNode[] = [];
 

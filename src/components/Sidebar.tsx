@@ -10,7 +10,7 @@ import { NODE_KINDS, NODE_STATUSES, type NodeKind, type NodeStatus } from "../co
 import { useAppState } from "../state/useAppState";
 import { Icon } from "./Icon";
 import { useIsPhoneCardOpen } from "./PhoneIndex";
-import { STATUS_META, StatusSwatch } from "./TechNode";
+import { STATUS_META, StatusSwatch } from "./Status";
 
 export interface SidebarProps {
   readonly graph: KnowledgeGraph;

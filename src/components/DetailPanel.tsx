@@ -1,15 +1,15 @@
 import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import Markdown from "react-markdown";
-import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 import { CORE_SCOPE_LABEL, type KnowledgeGraph, type MapScope } from "../content/graph";
 import type { TechNodeData } from "../content/parse";
 import { useAppState } from "../state/useAppState";
 import { AUTHOR_NAME, ResumeLink } from "./Author";
 import { ErrorBoundary } from "./ErrorBoundary";
+import { rehypeHighlightCode } from "./highlightCode";
 import { Icon } from "./Icon";
 import { useIsPhoneLayout } from "./PhoneIndex";
-import { STATUS_META, StatusSwatch } from "./TechNode";
+import { STATUS_META, StatusSwatch } from "./Status";
 import { useOverflowEdges } from "./useOverflowEdges";
 
 export interface DetailPanelProps {
@@ -334,7 +334,7 @@ export function DetailPanel({ graph }: DetailPanelProps) {
               >
                 <Markdown
                   remarkPlugins={[remarkGfm]}
-                  rehypePlugins={[rehypeHighlight]}
+                  rehypePlugins={[rehypeHighlightCode]}
                   components={MARKDOWN_COMPONENTS}
                 >
                   {node.body}

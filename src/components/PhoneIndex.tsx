@@ -4,7 +4,7 @@ import { NODE_STATUSES } from "../content/schema";
 import { useAppState } from "../state/useAppState";
 import { Icon } from "./Icon";
 import { NodeRowContent } from "./NodeRow";
-import { STATUS_META, StatusSwatch } from "./TechNode";
+import { STATUS_META, StatusSwatch } from "./Status";
 
 const PHONE_LAYOUT_QUERY = "(max-width: 640px), (max-height: 480px) and (pointer: coarse)";
 

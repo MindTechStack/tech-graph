@@ -35,7 +35,8 @@ import { distanceBetween, edgeLabelPlate, type Rect, rectsOverlap, unionOf } fro
 import { useAppState } from "../state/useAppState";
 import { type GroupFlowNode, GroupHeaders, GroupNode } from "./GroupNode";
 import { Icon } from "./Icon";
-import { StatusSwatch, TechNode } from "./TechNode";
+import { StatusSwatch } from "./Status";
+import { TechNode } from "./TechNode";
 
 const NODE_TYPES: NodeTypes = {
   tech: TechNode,
@@ -332,14 +333,14 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
       let shown: Rect = focusBox;
       for (const box of neighbourBoxes) {
         const grown = unionOf(shown, box);
-        if (zoomToFit(grown) < OVERVIEW_MIN_ZOOM) {
+        if (zoomToFit(grown) < FAR_VIEW_ZOOM) {
           break;
         }
         shown = grown;
       }
 
       const maxZoom = neighbourBoxes.length >= HUB_MIN_DEGREE ? HUB_FOCUS_ZOOM : FOCUS_MAX_ZOOM;
-      const zoom = Math.min(maxZoom, zoomToFit(shown));
+      const zoom = Math.max(FAR_VIEW_ZOOM, Math.min(maxZoom, zoomToFit(shown)));
       void setViewport(
         {
           x: FIT_PADDING + (availableWidth - shown.width * zoom) / 2 - shown.x * zoom,
