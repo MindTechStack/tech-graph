@@ -2,7 +2,7 @@
 id: logging
 name: "Logging (concepts)"
 kind: concept
-status: learning
+status: learned
 tags: [observability, logs, structured-logging, monitoring, debugging]
 what: "Systematic recording of application runtime events, state changes, performance metrics, and errors into machine-readable output streams."
 why: "Provides visibility into production behavior, enables rapid root-cause diagnosis during outages, and correlates distributed transactions across microservices."

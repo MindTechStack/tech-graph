@@ -2,7 +2,7 @@
 id: cors
 name: "CORS"
 kind: concept
-status: learned
+status: work
 tags: [cors, security, http, browser-apis, express]
 what: "Cross-Origin Resource Sharing is an HTTP-header-based browser security mechanism that restricts web applications from loading resources from a different origin."
 why: "Enables secure cross-origin API calls between client frontends (e.g., localhost:5173 or spa.com) and separate backend APIs (e.g., localhost:3000 or api.com)."

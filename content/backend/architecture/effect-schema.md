@@ -2,7 +2,7 @@
 id: effect-schema
 name: "Effect Schema"
 kind: library
-status: planned
+status: practiced
 tags: [validation, schema, parsing, typescript, effect]
 what: "Effect's schema library: one definition yields a TypeScript type, a decoder and an encoder."
 why: "Provides bidirectional parsing and encoding, custom transformations, automated JSON Schema generation, and deep integration with Effect's typed error handling."

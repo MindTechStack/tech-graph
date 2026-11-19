@@ -30,12 +30,12 @@
 | nuxt | Nuxt 3/4 | framework | work |
 | react | React | framework | practiced |
 | react-hooks | React Hooks | concept | practiced |
-| nextjs | Next.js | framework | planned |
+| nextjs | Next.js | framework | practiced |
 | react-native | React Native | framework | practiced |
 | expo | Expo | platform | practiced |
 | svelte | Svelte 5 | framework | practiced |
 | sveltekit | SvelteKit | framework | practiced |
-| astro | Astro | framework | learning |
+| astro | Astro | framework | practiced |
 | leptos | Leptos (Rust) | framework | practiced |
 
 ### `state-routing` — State, Routing & Forms
@@ -47,11 +47,11 @@
 | vue-i18n | Vue I18n | library | work |
 | vuelidate | Vuelidate | library | work |
 | vueuse | VueUse | library | work |
-| react-router | React Router | library | planned |
+| react-router | React Router | library | learned |
 | tanstack-query | TanStack Query | library | planned |
 | zustand | Zustand | library | planned |
 | redux-toolkit | Redux Toolkit | library | planned |
-| react-hook-form | React Hook Form | library | planned |
+| react-hook-form | React Hook Form | library | learned |
 
 ### `data-network` — Data & Network (client side)
 | id | name | kind | status |
@@ -83,7 +83,7 @@
 | vuetify | Vuetify 3 | library | work |
 | quasar | Quasar | framework | work |
 | bootstrap | Bootstrap | library | work |
-| shadcn-ui | shadcn/ui | library | planned |
+| shadcn-ui | shadcn/ui | library | practiced |
 
 ### `ui-widgets` — Maps, Charts & Widgets
 | id | name | kind | status |
@@ -214,7 +214,7 @@
 ### `observability` — Logging & Monitoring
 | id | name | kind | status |
 |---|---|---|---|
-| logging | Logging (concepts) ❓ | concept | learning |
+| logging | Logging (concepts) ❓ | concept | learned |
 | morgan | Morgan | library | learned |
 | pino | Pino | library | planned |
 | winston | Winston | library | planned |
@@ -231,9 +231,9 @@
 ### `architecture` — Architecture & Typed Effects
 | id | name | kind | status |
 |---|---|---|---|
-| effect | Effect | library | planned (`alsoIn: [frontend]`) |
-| effect-schema | Effect Schema | library | planned |
-| typed-errors | Typed Errors | concept | planned |
+| effect | Effect | library | practiced (`alsoIn: [frontend]`) |
+| effect-schema | Effect Schema | library | practiced |
+| typed-errors | Typed Errors | concept | practiced |
 
 ---
 
@@ -242,19 +242,19 @@
 ### `http` — HTTP & Web Platform
 | id | name | kind | status |
 |---|---|---|---|
-| http | HTTP protocol | concept | learned |
-| http-methods | HTTP Methods | concept | learned |
-| http-status-codes | HTTP Status Codes ❓ | concept | learning |
-| cors | CORS | concept | learned |
-| ssl-tls | SSL/TLS & HTTPS ❓ | concept | learning |
-| client-vs-server | Client vs Server code ❓ | concept | learning |
-| rendering-strategies | Rendering: CSR / SSR / SSG / Islands | concept | learning |
+| http | HTTP protocol | concept | work |
+| http-methods | HTTP Methods | concept | work |
+| http-status-codes | HTTP Status Codes ❓ | concept | work |
+| cors | CORS | concept | work |
+| ssl-tls | SSL/TLS & HTTPS ❓ | concept | work |
+| client-vs-server | Client vs Server code ❓ | concept | work |
+| rendering-strategies | Rendering: CSR / SSR / SSG / Islands | concept | work |
 
 ### `api-tools` — API Clients
 | id | name | kind | status |
 |---|---|---|---|
-| api-clients | API Clients: comparison ❓ | concept | learning |
-| postman | Postman | tool | learned |
+| api-clients | API Clients: comparison ❓ | concept | work |
+| postman | Postman | tool | work |
 | bruno | Bruno | tool | planned |
 | hoppscotch | Hoppscotch | tool | planned |
 | insomnia | Insomnia | tool | planned |
@@ -275,7 +275,7 @@
 ### `containers` — Containers
 | id | name | kind | status |
 |---|---|---|---|
-| docker | Docker | tool | practiced |
+| docker | Docker | tool | work |
 | docker-compose | Docker Compose | tool | planned |
 
 ### `ci-cd` — CI/CD

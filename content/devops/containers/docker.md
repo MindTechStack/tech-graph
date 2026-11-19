@@ -2,7 +2,7 @@
 id: docker
 name: Docker
 kind: tool
-status: practiced
+status: work
 core: true
 tags: [containers, devops, dockerfile, image, deployment]
 what: "Tool for packaging an application with its OS and runtime into reproducible, isolated containers."

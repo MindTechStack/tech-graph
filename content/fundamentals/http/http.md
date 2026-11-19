@@ -2,7 +2,7 @@
 id: http
 name: "HTTP protocol"
 kind: concept
-status: learned
+status: work
 tags: [http, protocol, networking, rest, web-standards]
 what: "Stateless request-response protocol of the web, in which clients send requests to servers over TCP (or QUIC for HTTP/3)."
 why: "Underpins all browser-to-server and service-to-service communication, defining standardized message framing, headers, status codes, and caching semantics."

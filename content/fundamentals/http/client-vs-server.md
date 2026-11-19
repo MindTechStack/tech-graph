@@ -2,7 +2,7 @@
 id: client-vs-server
 name: "Client vs Server code"
 kind: concept
-status: learning
+status: work
 tags: [architecture, client-server, astro, security, rendering, ssr]
 what: "The architectural boundary separating code running securely in the Node.js/server runtime from code executing publicly in the client's web browser environment."
 why: "Prevents secret leakage, protects database credentials, guarantees authoritative business rule execution, and optimizes bundle size by offloading logic to the server."

@@ -2,7 +2,7 @@
 id: ssl-tls
 name: "SSL/TLS & HTTPS"
 kind: concept
-status: learning
+status: work
 tags: [ssl, tls, https, security, encryption, certificates]
 what: "Cryptographic protocols (TLS 1.2/1.3) that secure HTTP communications over the network through asymmetric authentication, symmetric data encryption, and message integrity."
 why: "Protects sensitive user data (passwords, tokens, cookies) against eavesdropping, tampering, and man-in-the-middle attacks between client and server."

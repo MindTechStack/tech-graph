@@ -2,7 +2,7 @@
 id: react-hook-form
 name: React Hook Form
 kind: library
-status: planned
+status: learned
 tags: [forms, react, validation, uncontrolled-inputs, hooks]
 what: "React forms library built on uncontrolled inputs and refs, so typing does not re-render the whole form."
 why: "Minimizes component re-renders by embracing uncontrolled DOM inputs while providing schema validation and seamless DX."

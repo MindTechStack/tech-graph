@@ -2,7 +2,7 @@
 id: typed-errors
 name: "Typed Errors"
 kind: concept
-status: planned
+status: practiced
 tags: [error-handling, typescript, domain-errors, type-safety, functional-programming]
 what: "Architectural pattern where recoverable domain and system failures are modeled as explicit, strongly typed values in function signatures rather than untyped thrown exceptions."
 why: "Forces developers to handle known failure modes at compile time, eliminating unhandled runtime crashes and self-documenting API behavior."

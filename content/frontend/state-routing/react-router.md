@@ -2,7 +2,7 @@
 id: react-router
 name: React Router
 kind: library
-status: planned
+status: learned
 tags: [routing, react, navigation, loaders, actions]
 what: "Standard routing and data-loading library for React web applications."
 why: "Coordinates URL routing with declarative nested component routes, parallel data loaders, and form action mutations."

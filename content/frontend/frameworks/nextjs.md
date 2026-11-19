@@ -2,7 +2,7 @@
 id: nextjs
 name: Next.js
 kind: framework
-status: planned
+status: practiced
 tags: [react, ssr, rsc, app-router, fullstack]
 what: "Production React meta-framework providing file-system routing, React Server Components (RSC), streaming SSR, static generation, and server actions."
 why: "Moves data fetching and heavy dependencies to the server by default while seamlessly interleaving interactive client components."

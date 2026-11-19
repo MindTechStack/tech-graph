@@ -3,7 +3,7 @@ id: rendering-strategies
 name: "Rendering: CSR / SSR / SSG / Islands"
 short: Rendering Strategies
 kind: concept
-status: learning
+status: work
 tags: [rendering, csr, ssr, ssg, islands, performance]
 what: "Architectural strategies for generating and delivering HTML, CSS, and JavaScript to browsers: Client-Side Rendering (CSR), Server-Side Rendering (SSR), Static Site Generation (SSG), and Component Islands."
 why: "Enables developers to balance initial page load performance (TTFB, FCP), SEO requirements, dynamic personalized content, and server computing costs."

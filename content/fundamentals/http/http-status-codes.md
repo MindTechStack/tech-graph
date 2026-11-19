@@ -2,7 +2,7 @@
 id: http-status-codes
 name: HTTP Status Codes
 kind: concept
-status: learning
+status: work
 tags: [http, rest, api, error-handling, express]
 what: Standardized 3-digit numeric codes returned in an HTTP response to indicate whether a request succeeded, redirected, or failed.
 why: Allows browsers, API clients, proxies, and caches to handle responses uniformly without parsing custom error strings in the response body.

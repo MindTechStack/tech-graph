@@ -3,7 +3,7 @@ id: api-clients
 name: "API Clients: comparison"
 short: API Clients
 kind: concept
-status: learning
+status: work
 tags: [api-clients, http, rest, postman, testing, openapi]
 what: "Tools, applications, and file formats used by developers to construct, execute, inspect, and automate HTTP/REST/GraphQL API requests during development and testing."
 why: "Accelerates backend development and frontend integration by allowing rapid endpoint verification, environment variable switching, and automated integration assertions."

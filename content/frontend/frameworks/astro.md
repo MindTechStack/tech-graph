@@ -2,7 +2,7 @@
 id: astro
 name: Astro
 kind: framework
-status: learning
+status: practiced
 tags: [islands, ssg, ssr, content-collections, zero-js]
 what: "Content-focused web framework that renders HTML on the server and ships no client JavaScript by default, hydrating only the interactive islands."
 why: "Delivers top Lighthouse scores for blogs, docs, and marketing sites while letting you mix React, Vue, and Svelte islands on the same page."

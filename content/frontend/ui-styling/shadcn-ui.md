@@ -2,7 +2,7 @@
 id: shadcn-ui
 name: "shadcn/ui"
 kind: library
-status: planned
+status: practiced
 tags: [radix-ui, tailwind, copy-paste-components, accessible, headless-ui]
 what: "Collection of re-usable, accessible component primitives built on Radix UI and Tailwind CSS that you copy directly into your own codebase."
 why: "Gives engineers 100% code ownership and full customization power over component internals without being locked into an external NPM package API."

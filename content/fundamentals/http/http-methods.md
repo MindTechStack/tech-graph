@@ -2,7 +2,7 @@
 id: http-methods
 name: "HTTP Methods"
 kind: concept
-status: learned
+status: work
 tags: [http, rest, crud, api, idempotency]
 what: "Standard request verbs (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS) that indicate the desired action to be performed on a target resource."
 why: "Provides semantic clarity for CRUD operations, enabling HTTP caches, proxies, and web frameworks to apply correct safety and idempotency rules."

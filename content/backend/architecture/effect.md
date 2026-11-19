@@ -2,7 +2,7 @@
 id: effect
 name: "Effect"
 kind: library
-status: planned
+status: practiced
 tags: [functional-programming, typescript, effects, concurrency, runtime]
 what: "TypeScript library that models programs as typed effects, tracking errors, dependencies and concurrency in the type system."
 why: "Models computations as typed data structures Effect<Success, Error, Requirements>, turning runtime errors into trackable types and offering structured concurrency, retries, and dependency injection."
