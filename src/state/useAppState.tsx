@@ -64,10 +64,6 @@ function isSidebarWide(): boolean {
   return typeof window === "undefined" || window.matchMedia("(min-width: 1025px)").matches;
 }
 
-function isCanvasTightBesideCard(): boolean {
-  return typeof window !== "undefined" && window.matchMedia("(max-width: 1679px)").matches;
-}
-
 function toggleSetItem<T>(set: ReadonlySet<T>, item: T): ReadonlySet<T> {
   const next = new Set(set);
   if (next.has(item)) {
@@ -116,24 +112,9 @@ export function AppStateProvider({
   );
 
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
-  const isCardOpen = selectedNodeId !== null;
-  const [isSidebarAutoCollapsed, setIsSidebarAutoCollapsed] = useState<boolean>(
-    () => isCardOpen && isSidebarWide() && isCanvasTightBesideCard(),
-  );
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(
-    () => isSidebarWide() && !isSidebarAutoCollapsed && initialFromUrl.activeMap !== "core",
+    () => isSidebarWide() && initialFromUrl.activeMap !== "core",
   );
-  const [wasCardOpen, setWasCardOpen] = useState<boolean>(isCardOpen);
-  if (isCardOpen !== wasCardOpen) {
-    setWasCardOpen(isCardOpen);
-    if (isCardOpen && isSidebarOpen && isCanvasTightBesideCard()) {
-      setIsSidebarOpen(false);
-      setIsSidebarAutoCollapsed(true);
-    } else if (!isCardOpen && isSidebarAutoCollapsed) {
-      setIsSidebarOpen(true);
-      setIsSidebarAutoCollapsed(false);
-    }
-  }
   const [isErrorPanelOpen, setIsErrorPanelOpen] = useState<boolean>(hasInitialErrors);
   const [isPhoneMapShown, setIsPhoneMapShown] = useState<boolean>(false);
   const [unknownNodeId, setUnknownNodeId] = useState<string | null>(
@@ -287,7 +268,6 @@ export function AppStateProvider({
 
   const toggleSidebar = useCallback(() => {
     setIsSidebarOpen((prev) => !prev);
-    setIsSidebarAutoCollapsed(false);
   }, []);
 
   const dismissUnknownNode = useCallback(() => setUnknownNodeId(null), []);

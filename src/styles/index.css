@@ -1132,14 +1132,24 @@ body,
   color: color-mix(in srgb, var(--on-ink-2) 90%, var(--ink-2));
 }
 
-.react-flow__node:not(:focus-visible) .tech-node.tech-node--filtered-out {
-  background: var(--paper);
-  border-color: color-mix(in srgb, var(--ink-muted) 35%, var(--paper));
+.graph-canvas--filtering .tech-node--status-planned:not(.tech-node--filtered-out, .tech-node--dimmed) {
+  border-color: var(--ink);
+  color: var(--ink);
 }
 
-.react-flow__node:not(:focus-visible)
-  .tech-node.tech-node--filtered-out:is(.tech-node--status-work, .tech-node--status-practiced) {
-  border: 1px solid color-mix(in srgb, var(--ink-muted) 35%, var(--paper));
+.graph-canvas--filtering
+  .tech-node--status-planned:not(.tech-node--filtered-out, .tech-node--dimmed)
+  .tech-node__meta {
+  color: var(--ink-2);
+}
+
+.react-flow__node:not(:focus-visible) .tech-node.tech-node--filtered-out {
+  background: var(--paper);
+  border: 1px solid color-mix(in srgb, var(--ink-muted) 20%, var(--paper));
+}
+
+.react-flow__node:not(:focus-visible) .tech-node.tech-node--filtered-out .tech-node__title {
+  font-weight: 400;
 }
 
 .react-flow__node:not(:focus-visible) .tech-node.tech-node--filtered-out .tech-node__band,

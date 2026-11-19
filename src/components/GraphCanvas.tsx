@@ -696,7 +696,11 @@ function GraphCanvasInner({ graph }: GraphCanvasProps) {
 
   return (
     <div
-      className={isFarView ? "graph-canvas graph-canvas--far" : "graph-canvas"}
+      className={[
+        "graph-canvas",
+        isFarView ? "graph-canvas--far" : "",
+        hasActiveFilters ? "graph-canvas--filtering" : "",
+      ].join(" ")}
       onKeyDown={onCanvasKeyDown}
     >
       <div className="graph-canvas__pane">
