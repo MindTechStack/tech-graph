@@ -6,7 +6,7 @@
 **Статусы:** `work` 🔵 · `practiced` 🟣 · `learned` 🟢 · `learning` 🟡 · `planned` ⚪
 **✚ course**: тема курса, которой не было в исходном списке; добавлена по программе курса (курс пройден полностью → `learned`).
 
-Итого: 171 узлов (Frontend 61 · Backend 74 · Web Fundamentals 14 · DevOps 17 · AI 5), дальше будут добавляться новые.
+Итого: 172 узлов (Frontend 62 · Backend 74 · Web Fundamentals 14 · DevOps 17 · AI 5), дальше будут добавляться новые.
 
 ---
 
@@ -108,6 +108,7 @@
 | oxfmt | oxfmt | tool | work |
 | knip | Knip | tool | work |
 | sentry | Sentry | service | work (`alsoIn: [backend]`) |
+| a11y | Accessibility (a11y) | concept | work |
 
 ---
 
