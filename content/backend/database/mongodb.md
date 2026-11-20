@@ -2,7 +2,7 @@
 id: mongodb
 name: "MongoDB"
 kind: platform
-status: learned
+status: practiced
 tags: [mongodb, nosql, document-database, bson, collections]
 what: "Document database that stores records as JSON-like BSON documents without a fixed schema."
 why: "Enables developers to persist nested JavaScript objects naturally, query deep subdocument fields, and scale horizontally through replica sets and sharding."

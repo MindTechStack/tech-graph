@@ -6,7 +6,7 @@
 **Статусы:** `work` 🔵 · `practiced` 🟣 · `learned` 🟢 · `learning` 🟡 · `planned` ⚪
 **✚ course**: тема курса, которой не было в исходном списке; добавлена по программе курса (курс пройден полностью → `learned`).
 
-Итого: 168 узлов (Frontend 61 · Backend 74 · Web Fundamentals 14 · DevOps 14 · AI 5), дальше будут добавляться новые.
+Итого: 171 узлов (Frontend 61 · Backend 74 · Web Fundamentals 14 · DevOps 17 · AI 5), дальше будут добавляться новые.
 
 ---
 
@@ -170,7 +170,7 @@
 | postgresql | PostgreSQL | platform | practiced |
 | turso | Turso / libSQL (SQLite) | service | practiced |
 | nosql | NoSQL | concept | learned |
-| mongodb | MongoDB | platform | learned |
+| mongodb | MongoDB | platform | practiced |
 | orm | ORM / ODM | concept | learned |
 | sequelize | Sequelize | library | learned |
 | drizzle | Drizzle ORM | library | practiced |
@@ -290,6 +290,9 @@
 | heroku | Heroku | platform | learned |
 | vercel | Vercel | platform | practiced |
 | cloudflare | Cloudflare (Workers / Pages) | platform | planned |
+| cloudflare-r2 | Cloudflare R2 | service | practiced |
+| railway | Railway | platform | practiced |
+| netlify | Netlify | platform | practiced |
 | aws | AWS | platform | planned |
 
 ### `iac` — Infrastructure as Code
